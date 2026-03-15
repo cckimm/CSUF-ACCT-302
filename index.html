@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACCT 302 - Practice Exam 1</title>
+    <title>ACCT 302 - Practice Exam 2</title>
     <style>
         * {
             box-sizing: border-box;
@@ -269,8 +269,8 @@
 <body>
     <div class="header">
         <h1>ACCT 302 - Cost Accounting</h1>
-        <p><strong>Practice Exam 1</strong></p>
-        <p>Chapters 1, 2, 3, 4, 5</p>
+        <p><strong>Practice Exam 2</strong></p>
+        <p>Chapters 6, 7, 8, 9</p>
     </div>
     
     <div class="controls">
@@ -279,7 +279,7 @@
     </div>
     
     <div class="score-display" id="scoreDisplay">
-        <div class="score-number" id="scoreNumber">0/38</div>
+        <div class="score-number" id="scoreNumber">0/24</div>
         <p>Questions Answered Correctly</p>
     </div>
     
@@ -322,15 +322,22 @@
                 type: 'conceptual',
                 generate: function() {
                     const options = [
-                        { text: "It is prepared based on cost-benefit analysis.", correct: false },
-                        { text: "It is primarily used by managers to make internal business decisions.", correct: false },
-                        { text: "It focuses on the past-oriented financial performance of a company.", correct: true },
-                        { text: "It only measures the cash transactions of a company.", correct: false }
+                        { text: "Yes / Yes", correct: false },
+                        { text: "Yes / No", correct: false },
+                        { text: "No / Yes", correct: false },
+                        { text: "No / No", correct: true }
                     ];
                     return {
-                        question: "Which of the following is true of financial accounting information?",
+                        question: `Which of the following budgets are prepared before the sales budget?<br><br>
+                        <table class="data-table">
+                            <tr><th>Budgeted Income Statement</th><th>Direct Labor Budget</th></tr>
+                            <tr><td>A. Yes</td><td>Yes</td></tr>
+                            <tr><td>B. Yes</td><td>No</td></tr>
+                            <tr><td>C. No</td><td>Yes</td></tr>
+                            <tr><td>D. No</td><td>No</td></tr>
+                        </table>`,
                         options: shuffle(options),
-                        explanation: "Financial accounting focuses on past-oriented financial performance for external users."
+                        explanation: "The sales budget is prepared first. Both the Budgeted Income Statement and Direct Labor Budget depend on sales projections, so they are prepared AFTER the sales budget."
                     };
                 }
             },
@@ -339,15 +346,15 @@
                 type: 'conceptual',
                 generate: function() {
                     const options = [
-                        { text: "The primary users of cost accounting are the investors, whereas the primary users of financial accounting are the managers.", correct: false },
-                        { text: "Cost accounting deals with product design, production, and marketing strategies, whereas financial accounting deals mainly with pricing of the products.", correct: false },
-                        { text: "Cost accounting measures only the financial information related to the costs of acquiring fixed assets in an organization, whereas financial accounting measures financial and nonfinancial information of a company's business transactions.", correct: false },
-                        { text: "Cost accounting measures information related to the costs of acquiring or using resources in an organization, whereas financial accounting measures a financial position of a company to investors, banks, and external parties.", correct: true }
+                        { text: "providing coordination among the subunits", correct: false },
+                        { text: "providing communication among the subunits", correct: false },
+                        { text: "providing unyielding commitment to targets as a means to achieve a target profit", correct: true },
+                        { text: "providing a framework for judging performance and facilitating learning", correct: false }
                     ];
                     return {
-                        question: "Which of the following differentiates cost accounting and financial accounting?",
+                        question: "The major objectives of a budgeting process should include all of the following EXCEPT:",
                         options: shuffle(options),
-                        explanation: "Cost accounting is for internal use measuring resource costs; financial accounting is for external parties measuring financial position."
+                        explanation: "Budgets should be flexible and adaptable. Unyielding commitment to targets can be counterproductive and does not reflect good budgeting practice."
                     };
                 }
             },
@@ -356,116 +363,150 @@
                 type: 'conceptual',
                 generate: function() {
                     const options = [
-                        { text: "C A E B D", correct: true },
-                        { text: "C D B E A", correct: false },
-                        { text: "E D A B C", correct: false },
-                        { text: "A E B D C", correct: false }
+                        { text: "It is a budget that continually outlines the amount required to roll over debt in a future period.", correct: false },
+                        { text: "It is created continually by adding a month, quarter, or year to the period just ended.", correct: true },
+                        { text: "It is a budget that outlines budgeted expenses while utilizing a moving average.", correct: false },
+                        { text: "It is a budget that is submitted to a bank at the beginning of every month as per a loan covenant.", correct: false }
                     ];
                     return {
-                        question: `Place the five steps in the decision-making process in the correct order:<br><br>
-                        A = Obtain information<br>
-                        B = Make decisions by choosing among alternatives<br>
-                        C = Identify the problem and uncertainties<br>
-                        D = Implement the decision, evaluate performance, and learn<br>
-                        E = Make predictions about the future`,
+                        question: "Which of the following best describes a rolling budget?",
                         options: shuffle(options),
-                        explanation: "The correct order is: Identify problem (C) → Obtain information (A) → Make predictions (E) → Make decisions (B) → Implement and evaluate (D)"
+                        explanation: "A rolling budget is continuously updated by adding a new period (month, quarter, or year) as the most recent period ends, always maintaining a constant planning horizon."
                     };
                 }
             },
-            // Q4 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "It helps an organization to select goals and strategies.", correct: true },
-                        { text: "It improves the quality of products.", correct: false },
-                        { text: "It helps in evaluating performance.", correct: false },
-                        { text: "It helps in the analysis of actual performance.", correct: false }
-                    ];
-                    return {
-                        question: "Which of the following is true of planning in decision making?",
-                        options: shuffle(options),
-                        explanation: "Planning helps organizations select goals and strategies for the future."
-                    };
-                }
-            },
-            // Q5 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "A budget is a qualitative expression of a plan.", correct: false },
-                        { text: "The process of preparing a budget does not encourage coordination and communication throughout the company.", correct: false },
-                        { text: "A budget helps to control activities by adhering to the prescribed plan.", correct: true },
-                        { text: "A budget can only be used as a planning tool.", correct: false }
-                    ];
-                    return {
-                        question: "Choose a correct statement:",
-                        options: shuffle(options),
-                        explanation: "A budget is a quantitative expression of a plan and helps control activities."
-                    };
-                }
-            },
-            // Q6 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "the process of tracking both direct and indirect costs associated with a cost object", correct: false },
-                        { text: "the process of determining the opportunity cost of a cost object chosen", correct: false },
-                        { text: "the assignment of indirect costs to the chosen cost object", correct: true },
-                        { text: "made based on material acquisition document", correct: false }
-                    ];
-                    return {
-                        question: "Cost allocation is:",
-                        options: shuffle(options),
-                        explanation: "Cost allocation is specifically the assignment of indirect costs to cost objects."
-                    };
-                }
-            },
-            // Q7 - Calculation
+            // Q4 - Calculation (Inventory Purchase Budget)
             {
                 type: 'calculation',
                 generate: function() {
-                    const dm = randInt(6, 12) * 10; // 60-120
-                    const dml = randInt(3, 6) * 10; // 30-60
-                    const voh = randInt(3, 6) * 10; // 30-60
-                    const foh = randInt(2, 5) * 10; // 20-50
-                    const commission = randInt(5, 10); // 5-10
-                    const admin = randInt(15, 25); // 15-25
+                    const markupPercent = randInt(25, 35);
+                    const markupDecimal = markupPercent / 100;
+                    const julySales = randInt(650, 750) * 1000;
+                    const augustSales = randInt(700, 780) * 1000;
+                    const septSales = randInt(580, 650) * 1000;
+                    const endingInvPercent = randInt(20, 30);
                     
-                    const productCost = dm + dml + voh + foh;
-                    const total = productCost + commission + admin;
+                    // Cost = Sales / (1 + markup)
+                    const augustCost = augustSales / (1 + markupDecimal);
+                    const septCost = septSales / (1 + markupDecimal);
+                    const endingInv = septCost * (endingInvPercent / 100);
+                    const purchase = augustCost + endingInv - (augustCost * (endingInvPercent / 100));
                     
-                    const wrongAnswers = [
-                        dm + dml + voh, // missing fixed OH
-                        dm + dml + voh + foh + commission, // includes commission
-                        dm + dml // only direct costs
-                    ];
+                    // Simplified: Purchase = augustCost * (1 - endingInvPercent/100) + septCost * (endingInvPercent/100)
+                    const correctAnswer = Math.round(purchase / 1000) * 1000;
                     
                     const options = [
-                        { text: formatCurrency(productCost), correct: true },
-                        { text: formatCurrency(wrongAnswers[0]), correct: false },
-                        { text: formatCurrency(wrongAnswers[1]), correct: false },
-                        { text: formatCurrency(wrongAnswers[2]), correct: false }
+                        { text: formatCurrency(correctAnswer - 30000), correct: false },
+                        { text: formatCurrency(correctAnswer), correct: true },
+                        { text: formatCurrency(correctAnswer + 20000), correct: false },
+                        { text: formatCurrency(Math.round(augustSales / (1 + markupDecimal) / 1000) * 1000 + 40000), correct: false }
                     ];
                     
                     return {
-                        question: `Tuffy Apparels is a clothing manufacturer. Unit costs associated with one of its products, Product FGS1156 are as follows:<br><br>
-                        <table class="data-table">
-                            <tr><td>Direct materials</td><td>${formatCurrency(dm)}</td></tr>
-                            <tr><td>Direct manufacturing labor</td><td>${formatCurrency(dml)}</td></tr>
-                            <tr><td>Variable manufacturing overhead</td><td>${formatCurrency(voh)}</td></tr>
-                            <tr><td>Fixed manufacturing overhead</td><td>${formatCurrency(foh)}</td></tr>
-                            <tr><td>Sales commissions (2% of sales)</td><td>${formatCurrency(commission)}</td></tr>
-                            <tr><td>Administrative salaries</td><td>${formatCurrency(admin)}</td></tr>
-                            <tr><th>Total</th><th>${formatCurrency(total)}</th></tr>
-                        </table>
-                        What are the product costs per unit associated with Product FGS1156?`,
+                        question: `Hannon Retailing Company prices its products by adding ${markupPercent}% to its cost. Hannon anticipates sales of ${formatCurrency(julySales)} in July, ${formatCurrency(augustSales)} in August, and ${formatCurrency(septSales)} in September. Hannon's policy is to have on hand enough inventory at the end of the month to cover ${endingInvPercent}% of the next month's sales. What will be the cost of the inventory that Hannon should budget for purchase in August?`,
                         options: shuffle(options),
-                        explanation: `Product cost = ${formatCurrency(dm)} + ${formatCurrency(dml)} + ${formatCurrency(voh)} + ${formatCurrency(foh)} = ${formatCurrency(productCost)}<br>
-                        (Product costs include all manufacturing costs: DM + DL + MOH. Sales commissions and admin salaries are period costs.)`
+                        explanation: `Cost of August sales = ${formatCurrency(augustSales)} ÷ 1.${markupPercent} = ${formatCurrency(Math.round(augustCost))}<br>
+                        Cost of September sales = ${formatCurrency(septSales)} ÷ 1.${markupPercent} = ${formatCurrency(Math.round(septCost))}<br>
+                        Ending inventory needed = ${endingInvPercent}% × ${formatCurrency(Math.round(septCost))} = ${formatCurrency(Math.round(endingInv))}<br>
+                        Beginning inventory = ${endingInvPercent}% × ${formatCurrency(Math.round(augustCost))} = ${formatCurrency(Math.round(augustCost * endingInvPercent / 100))}<br>
+                        Purchase = ${formatCurrency(Math.round(augustCost))} + ${formatCurrency(Math.round(endingInv))} - ${formatCurrency(Math.round(augustCost * endingInvPercent / 100))} = ${formatCurrency(correctAnswer)}`
+                    };
+                }
+            },
+            // Q5 - Calculation (Direct Labor Cost)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const augSales = randInt(10, 13) * 1000 + randInt(0, 9) * 100;
+                    const septSales = randInt(11, 14) * 1000 + randInt(0, 9) * 100;
+                    const endingInvPercent = randInt(35, 45);
+                    const laborRate = randInt(17, 22);
+                    const laborHoursPerUnit = randChoice([2.0, 2.5, 3.0]);
+                    
+                    const endingInv = Math.round(septSales * endingInvPercent / 100);
+                    const beginInv = Math.round(augSales * endingInvPercent / 100);
+                    const totalNeeds = augSales + endingInv;
+                    const requiredProd = totalNeeds - beginInv;
+                    const totalLaborHours = requiredProd * laborHoursPerUnit;
+                    const totalLaborCost = totalLaborHours * laborRate;
+                    
+                    const options = [
+                        { text: formatCurrency(Math.round(augSales * laborHoursPerUnit * laborRate)), correct: false },
+                        { text: formatCurrency(totalLaborCost), correct: true },
+                        { text: formatCurrency(totalLaborHours), correct: false },
+                        { text: formatCurrency(Math.round(requiredProd * laborRate)), correct: false }
+                    ];
+                    
+                    return {
+                        question: `Pabon Corporation makes one product. Budgeted unit sales for August and September are ${formatNumber(augSales)} and ${formatNumber(septSales)} units, respectively. The ending finished goods inventory equals ${endingInvPercent}% of the following month's sales. The direct labor wage rate is $${laborRate}.00 per hour. Each unit of finished goods requires ${laborHoursPerUnit} direct labor-hours. The estimated direct labor cost for August is closest to:`,
+                        options: shuffle(options),
+                        explanation: `Required production calculation:<br>
+                        Budgeted sales: ${formatNumber(augSales)} units<br>
+                        + Desired ending inventory (${endingInvPercent}% × ${formatNumber(septSales)}): ${formatNumber(endingInv)} units<br>
+                        = Total needs: ${formatNumber(totalNeeds)} units<br>
+                        - Beginning inventory (${endingInvPercent}% × ${formatNumber(augSales)}): ${formatNumber(beginInv)} units<br>
+                        = Required production: ${formatNumber(requiredProd)} units<br><br>
+                        Direct labor cost = ${formatNumber(requiredProd)} × ${laborHoursPerUnit} hours × $${laborRate} = ${formatCurrency(totalLaborCost)}`
+                    };
+                }
+            },
+            // Q6 - Calculation (Accounts Receivable)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const sellingPrice = randInt(110, 135);
+                    const janSales = randInt(6, 8) * 1000;
+                    const febSales = randInt(7, 9) * 1000 + 500;
+                    const marSales = randInt(10, 13) * 1000 + randInt(0, 9) * 100;
+                    const aprSales = randInt(13, 16) * 1000 + randInt(0, 9) * 100;
+                    const collectSameMonth = randInt(35, 45);
+                    const collectNextMonth = 100 - collectSameMonth;
+                    
+                    const febRevenue = febSales * sellingPrice;
+                    const arBalance = febRevenue * (collectNextMonth / 100);
+                    
+                    const options = [
+                        { text: formatCurrency(arBalance), correct: true },
+                        { text: formatCurrency(febRevenue), correct: false },
+                        { text: formatCurrency(Math.round(febRevenue * collectSameMonth / 100)), correct: false },
+                        { text: formatCurrency(Math.round(janSales * sellingPrice * collectNextMonth / 100)), correct: false }
+                    ];
+                    
+                    return {
+                        question: `Crocetti Corporation makes one product and has provided the following information to help prepare the master budget for the next four months of operations:<br><br>
+                        <table class="data-table">
+                            <tr><td>Budgeted selling price per unit</td><td>$${sellingPrice}</td></tr>
+                        </table>
+                        <table class="data-table">
+                            <tr><th>Month</th><th>Budgeted Unit Sales (all on credit)</th></tr>
+                            <tr><td>January</td><td>${formatNumber(janSales)}</td></tr>
+                            <tr><td>February</td><td>${formatNumber(febSales)}</td></tr>
+                            <tr><td>March</td><td>${formatNumber(marSales)}</td></tr>
+                            <tr><td>April</td><td>${formatNumber(aprSales)}</td></tr>
+                        </table>
+                        Credit sales are collected: ${collectSameMonth}% in the month of the sale, ${collectNextMonth}% in the following month.<br><br>
+                        The budgeted accounts receivable balance at the end of February is closest to:`,
+                        options: shuffle(options),
+                        explanation: `February sales = ${formatNumber(febSales)} × $${sellingPrice} = ${formatCurrency(febRevenue)}<br>
+                        Uncollected at end of February = ${collectNextMonth}%<br>
+                        Accounts receivable = ${formatCurrency(febRevenue)} × ${collectNextMonth}% = ${formatCurrency(arBalance)}`
+                    };
+                }
+            },
+            // Q7 - Conceptual
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "Actual units sold", correct: true },
+                        { text: "Actual variable cost", correct: false },
+                        { text: "Actual selling price per unit", correct: false },
+                        { text: "Actual fixed cost", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following information is needed to prepare a flexible budget?",
+                        options: shuffle(options),
+                        explanation: "A flexible budget uses ACTUAL activity level (units sold/produced) combined with BUDGETED costs and prices to compute what costs should have been at the actual activity level."
                     };
                 }
             },
@@ -474,104 +515,141 @@
                 type: 'conceptual',
                 generate: function() {
                     const options = [
-                        { text: "costs incurred to provide customer service such as the operation of an 800 phone line to trouble shoot product problems and to answer questions about product warranties", correct: true },
-                        { text: "the cost of materials used to make a product when those materials are an insignificant part of the finished product", correct: false },
-                        { text: "the cost of direct labor", correct: false },
-                        { text: "the amount of depreciation expense recognized because of the use of plant assets such as building and equipment", correct: false }
+                        { text: "machine efficiency problems.", correct: false },
+                        { text: "product mix production changes.", correct: false },
+                        { text: "the purchase and use of higher than standard quality materials.", correct: true },
+                        { text: "the purchase of lower than standard quality materials.", correct: false }
                     ];
                     return {
-                        question: "Which of the following is a period cost?",
+                        question: "An unfavorable materials price variance coupled with a favorable materials efficiency variance would most likely result from:",
                         options: shuffle(options),
-                        explanation: "Customer service costs are period costs (non-manufacturing). Materials and depreciation of plant assets are product costs."
+                        explanation: "Higher quality materials cost more (unfavorable price variance) but result in less waste and better efficiency (favorable efficiency variance)."
                     };
                 }
             },
-            // Q9 - Calculation
+            // Q9 - Conceptual
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "Inadequate training of the direct labor employees.", correct: false },
+                        { text: "Poor performance of the shipping employees.", correct: true },
+                        { text: "Poor design of the production process or product.", correct: false },
+                        { text: "Poor quality of the raw materials.", correct: false }
+                    ];
+                    return {
+                        question: "Richter Company has an unfavorable materials efficiency (usage) variance for a particular month. Which one of the following is LEAST likely to be the cause of this variance?",
+                        options: shuffle(options),
+                        explanation: "Shipping employees work after production is complete and would not affect materials usage during the production process."
+                    };
+                }
+            },
+            // Q10 - Calculation (Sales Volume Variance)
             {
                 type: 'calculation',
                 generate: function() {
-                    const begWIP = randInt(12, 20) * 1000; // 12000-20000
-                    const endWIP = randInt(4, 8) * 1000; // 4000-8000
-                    const mfgCost = randInt(60, 80) * 1000; // 60000-80000
-                    const endFG = randInt(6, 12) * 1000; // 6000-12000
+                    const plannedMaterial = randInt(140, 170);
+                    const actualMaterial = plannedMaterial - randInt(5, 15);
+                    const plannedUnits = randInt(1000, 1200);
+                    const actualUnits = plannedUnits - randInt(80, 150);
                     
-                    const cogm = begWIP + mfgCost - endWIP;
-                    
-                    const wrongAnswers = [
-                        mfgCost - endWIP, // forgot beg WIP
-                        mfgCost + endWIP, // added instead of subtracted end WIP
-                        cogm - endFG // subtracted FG
-                    ];
+                    const salesVolumeVariance = (actualUnits - plannedUnits) * plannedMaterial;
+                    const absVariance = Math.abs(salesVolumeVariance);
+                    const varianceType = salesVolumeVariance < 0 ? "favorable" : "unfavorable";
                     
                     const options = [
-                        { text: formatCurrency(cogm), correct: true },
-                        { text: formatCurrency(wrongAnswers[0]), correct: false },
-                        { text: formatCurrency(wrongAnswers[1]), correct: false },
-                        { text: formatCurrency(wrongAnswers[2]), correct: false }
+                        { text: `${formatCurrency(actualUnits * (plannedMaterial - actualMaterial))} favorable`, correct: false },
+                        { text: `${formatCurrency(absVariance)} unfavorable`, correct: false },
+                        { text: `${formatCurrency(absVariance)} favorable`, correct: true },
+                        { text: `${formatCurrency(actualUnits * (plannedMaterial - actualMaterial))} unfavorable`, correct: false }
                     ];
                     
                     return {
-                        question: `Lakers Company has the following information for the year:<br><br>
+                        question: `Goddard Inc. planned to use $${plannedMaterial} of material per unit but actually used $${actualMaterial} of material per unit, and planned to make ${formatNumber(plannedUnits)} units but actually made ${formatNumber(actualUnits)} units.<br><br>
+                        The sales-volume variance for materials is:`,
+                        options: shuffle(options),
+                        explanation: `Sales-volume variance = (Actual units - Planned units) × Planned cost per unit<br>
+                        = (${formatNumber(actualUnits)} - ${formatNumber(plannedUnits)}) × $${plannedMaterial}<br>
+                        = ${formatCurrency(salesVolumeVariance)}<br>
+                        Since actual production is less than planned, this is favorable (less materials needed).`
+                    };
+                }
+            },
+            // Q11 - Calculation (Materials Price Variance) - Uses shared data
+            {
+                type: 'calculation',
+                generate: function() {
+                    // Store for Q12
+                    const finishedUnits = randInt(140, 170) * 1000;
+                    const poundsPerUnit = randInt(2, 4);
+                    const stdPricePerPound = randChoice([1.50, 1.75, 2.00, 2.25, 2.50]);
+                    const actualFinished = finishedUnits + randInt(5, 15) * 1000;
+                    const purchasedPounds = randInt(450, 550) * 1000;
+                    const usedPounds = purchasedPounds - randInt(5, 15) * 1000;
+                    const actualPricePerPound = stdPricePerPound + randChoice([0.01, 0.02, 0.03, 0.04, 0.05]);
+                    
+                    currentExamData.q11 = {
+                        finishedUnits, poundsPerUnit, stdPricePerPound,
+                        actualFinished, purchasedPounds, usedPounds, actualPricePerPound
+                    };
+                    
+                    const priceVariance = (actualPricePerPound - stdPricePerPound) * purchasedPounds;
+                    const absVariance = Math.abs(priceVariance);
+                    
+                    const options = [
+                        { text: `${formatCurrency(absVariance * 2)} unfavorable`, correct: false },
+                        { text: `${formatCurrency(absVariance)} favorable`, correct: false },
+                        { text: `${formatCurrency(absVariance)} unfavorable`, correct: true },
+                        { text: `${formatCurrency(Math.round(absVariance * 0.96))} unfavorable`, correct: false }
+                    ];
+                    
+                    return {
+                        question: `<div class="info-box">Use the following information for the next two questions.</div>
+                        A company isolates its raw material price variance in order to provide the earliest possible information to the manager responsible for the variance. The budgeted (standard) amount of material usage for the year was computed as follows:<br><br>
+                        ${formatNumber(finishedUnits)} units of finished goods × ${poundsPerUnit} pounds/unit × $${stdPricePerPound.toFixed(2)}/pound = ${formatCurrency(finishedUnits * poundsPerUnit * stdPricePerPound)}<br><br>
+                        Actual results for the year were:<br>
                         <table class="data-table">
-                            <tr><th></th><th>Beginning Balance</th><th>Ending Balance</th></tr>
-                            <tr><td>Work in Process</td><td>${formatCurrency(begWIP)}</td><td>${formatCurrency(endWIP)}</td></tr>
-                            <tr><td>Finished Goods</td><td>$0</td><td>${formatCurrency(endFG)}</td></tr>
+                            <tr><td>Finished goods produced</td><td>${formatNumber(actualFinished)} units</td></tr>
+                            <tr><td>Raw materials purchased</td><td>${formatNumber(purchasedPounds)} pounds</td></tr>
+                            <tr><td>Raw materials used</td><td>${formatNumber(usedPounds)} pounds</td></tr>
+                            <tr><td>Cost per pound</td><td>$${actualPricePerPound.toFixed(2)}</td></tr>
                         </table>
-                        Lakers' manufacturing cost for the year is ${formatCurrency(mfgCost)}. How much would the Cost of Goods Manufactured be for this year?`,
+                        The raw material price variance for the year was:`,
                         options: shuffle(options),
-                        explanation: `COGM = Beg. WIP + Manufacturing cost - Ending WIP<br>
-                        = ${formatCurrency(begWIP)} + ${formatCurrency(mfgCost)} - ${formatCurrency(endWIP)} = ${formatCurrency(cogm)}`
+                        explanation: `Price variance = (Actual price - Standard price) × Actual quantity purchased<br>
+                        = ($${actualPricePerPound.toFixed(2)} - $${stdPricePerPound.toFixed(2)}) × ${formatNumber(purchasedPounds)}<br>
+                        = ${formatCurrency(priceVariance)} unfavorable`
                     };
                 }
             },
-            // Q10 - Conceptual
+            // Q12 - Calculation (Materials Efficiency Variance)
             {
-                type: 'conceptual',
+                type: 'calculation',
                 generate: function() {
-                    const options = [
-                        { text: "the total revenue line starts at the origin and the total costs line starts at the fixed intercept", correct: true },
-                        { text: "the operating income line starts at the origin and the total costs line starts at the fixed intercept", correct: false },
-                        { text: "the breakeven point is at the fixed intercept where the total revenues line intersects", correct: false },
-                        { text: "the operating income area is the section where the total costs line is above the total revenues line", correct: false }
-                    ];
-                    return {
-                        question: "In the graph method of CVP analysis:",
-                        options: shuffle(options),
-                        explanation: "In CVP graphs, revenue starts at origin (0 sales = 0 revenue), and total costs start at the fixed cost intercept."
+                    const d = currentExamData.q11 || {
+                        poundsPerUnit: 3, stdPricePerPound: 2.00,
+                        actualFinished: 160000, usedPounds: 490000
                     };
-                }
-            },
-            // Q11 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
+                    
+                    const standardPoundsAllowed = d.actualFinished * d.poundsPerUnit;
+                    const efficiencyVariance = (d.usedPounds - standardPoundsAllowed) * d.stdPricePerPound;
+                    const absVariance = Math.abs(efficiencyVariance);
+                    const varianceType = efficiencyVariance > 0 ? "unfavorable" : "favorable";
+                    
                     const options = [
-                        { text: "the variable cost per unit increases", correct: false },
-                        { text: "the total fixed costs decrease", correct: true },
-                        { text: "the contribution margin per unit decreases", correct: false },
-                        { text: "the selling price per unit decreases", correct: false }
+                        { text: `${formatCurrency(absVariance)} unfavorable`, correct: efficiencyVariance > 0 },
+                        { text: `${formatCurrency(absVariance)} favorable`, correct: efficiencyVariance < 0 },
+                        { text: `${formatCurrency(absVariance / 2)} favorable`, correct: false },
+                        { text: `${formatCurrency(absVariance / 2)} unfavorable`, correct: false }
                     ];
+                    
                     return {
-                        question: "The breakeven point decreases if:",
+                        question: `The raw material efficiency variance for the year was:`,
                         options: shuffle(options),
-                        explanation: "BEP = Fixed Costs / CM per unit. Lower fixed costs or higher CM reduces BEP."
-                    };
-                }
-            },
-            // Q12 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "reports gross margin", correct: false },
-                        { text: "is allowed for external reporting to shareholders", correct: false },
-                        { text: "categorizes costs as either direct or indirect", correct: false },
-                        { text: "can be used to predict operating income at different levels of activity", correct: true }
-                    ];
-                    return {
-                        question: "The contribution margin income statement ________.",
-                        options: shuffle(options),
-                        explanation: "CM income statement separates variable and fixed costs, allowing prediction of income at different activity levels."
+                        explanation: `Efficiency variance = (Actual quantity used - Standard quantity allowed) × Standard price<br>
+                        Standard quantity allowed = ${formatNumber(d.actualFinished)} × ${d.poundsPerUnit} = ${formatNumber(standardPoundsAllowed)} pounds<br>
+                        = (${formatNumber(d.usedPounds)} - ${formatNumber(standardPoundsAllowed)}) × $${d.stdPricePerPound.toFixed(2)}<br>
+                        = ${formatCurrency(efficiencyVariance)} ${varianceType}`
                     };
                 }
             },
@@ -580,218 +658,161 @@
                 type: 'conceptual',
                 generate: function() {
                     const options = [
-                        { text: "revenues equal fixed costs", correct: false },
-                        { text: "revenues equal variable costs", correct: false },
-                        { text: "contribution margin equals total costs", correct: false },
-                        { text: "revenues equal the sum of variable and fixed costs", correct: true }
+                        { text: "actual variable overhead and the previously budgeted amount.", correct: false },
+                        { text: "the previously budgeted amount and actual input times the budgeted rate.", correct: false },
+                        { text: "the amount applied to work-in-process and actual variable overhead.", correct: false },
+                        { text: "actual variable overhead and actual inputs times the budgeted rate.", correct: true }
                     ];
                     return {
-                        question: "The breakeven point is the activity level where:",
+                        question: "When using a flexible budgeting system, the computation for the variable overhead spending variance is the difference between:",
                         options: shuffle(options),
-                        explanation: "At BEP: Revenue - Variable Costs - Fixed Costs = 0, so Revenue = Variable Costs + Fixed Costs"
+                        explanation: "Variable OH Spending Variance = Actual VOH - (Actual inputs × Budgeted rate). This measures whether the actual rate paid differed from the budgeted rate."
                     };
                 }
             },
-            // Q14 - Calculation
+            // Q14 - Conceptual
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "there was more excess capacity than planned", correct: false },
+                        { text: "the price of fixed overhead items cost more than budgeted", correct: true },
+                        { text: "the fixed overhead cost-allocation base was not used efficiently", correct: false },
+                        { text: "the denominator level was more than planned", correct: false }
+                    ];
+                    return {
+                        question: "An unfavorable fixed overhead spending variance indicates that:",
+                        options: shuffle(options),
+                        explanation: "The fixed overhead spending variance compares actual fixed overhead to budgeted fixed overhead. An unfavorable variance means actual costs exceeded budget - prices were higher than expected."
+                    };
+                }
+            },
+            // Q15 - Conceptual
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "Management by exception", correct: true },
+                        { text: "Management by objectives", correct: false },
+                        { text: "Responsibility accounting", correct: false },
+                        { text: "Benchmarking", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following management practices involves concentrating on areas that deserve attention and placing less attention on areas operating as expected?",
+                        options: shuffle(options),
+                        explanation: "Management by exception focuses attention on significant variances from standards while allowing routine operations to proceed without intervention."
+                    };
+                }
+            },
+            // Q16 - Calculation (Budgeted VOH Cost Per Unit)
             {
                 type: 'calculation',
                 generate: function() {
-                    const price = randInt(18, 25); // selling price
-                    const dm = randInt(5, 8); // direct material
-                    const dml = Math.round(randInt(15, 25) / 10 * 10) / 10; // direct labor 1.5-2.5
-                    const moh = 0.5; // manufacturing overhead
-                    const selling = 2; // selling cost
-                    const units = randInt(10, 15) * 1000; // 10000-15000
-                    const fixedCost = randInt(80, 120) * 1000; // 80000-120000
+                    const budgetedUnits = randInt(650, 750);
+                    const budgetedHours = Math.round(budgetedUnits * randChoice([0.7, 0.8, 0.9]));
+                    const budgetedVOH = Math.round(budgetedHours * randInt(140, 170));
+                    const actualUnits = budgetedUnits - randInt(50, 100);
+                    const actualHours = budgetedHours - randInt(80, 120);
+                    const actualVOH = Math.round(actualHours * randInt(165, 185));
                     
-                    const cmBefore = (price - dm - dml - moh - selling) * units;
-                    const increase = 1; // increase by $1 each
-                    const cmAfter = (price - (dm + increase) - (dml + increase) - moh - selling) * units;
-                    const change = cmAfter - cmBefore; // will be negative (decrease)
+                    const hoursPerUnit = budgetedHours / budgetedUnits;
+                    const vohRatePerHour = budgetedVOH / budgetedHours;
+                    const vohPerUnit = hoursPerUnit * vohRatePerHour;
                     
                     const options = [
-                        { text: `increases by ${formatCurrency(Math.abs(change))}`, correct: false },
-                        { text: `increases by ${formatCurrency(Math.abs(change)/2)}`, correct: false },
-                        { text: `decreases by ${formatCurrency(Math.abs(change))}`, correct: true },
-                        { text: `decreases by ${formatCurrency(Math.abs(change)/2)}`, correct: false }
+                        { text: `$${vohRatePerHour.toFixed(2)} per unit`, correct: false },
+                        { text: `$${(budgetedVOH / budgetedUnits).toFixed(2)} per unit`, correct: false },
+                        { text: `$${(actualVOH / actualUnits).toFixed(2)} per unit`, correct: false },
+                        { text: `$${vohPerUnit.toFixed(2)} per unit`, correct: true }
                     ];
                     
                     return {
-                        question: `Orion Company sells several products. Information of average revenue and costs is as follows:<br><br>
+                        question: `J&J Materials and Construction Corporation produces mulch and distributes the product by using dump trucks. The company uses budgeted fleet hours to allocate variable manufacturing overhead. The following information pertains to the company's manufacturing overhead data:<br><br>
                         <table class="data-table">
-                            <tr><td>Selling price per unit</td><td>${formatCurrency(price)}</td></tr>
-                            <tr><td colspan="2"><strong>Variable costs per unit:</strong></td></tr>
-                            <tr><td>&nbsp;&nbsp;Direct material</td><td>${formatCurrency(dm)}</td></tr>
-                            <tr><td>&nbsp;&nbsp;Direct manufacturing labor</td><td>$${dml.toFixed(2)}</td></tr>
-                            <tr><td>&nbsp;&nbsp;Manufacturing overhead</td><td>$${moh.toFixed(2)}</td></tr>
-                            <tr><td>&nbsp;&nbsp;Selling costs</td><td>${formatCurrency(selling)}</td></tr>
-                            <tr><td>Annual fixed costs</td><td>${formatCurrency(fixedCost)}</td></tr>
+                            <tr><td>Budgeted output units</td><td>${budgetedUnits} truckloads</td></tr>
+                            <tr><td>Budgeted fleet hours</td><td>${budgetedHours} hours</td></tr>
+                            <tr><td>Budgeted variable manufacturing overhead costs</td><td>${formatCurrency(budgetedVOH)}</td></tr>
+                            <tr><td>Actual output units produced and delivered</td><td>${actualUnits} truckloads</td></tr>
+                            <tr><td>Actual fleet hours</td><td>${actualHours} hours</td></tr>
+                            <tr><td>Actual variable manufacturing overhead costs</td><td>${formatCurrency(actualVOH)}</td></tr>
                         </table>
-                        The company sells ${formatNumber(units)} units at the end of the year.<br><br>
-                        If direct labor and direct material costs increase by $1 each, contribution margin:`,
+                        What is the budgeted variable manufacturing overhead cost per unit?`,
                         options: shuffle(options),
-                        explanation: `Original CM per unit = $${price} - $${dm} - $${dml.toFixed(2)} - $${moh.toFixed(2)} - $${selling} = $${(price - dm - dml - moh - selling).toFixed(2)}<br>
-                        New CM per unit = Original - $2 = $${(price - dm - dml - moh - selling - 2).toFixed(2)}<br>
-                        Change = $2 × ${formatNumber(units)} = ${formatCurrency(Math.abs(change))} decrease`
+                        explanation: `Budgeted fleet hours per unit = ${budgetedHours} ÷ ${budgetedUnits} = ${hoursPerUnit.toFixed(2)}<br>
+                        Budgeted VOH rate per hour = ${formatCurrency(budgetedVOH)} ÷ ${budgetedHours} = $${vohRatePerHour.toFixed(2)}<br>
+                        Budgeted VOH cost per unit = ${hoursPerUnit.toFixed(2)} × $${vohRatePerHour.toFixed(2)} = $${vohPerUnit.toFixed(2)}`
                     };
                 }
             },
-            // Q15 - Calculation
+            // Q17 - Calculation (Fixed Overhead Flexible Budget)
             {
                 type: 'calculation',
                 generate: function() {
-                    // Pick tax rate that divides evenly
-                    const taxRates = [0.20, 0.25, 0.28, 0.30, 0.32, 0.35, 0.40];
-                    const taxRate = randChoice(taxRates);
-                    
-                    // Pick target operating income that when multiplied by (1-tax) gives round number
-                    const targetOI = randInt(15, 30) * 100000; // 1,500,000 to 3,000,000
-                    const targetNI = Math.round(targetOI * (1 - taxRate));
-                    
-                    const wrongAnswers = [
-                        Math.round(targetNI * (1 - taxRate)),
-                        targetNI,
-                        Math.round(targetNI * (1 + taxRate))
-                    ];
+                    const actualProd = randInt(50, 55) * 1000 + randInt(0, 9) * 100;
+                    const staticProd = actualProd - randInt(200, 600);
+                    const actualMH = randInt(2300, 2700);
+                    const staticMH = actualMH + randInt(100, 200);
+                    const actualFOH = randInt(105, 115) * 1000 + randInt(0, 9) * 100;
+                    const staticFOH = actualFOH + randInt(100, 500);
                     
                     const options = [
-                        { text: formatCurrency(wrongAnswers[0]), correct: false },
-                        { text: formatCurrency(targetNI), correct: false },
-                        { text: formatCurrency(targetOI), correct: true },
-                        { text: formatCurrency(wrongAnswers[2]), correct: false }
+                        { text: formatCurrency(actualFOH), correct: false },
+                        { text: formatCurrency(Math.round(staticFOH * actualProd / staticProd)), correct: false },
+                        { text: formatCurrency(staticFOH), correct: true },
+                        { text: formatCurrency(actualProd), correct: false }
                     ];
                     
                     return {
-                        question: `If a company's target net income is ${formatCurrency(targetNI)} and the tax rate is ${(taxRate * 100).toFixed(0)}%, what is the target operating income?`,
-                        options: shuffle(options),
-                        explanation: `Target Operating Income = Target Net Income / (1 - Tax Rate)<br>
-                        = ${formatCurrency(targetNI)} / (1 - ${taxRate}) = ${formatCurrency(targetNI)} / ${(1-taxRate).toFixed(2)} = ${formatCurrency(targetOI)}`
-                    };
-                }
-            },
-            // Q16 - Calculation
-            {
-                type: 'calculation',
-                generate: function() {
-                    const units = randInt(15, 25) * 1000; // 15000-25000
-                    const cmPerUnit = randInt(12, 20); // CM per unit
-                    const sales = units * randInt(50, 80); // sales revenue
-                    const vcRatio = randChoice([0.70, 0.72, 0.75, 0.78, 0.80]);
-                    const vc = Math.round(sales * vcRatio);
-                    const actualCM = sales - vc;
-                    const actualCMPerUnit = actualCM / units;
-                    
-                    const fixedCosts = randInt(20, 30) * 10000; // 200,000-300,000
-                    const taxRate = 0.30;
-                    
-                    // Calculate after-tax income target that gives clean unit answer
-                    const cmPU = actualCMPerUnit;
-                    const targetUnits = Math.round((fixedCosts + 100000) / cmPU); // target around this
-                    const targetOI = targetUnits * cmPU - fixedCosts;
-                    const targetNI = Math.round(targetOI * (1 - taxRate));
-                    
-                    // Recalculate properly
-                    const oiTarget = Math.round(targetNI / (1 - taxRate));
-                    const unitsNeeded = Math.round((fixedCosts + oiTarget) / cmPU);
-                    
-                    const wrongAnswers = [
-                        Math.round((fixedCosts + targetNI) / cmPU),
-                        Math.round(fixedCosts / cmPU),
-                        unitsNeeded - 2000
-                    ];
-                    
-                    const options = [
-                        { text: `${formatNumber(unitsNeeded)} units`, correct: true },
-                        { text: `${formatNumber(wrongAnswers[0])} units`, correct: false },
-                        { text: `${formatNumber(wrongAnswers[1])} units`, correct: false },
-                        { text: `${formatNumber(wrongAnswers[2])} units`, correct: false }
-                    ];
-                    
-                    return {
-                        question: `Sparkle Jewelry sells ${formatNumber(units)} units resulting in ${formatCurrency(sales)} of sales revenue, ${formatCurrency(vc)} of variable costs, and ${formatCurrency(fixedCosts)} of fixed costs. Suppose the income tax rate is 30% and the company's goal is to have ${formatCurrency(targetNI)} after-tax net income. How many units does the company need to sell? (Round to the nearest whole unit.)`,
-                        options: shuffle(options),
-                        explanation: `CM per unit = (${formatCurrency(sales)} - ${formatCurrency(vc)}) / ${formatNumber(units)} = $${cmPU.toFixed(2)}<br>
-                        Operating income target = ${formatCurrency(targetNI)} / (1-30%) = ${formatCurrency(oiTarget)}<br>
-                        Units needed = (${formatCurrency(fixedCosts)} + ${formatCurrency(oiTarget)}) / $${cmPU.toFixed(2)} = ${formatNumber(unitsNeeded)} units`
-                    };
-                }
-            },
-            // Q17 - Calculation
-            {
-                type: 'calculation',
-                generate: function() {
-                    const cmRatio = randChoice([0.25, 0.30, 0.35, 0.40]);
-                    const targetOI = randInt(50, 80) * 1000; // 50,000-80,000
-                    const targetSales = randInt(250, 350) * 1000; // 250,000-350,000
-                    
-                    // FC = CM - OI = (Sales × CMR) - OI
-                    const fixedCosts = (targetSales * cmRatio) - targetOI;
-                    
-                    const wrongAnswers = [
-                        targetOI - fixedCosts,
-                        targetSales - targetOI,
-                        targetSales * cmRatio
-                    ];
-                    
-                    const options = [
-                        { text: formatCurrency(Math.abs(wrongAnswers[0])), correct: false },
-                        { text: formatCurrency(wrongAnswers[1]), correct: false },
-                        { text: formatCurrency(wrongAnswers[2]), correct: false },
-                        { text: formatCurrency(fixedCosts), correct: true }
-                    ];
-                    
-                    return {
-                        question: `If the contribution margin ratio is ${cmRatio}, targeted operating income is ${formatCurrency(targetOI)}, and targeted sales volume in dollars is ${formatCurrency(targetSales)}, then total fixed costs are:`,
-                        options: shuffle(options),
-                        explanation: `(Fixed Costs + ${formatCurrency(targetOI)}) / ${cmRatio} = ${formatCurrency(targetSales)}<br>
-                        Fixed Costs + ${formatCurrency(targetOI)} = ${formatCurrency(targetSales * cmRatio)}<br>
-                        Fixed Costs = ${formatCurrency(fixedCosts)}`
-                    };
-                }
-            },
-            // Q18 - Calculation (Sales Mix)
-            {
-                type: 'calculation',
-                generate: function() {
-                    const xPrice = randInt(10, 15);
-                    const xVC = randInt(3, 6);
-                    const yPrice = randInt(40, 50);
-                    const yVC = randInt(8, 12);
-                    
-                    const xCM = xPrice - xVC;
-                    const yCM = yPrice - yVC;
-                    
-                    // Mix: 2 units of X for every 1 unit of Y
-                    // Weighted CM = 2*xCM + 1*yCM
-                    const weightedCM = 2 * xCM + yCM;
-                    
-                    // Fixed costs should be divisible by weighted CM
-                    const fixedCosts = weightedCM * randInt(1000, 2000);
-                    
-                    const yUnits = fixedCosts / weightedCM;
-                    const xUnits = 2 * yUnits;
-                    
-                    const options = [
-                        { text: `Product X: ${formatNumber(Math.round(xUnits/2))} units, Product Y: ${formatNumber(Math.round(yUnits/2))} units`, correct: false },
-                        { text: `Product X: ${formatNumber(yUnits)} units, Product Y: ${formatNumber(xUnits)} units`, correct: false },
-                        { text: `Product X: ${formatNumber(xUnits)} units, Product Y: ${formatNumber(yUnits)} units`, correct: true },
-                        { text: `Product X: ${formatNumber(xUnits + 500)} units, Product Y: ${formatNumber(yUnits - 250)} units`, correct: false }
-                    ];
-                    
-                    return {
-                        question: `Alex Corp has a total fixed cost of ${formatCurrency(fixedCosts)} and has following information for its products:<br><br>
+                        question: `Davidson Corporation manufactured ${formatNumber(actualProd)} units during September. The following fixed overhead data relates to September:<br><br>
                         <table class="data-table">
-                            <tr><th></th><th>Price per unit</th><th>Variable Cost per unit</th></tr>
-                            <tr><td>Product X</td><td>$${xPrice.toFixed(2)}</td><td>$${xVC.toFixed(2)}</td></tr>
-                            <tr><td>Product Y</td><td>$${yPrice.toFixed(2)}</td><td>$${yVC.toFixed(2)}</td></tr>
+                            <tr><th></th><th>Actual</th><th>Static Budget</th></tr>
+                            <tr><td>Production</td><td>${formatNumber(actualProd)} units</td><td>${formatNumber(staticProd)} units</td></tr>
+                            <tr><td>Machine-hours</td><td>${formatNumber(actualMH)} hours</td><td>${formatNumber(staticMH)} hours</td></tr>
+                            <tr><td>Fixed overhead costs</td><td>${formatCurrency(actualFOH)}</td><td>${formatCurrency(staticFOH)}</td></tr>
                         </table>
-                        Assuming the sales mix consists of two units of Product X and one unit of Product Y, what is the breakeven point for Alex?`,
+                        What is the flexible-budget amount?`,
                         options: shuffle(options),
-                        explanation: `Let N = units of Product Y, then 2N = units of Product X<br>
-                        At breakeven: ($${xPrice.toFixed(2)} - $${xVC.toFixed(2)}) × 2N + ($${yPrice.toFixed(2)} - $${yVC.toFixed(2)}) × N = ${formatCurrency(fixedCosts)}<br>
-                        $${xCM.toFixed(2)} × 2N + $${yCM.toFixed(2)} × N = ${formatCurrency(fixedCosts)}<br>
-                        $${weightedCM.toFixed(2)}N = ${formatCurrency(fixedCosts)}<br>
-                        N = ${formatNumber(yUnits)} units (Y), X = ${formatNumber(xUnits)} units`
+                        explanation: `For fixed overhead, the flexible-budget amount equals the static budget amount (${formatCurrency(staticFOH)}). Fixed costs don't change with activity level within the relevant range.`
+                    };
+                }
+            },
+            // Q18 - Calculation (Fixed Overhead Allocated)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const actualProd = randInt(21, 25) * 1000;
+                    const staticProd = actualProd + randInt(300, 700);
+                    const actualMH = randInt(12, 14) * 1000 + randInt(0, 2) * 100;
+                    const staticMH = actualMH + randInt(800, 1200);
+                    const actualFOH = randInt(600, 650) * 1000 + randInt(0, 5) * 100;
+                    const staticFOH = actualFOH + randInt(5, 15) * 1000;
+                    
+                    const fohPerMH = staticFOH / staticMH;
+                    const mhPerUnit = staticMH / staticProd;
+                    const fohPerUnit = fohPerMH * mhPerUnit;
+                    const allocated = actualProd * fohPerUnit;
+                    
+                    const options = [
+                        { text: formatCurrency(Math.round(allocated)), correct: true },
+                        { text: formatCurrency(staticFOH), correct: false },
+                        { text: formatCurrency(Math.round(allocated * 1.03)), correct: false },
+                        { text: formatCurrency(Math.round(allocated * 0.98)), correct: false }
+                    ];
+                    
+                    return {
+                        question: `Hockey Accessories Corporation manufactured ${formatNumber(actualProd)} duffle bags during March. The following fixed overhead data pertain to March:<br><br>
+                        <table class="data-table">
+                            <tr><th></th><th>Actual</th><th>Static Budget</th></tr>
+                            <tr><td>Production</td><td>${formatNumber(actualProd)} units</td><td>${formatNumber(staticProd)} units</td></tr>
+                            <tr><td>Machine-hours</td><td>${formatNumber(actualMH)} hours</td><td>${formatNumber(staticMH)} hours</td></tr>
+                            <tr><td>Fixed overhead cost</td><td>${formatCurrency(actualFOH)}</td><td>${formatCurrency(staticFOH)}</td></tr>
+                        </table>
+                        What is the amount of fixed overhead allocated to production?`,
+                        options: shuffle(options),
+                        explanation: `FOH rate per MH = ${formatCurrency(staticFOH)} ÷ ${formatNumber(staticMH)} = $${fohPerMH.toFixed(2)}<br>
+                        MH per unit = ${formatNumber(staticMH)} ÷ ${formatNumber(staticProd)} = ${mhPerUnit.toFixed(2)}<br>
+                        FOH per unit = $${fohPerMH.toFixed(2)} × ${mhPerUnit.toFixed(2)} = $${fohPerUnit.toFixed(2)}<br>
+                        FOH allocated = ${formatNumber(actualProd)} × $${fohPerUnit.toFixed(2)} = ${formatCurrency(Math.round(allocated))}`
                     };
                 }
             },
@@ -800,15 +821,15 @@
                 type: 'conceptual',
                 generate: function() {
                     const options = [
-                        { text: "Cost allocation", correct: true },
-                        { text: "Job cost recording", correct: false },
-                        { text: "Cost pooling", correct: false },
-                        { text: "Cost tracing", correct: false }
+                        { text: "greater operating income and therefore increasing the manager's bonus", correct: true },
+                        { text: "less operating income and therefore decreasing the manager's bonus", correct: false },
+                        { text: "not affecting the manager's bonus", correct: false },
+                        { text: "being unable to determine the manager's bonus using only the above information", correct: false }
                     ];
                     return {
-                        question: "________ is the process of assigning indirect costs to products.",
+                        question: "Under absorption costing, if a manager's bonus is tied to operating income, then increasing inventory levels compared to last year would result in:",
                         options: shuffle(options),
-                        explanation: "Cost allocation is assigning indirect costs. Cost tracing is for direct costs."
+                        explanation: "Under absorption costing, fixed manufacturing overhead is included in inventory. When inventory increases, some fixed costs are deferred to future periods, resulting in higher current operating income."
                     };
                 }
             },
@@ -817,592 +838,374 @@
                 type: 'conceptual',
                 generate: function() {
                     const options = [
-                        { text: "Job costing is used when each unit of output is identical, and process costing deals with unique products.", correct: false },
-                        { text: "Job costing is used when each unit of output is identical and not produced in batches, and process costing deals with unique products produced on large scale.", correct: false },
-                        { text: "Process costing is used when each unit of output is identical, and job costing deals with unique products not produced in batches.", correct: true },
-                        { text: "Job costing is used by manufacturing industries, and process costing is used by service industries.", correct: false }
+                        { text: "Variable costing complies with the U.S. Internal Revenue Code.", correct: false },
+                        { text: "Variable costing complies with generally accepted accounting principles (GAAP).", correct: false },
+                        { text: "Variable costing makes cost-volume relationships more easily apparent.", correct: true },
+                        { text: "Variable costing is most relevant to long-run pricing strategies.", correct: false }
                     ];
                     return {
-                        question: "Which of the following differentiates job costing from process costing?",
+                        question: "Which one of the following is an advantage of using variable costing?",
                         options: shuffle(options),
-                        explanation: "Process costing = identical/mass production. Job costing = unique/custom products."
+                        explanation: "Variable costing clearly separates fixed and variable costs, making CVP analysis easier and showing how costs change with volume."
                     };
                 }
             },
-            // Q21 - Conceptual
+            // Q21 - Conceptual (Variable vs Absorption with production change)
             {
                 type: 'conceptual',
                 generate: function() {
                     const options = [
-                        { text: "using the budgeted direct cost rates times the budgeted quantities of direct-cost inputs", correct: false },
-                        { text: "using the actual direct costs rates times the budgeted quantities of the direct-cost inputs", correct: false },
-                        { text: "using the actual direct cost rates times the actual quantities of the direct-cost inputs", correct: true },
-                        { text: "using the budgeted direct cost rates times the actual quantities of the direct cost inputs", correct: false }
+                        { text: "Variable: No effect / Absorption: Increase", correct: false },
+                        { text: "Variable: Decrease / Absorption: Increase", correct: false },
+                        { text: "Variable: Decrease / Absorption: Decrease", correct: false },
+                        { text: "Variable: No effect / Absorption: Decrease", correct: true }
                     ];
                     return {
-                        question: "Actual costing is a costing system that traces direct costs to a cost object by:",
-                        options: shuffle(options),
-                        explanation: "Actual costing uses actual rates × actual quantities for both direct and indirect costs."
-                    };
-                }
-            },
-            // Q22 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "An oil refining company", correct: true },
-                        { text: "A manufacturer of ships", correct: false },
-                        { text: "A custom kitchen cabinet company", correct: false },
-                        { text: "A consulting firm", correct: false }
-                    ];
-                    return {
-                        question: "Which of the following companies will use a process costing system?",
-                        options: shuffle(options),
-                        explanation: "Oil refining produces identical, continuous output = process costing. Custom products = job costing."
-                    };
-                }
-            },
-            // Q23 - Calculation
-            {
-                type: 'calculation',
-                generate: function() {
-                    const dm = randInt(25, 40) * 100; // 2500-4000
-                    const laborRate = randInt(20, 30); // per hour
-                    const dmlTotal = randInt(20, 30) * 100; // 2000-3000
-                    const laborHours = dmlTotal / laborRate;
-                    const ohRate = randInt(25, 40); // per labor hour
-                    const oh = laborHours * ohRate;
-                    const sellingPrice = randInt(80, 120) * 100; // 8000-12000
-                    const units = randInt(30, 60); // 30-60 units
-                    
-                    const unitCost = dm + dmlTotal + oh;
-                    const profit = (sellingPrice - unitCost) * units;
-                    
-                    const wrongAnswers = [
-                        (sellingPrice - dm - dmlTotal) * units,
-                        profit + 20000,
-                        profit - 15000
-                    ];
-                    
-                    const options = [
-                        { text: formatCurrency(wrongAnswers[0]), correct: false },
-                        { text: formatCurrency(wrongAnswers[1]), correct: false },
-                        { text: formatCurrency(profit), correct: true },
-                        { text: formatCurrency(Math.abs(wrongAnswers[2])), correct: false }
-                    ];
-                    
-                    return {
-                        question: `X-Industries manufactures 3-D printers. For each unit, ${formatCurrency(dm)} of direct material is used and there is ${formatCurrency(dmlTotal)} of direct manufacturing labor at $${laborRate} per hour. Manufacturing overhead is applied at $${ohRate} per direct manufacturing labor hour. Calculate the profit earned on ${units} units if each unit sells for ${formatCurrency(sellingPrice)}.`,
-                        options: shuffle(options),
-                        explanation: `Labor hours = ${formatCurrency(dmlTotal)} / $${laborRate} = ${laborHours} hours<br>
-                        MOH = ${laborHours} hours × $${ohRate} = ${formatCurrency(oh)}<br>
-                        Unit cost = ${formatCurrency(dm)} + ${formatCurrency(dmlTotal)} + ${formatCurrency(oh)} = ${formatCurrency(unitCost)}<br>
-                        Profit = (${formatCurrency(sellingPrice)} - ${formatCurrency(unitCost)}) × ${units} = ${formatCurrency(profit)}`
-                    };
-                }
-            },
-            // Q24 - Calculation
-            {
-                type: 'calculation',
-                generate: function() {
-                    const accountants = randInt(10, 15);
-                    const paras = randInt(8, 12);
-                    
-                    // Budgeted values
-                    const budgetAcctSalary = randInt(100, 125) * 1000;
-                    const budgetParaSalary = randInt(30, 40) * 1000;
-                    const budgetLaborHours = randInt(35, 45) * 1000;
-                    const budgetIndirectCosts = randInt(280, 350) * 1000;
-                    
-                    // Actual values (slightly different from budget)
-                    const acctSalary = budgetAcctSalary + randInt(5, 15) * 1000;
-                    const paraSalary = budgetParaSalary + randInt(1, 5) * 1000;
-                    const totalLaborHours = budgetLaborHours + randInt(5, 15) * 1000;
-                    const indirectCosts = budgetIndirectCosts + randInt(10, 30) * 1000;
-                    
-                    const totalDirectCost = (acctSalary * accountants) + (paraSalary * paras);
-                    const directRate = totalDirectCost / totalLaborHours;
-                    const indirectRate = indirectCosts / totalLaborHours;
-                    
-                    const options = [
-                        { text: `$${directRate.toFixed(2)}; $${indirectRate.toFixed(2)}`, correct: true },
-                        { text: `$${(directRate + 5).toFixed(2)}; $${(indirectRate + 1).toFixed(2)}`, correct: false },
-                        { text: `$${(directRate - 3).toFixed(2)}; $${indirectRate.toFixed(2)}`, correct: false },
-                        { text: `$${indirectRate.toFixed(2)}; $${directRate.toFixed(2)}`, correct: false }
-                    ];
-                    
-                    return {
-                        question: `Smith and Jones CPA firm employs ${accountants} accountants and ${paras} paraprofessionals. Direct and indirect costs are applied on a professional labor-hour basis that includes both accountant and paraprofessional hours. Following is information:<br><br>
+                        question: `In its first year of operations, Bronfren Corporation produced 800,000 sets and sold 780,000 sets of artificial tan lines. What would have happened to net operating income in this first year under the following costing methods if Bronfren had produced 20,000 fewer sets? (Assume that Bronfren has both variable and fixed production costs.)<br><br>
                         <table class="data-table">
-                            <tr><th></th><th>Budgeted</th><th>Actual</th></tr>
-                            <tr><td>Indirect costs</td><td>${formatCurrency(budgetIndirectCosts)}</td><td>${formatCurrency(indirectCosts)}</td></tr>
-                            <tr><td>Annual salary of each accountant</td><td>${formatCurrency(budgetAcctSalary)}</td><td>${formatCurrency(acctSalary)}</td></tr>
-                            <tr><td>Annual salary of each paraprofessional</td><td>${formatCurrency(budgetParaSalary)}</td><td>${formatCurrency(paraSalary)}</td></tr>
-                            <tr><td>Total professional labor-hours</td><td>${formatNumber(budgetLaborHours)} dlh</td><td>${formatNumber(totalLaborHours)} dlh</td></tr>
+                            <tr><th>Variable costing</th><th>Absorption costing</th></tr>
+                        </table>`,
+                        options: shuffle(options),
+                        explanation: "Under variable costing, income depends only on sales (no change). Under absorption costing, producing less means less fixed overhead is deferred to inventory, so more is expensed, decreasing income."
+                    };
+                }
+            },
+            // Q22 - Calculation (Absorption Costing Income) - Uses shared data
+            {
+                type: 'calculation',
+                generate: function() {
+                    const sellingPrice = randInt(55, 70);
+                    const unitsSold = randInt(50, 60) * 1000;
+                    const unitsProduced = unitsSold + randInt(3, 8) * 1000;
+                    const fixedMOH = randInt(250, 350) * 1000;
+                    const fixedSGA = randInt(70, 100) * 1000;
+                    const dmPerUnit = randInt(2, 4);
+                    const dlPerUnit = randInt(8, 12);
+                    const vmohPerUnit = randInt(3, 6);
+                    const vSellingPerUnit = randInt(1, 3);
+                    
+                    currentExamData.q22 = {
+                        sellingPrice, unitsSold, unitsProduced,
+                        fixedMOH, fixedSGA, dmPerUnit, dlPerUnit,
+                        vmohPerUnit, vSellingPerUnit
+                    };
+                    
+                    const fohPerUnit = fixedMOH / unitsProduced;
+                    const absorptionCostPerUnit = dmPerUnit + dlPerUnit + vmohPerUnit + fohPerUnit;
+                    const variableCostPerUnit = dmPerUnit + dlPerUnit + vmohPerUnit;
+                    
+                    const sales = unitsSold * sellingPrice;
+                    const absorptionCOGS = unitsSold * absorptionCostPerUnit;
+                    const variableSelling = unitsSold * vSellingPerUnit;
+                    const absorptionIncome = sales - absorptionCOGS - variableSelling - fixedSGA;
+                    
+                    const options = [
+                        { text: formatCurrency(Math.round(absorptionIncome + fixedMOH * (unitsProduced - unitsSold) / unitsProduced)), correct: false },
+                        { text: formatCurrency(Math.round(absorptionIncome - 15000)), correct: false },
+                        { text: formatCurrency(Math.round(absorptionIncome)), correct: true },
+                        { text: formatCurrency(Math.round(absorptionIncome - 25000)), correct: false }
+                    ];
+                    
+                    return {
+                        question: `<div class="info-box">Use the following information for the next two questions.</div>
+                        Frisco Golf Company sells a special putter for $${sellingPrice} each. In March, it sold ${formatNumber(unitsSold)} putters while manufacturing ${formatNumber(unitsProduced)}. There was no beginning inventory on March 1. Production information for March was:<br><br>
+                        <table class="data-table">
+                            <tr><td>Fixed manufacturing overhead</td><td>${formatCurrency(fixedMOH)}</td></tr>
+                            <tr><td>Fixed selling and administrative costs</td><td>${formatCurrency(fixedSGA)}</td></tr>
+                            <tr><td>Direct materials cost per unit</td><td>$${dmPerUnit}</td></tr>
+                            <tr><td>Direct manufacturing labor per unit</td><td>$${dlPerUnit}</td></tr>
+                            <tr><td>Variable manufacturing overhead per unit</td><td>$${vmohPerUnit}</td></tr>
+                            <tr><td>Variable selling expenses per unit</td><td>$${vSellingPerUnit}</td></tr>
                         </table>
-                        What are the <strong>actual</strong> direct-cost rate and the <strong>actual</strong> indirect-cost rate, respectively, per professional labor-hour?`,
+                        What is Frisco's operating income under absorption costing?`,
                         options: shuffle(options),
-                        explanation: `Actual Direct cost rate = [(${formatCurrency(acctSalary)} × ${accountants}) + (${formatCurrency(paraSalary)} × ${paras})] / ${formatNumber(totalLaborHours)}<br>
-                        = ${formatCurrency(totalDirectCost)} / ${formatNumber(totalLaborHours)} = $${directRate.toFixed(2)}<br>
-                        Actual Indirect rate = ${formatCurrency(indirectCosts)} / ${formatNumber(totalLaborHours)} = $${indirectRate.toFixed(2)}`
+                        explanation: `Under absorption costing:<br>
+                        FOH per unit = ${formatCurrency(fixedMOH)} ÷ ${formatNumber(unitsProduced)} = $${fohPerUnit.toFixed(2)}<br>
+                        Product cost per unit = $${dmPerUnit} + $${dlPerUnit} + $${vmohPerUnit} + $${fohPerUnit.toFixed(2)} = $${absorptionCostPerUnit.toFixed(2)}<br><br>
+                        Sales: ${formatCurrency(sales)}<br>
+                        - COGS: ${formatNumber(unitsSold)} × $${absorptionCostPerUnit.toFixed(2)} = ${formatCurrency(Math.round(absorptionCOGS))}<br>
+                        - Variable selling: ${formatNumber(unitsSold)} × $${vSellingPerUnit} = ${formatCurrency(variableSelling)}<br>
+                        - Fixed S&A: ${formatCurrency(fixedSGA)}<br>
+                        = Operating income: ${formatCurrency(Math.round(absorptionIncome))}`
                     };
                 }
             },
-            // Q25 - Calculation
+            // Q23 - Calculation (Variable Costing Income)
             {
                 type: 'calculation',
                 generate: function() {
-                    const companyDM = randInt(60, 80) * 1000;
-                    const companyDL = randInt(28, 38) * 1000;
-                    const companyOH = randInt(50, 65) * 1000;
-                    const companyMH = randInt(80, 120) * 1000;
+                    const d = currentExamData.q22 || {
+                        sellingPrice: 60, unitsSold: 55000, unitsProduced: 60000,
+                        fixedMOH: 300000, fixedSGA: 80000, dmPerUnit: 2, dlPerUnit: 9,
+                        vmohPerUnit: 4, vSellingPerUnit: 2
+                    };
                     
-                    const jobDM = randInt(2000, 3000);
-                    const jobDL = randInt(600, 1000);
-                    const jobMH = randInt(600, 1000);
+                    const variableCostPerUnit = d.dmPerUnit + d.dlPerUnit + d.vmohPerUnit;
+                    const sales = d.unitsSold * d.sellingPrice;
+                    const variableCOGS = d.unitsSold * variableCostPerUnit;
+                    const variableSelling = d.unitsSold * d.vSellingPerUnit;
+                    const contributionMargin = sales - variableCOGS - variableSelling;
+                    const variableIncome = contributionMargin - d.fixedMOH - d.fixedSGA;
                     
-                    const ohRate = companyOH / companyMH;
-                    const jobOH = jobMH * ohRate;
-                    const totalJobCost = jobDM + jobDL + jobOH;
-                    
-                    const wrongAnswers = [
-                        jobDM + jobDL,
-                        totalJobCost + 300,
-                        totalJobCost - 400
-                    ];
+                    const absorptionIncome = variableIncome + d.fixedMOH * (d.unitsProduced - d.unitsSold) / d.unitsProduced;
                     
                     const options = [
-                        { text: formatCurrency(Math.round(wrongAnswers[0])), correct: false },
-                        { text: formatCurrency(Math.round(totalJobCost)), correct: true },
-                        { text: formatCurrency(Math.round(wrongAnswers[1])), correct: false },
-                        { text: formatCurrency(Math.round(wrongAnswers[2])), correct: false }
+                        { text: formatCurrency(Math.round(contributionMargin)), correct: false },
+                        { text: formatCurrency(Math.round(absorptionIncome)), correct: false },
+                        { text: formatCurrency(Math.round(variableIncome + 25000)), correct: false },
+                        { text: formatCurrency(Math.round(variableIncome)), correct: true }
                     ];
                     
                     return {
-                        question: `Lancelot Manufacturing uses machine-hours as the single indirect-cost rate. Estimates for the coming year:<br><br>
+                        question: `What is Frisco's operating income under variable costing?`,
+                        options: shuffle(options),
+                        explanation: `Under variable costing:<br>
+                        Product cost per unit = $${d.dmPerUnit} + $${d.dlPerUnit} + $${d.vmohPerUnit} = $${variableCostPerUnit}<br><br>
+                        Sales: ${formatCurrency(sales)}<br>
+                        - Variable COGS: ${formatNumber(d.unitsSold)} × $${variableCostPerUnit} = ${formatCurrency(variableCOGS)}<br>
+                        - Variable selling: ${formatNumber(d.unitsSold)} × $${d.vSellingPerUnit} = ${formatCurrency(variableSelling)}<br>
+                        = Contribution margin: ${formatCurrency(contributionMargin)}<br>
+                        - Fixed MOH: ${formatCurrency(d.fixedMOH)}<br>
+                        - Fixed S&A: ${formatCurrency(d.fixedSGA)}<br>
+                        = Operating income: ${formatCurrency(Math.round(variableIncome))}`
+                    };
+                }
+            },
+            // Q24 - Conceptual (Variable vs Absorption with different production levels)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "Under variable costing, net operating income for Year 1 and Year 2 would be the same.", correct: false },
+                        { text: "Because of the changes in production levels, under variable costing the unit product cost will change each year.", correct: true },
+                        { text: "The net operating income for Year 1 would be the same under variable and absorption costing.", correct: false },
+                        { text: "Under absorption costing, net operating income in Year 1 would be less than the net operating income in Year 2.", correct: false }
+                    ];
+                    return {
+                        question: `Routsong Company had the following sales and production data for the past two years:<br><br>
                         <table class="data-table">
-                            <tr><th></th><th>Company</th><th>Case High School Job</th></tr>
-                            <tr><td>Direct materials</td><td>${formatCurrency(companyDM)}</td><td>${formatCurrency(jobDM)}</td></tr>
-                            <tr><td>Direct labor</td><td>${formatCurrency(companyDL)}</td><td>${formatCurrency(jobDL)}</td></tr>
-                            <tr><td>Manufacturing overhead costs</td><td>${formatCurrency(companyOH)}</td><td></td></tr>
-                            <tr><td>Machine-hours</td><td>${formatNumber(companyMH)} mh</td><td>${formatNumber(jobMH)} mh</td></tr>
+                            <tr><th></th><th>Year 1</th><th>Year 2</th></tr>
+                            <tr><td>Production in units</td><td>6,000</td><td>9,000</td></tr>
+                            <tr><td>Sales in units</td><td>6,000</td><td>6,000</td></tr>
                         </table>
-                        What are the total manufacturing costs of this job?`,
+                        Selling price per unit, variable cost per unit, and total fixed cost are the same in each year.<br><br>
+                        Which of the following statements is NOT correct?`,
                         options: shuffle(options),
-                        explanation: `OH rate = ${formatCurrency(companyOH)} / ${formatNumber(companyMH)} mh = $${ohRate.toFixed(2)} per mh<br>
-                        Job OH = ${formatNumber(jobMH)} mh × $${ohRate.toFixed(2)} = ${formatCurrency(Math.round(jobOH))}<br>
-                        Total = ${formatCurrency(jobDM)} + ${formatCurrency(jobDL)} + ${formatCurrency(Math.round(jobOH))} = ${formatCurrency(Math.round(totalJobCost))}`
+                        explanation: "Under variable costing, the unit product cost is constant because it only includes variable manufacturing costs. It does NOT change with production levels. This statement is false, so it's the correct answer to 'NOT correct'."
                     };
                 }
             },
-            // Q26 - Calculation (Journal Entry)
+            // Q25 - Short Answer (Variances) - For display only, no multiple choice
             {
-                type: 'calculation',
+                type: 'short_answer_calc',
                 generate: function() {
-                    const sales = randInt(45, 55) * 100000;
-                    const ohAllocated = randInt(800, 1200) * 1000;
-                    const ohControl = ohAllocated + randInt(300, 600) * 1000; // underapplied
-                    const cogs = randInt(30, 40) * 100000;
+                    const unitsProduced = randInt(14, 17) * 1000;
+                    const stdYards = randChoice([0.8, 0.9, 1.0, 1.1]);
+                    const stdPricePerYard = randInt(18, 25);
+                    const stdLaborHours = randChoice([1.2, 1.3, 1.4, 1.5]);
+                    const stdLaborRate = randInt(8, 12);
+                    const stdVOHRate = randInt(12, 18);
                     
-                    const underapplied = ohControl - ohAllocated;
+                    const actualLaborHours = Math.round(unitsProduced * stdLaborHours * randChoice([0.95, 1.0, 1.02, 1.05]));
+                    const yardsPurchased = Math.round(unitsProduced * stdYards * randChoice([1.05, 1.08, 1.1]));
+                    const yardsUsed = Math.round(unitsProduced * stdYards * randChoice([1.02, 1.05, 1.08]));
+                    const actualMaterialCost = yardsPurchased * (stdPricePerYard - randChoice([0.5, 0.75, 0.85, 1.0]));
+                    const actualLaborCost = actualLaborHours * (stdLaborRate - randChoice([0.3, 0.5, 0.8]));
+                    const actualVOH = actualLaborHours * (stdVOHRate + randChoice([0.15, 0.2, 0.25]));
                     
-                    const options = [
-                        { text: `Dr. Manufacturing overhead control ${formatCurrency(ohControl)}<br>&nbsp;&nbsp;&nbsp;&nbsp;Cr. Cost of goods sold ${formatCurrency(underapplied)}<br>&nbsp;&nbsp;&nbsp;&nbsp;Cr. Manufacturing overhead allocated ${formatCurrency(ohAllocated)}`, correct: false },
-                        { text: `Dr. Sales ${formatCurrency(sales)}<br>&nbsp;&nbsp;&nbsp;&nbsp;Cr. Cost of goods sold ${formatCurrency(cogs)}<br>&nbsp;&nbsp;&nbsp;&nbsp;Cr. Gross profit ${formatCurrency(sales - cogs)}`, correct: false },
-                        { text: `Dr. Finished goods ${formatCurrency(underapplied)}<br>Dr. Manufacturing overhead allocated ${formatCurrency(ohAllocated)}<br>&nbsp;&nbsp;&nbsp;&nbsp;Cr. Manufacturing overhead control ${formatCurrency(ohControl)}`, correct: false },
-                        { text: `Dr. Cost of goods sold ${formatCurrency(underapplied)}<br>Dr. Manufacturing overhead allocated ${formatCurrency(ohAllocated)}<br>&nbsp;&nbsp;&nbsp;&nbsp;Cr. Manufacturing overhead control ${formatCurrency(ohControl)}`, correct: true }
-                    ];
+                    // Store for display
+                    currentExamData.q25 = {
+                        unitsProduced, stdYards, stdPricePerYard, stdLaborHours, stdLaborRate, stdVOHRate,
+                        actualLaborHours, yardsPurchased, yardsUsed, actualMaterialCost, actualLaborCost, actualVOH
+                    };
+                    
+                    // Calculate variances
+                    const actualPricePerYard = actualMaterialCost / yardsPurchased;
+                    const mpv = actualMaterialCost - (yardsPurchased * stdPricePerYard);
+                    const mqv = (yardsUsed * stdPricePerYard) - (unitsProduced * stdYards * stdPricePerYard);
+                    
+                    const stdLaborHoursAllowed = unitsProduced * stdLaborHours;
+                    const lev = (actualLaborHours * stdLaborRate) - (stdLaborHoursAllowed * stdLaborRate);
+                    
+                    const vohSpending = actualVOH - (actualLaborHours * stdVOHRate);
                     
                     return {
-                        question: `The Robinson Corporation manufactures automobile parts. At year end, these are the balances:<br><br>
+                        question: `<strong>Question 25:</strong> Fullerton Corporation has developed the following cost standards for the production of its leather backpacks:<br><br>
                         <table class="data-table">
-                            <tr><td>Cost of goods sold</td><td>${formatCurrency(cogs)}</td></tr>
-                            <tr><td>Manufacturing overhead allocated</td><td>${formatCurrency(ohAllocated)}</td></tr>
-                            <tr><td>Manufacturing overhead control</td><td>${formatCurrency(ohControl)}</td></tr>
+                            <tr><th>Item</th><th>Standard Cost Per Backpack</th></tr>
+                            <tr><td>Leather (${stdYards} yards @ $${stdPricePerYard} per yard)</td><td>$${(stdYards * stdPricePerYard).toFixed(2)}</td></tr>
+                            <tr><td>Direct labor (${stdLaborHours} hours @ $${stdLaborRate}.00 per hour)</td><td>$${(stdLaborHours * stdLaborRate).toFixed(2)}</td></tr>
+                            <tr><td>Variable overhead (${stdLaborHours} hours @ $${stdVOHRate}.00 per hour)</td><td>$${(stdLaborHours * stdVOHRate).toFixed(2)}</td></tr>
                         </table>
-                        What would be the correct journal entry to close out the overhead accounts using the write-off to cost of goods sold approach?`,
-                        options: shuffle(options),
-                        explanation: `Underapplied OH = ${formatCurrency(ohControl)} - ${formatCurrency(ohAllocated)} = ${formatCurrency(underapplied)}<br>
-                        Dr. Cost of goods sold (to increase COGS by underapplied amount)<br>
-                        Dr. Manufacturing overhead allocated (to close)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Cr. Manufacturing overhead control (to close)`
-                    };
-                }
-            },
-            // Q27 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "A peanut-butter costing system typically has more-homogeneous indirect cost pools.", correct: false },
-                        { text: "A peanut-butter costing system broadly averages or spreads the cost of resources uniformly to cost objects.", correct: true },
-                        { text: "A peanut-butter costing system assumes that all costs are variable.", correct: false },
-                        { text: "In a peanut-butter costing system, costs of activities are used to assign costs to other cost objects such as products or services based on the activities the products or services consume.", correct: false }
-                    ];
-                    return {
-                        question: "Which of the following statements is true of a peanut-butter costing system?",
-                        options: shuffle(options),
-                        explanation: "Peanut-butter costing spreads costs uniformly (like spreading peanut butter), leading to potential over/under costing."
-                    };
-                }
-            },
-            // Q28 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "While refining a costing system, companies should identify as many indirect costs as is economically feasible.", correct: false },
-                        { text: "A homogeneous cost pool will use multiple cost drivers to allocate costs.", correct: false },
-                        { text: "It reduces the use of broad averages for assigning the cost of resources to cost objects.", correct: true },
-                        { text: "It is likely to yield the most decision-making benefits when direct costs are a high percentage of total costs.", correct: false }
-                    ];
-                    return {
-                        question: "Which of the following is true of refinement of a costing system?",
-                        options: shuffle(options),
-                        explanation: "Refinement reduces broad averages, providing more accurate cost assignments through ABC."
-                    };
-                }
-            },
-            // Q29 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "Factory rent expense", correct: false },
-                        { text: "Building security costs", correct: false },
-                        { text: "Top management compensation costs", correct: false },
-                        { text: "Machine depreciation", correct: true }
-                    ];
-                    return {
-                        question: "________ is an example of an output unit-level cost in the cost hierarchy.",
-                        options: shuffle(options),
-                        explanation: "Machine depreciation varies with units produced. Rent, security, and top management are facility-level costs."
-                    };
-                }
-            },
-            // Q30 - Conceptual
-            {
-                type: 'conceptual',
-                generate: function() {
-                    const options = [
-                        { text: "DACB", correct: false },
-                        { text: "DBCA", correct: false },
-                        { text: "BADC", correct: false },
-                        { text: "CDAB", correct: true }
-                    ];
-                    return {
-                        question: `Put the following ABC implementation steps in order:<br><br>
-                        A = Compute the allocation rates.<br>
-                        B = Compute the total cost of the products.<br>
-                        C = Identify the products that are the cost objects.<br>
-                        D = Select the cost allocation bases.`,
-                        options: shuffle(options),
-                        explanation: "Order: Identify cost objects (C) → Select allocation bases (D) → Compute rates (A) → Compute total cost (B)"
-                    };
-                }
-            },
-            // Q31 - Calculation
-            {
-                type: 'calculation',
-                generate: function() {
-                    const total = randInt(24, 32) * 1000;
-                    const l3ByDLH = randInt(17, 22) * 1000;
-                    const l7ByDLH = total - l3ByDLH;
-                    
-                    // ABC allocation should be different
-                    const diff = randInt(4, 8) * 1000;
-                    const l3BySetup = l3ByDLH - diff;
-                    const l7BySetup = total - l3BySetup;
-                    
-                    const options = [
-                        { text: `L3 pack is undercosted by ${formatCurrency(diff)}`, correct: false },
-                        { text: `L7 pack is undercosted by ${formatCurrency(diff - 100)}`, correct: false },
-                        { text: `L3 pack is overcosted by ${formatCurrency(diff)}`, correct: true },
-                        { text: `L7 pack is overcosted by ${formatCurrency(diff)}`, correct: false }
-                    ];
-                    
-                    return {
-                        question: `Extracts from cost information of Tuffy Corp:<br><br>
+                        Variable overhead at Fullerton is applied on the basis of direct labor hours. The actual results for last month were:<br><br>
                         <table class="data-table">
-                            <tr><th></th><th>Simple L3 Pack</th><th>Complex L7 Pack</th><th>Total</th></tr>
-                            <tr><td>Setup cost allocated using direct labor-hours</td><td>${formatCurrency(l3ByDLH)}</td><td>${formatCurrency(l7ByDLH)}</td><td>${formatCurrency(total)}</td></tr>
-                            <tr><td>Setup cost allocated using setup-hours</td><td>${formatCurrency(l3BySetup)}</td><td>${formatCurrency(l7BySetup)}</td><td>${formatCurrency(total)}</td></tr>
+                            <tr><td>Number of backpacks produced</td><td>${formatNumber(unitsProduced)}</td></tr>
+                            <tr><td>Direct labor hours incurred</td><td>${formatNumber(actualLaborHours)}</td></tr>
+                            <tr><td>Yards of leather purchased</td><td>${formatNumber(yardsPurchased)}</td></tr>
+                            <tr><td>Yards of leather used in production</td><td>${formatNumber(yardsUsed)}</td></tr>
+                            <tr><td>Cost of leather purchased</td><td>${formatCurrency(Math.round(actualMaterialCost))}</td></tr>
+                            <tr><td>Direct labor cost</td><td>${formatCurrency(Math.round(actualLaborCost))}</td></tr>
+                            <tr><td>Variable overhead cost</td><td>${formatCurrency(Math.round(actualVOH))}</td></tr>
                         </table>
-                        Assuming that setup-hours is considered a more effective cost driver for allocating setup costs than direct labor-hours. Which of the following statements is true of Tuffy's setup costs under traditional costing?`,
-                        options: shuffle(options),
-                        explanation: `Under traditional (DLH): L3 = ${formatCurrency(l3ByDLH)}<br>
-                        Under ABC (setup-hours): L3 = ${formatCurrency(l3BySetup)}<br>
-                        Difference = ${formatCurrency(l3ByDLH)} - ${formatCurrency(l3BySetup)} = ${formatCurrency(diff)}<br>
-                        L3 is overcosted by ${formatCurrency(diff)} under traditional costing.`
+                        Based on the information provided, compute the following variances:<br>
+                        <strong>a. Materials price variance.</strong><br>
+                        <strong>b. Materials quantity variance.</strong><br>
+                        <strong>c. Labor efficiency variance.</strong><br>
+                        <strong>d. Variable overhead spending variance.</strong>`,
+                        answer: `<strong>a. Materials price variance:</strong><br>
+                        = Actual cost - (Actual qty purchased × Standard price)<br>
+                        = ${formatCurrency(Math.round(actualMaterialCost))} - (${formatNumber(yardsPurchased)} × $${stdPricePerYard})<br>
+                        = ${formatCurrency(Math.round(actualMaterialCost))} - ${formatCurrency(yardsPurchased * stdPricePerYard)}<br>
+                        = <strong>${formatCurrency(Math.abs(Math.round(mpv)))} ${mpv < 0 ? 'Favorable' : 'Unfavorable'}</strong><br><br>
+                        
+                        <strong>b. Materials quantity variance:</strong><br>
+                        = (Actual qty used × Std price) - (Std qty allowed × Std price)<br>
+                        = (${formatNumber(yardsUsed)} × $${stdPricePerYard}) - (${formatNumber(unitsProduced)} × ${stdYards} × $${stdPricePerYard})<br>
+                        = ${formatCurrency(yardsUsed * stdPricePerYard)} - ${formatCurrency(unitsProduced * stdYards * stdPricePerYard)}<br>
+                        = <strong>${formatCurrency(Math.abs(Math.round(mqv)))} ${mqv > 0 ? 'Unfavorable' : 'Favorable'}</strong><br><br>
+                        
+                        <strong>c. Labor efficiency variance:</strong><br>
+                        = (Actual hours × Std rate) - (Std hours allowed × Std rate)<br>
+                        = (${formatNumber(actualLaborHours)} × $${stdLaborRate}) - (${formatNumber(unitsProduced)} × ${stdLaborHours} × $${stdLaborRate})<br>
+                        = ${formatCurrency(actualLaborHours * stdLaborRate)} - ${formatCurrency(stdLaborHoursAllowed * stdLaborRate)}<br>
+                        = <strong>${formatCurrency(Math.abs(Math.round(lev)))} ${lev > 0 ? 'Unfavorable' : 'Favorable'}</strong><br><br>
+                        
+                        <strong>d. Variable overhead spending variance:</strong><br>
+                        = Actual VOH - (Actual hours × Std VOH rate)<br>
+                        = ${formatCurrency(Math.round(actualVOH))} - (${formatNumber(actualLaborHours)} × $${stdVOHRate})<br>
+                        = ${formatCurrency(Math.round(actualVOH))} - ${formatCurrency(actualLaborHours * stdVOHRate)}<br>
+                        = <strong>${formatCurrency(Math.abs(Math.round(vohSpending)))} ${vohSpending > 0 ? 'Unfavorable' : 'Favorable'}</strong>`
                     };
                 }
             },
-            // Q32-34 - ABC Questions (grouped data)
+            // Q26 - Short Answer (Mercer Company - Materials and Labor Variances)
             {
-                type: 'calculation',
+                type: 'short_answer_calc',
                 generate: function() {
-                    // Generate ABC data
-                    const partsHandling = randInt(70, 90) * 10000;
-                    const machineCosts = randInt(35, 45) * 10000;
-                    const designCost = randInt(48, 60) * 10000;
-                    const batchSetup = randInt(18, 25) * 10000;
+                    const unitsProduced = randInt(4, 7) * 1000;
+                    const stdPoundsPerUnit = randInt(3, 5);
+                    const stdPricePerPound = randInt(7, 12);
                     
-                    const totalOH = partsHandling + machineCosts + designCost + batchSetup;
+                    // Generate actual data that works backwards
+                    const stdPoundsAllowed = unitsProduced * stdPoundsPerUnit;
+                    const actualPoundsUsed = stdPoundsAllowed + randInt(200, 600); // slightly more than standard
+                    const materialsPriceVariance = randInt(2, 5) * 1000; // unfavorable
+                    const actualMaterialCost = (actualPoundsUsed * stdPricePerPound) + materialsPriceVariance;
                     
-                    const aMH = randInt(18, 25) * 1000;
-                    const bMH = randInt(8, 12) * 1000;
-                    const totalMH = aMH + bMH;
+                    // Labor data
+                    const actualLaborHours = randInt(10, 13) * 1000 + randInt(0, 5) * 100;
+                    const stdLaborRate = randInt(11, 15);
+                    const laborEffVariance = randInt(5, 8) * 1000; // unfavorable
+                    const totalLaborVariance = laborEffVariance; // total = efficiency (no rate variance implied)
+                    const actualLaborCost = actualLaborHours * stdLaborRate; // Since total variance = efficiency variance, rate variance = 0
                     
-                    const aUnits = 100000;
-                    const bUnits = 12000;
+                    // Calculate standard hours allowed
+                    // SR(AH - SH) = LEV
+                    // stdLaborRate * (actualLaborHours - SH) = laborEffVariance
+                    // SH = actualLaborHours - (laborEffVariance / stdLaborRate)
+                    const stdHoursAllowed = actualLaborHours - (laborEffVariance / stdLaborRate);
                     
-                    // Single driver calculation (MH)
-                    const ohRatePerMH = totalOH / totalMH;
-                    const aOHperUnit = (ohRatePerMH * aMH) / aUnits;
-                    
-                    const wrongAnswers = [
-                        14,
-                        aOHperUnit + 2,
-                        98
-                    ];
-                    
-                    const options = [
-                        { text: `$${aOHperUnit.toFixed(2)}`, correct: true },
-                        { text: `$${wrongAnswers[0].toFixed(2)}`, correct: false },
-                        { text: `$${wrongAnswers[1].toFixed(2)}`, correct: false },
-                        { text: `$${wrongAnswers[2].toFixed(2)}`, correct: false }
-                    ];
-                    
-                    // Store data for Q33 and Q34
-                    currentExamData.q32 = {
-                        partsHandling, machineCosts, designCost, batchSetup,
-                        totalOH, aMH, bMH, totalMH, aUnits, bUnits, ohRatePerMH
-                    };
+                    // Calculate materials quantity variance
+                    const materialsQtyVariance = stdPricePerPound * (actualPoundsUsed - stdPoundsAllowed);
                     
                     return {
-                        question: `<div class="info-box"><strong>Use the following information for Questions 32-34:</strong></div>
-                        Titan Rock Company makes two products, A and B, and has developed the following overhead cost pools for its ABC system. During 2024, ${formatNumber(aUnits)} units of product A were produced and ${formatNumber(bUnits)} units of product B.<br><br>
+                        question: `<strong>Question 26:</strong> A partial standard cost card for the single product produced by Mercer Company is given below:<br><br>
+                        <ul>
+                            <li>Direct materials: ${stdPoundsPerUnit} pounds @ $${stdPricePerPound} per pound</li>
+                            <li>Direct labor: ? hours @ ? per hour</li>
+                        </ul>
+                        Last period the company produced ${formatNumber(unitsProduced)} units of product. Cost and other data associated with this production are given below:<br><br>
                         <table class="data-table">
-                            <tr><th>Pool</th><th>Cost in Pool</th><th>Cost Driver</th><th>Usage by A</th><th>Usage by B</th></tr>
-                            <tr><td>Parts Handling</td><td>${formatCurrency(partsHandling)}</td><td>Parts Received</td><td>300,000</td><td>100,000</td></tr>
-                            <tr><td>Machine costs</td><td>${formatCurrency(machineCosts)}</td><td>Machine hours</td><td>${formatNumber(aMH)}</td><td>${formatNumber(bMH)}</td></tr>
-                            <tr><td>Design Cost</td><td>${formatCurrency(designCost)}</td><td>Designer hours</td><td>1,000</td><td>4,000</td></tr>
-                            <tr><td>Batch Setup</td><td>${formatCurrency(batchSetup)}</td><td>Batches</td><td>100</td><td>300</td></tr>
+                            <tr><td>Direct materials purchased and used, at cost</td><td>${formatCurrency(actualMaterialCost)}</td><td></td></tr>
+                            <tr><td>Direct labor cost incurred (${formatNumber(actualLaborHours)} hours)</td><td>${formatCurrency(actualLaborCost)}</td><td></td></tr>
+                            <tr><td>Materials price variance</td><td>${formatCurrency(materialsPriceVariance)}</td><td>Unfavorable</td></tr>
+                            <tr><td>Labor efficiency variance</td><td>${formatCurrency(laborEffVariance)}</td><td>Unfavorable</td></tr>
+                            <tr><td>Total labor variance</td><td>${formatCurrency(totalLaborVariance)}</td><td>Unfavorable</td></tr>
+                        </table>
+                        Based on the information provided, compute the following for Mercer:<br>
+                        <strong>a. Determine the materials quantity variance.</strong><br>
+                        <strong>b. Determine the standard hours allowed for the production of the period.</strong>`,
+                        answer: `<strong>a. Materials quantity variance:</strong><br>
+                        Materials quantity variance = SP × (AQ − SQ)<br><br>
+                        First, find actual quantity used:<br>
+                        Since Materials Price Variance = Actual Cost - (AQ × SP)<br>
+                        ${formatCurrency(materialsPriceVariance)} = ${formatCurrency(actualMaterialCost)} - (AQ × $${stdPricePerPound})<br>
+                        AQ × $${stdPricePerPound} = ${formatCurrency(actualMaterialCost)} - ${formatCurrency(materialsPriceVariance)}<br>
+                        AQ = ${formatCurrency(actualMaterialCost - materialsPriceVariance)} ÷ $${stdPricePerPound} = ${formatNumber(actualPoundsUsed)} pounds<br><br>
+                        Standard quantity allowed = ${formatNumber(unitsProduced)} units × ${stdPoundsPerUnit} pounds/unit = ${formatNumber(stdPoundsAllowed)} pounds<br><br>
+                        Materials quantity variance = $${stdPricePerPound} × (${formatNumber(actualPoundsUsed)} - ${formatNumber(stdPoundsAllowed)})<br>
+                        = $${stdPricePerPound} × ${formatNumber(actualPoundsUsed - stdPoundsAllowed)}<br>
+                        = <strong>${formatCurrency(materialsQtyVariance)} Unfavorable</strong><br><br>
+                        
+                        <strong>b. Standard hours allowed:</strong><br>
+                        Since Total Labor Variance = Labor Efficiency Variance, the Labor Rate Variance = $0<br>
+                        This means actual rate = standard rate = ${formatCurrency(actualLaborCost)} ÷ ${formatNumber(actualLaborHours)} = $${stdLaborRate}<br><br>
+                        Labor Efficiency Variance = SR × (AH − SH)<br>
+                        ${formatCurrency(laborEffVariance)} = $${stdLaborRate} × (${formatNumber(actualLaborHours)} − SH)<br>
+                        ${formatNumber(actualLaborHours)} − SH = ${formatCurrency(laborEffVariance)} ÷ $${stdLaborRate}<br>
+                        ${formatNumber(actualLaborHours)} − SH = ${formatNumber(laborEffVariance / stdLaborRate)}<br>
+                        SH = ${formatNumber(actualLaborHours)} - ${formatNumber(laborEffVariance / stdLaborRate)}<br>
+                        <strong>SH = ${formatNumber(stdHoursAllowed)} hours</strong>`
+                    };
+                }
+            },
+            // Q27 - Short Answer (Absorption vs Variable Costing)
+            {
+                type: 'short_answer_calc',
+                generate: function() {
+                    const sellingPrice = randInt(18, 25);
+                    const unitsSold = randInt(25, 32) * 1000;
+                    const unitsProduced = unitsSold + randInt(1, 4) * 1000;
+                    const laborMinutes = randInt(12, 18);
+                    const laborRatePerHour = randInt(20, 28);
+                    const fixedSGA = randInt(35, 50) * 1000;
+                    const fixedMOH = randInt(100, 150) * 1000;
+                    const dmPerUnit = randInt(1, 3);
+                    const vmohPerUnit = randInt(3, 6);
+                    const vSellingPerUnit = randInt(1, 3);
+                    
+                    const dlPerUnit = laborRatePerHour * (laborMinutes / 60);
+                    const fohPerUnit = fixedMOH / unitsProduced;
+                    
+                    const absorptionCost = dmPerUnit + dlPerUnit + vmohPerUnit + fohPerUnit;
+                    const variableCost = dmPerUnit + dlPerUnit + vmohPerUnit;
+                    
+                    const endingUnits = unitsProduced - unitsSold;
+                    const absorptionEnding = endingUnits * absorptionCost;
+                    const variableEnding = endingUnits * variableCost;
+                    
+                    return {
+                        question: `<strong>Question 27:</strong> Jarvis Golf Company sells a special putter for $${sellingPrice} each. In March, it sold ${formatNumber(unitsSold)} putters while manufacturing ${formatNumber(unitsProduced)}. There was no beginning inventory on March 1. Production information for March was:<br><br>
+                        <table class="data-table">
+                            <tr><td>Direct manufacturing labor per unit</td><td>${laborMinutes} minutes</td></tr>
+                            <tr><td>Fixed selling and administrative costs</td><td>${formatCurrency(fixedSGA)}</td></tr>
+                            <tr><td>Fixed manufacturing overhead</td><td>${formatCurrency(fixedMOH)}</td></tr>
+                            <tr><td>Direct materials cost per unit</td><td>$${dmPerUnit}</td></tr>
+                            <tr><td>Direct manufacturing labor per hour</td><td>$${laborRatePerHour}</td></tr>
+                            <tr><td>Variable manufacturing overhead per unit</td><td>$${vmohPerUnit}</td></tr>
+                            <tr><td>Variable selling expenses per unit</td><td>$${vSellingPerUnit}</td></tr>
+                        </table>
+                        <br><strong>a. Compute the cost per unit under both absorption and variable costing.</strong>
+                        <br><strong>b. Compute the ending inventories under both absorption and variable costing.</strong>`,
+                        answer: `<strong>a. Cost per unit:</strong><br>
+                        <table class="data-table">
+                            <tr><th></th><th>Absorption</th><th>Variable</th></tr>
+                            <tr><td>Direct manufacturing labor ($${laborRatePerHour} × ${laborMinutes}/60)</td><td>$${dlPerUnit.toFixed(2)}</td><td>$${dlPerUnit.toFixed(2)}</td></tr>
+                            <tr><td>Direct materials</td><td>$${dmPerUnit.toFixed(2)}</td><td>$${dmPerUnit.toFixed(2)}</td></tr>
+                            <tr><td>Variable manufacturing overhead</td><td>$${vmohPerUnit.toFixed(2)}</td><td>$${vmohPerUnit.toFixed(2)}</td></tr>
+                            <tr><td>Fixed manufacturing overhead (${formatCurrency(fixedMOH)}/${formatNumber(unitsProduced)})</td><td>$${fohPerUnit.toFixed(2)}</td><td>$0.00</td></tr>
+                            <tr><td><strong>Total cost per unit</strong></td><td><strong>$${absorptionCost.toFixed(2)}</strong></td><td><strong>$${variableCost.toFixed(2)}</strong></td></tr>
                         </table><br>
-                        <strong>Question 32:</strong> What is the overhead cost per unit for product A if all overhead is assigned using the single overhead driver of machine hours (to the nearest cent)?`,
-                        options: shuffle(options),
-                        explanation: `Total OH = ${formatCurrency(partsHandling)} + ${formatCurrency(machineCosts)} + ${formatCurrency(designCost)} + ${formatCurrency(batchSetup)} = ${formatCurrency(totalOH)}<br>
-                        Total MH = ${formatNumber(aMH)} + ${formatNumber(bMH)} = ${formatNumber(totalMH)}<br>
-                        OH rate = ${formatCurrency(totalOH)} / ${formatNumber(totalMH)} = $${ohRatePerMH.toFixed(2)} per MH<br>
-                        OH per unit A = $${ohRatePerMH.toFixed(2)} × ${formatNumber(aMH)} / ${formatNumber(aUnits)} = $${aOHperUnit.toFixed(2)}`
-                    };
-                }
-            },
-            // Q33
-            {
-                type: 'calculation',
-                generate: function() {
-                    const d = currentExamData.q32 || { designCost: 540000 };
-                    const designCost = d.designCost || 540000;
-                    const totalDesignHours = 5000;
-                    const ratePerDesignHour = designCost / totalDesignHours;
-                    
-                    const wrongAnswers = [
-                        500,
-                        125,
-                        0.10
-                    ];
-                    
-                    const options = [
-                        { text: `$${wrongAnswers[0]}`, correct: false },
-                        { text: `$${wrongAnswers[1]}`, correct: false },
-                        { text: `$${ratePerDesignHour}`, correct: true },
-                        { text: `$${wrongAnswers[2].toFixed(2)}`, correct: false }
-                    ];
-                    
-                    return {
-                        question: `<strong>Question 33:</strong> What is the overhead cost per designer hour in the design cost pool?`,
-                        options: shuffle(options),
-                        explanation: `Design cost rate = ${formatCurrency(designCost)} / (1,000 + 4,000) = ${formatCurrency(designCost)} / 5,000 = $${ratePerDesignHour} per designer hour`
-                    };
-                }
-            },
-            // Q34
-            {
-                type: 'calculation',
-                generate: function() {
-                    const d = currentExamData.q32 || {};
-                    const partsHandling = d.partsHandling || 820000;
-                    const machineCosts = d.machineCosts || 400000;
-                    const designCost = d.designCost || 540000;
-                    const batchSetup = d.batchSetup || 200000;
-                    const bMH = d.bMH || 10000;
-                    
-                    // ABC rates and allocation to B
-                    const partsRate = partsHandling / 400000;
-                    const bParts = partsRate * 100000;
-                    
-                    const machineRate = machineCosts / (d.totalMH || 30000);
-                    const bMachine = machineRate * bMH;
-                    
-                    const designRate = designCost / 5000;
-                    const bDesign = designRate * 4000;
-                    
-                    const batchRate = batchSetup / 400;
-                    const bBatch = batchRate * 300;
-                    
-                    const totalB = bParts + bMachine + bDesign + bBatch;
-                    
-                    const wrongAnswers = [
-                        653333,
-                        1470000,
-                        d.totalOH || 1960000
-                    ];
-                    
-                    const options = [
-                        { text: formatCurrency(Math.round(totalB)), correct: true },
-                        { text: formatCurrency(wrongAnswers[0]), correct: false },
-                        { text: formatCurrency(wrongAnswers[1]), correct: false },
-                        { text: formatCurrency(wrongAnswers[2]), correct: false }
-                    ];
-                    
-                    return {
-                        question: `<strong>Question 34:</strong> How much total overhead would be charged to product B using ABC? (Round rates to nearest cent)`,
-                        options: shuffle(options),
-                        explanation: `Parts: $${partsRate.toFixed(2)} × 100,000 = ${formatCurrency(Math.round(bParts))}<br>
-                        Machine: $${machineRate.toFixed(2)} × ${formatNumber(bMH)} = ${formatCurrency(Math.round(bMachine))}<br>
-                        Design: $${designRate.toFixed(2)} × 4,000 = ${formatCurrency(Math.round(bDesign))}<br>
-                        Setup: $${batchRate.toFixed(2)} × 300 = ${formatCurrency(Math.round(bBatch))}<br>
-                        Total = ${formatCurrency(Math.round(totalB))}`
-                    };
-                }
-            },
-            // Q35 - Short Answer (Classification)
-            {
-                type: 'short_answer',
-                generate: function() {
-                    return {
-                        question: `<strong>Short Answer Question 35:</strong> Classify the following costs for an auto manufacturer as either Direct Materials, Direct Labor, Manufacturing Overhead, or Period Costs:<br><br>
-                        a. Steel used in automobiles<br>
-                        b. Assembly department employee wages<br>
-                        c. Glass used in automobiles<br>
-                        d. Maintenance supplies<br>
-                        e. Plant manager's salary<br>
-                        f. CEO's salary`,
-                        answer: `<table class="data-table">
-                            <tr><th></th><th>Direct Materials</th><th>Direct Labor</th><th>Mfg Overhead</th><th>Period Cost</th></tr>
-                            <tr><td>a. Steel</td><td><strong>X</strong></td><td></td><td></td><td></td></tr>
-                            <tr><td>b. Assembly wages</td><td></td><td><strong>X</strong></td><td></td><td></td></tr>
-                            <tr><td>c. Glass</td><td><strong>X</strong></td><td></td><td></td><td></td></tr>
-                            <tr><td>d. Maintenance supplies</td><td></td><td></td><td><strong>X</strong></td><td></td></tr>
-                            <tr><td>e. Plant manager</td><td></td><td></td><td><strong>X</strong></td><td></td></tr>
-                            <tr><td>f. CEO salary</td><td></td><td></td><td></td><td><strong>X</strong></td></tr>
+                        
+                        <strong>b. Ending inventories:</strong><br>
+                        <table class="data-table">
+                            <tr><th></th><th>Absorption</th><th>Variable</th></tr>
+                            <tr><td>Beginning inventory</td><td>$0</td><td>$0</td></tr>
+                            <tr><td>Cost of goods manufactured</td><td>${formatNumber(unitsProduced)} × $${absorptionCost.toFixed(2)} = ${formatCurrency(Math.round(unitsProduced * absorptionCost))}</td><td>${formatNumber(unitsProduced)} × $${variableCost.toFixed(2)} = ${formatCurrency(unitsProduced * variableCost)}</td></tr>
+                            <tr><td>Cost of goods available for sale</td><td>${formatCurrency(Math.round(unitsProduced * absorptionCost))}</td><td>${formatCurrency(unitsProduced * variableCost)}</td></tr>
+                            <tr><td>Cost of goods sold</td><td>${formatNumber(unitsSold)} × $${absorptionCost.toFixed(2)} = ${formatCurrency(Math.round(unitsSold * absorptionCost))}</td><td>${formatNumber(unitsSold)} × $${variableCost.toFixed(2)} = ${formatCurrency(unitsSold * variableCost)}</td></tr>
+                            <tr><td><strong>Ending inventory</strong></td><td><strong>${formatCurrency(Math.round(absorptionEnding))}</strong></td><td><strong>${formatCurrency(Math.round(variableEnding))}</strong></td></tr>
                         </table>`
-                    };
-                }
-            },
-            // Q36-38 - ABC Short Answer
-            {
-                type: 'short_answer_calc',
-                generate: function() {
-                    const eqDepn = randInt(80, 95) * 1000;
-                    const indLabor = randInt(4, 6) * 1000;
-                    
-                    // Distribution percentages
-                    const machEq = 0.20;
-                    const setupEq = 0.50;
-                    const otherEq = 0.30;
-                    const machLab = 0.20;
-                    const setupLab = 0.40;
-                    const otherLab = 0.40;
-                    
-                    const machTotal = (eqDepn * machEq) + (indLabor * machLab);
-                    const setupTotal = (eqDepn * setupEq) + (indLabor * setupLab);
-                    const otherTotal = (eqDepn * otherEq) + (indLabor * otherLab);
-                    
-                    const totalMH = 10000;
-                    const totalBatches = 1000;
-                    
-                    const s4MH = randInt(3000, 4500);
-                    const c0MH = totalMH - s4MH;
-                    const s4Batches = randInt(500, 700);
-                    const c0Batches = totalBatches - s4Batches;
-                    
-                    const machRate = machTotal / totalMH;
-                    const setupRate = setupTotal / totalBatches;
-                    
-                    const c0OH = (machRate * c0MH) + (setupRate * c0Batches);
-                    
-                    currentExamData.q36 = {
-                        eqDepn, indLabor, machTotal, setupTotal, otherTotal,
-                        totalMH, totalBatches, s4MH, c0MH, s4Batches, c0Batches,
-                        machRate, setupRate, c0OH
-                    };
-                    
-                    return {
-                        question: `<div class="info-box"><strong>Use the following information for Questions 36-38:</strong></div>
-                        Howell Corporation's activity-based costing system has three activity cost pools—Machining, Setting Up, and Other. Overhead costs consist of equipment depreciation and indirect labor allocated to pools in proportion to resource consumption.<br><br>
-                        <table class="data-table">
-                            <tr><td>Equipment depreciation (total)</td><td>${formatCurrency(eqDepn)}</td></tr>
-                            <tr><td>Indirect labor (total)</td><td>${formatCurrency(indLabor)}</td></tr>
-                        </table><br>
-                        <table class="data-table">
-                            <tr><th>Distribution of Resource Consumption</th><th>Machining</th><th>Setting Up</th><th>Other</th></tr>
-                            <tr><td>Equipment depreciation</td><td>0.20</td><td>0.50</td><td>0.30</td></tr>
-                            <tr><td>Indirect labor</td><td>0.20</td><td>0.40</td><td>0.40</td></tr>
-                        </table><br>
-                        Machining costs are assigned based on machine-hours (MHs). Setting Up costs are assigned based on batches. Other costs are not assigned.<br><br>
-                        <table class="data-table">
-                            <tr><th></th><th>MHs</th><th>Batches</th></tr>
-                            <tr><td>Product S4</td><td>${formatNumber(s4MH)}</td><td>${s4Batches}</td></tr>
-                            <tr><td>Product C0</td><td>${formatNumber(c0MH)}</td><td>${c0Batches}</td></tr>
-                            <tr><td><strong>Total</strong></td><td><strong>${formatNumber(totalMH)}</strong></td><td><strong>${totalBatches}</strong></td></tr>
-                        </table><br>
-                        <strong>Question 36:</strong> What is the total cost assigned to Machining Cost Pool?`,
-                        answer: `<table class="data-table">
-                            <tr><th></th><th>Machining</th><th>Setting Up</th><th>Other</th><th>Total</th></tr>
-                            <tr><td>Equipment depreciation</td><td>${formatCurrency(eqDepn * machEq)}</td><td>${formatCurrency(eqDepn * setupEq)}</td><td>${formatCurrency(eqDepn * otherEq)}</td><td>${formatCurrency(eqDepn)}</td></tr>
-                            <tr><td>Indirect labor</td><td>${formatCurrency(indLabor * machLab)}</td><td>${formatCurrency(indLabor * setupLab)}</td><td>${formatCurrency(indLabor * otherLab)}</td><td>${formatCurrency(indLabor)}</td></tr>
-                            <tr><td><strong>Total</strong></td><td><strong>${formatCurrency(machTotal)}</strong></td><td>${formatCurrency(setupTotal)}</td><td>${formatCurrency(otherTotal)}</td><td>${formatCurrency(eqDepn + indLabor)}</td></tr>
-                        </table><br>
-                        <strong>Answer: ${formatCurrency(machTotal)}</strong>`
-                    };
-                }
-            },
-            // Q37
-            {
-                type: 'short_answer_calc',
-                generate: function() {
-                    const d = currentExamData.q36 || {};
-                    return {
-                        question: `<strong>Question 37:</strong> Calculate activity rates for each activity cost pool using activity-based costing.`,
-                        answer: `<table class="data-table">
-                            <tr><th>Activity Cost Pool</th><th>Total Cost</th><th>Total Activity</th><th>Activity Rate</th></tr>
-                            <tr><td>Machining</td><td>${formatCurrency(d.machTotal || 18200)}</td><td>${formatNumber(d.totalMH || 10000)} MHs</td><td><strong>$${(d.machRate || 1.82).toFixed(2)} per MH</strong></td></tr>
-                            <tr><td>Setting up</td><td>${formatCurrency(d.setupTotal || 45000)}</td><td>${d.totalBatches || 1000} batches</td><td><strong>$${(d.setupRate || 45).toFixed(2)} per batch</strong></td></tr>
-                        </table>`
-                    };
-                }
-            },
-            // Q38
-            {
-                type: 'short_answer_calc',
-                generate: function() {
-                    const d = currentExamData.q36 || {};
-                    const machCost = (d.machRate || 1.82) * (d.c0MH || 6300);
-                    const setupCost = (d.setupRate || 45) * (d.c0Batches || 400);
-                    const total = machCost + setupCost;
-                    
-                    return {
-                        question: `<strong>Question 38:</strong> Determine the amount of overhead cost that would be assigned to Product C0 using activity-based costing.`,
-                        answer: `<table class="data-table">
-                            <tr><th></th><th>Activity Rate</th><th>Activity</th><th>ABC Cost</th></tr>
-                            <tr><td>Machining</td><td>$${(d.machRate || 1.82).toFixed(2)} per MH</td><td>${formatNumber(d.c0MH || 6300)} MHs</td><td>${formatCurrency(Math.round(machCost))}</td></tr>
-                            <tr><td>Setting up</td><td>$${(d.setupRate || 45).toFixed(2)} per batch</td><td>${d.c0Batches || 400} batches</td><td>${formatCurrency(Math.round(setupCost))}</td></tr>
-                            <tr><td colspan="3"><strong>Total</strong></td><td><strong>${formatCurrency(Math.round(total))}</strong></td></tr>
-                        </table><br>
-                        <strong>Answer: ${formatCurrency(Math.round(total))}</strong>`
                     };
                 }
             }
@@ -1472,7 +1275,7 @@
                 <div class="grade-result" id="gradeResult">
                     <div class="grade-percentage" id="gradePercentage">0%</div>
                     <div class="grade-letter" id="gradeLetter">F</div>
-                    <div class="grade-details" id="gradeDetails">0/34 multiple choice correct</div>
+                    <div class="grade-details" id="gradeDetails">0/24 multiple choice correct</div>
                     <div class="unanswered-warning" id="unansweredWarning"></div>
                 </div>
             `;
@@ -1493,9 +1296,9 @@
         function submitExam() {
             let correct = 0;
             let answered = 0;
-            const totalMC = 34; // Questions 1-34 are multiple choice
+            const totalMC = 24; // Questions 1-24 are multiple choice
             
-            // Grade only the multiple choice questions (first 34)
+            // Grade only the multiple choice questions (first 24)
             for (let i = 0; i < totalMC; i++) {
                 const selected = document.querySelector(`input[name="q${i}"]:checked`);
                 const options = document.querySelectorAll(`[id^="q${i}_opt"]`);
