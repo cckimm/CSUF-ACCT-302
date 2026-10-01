@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Budgeting Concepts: Interactive Examples</title>
+<meta name="description" content="Interactive examples: stretch targets, kaizen budgeting, and rolling budgets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#262626; --muted:#6b6b6b; --panel:#f2f2f2; --track:#dcdcdc;
+  --gray:#a5a5a5; --gold:#ffc000; --blue:#0070c0; --green:#2ea043; --red:#c82828; --onband:#ffffff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1c1e; --ink:#f0f0f0; --muted:#a8a8a8; --panel:#2a2a2d; --track:#45454a;
+    --gray:#7a7a7a; --blue:#4aa3e8; --green:#4cc86a; --red:#ff6b6b;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1c1c1e; --ink:#f0f0f0; --muted:#a8a8a8; --panel:#2a2a2d; --track:#45454a;
+  --gray:#7a7a7a; --blue:#4aa3e8; --green:#4cc86a; --red:#ff6b6b;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{ scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; min-height:100%; background:var(--bg); color:var(--ink);
+  font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif;
+  font-size:clamp(14px,1.9vw,24px); display:flex; flex-direction:column;
+}
+.tabs{display:flex; gap:0; flex:0 0 auto}
+.tab{
+  flex:1; border:0; cursor:pointer; font:inherit; font-weight:700;
+  font-size:1.35em; padding:.55em .8em; color:var(--onband);
+  display:flex; align-items:center; gap:.6em; opacity:.55; transition:opacity .2s;
+}
+.tab[data-k="stretch"]{background:var(--gray)}
+.tab[data-k="kaizen"]{background:var(--gold)}
+.tab[aria-selected="true"]{opacity:1}
+.tab:focus-visible{outline:4px solid var(--blue); outline-offset:-4px}
+.tab svg{width:1.4em; height:1.4em; flex:0 0 auto}
+main{flex:1; min-height:0; padding:1.1em 2.5vw .6em; display:flex; flex-direction:column}
+section{display:none; flex:1; min-height:0; flex-direction:column; gap:1em}
+section.on{display:flex}
+
+/* Stretch */
+.plans{display:grid; grid-template-columns:1fr auto 1fr; gap:1em; align-items:stretch}
+.plan{background:var(--panel); border:.2em solid var(--gray); border-radius:.8em; padding:.9em 1.1em; position:relative}
+.plan.b{border-color:var(--blue)}
+.plan h3{margin:0 0 .3em; font-size:1.3em}
+.plan.b h3{color:var(--blue)}
+.plan .rule{margin:0; color:var(--ink); line-height:1.3}
+.tag{position:absolute; right:.2em; top:-1.5em; color:var(--blue); font-weight:700}
+.big{font-size:2.6em; font-weight:700; text-align:center; margin:.15em 0 0; font-variant-numeric:tabular-nums}
+.row{display:flex; justify-content:space-between; align-items:baseline}
+.row b{font-size:1.2em; font-variant-numeric:tabular-nums}
+.bar{height:.9em; background:var(--track); border-radius:.45em; overflow:hidden; margin-top:.35em}
+.bar i{display:block; height:100%; width:0; border-radius:.45em; transition:width .15s}
+.gain b{color:var(--green)} .gain i{background:var(--green)}
+.loss b{color:var(--red)} .loss i{background:var(--red)}
+.mid{display:flex; align-items:center; justify-content:center}
+.eq{width:2.6em; height:2.6em; border-radius:50%; background:var(--gold); color:#262626;
+    display:grid; place-items:center; font-weight:700; font-size:1.3em}
+
+.control{padding:.2em 1em 0}
+.control label{display:flex; justify-content:space-between; align-items:baseline; font-weight:700}
+.control output{color:var(--blue); font-size:1.4em; font-variant-numeric:tabular-nums}
+.ends{display:flex; justify-content:space-between; color:var(--muted); font-size:.85em}
+input[type=range]{width:100%; margin:.5em 0 .2em; -webkit-appearance:none; appearance:none; height:1.1em; background:transparent; cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:.7em; border-radius:.35em; background:linear-gradient(to right,var(--gold) var(--p,0%),var(--track) var(--p,0%))}
+input[type=range]::-moz-range-track{height:.7em; border-radius:.35em; background:linear-gradient(to right,var(--gold) var(--p,0%),var(--track) var(--p,0%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:1.6em; height:1.6em; margin-top:-.45em; border-radius:50%; background:var(--bg); border:.2em solid var(--ink)}
+input[type=range]::-moz-range-thumb{width:1.2em; height:1.2em; border-radius:50%; background:var(--bg); border:.2em solid var(--ink)}
+input[type=range]:focus-visible{outline:3px solid var(--blue); outline-offset:4px; border-radius:.5em}
+
+.take{margin-top:.4em; border-radius:.8em; padding:.7em 1.1em; line-height:1.35}
+.take p{margin:0}
+.take strong{display:block; font-size:1.1em}
+#stretch .take{background:var(--gold); color:#262626}
+#kaizen .take{background:var(--gray); color:#fff}
+
+/* Kaizen */
+.chartwrap{flex:1; min-height:15em; display:grid; grid-template-columns:1fr 12em; gap:1em}
+.chart{position:relative; border-left:3px solid var(--ink); border-bottom:3px solid var(--ink); display:flex; align-items:flex-end; justify-content:space-around; padding:0 1em}
+.col{width:18%; height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; position:relative}
+.col .fill{width:100%; background:var(--gold); transition:height .35s ease; display:flex; flex-direction:column; align-items:center; padding-top:.3em; color:#262626; font-weight:700; font-size:1.15em; font-variant-numeric:tabular-nums}
+.col .chip{margin-top:.3em; background:#fff; color:var(--green); border-radius:.4em; padding:0 .4em; font-size:.8em}
+.col .q{position:absolute; bottom:-1.6em; font-weight:700}
+.trad{position:absolute; left:0; right:0; border-top:4px dashed var(--muted); pointer-events:none}
+.side{display:flex; flex-direction:column; justify-content:center; gap:1em}
+.side .t{color:var(--muted)}
+.side .s{color:var(--green); font-weight:700}
+.side .n{font-size:2em; display:block; font-variant-numeric:tabular-nums}
+.kctrl{margin-top:1.6em}
+.hint{color:var(--muted); font-size:.7em; text-align:right; margin-top:.4em}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+@media (max-width:640px){
+  .plans{grid-template-columns:1fr} .mid{padding:.2em}
+  .chartwrap{grid-template-columns:1fr}
+}
+
+.tab[data-k="rolling"]{background:var(--blue)}
+.tl{display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:.35em; position:relative}
+.qh{text-align:center; font-weight:700; font-size:.8em; padding-bottom:.2em}
+.qh.y2{color:var(--muted)}
+.rowhead{display:flex; justify-content:space-between; align-items:baseline; font-weight:700; margin:.5em 0 .3em}
+.rowhead .ro{font-variant-numeric:tabular-nums}
+.rowhead.b{color:var(--blue)}
+.qb{border-radius:.4em; min-height:2.6em; display:grid; place-items:center; text-align:center; font-weight:700; font-size:.8em; transition:background .35s, color .35s, border-color .35s; border:2px solid transparent; padding:.2em}
+.qb.done{background:var(--track); color:var(--muted)}
+.qb.bud{background:var(--gold); color:#262626}
+.qb.neu{background:var(--green); color:#fff}
+.qb.none{background:transparent; border:2px dashed var(--track); color:var(--muted); font-weight:400}
+.track{position:relative}
+.win{position:absolute; top:-.35em; bottom:-.35em; width:calc(50% + .23em); border:.22em solid var(--blue); border-radius:.6em; pointer-events:none; transition:left .45s ease; left:0}
+.today{position:absolute; top:-.4em; bottom:-.4em; width:0; border-left:.18em dashed var(--red); transition:left .45s ease}
+.todaylab{position:absolute; bottom:-1.7em; transform:translateX(-50%); color:var(--red); font-weight:700; font-size:.8em; white-space:nowrap; transition:left .45s ease}
+.cap{min-height:2.6em; margin:1.6em 0 0}
+.legend{display:flex; flex-wrap:wrap; gap:1.2em; color:var(--muted); font-size:.75em}
+.legend span{display:inline-flex; align-items:center; gap:.4em}
+.legend i{display:inline-block; width:1.2em; height:.8em; border-radius:.2em}
+.btns{display:flex; gap:.6em; margin-top:.3em}
+.btns button{font:inherit; font-weight:700; border:2px solid var(--ink); background:var(--bg); color:var(--ink); border-radius:.5em; padding:.3em .9em; cursor:pointer}
+.btns button:focus-visible{outline:3px solid var(--blue); outline-offset:2px}
+#rolling .take{background:var(--gold); color:#262626}
+.fade{opacity:0; transition:opacity .3s} .fade.show{opacity:1}
+@media (max-width:640px){ .qb{font-size:.62em; min-height:3em} .qh{font-size:.6em} .rowhead{font-size:.85em} }
+</style>
+</head>
+<body>
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" data-k="stretch" aria-selected="true">
+    <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="4"><circle cx="22" cy="26" r="18"/><circle cx="22" cy="26" r="10"/><circle cx="22" cy="26" r="3" fill="#fff"/><path d="M22 26 42 6M36 6h6v6"/></svg>
+    Stretch targets
+  </button>
+  <button class="tab" role="tab" data-k="kaizen" aria-selected="false">
+    <svg viewBox="0 0 48 48"><text x="24" y="40" text-anchor="middle" font-size="44" fill="#fff" font-family="Carlito,Calibri,Arial">$</text></svg>
+    Kaizen budgeting
+  </button>
+  <button class="tab" role="tab" data-k="rolling" aria-selected="false">
+    <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="4"><rect x="6" y="10" width="36" height="32" rx="4"/><path d="M6 20h36M16 6v8M32 6v8"/></svg>
+    Rolling budget
+  </button>
+</div>
+
+<main>
+<section id="stretch" class="on" role="tabpanel">
+  <div class="plans">
+    <div class="plan a">
+      <h3>Plan A: earn your way up</h3>
+      <p class="rule">$80,000 at $1.0M sales, plus $0.08 for every $ between $1.0M and $1.1M</p>
+      <div class="big" id="bA">$80,000</div>
+      <div class="gain"><div class="row"><span>Gain above $1.0M</span><b id="gA">+$0</b></div><div class="bar"><i id="gAbar"></i></div></div>
+    </div>
+    <div class="mid"><div class="eq" id="eq">=</div></div>
+    <div class="plan b">
+      <span class="tag">Stretch target!</span>
+      <h3>Plan B: $1.1M is the target</h3>
+      <p class="rule">$88,000 at $1.1M sales, but lose $0.08 for every $ below $1.1M</p>
+      <div class="big" id="bB">$80,000</div>
+      <div class="loss"><div class="row"><span>Shortfall penalty</span><b id="lB">−$8,000</b></div><div class="bar"><i id="lBbar"></i></div></div>
+    </div>
+  </div>
+  <div class="control">
+    <label for="sales">Drag to change actual sales <output id="sOut">$1,000,000</output></label>
+    <input type="range" id="sales" min="1000000" max="1100000" step="5000" value="1000000">
+    <div class="ends"><span>$1.0M</span><span>$1.1M</span></div>
+  </div>
+  <div class="take">
+    <strong>Same payout at every sales level, so why use Plan B?</strong>
+    <p>Plan B makes $1.1M the goal. Falling short feels like a loss, so managers stretch harder.</p>
+  </div>
+</section>
+
+<section id="kaizen" role="tabpanel">
+  <div class="chartwrap">
+    <div class="chart" id="chart">
+      <div class="trad" id="trad"></div>
+    </div>
+    <div class="side">
+      <div class="t"><b>Traditional budget</b><br>10.0 hrs every quarter</div>
+      <div class="s">Built-in savings by Q4<span class="n" id="save">1.5 hrs/unit</span></div>
+    </div>
+  </div>
+  <div class="control kctrl">
+    <label for="imp">Expected improvement each quarter <output id="iOut">0.5 hr</output></label>
+    <input type="range" id="imp" min="0" max="1" step="0.1" value="0.5">
+    <div class="ends"><span>0 hr (no kaizen)</span><span>1.0 hr</span></div>
+  </div>
+  <div class="take">
+    <strong>Each period's budget expects a little improvement over the last.</strong>
+    <p>Budgeted labor-hours per unit (illustrative numbers). The budget itself pushes continuous improvement.</p>
+  </div>
+</section>
+
+<section id="rolling" role="tabpanel">
+  <div>
+    <div class="tl" aria-hidden="true">
+      <div class="qh">Q1 2026</div><div class="qh">Q2 2026</div><div class="qh">Q3 2026</div><div class="qh">Q4 2026</div>
+      <div class="qh y2">Q1 2027</div><div class="qh y2">Q2 2027</div><div class="qh y2">Q3 2027</div><div class="qh y2">Q4 2027</div>
+    </div>
+    <div class="rowhead"><span>Annual budget (1 year)</span><span class="ro" id="roA">12 months budgeted ahead</span></div>
+    <div class="track"><div class="tl" id="rowA"></div><div class="today" id="tdA"></div></div>
+    <div class="rowhead b"><span>Rolling (continuous) budget</span><span class="ro">12 months budgeted ahead</span></div>
+    <div class="track"><div class="tl" id="rowB"></div><div class="win" id="win"></div><div class="today" id="tdB"></div><div class="todaylab" id="tdL">Today</div></div>
+  </div>
+  <p class="cap" id="rcap" aria-live="polite"></p>
+  <div class="control">
+    <label for="qtr">Quarters completed <output id="qOut">0</output></label>
+    <input type="range" id="qtr" min="0" max="4" step="1" value="0">
+    <div class="ends"><span>Start of 2026</span><span>End of 2026</span></div>
+  </div>
+  <div class="legend"><span><i style="background:var(--track)"></i>Done (period ended)</span><span><i style="background:var(--gold)"></i>Budgeted</span><span><i style="background:var(--green)"></i>Newly added quarter</span><span><i style="border:2px dashed var(--track)"></i>Not budgeted yet</span></div>
+  <div class="take">
+    <strong>Annual budget: the planning horizon shrinks as the year goes by.</strong>
+    <p>Rolling budget: as each quarter ends, budget one more, so a 12-month budget is always in place.</p>
+  </div>
+</section>
+<div class="hint">Keys: 1 / 2 / 3 switch tabs · ← → move the slider</div>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=v=>"$"+Math.round(v).toLocaleString("en-US");
+
+// tabs
+const tabs=[...document.querySelectorAll(".tab")];
+function show(k){
+  tabs.forEach(t=>t.setAttribute("aria-selected",t.dataset.k===k));
+  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===k));
+  ({stretch:$("sales"),kaizen:$("imp"),rolling:$("qtr")})[k].focus({preventScroll:true});
+}
+tabs.forEach(t=>t.onclick=()=>show(t.dataset.k));
+
+// stretch
+const sales=$("sales");
+function upd(){
+  const s=+sales.value, bonus=80000+0.08*(s-1e6), gain=bonus-80000, loss=88000-bonus;
+  $("sOut").textContent=fmt(s);
+  $("bA").textContent=fmt(bonus); $("bB").textContent=fmt(bonus);
+  $("gA").textContent="+"+fmt(gain); $("lB").textContent="\u2212"+fmt(loss);
+  $("gAbar").style.width=(gain/8000*100)+"%"; $("lBbar").style.width=(loss/8000*100)+"%";
+  sales.style.setProperty("--p",((s-1e6)/1e5*100)+"%");
+}
+sales.oninput=upd; upd();
+
+// kaizen
+const MAX=11, chart=$("chart"), cols=[];
+for(let i=0;i<4;i++){
+  const c=document.createElement("div"); c.className="col";
+  c.innerHTML=`<div class="fill"><span class="v"></span>${i?'<span class="chip"></span>':''}</div><span class="q">Q${i+1}</span>`;
+  chart.appendChild(c); cols.push(c);
+}
+$("trad").style.bottom=(10/MAX*100)+"%";
+const imp=$("imp");
+function updK(){
+  const d=+imp.value;
+  $("iOut").textContent=d.toFixed(1)+" hr";
+  cols.forEach((c,i)=>{
+    const h=10-d*i;
+    c.querySelector(".fill").style.height=(h/MAX*100)+"%";
+    c.querySelector(".v").textContent=h.toFixed(1)+" hrs";
+    const chip=c.querySelector(".chip");
+    if(chip){ chip.textContent="\u2212"+d.toFixed(1)+" hr"; chip.style.visibility=d>0?"visible":"hidden"; }
+  });
+  $("save").textContent=(d*3).toFixed(1)+" hrs/unit";
+  imp.style.setProperty("--p",(d*100)+"%");
+}
+imp.oninput=updK; updK();
+
+
+// rolling
+const qtr=$("qtr"), QL=["Q1 2026","Q2 2026","Q3 2026","Q4 2026","Q1 2027","Q2 2027","Q3 2027","Q4 2027"];
+const caps=["Start of 2026: both budgets look 12 months ahead.",
+ "Q1 2026 ends. The rolling budget adds Q1 2027. The annual budget now covers only 9 months.",
+ "Q2 2026 ends. The rolling budget adds Q2 2027 and still covers 12 months. Annual: 6 months left.",
+ "Q3 2026 ends. The rolling budget adds Q3 2027. Annual: only 3 months left.",
+ "The year ends. The annual budget has run out, but the rolling budget still covers the next 12 months."];
+const mq=window.matchMedia("(max-width:640px)");
+const labels=()=>mq.matches?{done:"Done",bud:"Budget",neu:"New!",none:"\u2014"}:{done:"Done",bud:"Budgeted",neu:"Added!",none:"Not budgeted"};
+const mk=id=>{const r=$(id),a=[];for(let q=0;q<8;q++){const d=document.createElement("div");d.className="qb";d.title=QL[q];r.appendChild(d);a.push(d);}return a;};
+const A=mk("rowA"), B=mk("rowB");
+function setBox(el,st){el.className="qb "+st; el.textContent=labels()[st];}
+function updR(){
+  const k=+qtr.value;
+  $("qOut").textContent=k;
+  A.forEach((el,q)=>setBox(el,q<4?(q<k?"done":"bud"):"none"));
+  B.forEach((el,q)=>setBox(el,q<k?"done":(q<k+4?((q===k+3&&k>0)?"neu":"bud"):"none")));
+  const m=12-3*k, ro=$("roA");
+  ro.textContent=m>0?m+" months budgeted ahead":"0 months left: build next year\u2019s budget";
+  ro.style.color=m>0?"var(--muted)":"var(--red)";
+  const pct=k/8*100;
+  $("win").style.left="calc("+pct+"% + "+(k*0.35/8).toFixed(3)+"em - .2em)";
+  ["tdA","tdB"].forEach(id=>$(id).style.left="calc("+pct+"% + "+(k*0.35/8).toFixed(3)+"em - .26em)");
+  const lab=$("tdL"); lab.style.left=Math.min(Math.max(pct,3),97)+"%";
+  $("rcap").textContent=caps[k];
+  qtr.style.setProperty("--p",(k/4*100)+"%");
+}
+qtr.oninput=updR; updR();
+mq.addEventListener?mq.addEventListener("change",updR):mq.addListener(updR);
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="1") show("stretch");
+  if(e.key==="2") show("kaizen");
+  if(e.key==="3") show("rolling");
+});
+</script>
+</body>
+</html>
