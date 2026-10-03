@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter 6 Part II: Master Budget Builder | ACCT 302</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#1d2430; --muted:#5d6675; --line:#d5d9e0; --soft:#f3f5f8; --given:#eef1f5;
+  --navy:#00244E; --orange:#C25A00; --orangeBright:#FF7900; --blue:#1F5FA8; --good:#1E7A3C; --bad:#B42318;
+  --goodBg:#E7F4EC; --badBg:#FDECEA; --hl:#FFF1DE; --onNavy:#ffffff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16191f; --ink:#e9ecf1; --muted:#a5adba; --line:#363c47; --soft:#1f232b; --given:#232833;
+    --navy:#8fb3e3; --orange:#FFA24D; --orangeBright:#FF9A3D; --blue:#7FB0EE; --good:#5CC883; --bad:#FF7B6E;
+    --goodBg:#16301f; --badBg:#3a1d1a; --hl:#3b2a14; --onNavy:#0d1a2b;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16191f; --ink:#e9ecf1; --muted:#a5adba; --line:#363c47; --soft:#1f232b; --given:#232833;
+  --navy:#8fb3e3; --orange:#FFA24D; --orangeBright:#FF9A3D; --blue:#7FB0EE; --good:#5CC883; --bad:#FF7B6E;
+  --goodBg:#16301f; --badBg:#3a1d1a; --hl:#3b2a14; --onNavy:#0d1a2b;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif; font-size:17px; line-height:1.4}
+button,input{font:inherit; color:inherit}
+.wrap{margin:0 auto; padding:0 20px 40px}
+header.top{border-top:8px solid #00244E; border-bottom:3px solid var(--orangeBright); margin-bottom:18px}
+header.top .wrap{padding-top:18px; padding-bottom:14px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:12px}
+h1{margin:0; font-size:2rem; line-height:1.1}
+.sub{margin:.2em 0 0; color:var(--muted)}
+.bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.btn{border:2px solid var(--navy); background:transparent; color:var(--navy); border-radius:8px; padding:.45em .9em; font-weight:700; cursor:pointer; min-height:44px}
+.btn.primary{background:var(--navy); color:var(--onNavy)}
+.btn:focus-visible,.chip:focus-visible,input:focus-visible,summary:focus-visible,.seg button:focus-visible{outline:3px solid var(--orangeBright); outline-offset:2px}
+.seg{display:inline-flex; border:2px solid var(--navy); border-radius:8px; overflow:hidden}
+.seg button{border:0; background:transparent; padding:.45em .9em; font-weight:700; cursor:pointer; color:var(--navy); min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--navy); color:var(--onNavy)}
+
+/* scenario editor */
+details.scen{border:1px solid var(--line); border-radius:10px; margin-bottom:16px; background:var(--soft)}
+details.scen summary{cursor:pointer; padding:.7em 1em; font-weight:700; list-style-position:inside}
+.scenbody{padding:0 1em 1em}
+.sgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px 22px}
+.sgroup h3{margin:.4em 0 .4em; font-size:1rem; color:var(--navy)}
+.field{display:flex; justify-content:space-between; align-items:center; gap:10px; margin:.25em 0}
+.field label{font-size:.92rem}
+.field input{width:8.5em; text-align:right; padding:.3em .45em; border:1px solid var(--line); border-radius:6px; background:var(--bg); font-variant-numeric:tabular-nums}
+.salesrow{display:grid; grid-template-columns:repeat(5,1fr); gap:6px}
+.salesrow label{display:flex; flex-direction:column; font-size:.85rem; color:var(--muted)}
+.salesrow input{width:100%; text-align:right; padding:.3em .4em; border:1px solid var(--line); border-radius:6px; background:var(--bg); font-variant-numeric:tabular-nums; color:var(--ink)}
+.note{color:var(--muted); font-size:.88rem; margin:.6em 0 0}
+
+/* flow strip */
+.flow{display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 6px}
+.chip{border:2px solid var(--line); background:var(--bg); border-radius:999px; padding:.3em .75em; cursor:pointer; font-weight:700; font-size:.92rem; display:inline-flex; align-items:center; gap:.4em; min-height:40px; color:var(--ink)}
+.chip .n{display:inline-grid; place-items:center; min-width:1.9em; height:1.5em; border-radius:999px; background:var(--soft); font-size:.85em; padding:0 .3em}
+.chip.cur{border-color:var(--navy); background:var(--navy); color:var(--onNavy)}
+.chip.cur .n{background:rgba(255,255,255,.2)}
+.chip.src{border-color:var(--orangeBright)}
+.chip.feed{border-color:var(--blue); border-style:dashed}
+.chip .ok{color:var(--good); font-weight:700}
+.chip.cur .ok{color:#9ff0bb}
+.legend{display:flex; flex-wrap:wrap; gap:16px; color:var(--muted); font-size:.85rem; margin-bottom:14px}
+.legend span{display:inline-flex; align-items:center; gap:.4em}
+.sw{display:inline-block; width:1.6em; height:.9em; border-radius:999px; border:2px solid}
+
+/* schedule card */
+.card{border:1px solid var(--line); border-radius:12px; padding:18px 20px 16px}
+.card h2{margin:0; font-size:1.55rem}
+.links{margin:.3em 0 .8em; color:var(--muted); font-size:.95rem}
+.links b{color:var(--ink)}
+.facts{background:var(--soft); border-radius:8px; padding:.7em 1em; margin:0 0 14px}
+.facts p{margin:.15em 0}
+.facts strong{font-variant-numeric:tabular-nums}
+.tbox{overflow-x:auto; position:relative; padding-bottom:4px}
+.tinner{position:relative; display:inline-block; min-width:100%}
+table.sched{border-collapse:separate; border-spacing:0; min-width:100%; font-variant-numeric:tabular-nums}
+.sched th{font-weight:700; text-align:right; padding:.45em .6em; border-bottom:2px solid var(--ink); white-space:nowrap}
+.sched th:first-child{text-align:left}
+.sched th.helper,.sched td.helper{background:repeating-linear-gradient(135deg,transparent 0 6px,rgba(127,127,127,.07) 6px 12px)}
+.sched th.helper small{display:block; font-weight:400; color:var(--muted); font-size:.75em}
+.sched td{padding:.28em .6em; text-align:right; white-space:nowrap; border-bottom:1px solid var(--line)}
+.sched td.lab{text-align:left; white-space:normal; min-width:15em}
+.sched tr.add td.lab::before{content:"Add: "; color:var(--muted)}
+.sched tr.less td.lab::before{content:"Less: "; color:var(--muted)}
+.sched tr.sub td{border-top:1.5px solid var(--ink)}
+.sched tr.final td:not(.lab){font-weight:700; border-bottom:4px double var(--ink)}
+.sched td.giv{background:var(--given); color:var(--ink)}
+.sched td.giv .tag{display:block; font-size:.7em; color:var(--muted); line-height:1.1}
+.sched td.na{color:var(--muted)}
+.sched td.dep{background:var(--hl); box-shadow:inset 0 0 0 2px var(--orangeBright)}
+.sched input.cell{width:7.6em; text-align:right; padding:.32em .45em; border:1px solid var(--line); border-bottom:2px solid var(--navy); border-radius:4px; background:var(--bg); font-variant-numeric:tabular-nums}
+.sched input.cell.right{border-color:var(--good); background:var(--goodBg)}
+.sched input.cell.wrong{border-color:var(--bad); background:var(--badBg)}
+.sched input.cell[readonly]{border-bottom-color:var(--line); color:var(--ink)}
+.sched td.focus{box-shadow:inset 0 0 0 2px var(--navy)}
+.sched.linked td{padding:1.05em 1.75em}
+.sched.linked th{padding-left:1.75em; padding-right:1.75em}
+.sched.linked td.lab{min-width:12em; padding-left:.6em}
+.sched.linked th:first-child{padding-left:.6em}
+.sched.linked input.cell{width:7em}
+svg.links{position:absolute; left:0; top:0; pointer-events:none; overflow:visible}
+.linkleg{display:flex; flex-wrap:wrap; gap:18px; font-size:.85rem; color:var(--muted); margin:.5em 0 0; align-items:center}
+.linkleg label{display:inline-flex; align-items:center; gap:.4em; cursor:pointer; color:var(--ink)}
+.linkleg input{width:1.1em; height:1.1em}
+.ln{display:inline-block; width:2em; border-top:3px solid}
+.linkleg[hidden]{display:none}
+
+.explain{margin:14px 0 0; border-left:5px solid var(--navy); background:var(--soft); padding:.7em 1em; border-radius:0 8px 8px 0; min-height:3.4em}
+.explain .where{font-size:.85rem; color:var(--muted)}
+.explain .how{font-size:1.08rem}
+.actions{display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; margin-top:14px; align-items:center}
+.status{font-weight:700}
+.status.good{color:var(--good)} .status.bad{color:var(--bad)}
+.foot{color:var(--muted); font-size:.85rem; margin-top:18px}
+.foot a{color:inherit}
+
+/* income statement */
+table.is{min-width:auto; width:min(560px,100%)}
+.is caption{caption-side:top; text-align:center; font-weight:700; padding-bottom:.4em; line-height:1.3}
+.is caption span{display:block; font-weight:400; color:var(--muted)}
+
+@media (max-width:700px){
+  body{font-size:16px}
+  h1{font-size:1.6rem}
+  .sched td.lab{min-width:11em}
+  .sched input.cell{width:6.6em}
+  .salesrow{grid-template-columns:repeat(3,1fr)}
+}
+
+.wrap{max-width:1240px}
+.cardhead{display:flex; justify-content:space-between; align-items:flex-start; gap:16px}
+.mapbtn{display:flex; align-items:center; gap:10px; border:2px solid var(--navy); background:var(--bg); color:var(--ink); border-radius:10px; padding:6px 12px 6px 6px; cursor:pointer; flex:0 0 auto; min-height:44px}
+.mapbtn:hover{background:var(--soft)}
+.mapbtn:focus-visible,#dlgClose:focus-visible{outline:3px solid var(--orangeBright); outline-offset:2px}
+.mapbtn .thumb{display:block; width:46px; background:#fff; border-radius:4px; padding:2px}
+.mapbtn .thumb svg{display:block; width:100%; height:auto}
+.mapbtn .mtxt{display:flex; flex-direction:column; text-align:left; line-height:1.15}
+.mapbtn .mtxt b{color:var(--navy)}
+.mapbtn .mtxt span{font-size:.85rem; color:var(--muted)}
+dialog#mapDlg{border:0; border-radius:14px; padding:16px 18px 18px; width:min(560px,94vw); max-height:94vh; background:var(--bg); color:var(--ink); box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog#mapDlg::backdrop{background:rgba(10,20,35,.55)}
+.dlghead{display:flex; justify-content:space-between; align-items:center; gap:12px}
+.dlghead h3{margin:0; font-size:1.2rem}
+.dlgsub{margin:.3em 0 .6em; color:var(--muted)}
+#dlgBody{background:#fff; border-radius:10px; padding:8px}
+#dlgBody svg{display:block; width:100%; height:auto; max-height:calc(94vh - 130px)}
+.mapsvg .node rect{stroke:#7FAF78; stroke-width:1}
+.mapsvg .node text{fill:#1d2430; font-family:"Carlito","Calibri",Arial,sans-serif; font-size:12.5px}
+.mapsvg .node .nm{font-weight:700}
+.mapsvg .ring{fill:none; stroke:#D62828; stroke-width:3.5; transition:all .35s ease}
+.thumb .ring{stroke-width:9}
+.mapsvg .ah{fill:none; stroke-width:1.6}
+@media (max-width:600px){ .mapbtn .mtxt span{display:none} .cardhead{gap:10px} }
+@media (prefers-reduced-motion: reduce){.mapsvg .ring{transition:none}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>Master budget builder</h1>
+      <p class="sub" id="subtitle">Royal Company, quarter ending June 30</p>
+    </div>
+    <div class="bar">
+      <button type="button" class="btn" id="bRandom">Try a new company</button>
+      <button type="button" class="btn" id="bRoyal">Class example</button>
+      <div class="seg" role="group" aria-label="Mode">
+        <button type="button" id="mPractice" aria-pressed="true">Practice</button>
+        <button type="button" id="mSolution" aria-pressed="false">Solution</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="flow" id="flow" aria-label="Schedules"></nav>
+  <div class="legend" aria-hidden="true">
+    <span><i class="sw" style="border-color:var(--orangeBright)"></i>Feeds the current schedule</span>
+    <span><i class="sw" style="border-color:var(--blue);border-style:dashed"></i>Uses the current schedule</span>
+    <span><b style="color:var(--good)">✓</b> All answers correct</span>
+  </div>
+
+  <div class="layout">
+  <main class="card" id="card">
+    <div class="cardhead">
+      <div>
+        <h2 id="sTitle"></h2>
+        <p class="links" id="sLinks"></p>
+      </div>
+      <button type="button" class="mapbtn" id="mapBtn" aria-haspopup="dialog" aria-controls="mapDlg">
+        <span class="thumb" id="mapThumb" aria-hidden="true"></span>
+        <span class="mtxt"><b>Budget map</b><span>Where are we?</span></span>
+      </button>
+    </div>
+    <div class="facts" id="sFacts"></div>
+    <div class="tbox"><div class="tinner" id="tinner"></div></div>
+    <div class="linkleg" id="linkLeg" hidden>
+      <label><input type="checkbox" id="showLinks" checked> Show inventory links</label>
+      <span><i class="ln" style="border-color:var(--orangeBright)"></i><span id="pctLeg">Desired ending = % of next month</span></span>
+      <span><i class="ln" style="border-color:var(--blue);border-top-style:dashed"></i>This month's ending becomes next month's beginning</span>
+    </div>
+    <div class="explain" id="explain" aria-live="polite">
+      <div class="where">Click or tab into any cell</div>
+      <div class="how">to see where its number comes from.</div>
+    </div>
+    <div class="actions">
+      <div class="bar">
+        <button type="button" class="btn primary" id="bCheck">Check my answers</button>
+        <button type="button" class="btn" id="bReveal">Show answers</button>
+        <button type="button" class="btn" id="bClear">Clear</button>
+        <span class="status" id="status" aria-live="polite"></span>
+      </div>
+      <div class="bar">
+        <button type="button" class="btn" id="bPrev">Previous schedule</button>
+        <button type="button" class="btn primary" id="bNext">Next schedule</button>
+      </div>
+    </div>
+  </main>
+  </div>
+  <dialog id="mapDlg" aria-labelledby="dlgTitle">
+    <div class="dlghead">
+      <h3 id="dlgTitle">Where we are in the master budget</h3>
+      <button type="button" class="btn" id="dlgClose">Close</button>
+    </div>
+    <p class="dlgsub" id="dlgSub"></p>
+    <div id="dlgBody"></div>
+  </dialog>
+  <p class="foot"><a href="./">All in-class widgets</a>. Commas and dollar signs are optional when you type answers. Round dollar amounts and unit costs to the cent. “Try a new company” gives you a fresh set of numbers to practice with.</p>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const ROYAL={company:"Royal Company",sales:[20000,50000,30000,25000,15000],price:10,fgPct:20,begFGu:4000,lbs:5,dmPct:10,begDM:13000,cpl:0.40,dlh:0.05,wage:15,vmoh:20,fmoh:50000,begFGd:21000,vsa:0.50,fsa:70000};
+let A=JSON.parse(JSON.stringify(ROYAL));
+let V={}, mode="practice", cur=0, answers={}, revealed={}, checked={}, done={};
+const M3=["Apr","May","Jun"], MQ=["Apr","May","Jun","Q"];
+const NAME={Apr:"April",May:"May",Jun:"June",Jul:"July",Aug:"August",Q:"Quarter"};
+const NEXT={Apr:"May",May:"Jun",Jun:"Jul",Jul:"Aug"};
+const PREV={May:"Apr",Jun:"May",Jul:"Jun"};
+const r2=x=>Math.round((x+Number.EPSILON)*100)/100;
+const r0=x=>Math.round(x);
+
+/* ---------- formatting ---------- */
+const nf0=new Intl.NumberFormat("en-US",{maximumFractionDigits:2});
+const fmt={
+  u:x=>nf0.format(x),
+  d:x=>(x<0?"−$":"$")+new Intl.NumberFormat("en-US",{minimumFractionDigits:Number.isInteger(r2(Math.abs(x)))?0:2,maximumFractionDigits:2}).format(Math.abs(x)),
+  r:x=>"$"+new Intl.NumberFormat("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}).format(x),
+  x:x=>nf0.format(x),
+  p:x=>nf0.format(x)+"%"
+};
+function parseNum(s){
+  if(s==null) return NaN; s=String(s).trim(); if(!s) return NaN;
+  let neg=/^\(.*\)$/.test(s)||/^[-−]/.test(s);
+  s=s.replace(/[,$\s()−-]/g,"");
+  const v=parseFloat(s); return isNaN(v)?NaN:(neg?-v:v);
+}
+
+/* ---------- model ---------- */
+function compute(){
+  const a=A, v={}, set=(k,x)=>{v[k]=x;};
+  const MS=["Apr","May","Jun","Jul","Aug"], S={};
+  MS.forEach((m,i)=>S[m]=a.sales[i]);
+  // S1 revenue
+  M3.forEach(m=>{set(`s1.units.${m}`,S[m]); set(`s1.price.${m}`,a.price); set(`s1.rev.${m}`,r2(S[m]*a.price));});
+  set("s1.units.Q",S.Apr+S.May+S.Jun); set("s1.price.Q",a.price); set("s1.rev.Q",r2(v["s1.rev.Apr"]+v["s1.rev.May"]+v["s1.rev.Jun"]));
+  // S2 production (Apr..Jul)
+  ["Apr","May","Jun","Jul"].forEach(m=>{
+    set(`s2.units.${m}`,S[m]);
+    set(`s2.end.${m}`,r0(a.fgPct/100*S[NEXT[m]]));
+    set(`s2.beg.${m}`,m==="Apr"?a.begFGu:v[`s2.end.${PREV[m]}`]);
+    set(`s2.need.${m}`,v[`s2.units.${m}`]+v[`s2.end.${m}`]);
+    set(`s2.prod.${m}`,v[`s2.need.${m}`]-v[`s2.beg.${m}`]);
+  });
+  set("s2.units.Q",v["s1.units.Q"]); set("s2.end.Q",v["s2.end.Jun"]); set("s2.need.Q",v["s2.units.Q"]+v["s2.end.Q"]);
+  set("s2.beg.Q",v["s2.beg.Apr"]); set("s2.prod.Q",v["s2.need.Q"]-v["s2.beg.Q"]);
+  // S3A usage
+  ["Apr","May","Jun","Jul"].forEach(m=>{
+    set(`s3a.prod.${m}`,v[`s2.prod.${m}`]); set(`s3a.lbs.${m}`,a.lbs);
+    set(`s3a.needs.${m}`,r2(v[`s2.prod.${m}`]*a.lbs)); set(`s3a.cpl.${m}`,a.cpl);
+    set(`s3a.cost.${m}`,r2(v[`s3a.needs.${m}`]*a.cpl));
+  });
+  set("s3a.prod.Q",v["s2.prod.Q"]); set("s3a.lbs.Q",a.lbs); set("s3a.needs.Q",r2(v["s3a.needs.Apr"]+v["s3a.needs.May"]+v["s3a.needs.Jun"]));
+  set("s3a.cpl.Q",a.cpl); set("s3a.cost.Q",r2(v["s3a.cost.Apr"]+v["s3a.cost.May"]+v["s3a.cost.Jun"]));
+  // S3B purchases
+  set("s3b.needs.Jul",v["s3a.needs.Jul"]);
+  M3.forEach(m=>{
+    set(`s3b.needs.${m}`,v[`s3a.needs.${m}`]);
+    set(`s3b.end.${m}`,r0(a.dmPct/100*v[`s3a.needs.${NEXT[m]}`]));
+    set(`s3b.beg.${m}`,m==="Apr"?a.begDM:v[`s3b.end.${PREV[m]}`]);
+    set(`s3b.total.${m}`,r2(v[`s3b.needs.${m}`]+v[`s3b.end.${m}`]));
+    set(`s3b.buy.${m}`,r2(v[`s3b.total.${m}`]-v[`s3b.beg.${m}`]));
+    set(`s3b.cpl.${m}`,a.cpl); set(`s3b.cost.${m}`,r2(v[`s3b.buy.${m}`]*a.cpl));
+  });
+  set("s3b.needs.Q",v["s3a.needs.Q"]); set("s3b.end.Q",v["s3b.end.Jun"]); set("s3b.total.Q",r2(v["s3b.needs.Q"]+v["s3b.end.Q"]));
+  set("s3b.beg.Q",v["s3b.beg.Apr"]); set("s3b.buy.Q",r2(v["s3b.total.Q"]-v["s3b.beg.Q"])); set("s3b.cpl.Q",a.cpl);
+  set("s3b.cost.Q",r2(v["s3b.cost.Apr"]+v["s3b.cost.May"]+v["s3b.cost.Jun"]));
+  // S4 labor
+  M3.forEach(m=>{set(`s4.prod.${m}`,v[`s2.prod.${m}`]); set(`s4.dlh.${m}`,a.dlh); set(`s4.hrs.${m}`,r2(v[`s2.prod.${m}`]*a.dlh)); set(`s4.wage.${m}`,a.wage); set(`s4.cost.${m}`,r2(v[`s4.hrs.${m}`]*a.wage));});
+  set("s4.prod.Q",v["s2.prod.Q"]); set("s4.dlh.Q",a.dlh); set("s4.hrs.Q",r2(v["s4.hrs.Apr"]+v["s4.hrs.May"]+v["s4.hrs.Jun"])); set("s4.wage.Q",a.wage);
+  set("s4.cost.Q",r2(v["s4.cost.Apr"]+v["s4.cost.May"]+v["s4.cost.Jun"]));
+  // S5 MOH
+  M3.forEach(m=>{set(`s5.hrs.${m}`,v[`s4.hrs.${m}`]); set(`s5.vr.${m}`,a.vmoh); set(`s5.var.${m}`,r2(v[`s4.hrs.${m}`]*a.vmoh)); set(`s5.fix.${m}`,a.fmoh); set(`s5.tot.${m}`,r2(v[`s5.var.${m}`]+a.fmoh));});
+  set("s5.hrs.Q",v["s4.hrs.Q"]); set("s5.vr.Q",a.vmoh); set("s5.var.Q",r2(v["s5.var.Apr"]+v["s5.var.May"]+v["s5.var.Jun"])); set("s5.fix.Q",r2(a.fmoh*3)); set("s5.tot.Q",r2(v["s5.var.Q"]+v["s5.fix.Q"]));
+  // S6A unit cost
+  const mohRate=r2(v["s5.tot.Q"]/v["s4.hrs.Q"]);
+  set("s6a.dm.qty",a.lbs); set("s6a.dm.cost",a.cpl); set("s6a.dm.tot",r2(a.lbs*a.cpl));
+  set("s6a.dl.qty",a.dlh); set("s6a.dl.cost",a.wage); set("s6a.dl.tot",r2(a.dlh*a.wage));
+  set("s6a.oh.qty",a.dlh); set("s6a.oh.cost",mohRate); set("s6a.oh.tot",r2(a.dlh*mohRate));
+  set("s6a.unit.tot",r2(v["s6a.dm.tot"]+v["s6a.dl.tot"]+v["s6a.oh.tot"]));
+  // S6B ending FG
+  MQ.forEach(m=>{set(`s6b.units.${m}`,v[`s2.end.${m}`]); set(`s6b.uc.${m}`,v["s6a.unit.tot"]); set(`s6b.val.${m}`,r2(v[`s2.end.${m}`]*v["s6a.unit.tot"]));});
+  // S7 COGS
+  M3.forEach(m=>{
+    set(`s7.beg.${m}`,m==="Apr"?a.begFGd:v[`s6b.val.${PREV[m]}`]);
+    set(`s7.dm.${m}`,v[`s3a.cost.${m}`]); set(`s7.dl.${m}`,v[`s4.cost.${m}`]); set(`s7.oh.${m}`,v[`s5.tot.${m}`]);
+    set(`s7.cogm.${m}`,r2(v[`s7.dm.${m}`]+v[`s7.dl.${m}`]+v[`s7.oh.${m}`]));
+    set(`s7.avail.${m}`,r2(v[`s7.beg.${m}`]+v[`s7.cogm.${m}`]));
+    set(`s7.end.${m}`,v[`s6b.val.${m}`]); set(`s7.cogs.${m}`,r2(v[`s7.avail.${m}`]-v[`s7.end.${m}`]));
+  });
+  set("s7.beg.Q",a.begFGd); set("s7.dm.Q",v["s3a.cost.Q"]); set("s7.dl.Q",v["s4.cost.Q"]); set("s7.oh.Q",v["s5.tot.Q"]);
+  set("s7.cogm.Q",r2(v["s7.dm.Q"]+v["s7.dl.Q"]+v["s7.oh.Q"])); set("s7.avail.Q",r2(v["s7.beg.Q"]+v["s7.cogm.Q"]));
+  set("s7.end.Q",v["s6b.val.Q"]); set("s7.cogs.Q",r2(v["s7.avail.Q"]-v["s7.end.Q"]));
+  // S8 S&A
+  M3.forEach(m=>{set(`s8.units.${m}`,S[m]); set(`s8.vr.${m}`,a.vsa); set(`s8.var.${m}`,r2(S[m]*a.vsa)); set(`s8.fix.${m}`,a.fsa); set(`s8.tot.${m}`,r2(v[`s8.var.${m}`]+a.fsa));});
+  set("s8.units.Q",v["s1.units.Q"]); set("s8.vr.Q",a.vsa); set("s8.var.Q",r2(v["s8.var.Apr"]+v["s8.var.May"]+v["s8.var.Jun"])); set("s8.fix.Q",r2(a.fsa*3)); set("s8.tot.Q",r2(v["s8.var.Q"]+v["s8.fix.Q"]));
+  // IS
+  set("is.sales.Q",v["s1.rev.Q"]); set("is.cogs.Q",v["s7.cogs.Q"]); set("is.gm.Q",r2(v["s1.rev.Q"]-v["s7.cogs.Q"]));
+  set("is.sa.Q",v["s8.tot.Q"]); set("is.oi.Q",r2(v["is.gm.Q"]-v["s8.tot.Q"]));
+  V=v;
+}
+
+/* ---------- schedule definitions ---------- */
+const val=k=>V[k];
+let FILL=new Set();
+function buildFill(){FILL=new Set(); SCHED.forEach(s=>colsOf(s).forEach(c=>s.rows.forEach(r=>{if(cellSpec(s,r,c).kind==="fill") FILL.add(`${s.id}.${r.key}.${c.k}`);})));}
+function hidden(k){return mode==="practice" && FILL.has(k) && !revealed[k.split(".")[0]];}
+const F=(k,f)=>{ if(hidden(k)){const v=parseNum(answers[k]); return isNaN(v)?"?":fmt[f](v)+" (your answer)";} return fmt[f](V[k]); };
+const sumTxt=(sid,key,f)=>`April + May + June = ${F(`${sid}.${key}.Apr`,f)} + ${F(`${sid}.${key}.May`,f)} + ${F(`${sid}.${key}.Jun`,f)}`;
+const sumDeps=(sid,key)=>M3.map(m=>`${sid}.${key}.${m}`);
+const P=x=>`<strong>${x}</strong>`;
+
+const SCHED=[
+ {id:"s1",chip:"1",title:"Schedule 1: Revenue budget",uses:[],feeds:["s2","s8","is"],
+  facts:a=>[`${a.company} expects to sell ${P(fmt.u(a.sales[0]))} units in April, ${P(fmt.u(a.sales[1]))} in May, and ${P(fmt.u(a.sales[2]))} in June.`,`The selling price is ${P(fmt.r(a.price))} per unit.`],
+  rows:[
+   {key:"units",label:"Budgeted sales in units",kind:"given",f:"u",src:"Given",how:c=>c==="Q"?{t:sumTxt("s1","units","u"),d:sumDeps("s1","units")}:{t:`Given: budgeted sales for ${NAME[c]}`}},
+   {key:"price",label:"Selling price per unit",kind:"given",f:"r",src:"Given",how:()=>({t:"Given: selling price per unit"})},
+   {key:"rev",label:"Total budgeted sales",kind:"fill",f:"d",cls:"final",how:c=>c==="Q"?{t:`Quarter units × price, or ${sumTxt("s1","rev","d")}`,d:["s1.units.Q","s1.price.Q"]}:{t:`Units × price = ${F(`s1.units.${c}`,"u")} × ${F(`s1.price.${c}`,"r")}`,d:[`s1.units.${c}`,`s1.price.${c}`]}}
+  ]},
+ {id:"s2",chip:"2",title:"Schedule 2: Production budget",uses:["s1"],feeds:["s3a","s4","s6b"],helper:"Jul",links:"prod",
+  facts:a=>[`Management wants ending finished goods inventory equal to ${P(fmt.p(a.fgPct))} of the following month's budgeted sales in units.`,`On March 31, ${P(fmt.u(a.begFGu))} units were on hand.`,`The shaded July column is extra: you need July production later to set June's desired ending materials (Schedule 3B).`],
+  rows:[
+   {key:"units",label:"Budgeted sales in units",kind:"given",f:"u",src:"From Schedule 1",how:c=>c==="Jul"?{t:"Given: July budgeted sales"}:c==="Q"?{t:sumTxt("s2","units","u"),d:sumDeps("s2","units")}:{t:`From Schedule 1: ${NAME[c]} budgeted sales`}},
+   {key:"end",label:"Desired ending FG inventory",kind:"fill",f:"u",cls:"add",how:c=>{
+     if(c==="Q") return {t:"Quarter ending inventory = June's ending inventory (the last day of the quarter)",d:["s2.end.Jun"]};
+     const n=NEXT[c]; const nx=n==="Aug"?`August sales (${fmt.u(A.sales[4])}, given)`:`${NAME[n]} sales (${F(`s2.units.${n}`,"u")})`;
+     return {t:`${fmt.p(A.fgPct)} × ${nx}`,d:n==="Aug"?[]:[`s2.units.${n}`]};}},
+   {key:"need",label:"Total needs",kind:"fill",f:"u",cls:"sub",how:c=>({t:`Sales + desired ending inventory = ${F(`s2.units.${c}`,"u")} + ${F(`s2.end.${c}`,"u")}`,d:[`s2.units.${c}`,`s2.end.${c}`]})},
+   {key:"beg",label:"Beginning FG inventory",kind:"fill",f:"u",cls:"less",how:c=>{
+     if(c==="Apr") return {t:`Given: units on hand March 31 (${fmt.u(A.begFGu)})`};
+     if(c==="Q") return {t:"Quarter beginning inventory = April's beginning inventory (the first day of the quarter)",d:["s2.beg.Apr"]};
+     return {t:`= ${NAME[PREV[c]]}'s desired ending inventory (${F(`s2.end.${PREV[c]}`,"u")})`,d:[`s2.end.${PREV[c]}`]};}},
+   {key:"prod",label:"Required production",kind:"fill",f:"u",cls:"final",how:c=>({t:`Total needs − beginning inventory = ${F(`s2.need.${c}`,"u")} − ${F(`s2.beg.${c}`,"u")}`,d:[`s2.need.${c}`,`s2.beg.${c}`]})}
+  ]},
+ {id:"s3a",chip:"3A",title:"Schedule 3A: Direct materials usage budget",uses:["s2"],feeds:["s3b","s7"],
+  facts:a=>[`Each unit of product requires ${P(fmt.x(a.lbs))} pounds of material.`,`${a.company} pays ${P(fmt.r(a.cpl))} per pound.`],
+  rows:[
+   {key:"prod",label:"Required production (units)",kind:"given",f:"u",src:"From Schedule 2",how:c=>c==="Q"?{t:"From Schedule 2: quarter required production"}:{t:`From Schedule 2: ${NAME[c]} required production`}},
+   {key:"lbs",label:"Materials per unit (pounds)",kind:"given",f:"x",src:"Given",how:()=>({t:"Given: pounds per unit"})},
+   {key:"needs",label:"Production needs (pounds)",kind:"fill",f:"u",cls:"sub",how:c=>({t:`Units × pounds per unit = ${F(`s3a.prod.${c}`,"u")} × ${F(`s3a.lbs.${c}`,"x")}`,d:[`s3a.prod.${c}`,`s3a.lbs.${c}`]})},
+   {key:"cpl",label:"Cost per pound",kind:"given",f:"r",src:"Given",how:()=>({t:"Given: cost per pound"})},
+   {key:"cost",label:"Direct materials used ($)",kind:"fill",f:"d",cls:"final",how:c=>({t:`Pounds × cost per pound = ${F(`s3a.needs.${c}`,"u")} × ${F(`s3a.cpl.${c}`,"r")}. This flows to the COGS budget as direct materials used.`,d:[`s3a.needs.${c}`,`s3a.cpl.${c}`]})}
+  ]},
+ {id:"s3b",chip:"3B",title:"Schedule 3B: Direct materials purchases budget",uses:["s3a","s2"],feeds:[],helper:"Jul",links:"dm",
+  facts:a=>[`Management wants materials on hand at the end of each month equal to ${P(fmt.p(a.dmPct))} of the following month's production needs.`,`On March 31, ${P(fmt.u(a.begDM))} pounds of material were on hand. Cost per pound: ${P(fmt.r(a.cpl))}.`,`July's production needs come from July's production in Schedule 2: ${fmt.u(val("s2.prod.Jul"))} units × ${fmt.x(a.lbs)} pounds.`],
+  rows:[
+   {key:"needs",label:"Production needs (pounds)",kind:"given",f:"u",src:"From Schedule 3A",how:c=>c==="Jul"?{t:`July production from Schedule 2 × pounds per unit = ${fmt.u(val("s2.prod.Jul"))} × ${fmt.x(A.lbs)}`}:{t:`From Schedule 3A: ${NAME[c]} production needs`}},
+   {key:"end",label:"Desired ending DM inventory (pounds)",kind:"fill",f:"u",cls:"add",how:c=>{
+     if(c==="Q") return {t:"Quarter ending materials = June's ending materials",d:["s3b.end.Jun"]};
+     const n=NEXT[c]; return {t:`${fmt.p(A.dmPct)} × ${NAME[n]} production needs (${F(`s3b.needs.${n}`,"u")} pounds)`,d:[`s3b.needs.${n}`]};}},
+   {key:"total",label:"Total needs (pounds)",kind:"fill",f:"u",cls:"sub",how:c=>({t:`Production needs + desired ending = ${F(`s3b.needs.${c}`,"u")} + ${F(`s3b.end.${c}`,"u")}`,d:[`s3b.needs.${c}`,`s3b.end.${c}`]})},
+   {key:"beg",label:"Beginning DM inventory (pounds)",kind:"fill",f:"u",cls:"less",how:c=>{
+     if(c==="Apr") return {t:`Given: pounds on hand March 31 (${fmt.u(A.begDM)})`};
+     if(c==="Q") return {t:"Quarter beginning materials = April's beginning materials",d:["s3b.beg.Apr"]};
+     return {t:`= ${NAME[PREV[c]]}'s desired ending materials (${F(`s3b.end.${PREV[c]}`,"u")})`,d:[`s3b.end.${PREV[c]}`]};}},
+   {key:"buy",label:"Materials to purchase (pounds)",kind:"fill",f:"u",cls:"sub",how:c=>({t:`Total needs − beginning inventory = ${F(`s3b.total.${c}`,"u")} − ${F(`s3b.beg.${c}`,"u")}`,d:[`s3b.total.${c}`,`s3b.beg.${c}`]})},
+   {key:"cpl",label:"Cost per pound",kind:"given",f:"r",src:"Given",how:()=>({t:"Given: cost per pound"})},
+   {key:"cost",label:"Materials to purchase ($)",kind:"fill",f:"d",cls:"final",how:c=>c==="Q"?{t:sumTxt("s3b","cost","d"),d:sumDeps("s3b","cost")}:{t:`Pounds to purchase × cost per pound = ${F(`s3b.buy.${c}`,"u")} × ${F(`s3b.cpl.${c}`,"r")}`,d:[`s3b.buy.${c}`,`s3b.cpl.${c}`]}}
+  ]},
+ {id:"s4",chip:"4",title:"Schedule 4: Direct labor budget",uses:["s2"],feeds:["s5","s6a","s7"],
+  facts:a=>[`Each unit requires ${P(fmt.x(a.dlh))} direct labor hours.`,`The wage rate is ${P(fmt.r(a.wage))} per hour.`],
+  rows:[
+   {key:"prod",label:"Units of production",kind:"given",f:"u",src:"From Schedule 2",how:c=>({t:`From Schedule 2: ${NAME[c]} required production`})},
+   {key:"dlh",label:"Direct labor hours per unit",kind:"given",f:"x",src:"Given",how:()=>({t:"Given: hours per unit"})},
+   {key:"hrs",label:"Labor hours required",kind:"fill",f:"u",cls:"sub",how:c=>({t:`Units × hours per unit = ${F(`s4.prod.${c}`,"u")} × ${F(`s4.dlh.${c}`,"x")}`,d:[`s4.prod.${c}`,`s4.dlh.${c}`]})},
+   {key:"wage",label:"Hourly wage rate",kind:"given",f:"r",src:"Given",how:()=>({t:"Given: wage rate"})},
+   {key:"cost",label:"Total direct labor cost",kind:"fill",f:"d",cls:"final",how:c=>({t:`Hours × wage rate = ${F(`s4.hrs.${c}`,"u")} × ${F(`s4.wage.${c}`,"r")}`,d:[`s4.hrs.${c}`,`s4.wage.${c}`]})}
+  ]},
+ {id:"s5",chip:"5",title:"Schedule 5: Manufacturing overhead budget",uses:["s4"],feeds:["s6a","s7"],
+  facts:a=>[`Overhead is applied on the basis of direct labor hours.`,`Variable overhead is ${P(fmt.r(a.vmoh))} per direct labor hour. Fixed overhead is ${P(fmt.d(a.fmoh))} per month.`],
+  rows:[
+   {key:"hrs",label:"Budgeted direct labor hours",kind:"given",f:"u",src:"From Schedule 4",how:c=>({t:`From Schedule 4: ${NAME[c]} labor hours`})},
+   {key:"vr",label:"Variable overhead rate",kind:"given",f:"r",src:"Given",how:()=>({t:"Given: variable overhead per labor hour"})},
+   {key:"var",label:"Variable overhead cost",kind:"fill",f:"d",how:c=>({t:`Hours × variable rate = ${F(`s5.hrs.${c}`,"u")} × ${F(`s5.vr.${c}`,"r")}`,d:[`s5.hrs.${c}`,`s5.vr.${c}`]})},
+   {key:"fix",label:"Fixed overhead cost",kind:"fill",f:"d",how:c=>c==="Q"?{t:`3 months × ${fmt.d(A.fmoh)}`}:{t:`Given: fixed overhead per month (${fmt.d(A.fmoh)})`}},
+   {key:"tot",label:"Total manufacturing overhead",kind:"fill",f:"d",cls:"final",how:c=>({t:`Variable + fixed = ${F(`s5.var.${c}`,"d")} + ${F(`s5.fix.${c}`,"d")}`,d:[`s5.var.${c}`,`s5.fix.${c}`]})}
+  ]},
+ {id:"s6a",chip:"6A",title:"Schedule 6A: Budgeted unit product cost",uses:["s3a","s4","s5"],feeds:["s6b"],
+  cols:[{k:"qty",label:"Quantity"},{k:"cost",label:"Cost"},{k:"tot",label:"Total"}],
+  facts:a=>[`The overhead rate per labor hour = total quarter overhead ÷ total quarter labor hours (Schedules 5 and 4). Round it to the cent.`,`Round each line to the cent, then add.`],
+  rows:[
+   {key:"dm",label:"Direct materials",cells:{qty:{kind:"given",f:"x",src:"pounds",how:()=>({t:"Given: pounds per unit"})},cost:{kind:"given",f:"r",src:"per pound",how:()=>({t:"Given: cost per pound"})},tot:{kind:"fill",f:"r",how:()=>({t:`Pounds × cost = ${F("s6a.dm.qty","x")} × ${F("s6a.dm.cost","r")}`,d:["s6a.dm.qty","s6a.dm.cost"]})}}},
+   {key:"dl",label:"Direct labor",cells:{qty:{kind:"given",f:"x",src:"hours",how:()=>({t:"Given: hours per unit"})},cost:{kind:"given",f:"r",src:"per hour",how:()=>({t:"Given: wage rate"})},tot:{kind:"fill",f:"r",how:()=>({t:`Hours × wage = ${F("s6a.dl.qty","x")} × ${F("s6a.dl.cost","r")}`,d:["s6a.dl.qty","s6a.dl.cost"]})}}},
+   {key:"oh",label:"Manufacturing overhead",cells:{qty:{kind:"given",f:"x",src:"hours",how:()=>({t:"Given: hours per unit"})},cost:{kind:"fill",f:"r",how:()=>({t:`Total quarter overhead ÷ total quarter labor hours = ${F("s5.tot.Q","d")} ÷ ${F("s4.hrs.Q","u")} (Schedules 5 and 4)`})},tot:{kind:"fill",f:"r",how:()=>({t:`Hours × overhead rate = ${F("s6a.oh.qty","x")} × ${F("s6a.oh.cost","r")}`,d:["s6a.oh.qty","s6a.oh.cost"]})}}},
+   {key:"unit",label:"Unit product cost",cls:"final",cells:{qty:{kind:"na"},cost:{kind:"na"},tot:{kind:"fill",f:"r",how:()=>({t:`Materials + labor + overhead = ${F("s6a.dm.tot","r")} + ${F("s6a.dl.tot","r")} + ${F("s6a.oh.tot","r")}`,d:["s6a.dm.tot","s6a.dl.tot","s6a.oh.tot"]})}}}
+  ]},
+ {id:"s6b",chip:"6B",title:"Schedule 6B: Ending finished goods inventory budget",uses:["s2","s6a"],feeds:["s7"],
+  facts:a=>[`Ending units come from the production budget. The unit cost comes from Schedule 6A.`],
+  rows:[
+   {key:"units",label:"Desired ending FG inventory (units)",kind:"given",f:"u",src:"From Schedule 2",how:c=>({t:c==="Q"?"From Schedule 2: quarter ending inventory (same as June)":`From Schedule 2: ${NAME[c]} desired ending inventory`})},
+   {key:"uc",label:"Unit product cost",kind:"given",f:"r",src:"From Schedule 6A",how:()=>({t:"From Schedule 6A: unit product cost"})},
+   {key:"val",label:"Ending FG inventory ($)",kind:"fill",f:"d",cls:"final",how:c=>({t:`Units × unit cost = ${F(`s6b.units.${c}`,"u")} × ${F(`s6b.uc.${c}`,"r")}`,d:[`s6b.units.${c}`,`s6b.uc.${c}`]})}
+  ]},
+ {id:"s7",chip:"7",title:"Schedule 7: Cost of goods sold budget",uses:["s3a","s4","s5","s6b"],feeds:["is"],
+  facts:a=>[`Work-in-process inventory is zero at the end of each month.`,`Finished goods inventory on March 31 was ${P(fmt.d(a.begFGd))}.`],
+  rows:[
+   {key:"beg",label:"Beginning FG inventory",kind:"given",f:"d",srcAt:c=>(c==="May"||c==="Jun")?"From Schedule 6B":"Given",how:c=>{
+     if(c==="Apr") return {t:`Given: finished goods on March 31 (${fmt.d(A.begFGd)})`};
+     if(c==="Q") return {t:"Quarter beginning = April's beginning inventory",d:["s7.beg.Apr"]};
+     return {t:`= ${NAME[PREV[c]]}'s ending FG inventory from Schedule 6B (${F(`s6b.val.${PREV[c]}`,"d")})`,d:[`s7.end.${PREV[c]}`]};}},
+   {key:"dm",label:"Direct materials used",kind:"fill",f:"d",how:c=>({t:`From Schedule 3A: ${NAME[c]} direct materials used (${F(`s3a.cost.${c}`,"d")})`})},
+   {key:"dl",label:"Direct labor",kind:"fill",f:"d",how:c=>({t:`From Schedule 4: ${NAME[c]} direct labor cost (${F(`s4.cost.${c}`,"d")})`})},
+   {key:"oh",label:"Manufacturing overhead",kind:"fill",f:"d",how:c=>({t:`From Schedule 5: ${NAME[c]} total overhead (${F(`s5.tot.${c}`,"d")})`})},
+   {key:"cogm",label:"Cost of goods manufactured",kind:"fill",f:"d",cls:"sub",how:c=>({t:`Materials + labor + overhead = ${F(`s7.dm.${c}`,"d")} + ${F(`s7.dl.${c}`,"d")} + ${F(`s7.oh.${c}`,"d")}`,d:[`s7.dm.${c}`,`s7.dl.${c}`,`s7.oh.${c}`]})},
+   {key:"avail",label:"Cost of goods available for sale",kind:"fill",f:"d",how:c=>({t:`Beginning FG + COGM = ${F(`s7.beg.${c}`,"d")} + ${F(`s7.cogm.${c}`,"d")}`,d:[`s7.beg.${c}`,`s7.cogm.${c}`]})},
+   {key:"end",label:"Ending FG inventory",kind:"fill",f:"d",cls:"less",how:c=>({t:`From Schedule 6B: ${NAME[c]} ending FG inventory (${F(`s6b.val.${c}`,"d")})`})},
+   {key:"cogs",label:"Cost of goods sold",kind:"fill",f:"d",cls:"final",how:c=>({t:`Available for sale − ending FG = ${F(`s7.avail.${c}`,"d")} − ${F(`s7.end.${c}`,"d")}`,d:[`s7.avail.${c}`,`s7.end.${c}`]})}
+  ]},
+ {id:"s8",chip:"8",title:"Schedule 8: Nonmanufacturing (S&A) cost budget",uses:["s1"],feeds:["is"],
+  facts:a=>[`Variable selling and administrative expenses are ${P(fmt.r(a.vsa))} per unit sold.`,`Fixed selling and administrative expenses are ${P(fmt.d(a.fsa))} per month.`],
+  rows:[
+   {key:"units",label:"Budgeted sales (units)",kind:"given",f:"u",src:"From Schedule 1",how:c=>({t:`From Schedule 1: ${NAME[c]} budgeted sales`})},
+   {key:"vr",label:"Variable S&A rate",kind:"given",f:"r",src:"Given",how:()=>({t:"Given: variable S&A per unit sold"})},
+   {key:"var",label:"Variable S&A expense",kind:"fill",f:"d",how:c=>({t:`Units sold × rate = ${F(`s8.units.${c}`,"u")} × ${F(`s8.vr.${c}`,"r")}`,d:[`s8.units.${c}`,`s8.vr.${c}`]})},
+   {key:"fix",label:"Fixed S&A expense",kind:"fill",f:"d",how:c=>c==="Q"?{t:`3 months × ${fmt.d(A.fsa)}`}:{t:`Given: fixed S&A per month (${fmt.d(A.fsa)})`}},
+   {key:"tot",label:"Total S&A expense",kind:"fill",f:"d",cls:"final",how:c=>({t:`Variable + fixed = ${F(`s8.var.${c}`,"d")} + ${F(`s8.fix.${c}`,"d")}`,d:[`s8.var.${c}`,`s8.fix.${c}`]})}
+  ]},
+ {id:"is",chip:"IS",title:"Budgeted income statement",uses:["s1","s7","s8"],feeds:[],is:true,
+  facts:a=>[`Pull the quarter totals from the revenue, COGS, and nonmanufacturing cost budgets.`],
+  rows:[
+   {key:"sales",label:"Sales",kind:"fill",f:"d",how:()=>({t:`From Schedule 1: quarter total sales (${fmt.u(val("s1.units.Q"))} units × ${fmt.r(A.price)})`})},
+   {key:"cogs",label:"Cost of goods sold",kind:"fill",f:"d",cls:"less0",how:()=>({t:"From Schedule 7: quarter cost of goods sold"})},
+   {key:"gm",label:"Gross margin",kind:"fill",f:"d",cls:"sub",how:()=>({t:"Sales − cost of goods sold",d:["is.sales.Q","is.cogs.Q"]})},
+   {key:"sa",label:"Selling and administrative expenses",kind:"fill",f:"d",how:()=>({t:"From Schedule 8: quarter total S&A expense"})},
+   {key:"oi",label:"Operating income",kind:"fill",f:"d",cls:"final",how:()=>({t:"Gross margin − S&A expenses",d:["is.gm.Q","is.sa.Q"]})}
+  ]}
+];
+
+
+/* ---------- tips shown in practice mode (no numbers) ---------- */
+const TIPS={
+ "s1.rev":c=>c==="Q"?"Add the three months, or quarter units × price per unit.":"Budgeted units × selling price per unit.",
+ "s2.end":c=>c==="Q"?"The quarter ends when June ends, so use June's desired ending inventory.":`${fmt.p(A.fgPct)} × ${NAME[NEXT[c]]}'s budgeted sales in units.`,
+ "s2.need":()=>"Budgeted sales + desired ending inventory.",
+ "s2.beg":c=>c==="Apr"?"Given in the facts above: units on hand on March 31.":c==="Q"?"The quarter starts when April starts, so use April's beginning inventory.":"Last month's desired ending inventory becomes this month's beginning inventory.",
+ "s2.prod":()=>"Total needs − beginning inventory.",
+ "s3a.needs":()=>"Units to produce × pounds per unit.",
+ "s3a.cost":c=>c==="Q"?"Add the three months, or quarter pounds × cost per pound.":"Pounds needed × cost per pound.",
+ "s3b.end":c=>c==="Q"?"Use June's desired ending materials.":`${fmt.p(A.dmPct)} × ${NAME[NEXT[c]]}'s production needs in pounds.`,
+ "s3b.total":()=>"Production needs + desired ending materials.",
+ "s3b.beg":c=>c==="Apr"?"Given in the facts above: pounds on hand on March 31.":c==="Q"?"Use April's beginning materials.":"Last month's desired ending materials become this month's beginning materials.",
+ "s3b.buy":()=>"Total needs − beginning materials.",
+ "s3b.cost":c=>c==="Q"?"Add the three months.":"Pounds to purchase × cost per pound.",
+ "s4.hrs":()=>"Units produced × labor hours per unit.",
+ "s4.cost":()=>"Labor hours × hourly wage rate.",
+ "s5.var":()=>"Labor hours × variable overhead rate.",
+ "s5.fix":c=>c==="Q"?"3 months × fixed overhead per month.":"Given in the facts above: fixed overhead per month.",
+ "s5.tot":()=>"Variable overhead + fixed overhead.",
+ "s6a.dm.tot":()=>"Pounds per unit × cost per pound.",
+ "s6a.dl.tot":()=>"Hours per unit × wage rate.",
+ "s6a.oh.cost":()=>"Quarter total overhead (Schedule 5) ÷ quarter labor hours (Schedule 4).",
+ "s6a.oh.tot":()=>"Hours per unit × overhead rate per hour.",
+ "s6a.unit.tot":()=>"Direct materials + direct labor + overhead.",
+ "s6b.val":()=>"Ending units × unit product cost.",
+ "s7.dm":()=>"Direct materials used, from Schedule 3A.",
+ "s7.dl":()=>"Direct labor cost, from Schedule 4.",
+ "s7.oh":()=>"Total manufacturing overhead, from Schedule 5.",
+ "s7.cogm":()=>"Direct materials + direct labor + overhead.",
+ "s7.avail":()=>"Beginning FG inventory + cost of goods manufactured.",
+ "s7.end":()=>"Ending FG inventory, from Schedule 6B.",
+ "s7.cogs":()=>"Cost of goods available for sale − ending FG inventory.",
+ "s8.var":()=>"Units sold × variable S&A rate.",
+ "s8.fix":c=>c==="Q"?"3 months × fixed S&A per month.":"Given in the facts above: fixed S&A per month.",
+ "s8.tot":()=>"Variable S&A + fixed S&A.",
+ "is.sales":()=>"Quarter total sales, from Schedule 1.",
+ "is.cogs":()=>"Quarter cost of goods sold, from Schedule 7.",
+ "is.gm":()=>"Sales − cost of goods sold.",
+ "is.sa":()=>"Quarter total S&A expense, from Schedule 8.",
+ "is.oi":()=>"Gross margin − S&A expenses."
+};
+function tipFor(id){const [sid,key,ck]=id.split("."); const f=TIPS[`${sid}.${key}.${ck}`]||TIPS[`${sid}.${key}`]; return f?f(ck):null;}
+
+/* ---------- rendering ---------- */
+function colsOf(s){
+  if(s.cols) return s.cols;
+  if(s.is) return [{k:"Q",label:"Quarter"}];
+  const c=M3.map(k=>({k,label:NAME[k]}));
+  if(s.helper) c.push({k:"Jul",label:"July",helper:true});
+  c.push({k:"Q",label:"Quarter"});
+  return c;
+}
+function cellSpec(s,row,c){
+  if(row.cells) return row.cells[c.k]||{kind:"na"};
+  if(c.helper){ // helper column is display-only
+    const k=`${s.id}.${row.key}.Jul`;
+    if(V[k]===undefined) return {kind:"na"};
+    if(row.kind==="fill") return {kind:"fill",f:row.f,how:row.how,helper:true};
+    return {kind:"given",f:row.f,src:s.id==="s2"?"Given":"July units × lbs",how:row.how,helper:true};
+  }
+  return {kind:row.kind,f:row.f,src:row.srcAt?row.srcAt(c.k):row.src,how:row.how};
+}
+function renderFlow(){
+  const s=SCHED[cur], nav=$("flow"); nav.innerHTML="";
+  SCHED.forEach((t,i)=>{
+    const b=document.createElement("button"); b.type="button"; b.className="chip";
+    if(i===cur) {b.classList.add("cur"); b.setAttribute("aria-current","step");}
+    else if(s.uses.includes(t.id)) b.classList.add("src");
+    else if(s.feeds.includes(t.id)) b.classList.add("feed");
+    const short={s1:"Revenue",s2:"Production",s3a:"DM usage",s3b:"DM purchases",s4:"Direct labor",s5:"Overhead",s6a:"Unit cost",s6b:"Ending FG",s7:"COGS",s8:"S&A",is:"Income statement"}[t.id];
+    b.innerHTML=`<span class="n">${t.chip}</span>${short}${done[t.id]?' <span class="ok" aria-label="all correct">✓</span>':""}`;
+    b.onclick=()=>go(i);
+    nav.appendChild(b);
+  });
+}
+function nameOf(id){const t=SCHED.find(x=>x.id===id); return t.id==="is"?"Income statement":"Schedule "+t.chip;}
+function render(){
+  const s=SCHED[cur];
+  $("sTitle").textContent=s.title;
+  const u=s.uses.length?s.uses.map(nameOf).join(", "):"Starting point";
+  const f=s.feeds.length?s.feeds.map(nameOf).join(", "):(s.id==="s3b"?"The cash budget (payments for materials)":"End of the master budget");
+  $("sLinks").innerHTML=`<b>Uses:</b> ${u}. &nbsp; <b>Feeds:</b> ${f}.`;
+  $("sFacts").innerHTML=s.facts(A).map(p=>`<p>${p}</p>`).join("");
+  const cols=colsOf(s), inner=$("tinner");
+  const sol = mode==="solution" || revealed[s.id];
+  let h=`<table class="sched${s.is?" is":""}${s.links?" linked":""}">`;
+  if(s.is) h+=`<caption>${esc(A.company)}<span>Budgeted income statement</span><span>For the quarter ending June 30</span></caption>`;
+  h+=`<thead><tr><th scope="col">${s.is?"":""}</th>${cols.map(c=>`<th scope="col" class="${c.helper?"helper":""}">${c.label}${c.helper?`<small>${s.id==="s2"?"needed for 3B":"from July production"}</small>`:""}</th>`).join("")}</tr></thead><tbody>`;
+  s.rows.forEach(row=>{
+    h+=`<tr class="${row.cls||""}"><td class="lab">${row.label}</td>`;
+    cols.forEach(c=>{
+      const sp=cellSpec(s,row,c), id=`${s.id}.${row.key}.${c.k}`;
+      const hc=c.helper?" helper":"";
+      if(sp.kind==="na"){h+=`<td class="na${hc}" data-id="${id}"></td>`; return;}
+      if(sp.kind==="given"){
+        h+=`<td class="giv${hc}" data-id="${id}" tabindex="0">${fmt[sp.f](V[id])}${sp.src&&sp.src!=="Given"?`<span class="tag">${sp.src}</span>`:""}</td>`; return;}
+      const v = sol ? fmt[sp.f](V[id]) : (answers[id]??"");
+      const st = checked[id]||"";
+      h+=`<td data-id="${id}"><input class="cell ${st}" data-id="${id}" inputmode="decimal" autocomplete="off" aria-label="${esc(row.label)}, ${c.label}" value="${esc(v)}" ${sol?"readonly":""}></td>`;
+    });
+    h+=`</tr>`;
+  });
+  h+=`</tbody></table><svg class="links" id="svgLinks" aria-hidden="true"></svg>`;
+  inner.innerHTML=h;
+  inner.querySelectorAll("input.cell").forEach(inp=>{
+    inp.addEventListener("input",()=>{answers[inp.dataset.id]=inp.value; delete checked[inp.dataset.id]; inp.classList.remove("right","wrong"); save();});
+    inp.addEventListener("focus",()=>explain(inp.dataset.id));
+    inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault(); moveNext(inp);}});
+  });
+  inner.querySelectorAll("td.giv").forEach(td=>{
+    td.addEventListener("focus",()=>explain(td.dataset.id));
+    td.addEventListener("click",()=>explain(td.dataset.id));
+  });
+  $("linkLeg").hidden=!s.links;
+  if(s.links) $("pctLeg").textContent = s.links==="prod" ? `Desired ending = ${fmt.p(A.fgPct)} of next month's sales` : `Desired ending = ${fmt.p(A.dmPct)} of next month's production needs`;
+  $("bReveal").textContent=revealed[s.id]?"Hide answers":"Show answers";
+  $("bReveal").disabled=mode==="solution"; $("bCheck").disabled=sol; $("bClear").disabled=sol;
+  $("bPrev").disabled=cur===0; $("bNext").disabled=cur===SCHED.length-1;
+  $("status").textContent=""; $("status").className="status";
+  $("explain").innerHTML=`<div class="where">Click or tab into any cell</div><div class="how">to see where its number comes from.</div>`;
+  renderFlow(); updateRing();
+  requestAnimationFrame(drawLinks);
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function moveNext(inp){const all=[...document.querySelectorAll("#tinner input.cell")]; const i=all.indexOf(inp); if(i>=0&&i<all.length-1) all[i+1].focus();}
+
+function specById(id){
+  const [sid,key,ck]=id.split("."); const s=SCHED.find(x=>x.id===sid); const row=s.rows.find(r=>r.key===key);
+  const c=colsOf(s).find(x=>x.k===ck); return {s,row,c,sp:cellSpec(s,row,c)};
+}
+function explain(id){
+  document.querySelectorAll("#tinner td.dep, #tinner td.focus").forEach(td=>td.classList.remove("dep","focus"));
+  const {s,row,c,sp}=specById(id);
+  const how=sp.how?sp.how(c.k):{t:""};
+  const td=document.querySelector(`#tinner td[data-id="${id}"]`); if(td) td.classList.add("focus");
+  (how.d||[]).forEach(d=>{const t=document.querySelector(`#tinner td[data-id="${d}"]`); if(t) t.classList.add("dep");});
+  const sol=mode==="solution"||revealed[s.id]||sp.kind==="given";
+  let text=how.t, res="";
+  if(sp.kind==="fill" && !sol){ text="Tip: "+(tipFor(id)||how.t); }
+  else if(sp.kind==="fill"){ res=` = <strong>${fmt[sp.f](V[id])}</strong>`; }
+  const lab = s.cols? `${row.label}, ${c.label.toLowerCase()}` : `${row.label}, ${c.label}`;
+  $("explain").innerHTML=`<div class="where">${s.is?"Income statement":"Schedule "+s.chip}: ${esc(lab)}</div><div class="how">${text}${res}</div>`;
+}
+
+/* ---------- inventory link arrows ---------- */
+function drawLinks(){
+  const s=SCHED[cur], svg=$("svgLinks"); if(!svg) return;
+  svg.innerHTML="";
+  if(!s.links||!$("showLinks").checked) return;
+  const inner=$("tinner"), box=inner.getBoundingClientRect();
+  svg.setAttribute("width",inner.scrollWidth); svg.setAttribute("height",inner.scrollHeight);
+  const R=el=>{const r=el.getBoundingClientRect(); return {l:r.left-box.left,r:r.right-box.left,t:r.top-box.top,b:r.bottom-box.top,cy:(r.top+r.bottom)/2-box.top};};
+  const td=id=>{const e=inner.querySelector(`td[data-id="${id}"]`); return e?R(e):null;};
+  const box2=id=>{const e=inner.querySelector(`td[data-id="${id}"]`); if(!e) return null; const i=e.querySelector("input"); return R(i||e);};
+  const css=getComputedStyle(document.documentElement);
+  const orange=css.getPropertyValue("--orangeBright").trim(), blue=css.getPropertyValue("--blue").trim();
+  const ns="http://www.w3.org/2000/svg";
+  const defs=document.createElementNS(ns,"defs");
+  [["ao",orange],["ab",blue]].forEach(([id,col])=>{const m=document.createElementNS(ns,"marker"); m.setAttribute("id",id); m.setAttribute("viewBox","0 0 10 10"); m.setAttribute("refX","9"); m.setAttribute("refY","5"); m.setAttribute("markerWidth","6"); m.setAttribute("markerHeight","6"); m.setAttribute("orient","auto-start-reverse"); const p=document.createElementNS(ns,"path"); p.setAttribute("d","M0,0 L10,5 L0,10 z"); p.setAttribute("fill",col); m.appendChild(p); defs.appendChild(m);});
+  svg.appendChild(defs);
+  const path=(d,col,mk,dash)=>{const p=document.createElementNS(ns,"path"); p.setAttribute("d",d); p.setAttribute("fill","none"); p.setAttribute("stroke",col); p.setAttribute("stroke-width","2.5"); p.setAttribute("stroke-linejoin","round"); if(dash) p.setAttribute("stroke-dasharray","6 4"); p.setAttribute("marker-end",`url(#${mk})`); svg.appendChild(p);};
+  const k=8; // corner radius
+  const base = s.links==="prod"?"units":"needs";
+  // Orange: next month's sales/needs  ->  this month's desired ending (runs down the gutter, enters from the right)
+  ["Apr","May","Jun"].forEach(m=>{
+    const src=td(`${s.id}.${base}.${NEXT[m]}`), dT=td(`${s.id}.end.${m}`), d=box2(`${s.id}.end.${m}`);
+    if(!src||!d) return;
+    const gx=src.l-9, y1=src.cy, y2=d.cy-5, xs=src.l+16, xe=d.r+3;
+    path(`M${xs},${y1} L${gx+k},${y1} Q${gx},${y1} ${gx},${y1+k} L${gx},${y2-k} Q${gx},${y2} ${gx-k},${y2} L${xe},${y2}`,orange,"ao",false);
+  });
+  // Blue: this month's ending  ->  next month's beginning (leaves to the right, down the gutter, enters from the left)
+  (s.links==="prod"?["Apr","May","Jun"]:["Apr","May"]).forEach(m=>{
+    const sT=td(`${s.id}.end.${m}`), sb=box2(`${s.id}.end.${m}`), d=box2(`${s.id}.beg.${NEXT[m]}`);
+    if(!sT||!sb||!d) return;
+    const gx=sT.r+9, y1=sb.cy+5, y2=d.cy, xs=sb.r+2, xe=d.l-3;
+    path(`M${xs},${y1} L${gx-k},${y1} Q${gx},${y1} ${gx},${y1+k} L${gx},${y2-k} Q${gx},${y2} ${gx+k},${y2} L${xe},${y2}`,blue,"ab",true);
+  });
+}
+window.addEventListener("resize",()=>requestAnimationFrame(drawLinks));
+
+
+/* ---------- master budget sequence diagram ---------- */
+const MAPN={ // x,y,w,h, lines, fill, target step index
+  rev:{x:120,y:8,w:100,h:42,l:["Revenues budget"],sc:"(Schedule 1)",fill:"#E3F1E0",go:"s1"},
+  inv:{x:16,y:68,w:96,h:52,l:["Ending inventory","budget"],sc:"(Schedules 2 & 6)",go:"s6a"},
+  prod:{x:120,y:68,w:100,h:52,l:["Production","budget"],sc:"(Schedule 2)",go:"s2"},
+  dm:{x:16,y:148,w:96,h:58,l:["Direct material","costs budget"],sc:"(Schedule 3)",go:"s3a"},
+  dl:{x:120,y:148,w:100,h:58,l:["Direct labor","costs budget"],sc:"(Schedule 4)",go:"s4"},
+  moh:{x:228,y:148,w:102,h:58,l:["Mfg. overhead","costs budget"],sc:"(Schedule 5)",go:"s5"},
+  cogs:{x:120,y:228,w:100,h:50,l:["Cost of goods","sold budget"],sc:"(Schedule 7)",go:"s7"},
+  rd:{x:120,y:298,w:100,h:46,l:["R&D/design","costs budget"],sc:"(Schedule 8)",go:"s8"},
+  mkt:{x:120,y:362,w:100,h:46,l:["Marketing","costs budget"],sc:"(Schedule 8)",go:"s8"},
+  dist:{x:120,y:426,w:100,h:46,l:["Distribution","costs budget"],sc:"(Schedule 8)",go:"s8"},
+  is:{x:120,y:492,w:100,h:50,l:["Budgeted income","statement"],sc:"",fill:"#79C46F",go:"is"}
+};
+const RING={s1:["rev"],s2:["prod"],s3a:["dm"],s3b:["dm"],s4:["dl"],s5:["moh"],s6a:["inv"],s6b:["inv"],s7:["cogs"],s8:["rd","mkt","dist"],is:["is"]};
+function buildMap(){
+  const blue="#2EA3DB", dark="#2b2b2b";
+  const L=(pts,col,arrow=true)=>`<polyline class="ah" points="${pts}" stroke="${col}" ${arrow?`marker-end="url(#m${col===blue?"b":"d"})"`:""}/>`;
+  const n=MAPN;
+  const cx=k=>n[k].x+n[k].w/2, bot=k=>n[k].y+n[k].h, mid=k=>n[k].y+n[k].h/2, rt=k=>n[k].x+n[k].w;
+  let g="";
+  // dark flow
+  g+=L(`${cx("rev")},${bot("rev")} ${cx("prod")},${n.prod.y-2}`,dark);
+  g+=L(`${cx("prod")},${bot("prod")} ${cx("prod")},134`,dark,false);
+  g+=L(`${cx("dm")},134 ${cx("moh")},134`,dark,false);
+  g+=L(`${cx("dm")},134 ${cx("dm")},${n.dm.y-2}`,dark); g+=L(`${cx("dl")},134 ${cx("dl")},${n.dl.y-2}`,dark); g+=L(`${cx("moh")},134 ${cx("moh")},${n.moh.y-2}`,dark);
+  g+=L(`${cx("dl")},${bot("dl")} ${cx("cogs")},${n.cogs.y-2}`,dark);
+  [["cogs","rd"],["rd","mkt"],["mkt","dist"],["dist","is"]].forEach(([a,b])=>g+=L(`${cx(a)},${bot(a)} ${cx(b)},${n[b].y-2}`,dark));
+  // blue feeds
+  g+=L(`${n.rev.x},${mid("rev")} ${cx("inv")},${mid("rev")} ${cx("inv")},${n.inv.y-2}`,blue);
+  g+=L(`${rt("inv")},${mid("inv")} ${n.prod.x-2},${mid("inv")}`,blue);
+  g+=L(`${n.inv.x+10},${bot("inv")} ${n.inv.x+10},${bot("inv")+6} 7,${bot("inv")+6} 7,${mid("dm")} ${n.dm.x-2},${mid("dm")}`,blue);
+  g+=L(`7,${mid("dm")} 7,${n.cogs.y+36} ${n.cogs.x-2},${n.cogs.y+36}`,blue);
+  g+=L(`${cx("dm")},${bot("dm")} ${cx("dm")},${n.cogs.y+16} ${n.cogs.x-2},${n.cogs.y+16}`,blue);
+  g+=L(`${cx("moh")},${bot("moh")} ${cx("moh")},${mid("cogs")} ${rt("cogs")+2},${mid("cogs")}`,blue);
+  g+=L(`${rt("rev")},${mid("rev")} 342,${mid("rev")} 342,${mid("is")}`,blue,false);
+  ["rd","mkt","dist","is"].forEach(k=>g+=L(`342,${mid(k)} ${rt(k)+2},${mid(k)}`,blue));
+  // nodes
+  Object.entries(n).forEach(([k,o])=>{
+    const lines=o.l.length+(o.sc?1:0), lh=14, y0=o.y+o.h/2-(lines-1)*lh/2+4;
+    let t=o.l.map((x,i)=>`<tspan class="nm" x="${o.x+o.w/2}" y="${y0+i*lh}">${x}</tspan>`).join("");
+    if(o.sc) t+=`<tspan x="${o.x+o.w/2}" y="${y0+o.l.length*lh}">${o.sc}</tspan>`;
+    g+=`<g class="node"><rect x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}" rx="4" fill="${o.fill||"#B9DDB4"}"/><text text-anchor="middle">${t}</text></g>`;
+  });
+  const svg=(id,title)=>`<svg class="mapsvg" viewBox="0 0 350 552" ${title?`role="img" aria-label="Master budget sequence diagram"`:`aria-hidden="true" focusable="false"`}>
+    <defs><marker id="mb${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="${blue}"/></marker>
+    <marker id="md${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="${dark}"/></marker></defs>
+    ${g.split("url(#mb)").join(`url(#mb${id})`).split("url(#md)").join(`url(#md${id})`)}<ellipse class="ring" cx="170" cy="29" rx="62" ry="30"/></svg>`;
+  $("mapThumb").innerHTML=svg("t",false);
+  $("dlgBody").innerHTML=svg("d",true);
+  const dlg=$("mapDlg");
+  $("mapBtn").onclick=()=>{ if(dlg.showModal) dlg.showModal(); else dlg.setAttribute("open",""); };
+  $("dlgClose").onclick=()=>{ if(dlg.close) dlg.close(); else dlg.removeAttribute("open"); };
+  dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
+}
+function updateRing(){
+  const ks=RING[SCHED[cur].id];
+  let x1=1e9,y1=1e9,x2=-1e9,y2=-1e9;
+  ks.forEach(k=>{const o=MAPN[k]; x1=Math.min(x1,o.x); y1=Math.min(y1,o.y); x2=Math.max(x2,o.x+o.w); y2=Math.max(y2,o.y+o.h);});
+  const w=x2-x1, h=y2-y1;
+  document.querySelectorAll(".mapsvg .ring").forEach(ring=>{
+    ring.setAttribute("cx",(x1+x2)/2); ring.setAttribute("cy",(y1+y2)/2);
+    if(ks.length>1){ring.setAttribute("rx",w/2+16); ring.setAttribute("ry",h/2+10);} else {ring.setAttribute("rx",w/2*1.22); ring.setAttribute("ry",h/2*1.32);}
+  });
+  const t=SCHED[cur].title, nm=t.replace(/^Schedule [0-9A-Z]+: /,""), num=t.includes(":")?" ("+t.split(":")[0]+")":"";
+  $("dlgSub").textContent=`You're working on the ${nm.charAt(0).toLowerCase()+nm.slice(1)}${num}, circled in red.`;
+}
+
+/* ---------- check / reveal ---------- */
+function tol(ans){const a=Math.abs(ans); return a<100?0.011:Math.max(1,a*0.0005);}
+function check(){
+  const s=SCHED[cur]; let n=0,ok=0,blank=0;
+  document.querySelectorAll("#tinner input.cell").forEach(inp=>{
+    const id=inp.dataset.id, v=parseNum(inp.value); n++;
+    if(isNaN(v)){blank++; inp.classList.remove("right","wrong"); delete checked[id]; return;}
+    const good=Math.abs(v-V[id])<=tol(V[id]);
+    checked[id]=good?"right":"wrong"; inp.classList.toggle("right",good); inp.classList.toggle("wrong",!good); if(good) ok++;
+  });
+  done[s.id]= ok===n;
+  const st=$("status");
+  if(ok===n){st.textContent="All correct. Nice work."; st.className="status good";}
+  else {st.textContent=`${ok} of ${n} correct${blank?`, ${blank} blank`:""}. Click a red cell to see how it's built.`; st.className="status bad";}
+  renderFlow(); save();
+}
+function clearS(){
+  const s=SCHED[cur];
+  Object.keys(answers).forEach(k=>{if(k.startsWith(s.id+".")){delete answers[k]; delete checked[k];}});
+  done[s.id]=false; save(); render();
+}
+
+function newScenario(rebuild=true){
+  answers={}; checked={}; revealed={}; done={};
+  compute(); buildFill();
+  $("subtitle").textContent=`${A.company}, quarter ending June 30`;
+  save(); render();
+}
+function rnd(a,b,step=1){const n=Math.floor((b-a)/step)+1; return r2(a+step*Math.floor(Math.random()*n));}
+function randomScenario(){
+  const names=["Titan Gear Co.","Fullerton Frames","Pacific Lantern","Orange Grove Supply","Harbor Bike Works","Sunrise Bottling","Canyon Tile Co.","Elm Street Audio"];
+  const a={company:names[Math.floor(Math.random()*names.length)]};
+  a.sales=[0,0,0,0,0].map(()=>rnd(10000,60000,1000));
+  a.price=rnd(8,30,1); a.fgPct=[10,15,20,25][Math.floor(Math.random()*4)];
+  a.lbs=rnd(2,6,1); a.dmPct=[10,15,20][Math.floor(Math.random()*3)];
+  a.cpl=rnd(0.25,2,0.05); a.dlh=[0.05,0.1,0.2,0.25][Math.floor(Math.random()*4)];
+  a.wage=rnd(15,30,1); a.vmoh=rnd(4,24,1); a.fmoh=rnd(20000,80000,5000);
+  a.vsa=rnd(0.25,2,0.25); a.fsa=rnd(30000,90000,5000);
+  a.begFGu=r0(a.fgPct/100*a.sales[0]);
+  // beginning DM = policy × April production needs
+  const endApr=r0(a.fgPct/100*a.sales[1]); const prodApr=a.sales[0]+endApr-a.begFGu;
+  a.begDM=r0(a.dmPct/100*prodApr*a.lbs);
+  A=a; a.price=1; a.begFGd=0; compute();
+  A.begFGd=Math.round(A.begFGu*V["s6a.unit.tot"]*(0.97+Math.random()*0.06)); compute();
+  // set a realistic price: operating margin of 10%-25% of sales
+  const margin=0.10+Math.random()*0.15, unitsQ=V["s1.units.Q"];
+  A.price=Math.ceil(((V["s7.cogs.Q"]+V["s8.tot.Q"])/(unitsQ*(1-margin)))*2)/2;
+  newScenario();
+}
+
+/* ---------- persistence and sharing ---------- */
+function save(){try{localStorage.setItem("mbb_v1",JSON.stringify({A,answers,checked,done,cur}));}catch(e){}}
+function load(){
+  try{const s=JSON.parse(localStorage.getItem("mbb_v1")||"null"); if(s&&s.A&&s.A.sales){A=s.A; answers=s.answers||{}; checked=s.checked||{}; done=s.done||{}; cur=s.cur||0;}}catch(e){}
+}
+/* ---------- wiring ---------- */
+function go(i){cur=Math.max(0,Math.min(SCHED.length-1,i)); save(); render(); $("card").scrollIntoView({block:"nearest"});}
+$("bPrev").onclick=()=>go(cur-1); $("bNext").onclick=()=>go(cur+1);
+$("bCheck").onclick=check; $("bClear").onclick=clearS;
+$("bReveal").onclick=()=>{const s=SCHED[cur]; revealed[s.id]=!revealed[s.id]; render();};
+$("bRoyal").onclick=()=>{A=JSON.parse(JSON.stringify(ROYAL)); newScenario();};
+$("bRandom").onclick=randomScenario;
+$("showLinks").onchange=drawLinks;
+function setMode(m){mode=m; $("mPractice").setAttribute("aria-pressed",m==="practice"); $("mSolution").setAttribute("aria-pressed",m==="solution"); render();}
+$("mPractice").onclick=()=>setMode("practice"); $("mSolution").onclick=()=>setMode("solution");
+if(window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>requestAnimationFrame(drawLinks));
+
+load(); compute(); buildFill(); buildMap();
+$("subtitle").textContent=`${A.company}, quarter ending June 30`;
+render();
+</script>
+</body>
+</html>
