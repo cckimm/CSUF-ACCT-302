@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter 7 Part I: From Level 0 to Level 3 Variances | ACCT 302</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#1d2430; --muted:#5d6675; --line:#d5d9e0; --soft:#f3f5f8;
+  --navy:#00244E; --orangeBright:#FF7900; --onNavy:#ffffff;
+  --fav:#1E7A3C; --unf:#B42318; --goodBg:#E7F4EC; --badBg:#FDECEA;
+  --cAct:#FFF1E2; --cActB:#E06A00; --cFlx:#E6EEF9; --cFlxB:#1F5FA8; --cSta:#EEF0F3; --cStaB:#6B7280; --cAsifB:#0F7A6C;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16191f; --ink:#e9ecf1; --muted:#a5adba; --line:#363c47; --soft:#1f232b;
+    --navy:#8fb3e3; --orangeBright:#FF9A3D; --onNavy:#0d1a2b; --fav:#5CC883; --unf:#FF7B6E; --goodBg:#16301f; --badBg:#3a1d1a;
+    --cAct:#3a2a18; --cActB:#FFA24D; --cFlx:#1b2a40; --cFlxB:#7FB0EE; --cSta:#262a31; --cStaB:#a5adba; --cAsifB:#5ED1BF;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16191f; --ink:#e9ecf1; --muted:#a5adba; --line:#363c47; --soft:#1f232b;
+  --navy:#8fb3e3; --orangeBright:#FF9A3D; --onNavy:#0d1a2b; --fav:#5CC883; --unf:#FF7B6E; --goodBg:#16301f; --badBg:#3a1d1a;
+  --cAct:#3a2a18; --cActB:#FFA24D; --cFlx:#1b2a40; --cFlxB:#7FB0EE; --cSta:#262a31; --cStaB:#a5adba; --cAsifB:#5ED1BF;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif; font-size:17px; line-height:1.4}
+button,input{font:inherit; color:inherit}
+.wrap{max-width:1240px; margin:0 auto; padding:0 20px 40px}
+header.top{border-top:8px solid #00244E; border-bottom:3px solid var(--orangeBright); margin-bottom:16px}
+header.top .wrap{padding-top:18px; padding-bottom:14px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:12px}
+h1{margin:0; font-size:2rem; line-height:1.1}
+.sub{margin:.2em 0 0; color:var(--muted)}
+.bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.btn{border:2px solid var(--navy); background:transparent; color:var(--navy); border-radius:8px; padding:.45em .9em; font-weight:700; cursor:pointer; min-height:44px}
+.btn.primary{background:var(--navy); color:var(--onNavy)}
+.btn:disabled{opacity:.4; cursor:default}
+.seg{display:inline-flex; border:2px solid var(--navy); border-radius:8px; overflow:hidden}
+.seg button{border:0; background:transparent; padding:.45em .9em; font-weight:700; cursor:pointer; color:var(--navy); min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--navy); color:var(--onNavy)}
+.btn:focus-visible,.seg button:focus-visible,.stepdot:focus-visible,.cellbtn:focus-visible,.tnode:focus-visible,.chip:focus-visible,.rowpick:focus-visible,input:focus-visible{outline:3px solid var(--orangeBright); outline-offset:2px}
+
+.steps{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px}
+.stepdot{border:2px solid var(--line); background:var(--bg); border-radius:999px; padding:.3em .8em; font-weight:700; font-size:.9rem; cursor:pointer; min-height:40px; display:inline-flex; align-items:center; gap:.45em}
+.stepdot .n{display:inline-grid; place-items:center; width:1.55em; height:1.55em; border-radius:50%; background:var(--soft); font-size:.85em}
+.stepdot.cur{background:var(--navy); color:var(--onNavy); border-color:var(--navy)}
+.stepdot.cur .n{background:rgba(255,255,255,.22)}
+.stepdot .ok{color:var(--fav)} .stepdot.cur .ok{color:#9ff0bb}
+
+.topgrid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,470px); gap:22px; align-items:start; margin-bottom:12px}
+.story h2{margin:0 0 .3em; font-size:1.55rem; line-height:1.15}
+.story .lvl{display:inline-block; font-weight:700; color:var(--navy); margin-bottom:.2em}
+.story p{margin:.35em 0}
+.story .q{border-left:5px solid var(--orangeBright); background:var(--soft); padding:.5em .8em; border-radius:0 8px 8px 0; margin-top:.6em}
+.eq{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:.6em; font-weight:700}
+.chipv{border-radius:8px; padding:.2em .6em; border:2px solid currentColor}
+.tree h3{margin:0 0 .2em; font-size:.95rem; color:var(--muted)}
+.tree svg{width:100%; height:auto; max-height:290px; display:block}
+.tnode{cursor:pointer}
+.tnode text{font-family:"Carlito","Calibri",Arial,sans-serif}
+
+.sheetcard{border:1px solid var(--line); border-radius:12px; padding:14px 16px 16px}
+.tscroll{overflow-x:auto}
+.tin{position:relative; width:max-content; margin:0 auto; padding-top:52px}
+.brk{position:absolute; top:4px; height:40px; transition:opacity .35s; opacity:0}
+.brk .bar{position:absolute; left:0; right:0; bottom:0; height:12px; border:2.5px solid; border-bottom:0; border-radius:8px 8px 0 0}
+.brk .bl{position:absolute; left:-20px; right:-20px; bottom:16px; text-align:center; font-weight:700; font-size:.82rem; white-space:nowrap; line-height:1.1}
+.grid{display:grid; transition:grid-template-columns .6s ease; font-variant-numeric:tabular-nums}
+.c{overflow:hidden; white-space:nowrap; border-bottom:1px solid var(--line); min-width:0; transition:background .3s}
+.c > .in{padding:.34em .6em; transition:opacity .4s}
+.c.num{text-align:right}
+.c.h{white-space:normal; font-weight:700; border-bottom:2px solid var(--ink); display:flex; align-items:flex-end; text-align:right; line-height:1.15}
+.c.h.lab,.c.h.frm{text-align:left}
+.c.h .in{width:100%}
+.c.h small{display:block; font-weight:400; color:var(--muted); font-size:.75em}
+.c.frm{color:var(--muted)}
+.c.indent > .in{padding-left:1.3em}
+.c.hdr{font-weight:700}
+.c.tot{border-top:1.5px solid var(--ink)}
+.c.noi{font-weight:700; border-bottom:4px double var(--ink)}
+.col-act{background:var(--cAct)} .col-flx{background:var(--cFlx)} .col-sta{background:var(--cSta)}
+.c.h.col-act{box-shadow:inset 0 4px 0 var(--cActB)} .c.h.col-flx{box-shadow:inset 0 4px 0 var(--cFlxB)} .c.h.col-sta{box-shadow:inset 0 4px 0 var(--cStaB)}
+.c.var > .in{padding-top:.2em; padding-bottom:.2em}
+.c.var{font-weight:700}
+.fav{color:var(--fav)} .unf{color:var(--unf)}
+.c.dim > .in{opacity:.18}
+.c.hide > .in{opacity:0; visibility:hidden}
+.c.rowhl{box-shadow:inset 0 2px 0 var(--orangeBright), inset 0 -2px 0 var(--orangeBright)}
+.c.rowhl.first{box-shadow:inset 2px 2px 0 var(--orangeBright), inset 0 -2px 0 var(--orangeBright)}
+.c.rowhl.last{box-shadow:inset -2px 2px 0 var(--orangeBright), inset 0 -2px 0 var(--orangeBright)}
+.cellbtn{all:unset; display:inline-block; cursor:pointer; border-radius:4px; padding:.14em .2em}
+.cellbtn:hover{text-decoration:underline dotted}
+.rowpick{all:unset; cursor:pointer; border-bottom:2px dotted var(--cAsifB)}
+.vin{width:7.2em; text-align:right; padding:.22em .4em; border:1px solid var(--line); border-bottom:2px solid var(--navy); border-radius:4px; background:var(--bg); font-weight:700; font-variant-numeric:tabular-nums}
+.vin.right{border-color:var(--fav); background:var(--goodBg)}
+.vin.wrong{border-color:var(--unf); background:var(--badBg)}
+.vin.half{border-color:var(--orangeBright)}
+.vin::placeholder{font-weight:400; color:var(--muted)}
+.neq{position:absolute; transition:opacity .35s; opacity:0; font-weight:700; color:var(--unf); background:var(--bg); border:2px solid var(--unf); border-radius:999px; padding:.05em .55em; font-size:.85rem; white-space:nowrap; pointer-events:none}
+
+.zoom{position:relative; height:0; overflow:hidden; transition:height .5s ease}
+.zoom.on{height:330px}
+.zchips{position:absolute; left:0; right:0; top:14px; display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+.zchips .lab{font-weight:700; margin-right:4px}
+.chip{border:2px solid var(--line); background:var(--bg); border-radius:999px; padding:.15em .7em; cursor:pointer; font-weight:700; font-size:.88rem; min-height:34px}
+.chip[aria-pressed="true"]{border-color:var(--cAsifB); background:var(--cAsifB); color:#fff}
+.ztitle{position:absolute; left:0; top:72px; padding-right:14px}
+.ztitle b{display:block; font-size:1.05rem}
+.ztitle p{margin:.3em 0 0; color:var(--muted); font-size:.9rem; white-space:normal}
+.zbox{position:absolute; top:72px; border:2.5px solid; border-radius:10px; padding:.35em .4em; text-align:center; line-height:1.25; font-variant-numeric:tabular-nums; background:var(--bg)}
+.zbox .zt{font-weight:700; font-size:.9rem}
+.zbox .zf{color:var(--muted); font-size:.78rem}
+.zbox .zv{font-size:.86rem}
+.zbox .zr{font-weight:700; font-size:1.02rem}
+.zguide{position:absolute; top:52px; height:20px; border-left:2px dashed var(--muted)}
+.zbr{position:absolute; height:34px}
+.zbr .bar{position:absolute; left:0; right:0; top:0; height:12px; border:2.5px solid; border-top:0; border-radius:0 0 8px 8px}
+.zbr .bl{position:absolute; left:-40px; right:-40px; top:15px; text-align:center; font-weight:700; font-size:.88rem; white-space:nowrap; line-height:1.25}
+.zbr .bl .vin{margin-top:3px}
+
+.explain{margin:12px 0 0; border-left:5px solid var(--navy); background:var(--soft); padding:.6em 1em; border-radius:0 8px 8px 0; min-height:2.9em}
+.explain .where{font-size:.85rem; color:var(--muted)}
+.explain .meaning{margin-top:.35em; padding-top:.35em; border-top:1px solid var(--line)}
+.actions{display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; margin-top:14px; align-items:center}
+.status{font-weight:700}
+.status.good{color:var(--fav)} .status.bad{color:var(--unf)}
+.legend{display:flex; flex-wrap:wrap; gap:14px; color:var(--muted); font-size:.85rem; margin-top:10px}
+.legend i{display:inline-block; width:1.1em; height:.9em; border-radius:3px; vertical-align:-1px; margin-right:.3em; border:1.5px solid}
+.foot{color:var(--muted); font-size:.85rem; margin-top:18px}
+.foot a{color:inherit}
+@media (max-width:1000px){ .topgrid{grid-template-columns:1fr} .tree{max-width:470px} }
+@media (max-width:600px){ body{font-size:16px} h1{font-size:1.6rem} .story h2{font-size:1.35rem} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>From Level 0 to Level 3 variances</h1>
+      <p class="sub" id="subtitle">Larry's Lawn Service, month ended June 30 (class example)</p>
+    </div>
+    <div class="bar">
+      <button type="button" class="btn" id="bNew">Try new numbers</button>
+      <button type="button" class="btn" id="bClass">Class example</button>
+      <div class="seg" role="group" aria-label="Mode">
+        <button type="button" id="mPractice" aria-pressed="true">Practice</button>
+        <button type="button" id="mSolution" aria-pressed="false">Solution</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="steps" id="steps" aria-label="Steps"></nav>
+
+  <section class="topgrid">
+    <div class="story" id="story" aria-live="polite"></div>
+    <div class="tree">
+      <h3>Roadmap of variance analysis</h3>
+      <svg id="tree" viewBox="-10 -10 500 296" role="img" aria-label="Roadmap of variance analysis from Level 0 to Level 3"></svg>
+    </div>
+  </section>
+
+  <section class="sheetcard">
+    <div class="tscroll">
+      <div class="tin" id="tin">
+        <div class="brk" id="brkL1"><div class="bl"></div><div class="bar"></div></div>
+        <div class="brk" id="brkFB"><div class="bl"></div><div class="bar"></div></div>
+        <div class="brk" id="brkSV"><div class="bl"></div><div class="bar"></div></div>
+        <div class="grid" id="grid"></div>
+        <div class="neq" id="neq"></div>
+        <div class="zoom" id="zoom">
+          <div class="zchips" id="zchips"></div>
+          <div class="ztitle" id="ztitle"></div>
+          <div class="zguide" id="g1"></div><div class="zguide" id="g2"></div><div class="zguide" id="g3"></div>
+          <div class="zbox" id="zb1"></div><div class="zbox" id="zb2"></div><div class="zbox" id="zb3"></div>
+          <div class="zbr" id="zbP"><div class="bar"></div><div class="bl"></div></div>
+          <div class="zbr" id="zbE"><div class="bar"></div><div class="bl"></div></div>
+          <div class="zbr" id="zbT"><div class="bar"></div><div class="bl"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span><i style="background:var(--cAct);border-color:var(--cActB)"></i>Actual results</span>
+      <span><i style="background:var(--cFlx);border-color:var(--cFlxB)"></i>Flexible budget (actual output)</span>
+      <span><i style="background:var(--cSta);border-color:var(--cStaB)"></i>Static budget (budgeted output)</span>
+      <span><i style="background:var(--bg);border-color:var(--cAsifB)"></i>As-if budget (actual quantity × standard price)</span>
+      <span><b class="fav">F</b> favorable, <b class="unf">U</b> unfavorable</span>
+    </div>
+    <div class="explain" id="explain" aria-live="polite"></div>
+    <div class="actions">
+      <div class="bar">
+        <button type="button" class="btn primary" id="bCheck">Check my answers</button>
+        <button type="button" class="btn" id="bReveal">Show answers</button>
+        <button type="button" class="btn" id="bClear">Clear</button>
+        <span class="status" id="status" aria-live="polite"></span>
+      </div>
+      <div class="bar">
+        <button type="button" class="btn" id="bPrev">Back</button>
+        <button type="button" class="btn primary" id="bNext">Next step</button>
+      </div>
+    </div>
+  </section>
+  <p class="foot"><a href="./">All in-class widgets</a>. Type each variance as an amount followed by F or U, for example 350 F. Type 0 when there is no variance. Commas and dollar signs are optional.</p>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const r2=x=>Math.round((x+Number.EPSILON)*100)/100;
+
+/* ---------- scenario ---------- */
+// Each expense: per (variable per lawn), fix (fixed), and a Level 3 price/quantity model.
+const LARRY={name:"Larry's Lawn Service, month ended June 30 (class example)", QS:500, QA:550, price:75, revA:43000,
+ items:{
+  wag:{label:"Wages and salaries",short:"Wages",var:true,fix:5000,fixA:5000,unit:"labor hour",units:"labor hours",ab:"hrs",qpu:1.5,SP:20,AQ:1000,AP:18.50,
+       why:{pU:"",pF:"Larry paid a lower average wage, for example by using less experienced workers.",eU:"Extra hours were needed for the additional trimming.",eF:""}},
+  gas:{label:"Gasoline and supplies",short:"Gasoline",var:true,fix:0,unit:"gallon",units:"gallons",ab:"gal",qpu:2,SP:4.50,AQ:1000,AP:5.10,
+       why:{pU:"Gasoline prices rose during June.",eF:"Larry used less gas than the standard allows for 550 lawns."}},
+  mnt:{label:"Equipment maintenance",short:"Maintenance",var:true,fix:0,unit:"maintenance hour",units:"maintenance hours",ab:"hrs",qpu:0.1,SP:30,AQ:40,AP:32.50,
+       why:{eF:"Maintenance was postponed to finish the extra edging and trimming. That saves money now but may cost more later.",pU:"The repair shop charged a higher hourly rate."}},
+  utl:{label:"Office and shop utilities",short:"Utilities",var:false,unit:"kWh",units:"kWh",ab:"kWh",BQ:5000,SP:0.20,AQ:4750,AP:0.20,
+       why:{eF:"The weather was milder than normal for June, so less electricity was used."}},
+  rnt:{label:"Office and shop rent",short:"Rent",var:false,unit:"month",units:"months",ab:"mo",BQ:1,SP:2000,AQ:1,AP:2000,why:{}},
+  dep:{label:"Equipment depreciation",short:"Depreciation",var:false,unit:"mower",units:"mowers",ab:"mowers",BQ:5,SP:500,AQ:5,AP:500,why:{}},
+  ins:{label:"Insurance",short:"Insurance",var:false,unit:"policy",units:"policies",ab:"policy",BQ:1,SP:1000,AQ:1,AP:1200,
+       why:{pU:"The insurance company raised the premium unexpectedly."}}
+ }};
+const ORDER=["wag","gas","mnt","utl","rnt","dep","ins"];
+let SC=JSON.parse(JSON.stringify(LARRY));
+
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rnd(a,b,step){const lo=Math.ceil(a/step-1e-9)*step, n=Math.floor((b-lo)/step+1e-9)+1; return r2(lo+step*Math.floor(Math.random()*Math.max(1,n)));}
+function newScenario(){
+  const s=JSON.parse(JSON.stringify(LARRY));
+  s.name="Larry's Lawn Service, practice month (new numbers)";
+  s.QS=rnd(400,800,20); s.QA=Math.round(s.QS*rnd(0.85,1.2,0.01)/10)*10; if(s.QA===s.QS) s.QA+=20;
+  s.price=rnd(60,95,1); s.revA=s.QA*rnd(s.price*0.94,s.price*1.06,0.5);
+  const I=s.items; ORDER.forEach(k=>I[k].why={});
+  I.wag.fix=rnd(3000,7000,500); I.wag.fixA=I.wag.fix; I.wag.qpu=pick([1,1.5,2]); I.wag.SP=rnd(16,24,1);
+  I.wag.AQ=Math.round(s.QA*I.wag.qpu*rnd(0.88,1.15,0.01)/10)*10; I.wag.AP=rnd(I.wag.SP*0.9,I.wag.SP*1.1,0.1);
+  I.gas.qpu=2; I.gas.SP=rnd(3.5,5,0.05); I.gas.AQ=Math.round(s.QA*2*rnd(0.88,1.12,0.01)/20)*20; I.gas.AP=rnd(I.gas.SP*0.9,I.gas.SP*1.12,0.05);
+  I.mnt.qpu=0.1; I.mnt.SP=rnd(25,40,1); I.mnt.AQ=Math.max(1,Math.round(s.QA*0.1*rnd(0.75,1.2,0.01))); I.mnt.AP=rnd(I.mnt.SP-3,I.mnt.SP+4,1);
+  I.utl.BQ=rnd(4000,6000,100); I.utl.SP=rnd(0.15,0.25,0.01); I.utl.AQ=Math.round(I.utl.BQ*rnd(0.9,1.1,0.01)/100)*100; I.utl.AP=Math.random()<0.5?I.utl.SP:r2(I.utl.SP+pick([-0.01,0.01,0.02]));
+  I.rnt.SP=rnd(1500,3000,100); I.rnt.AP=Math.random()<0.75?I.rnt.SP:I.rnt.SP+pick([100,200]);
+  I.dep.BQ=rnd(4,8,1); I.dep.SP=rnd(300,600,50); I.dep.AQ=I.dep.BQ; I.dep.AP=I.dep.SP;
+  I.ins.SP=rnd(800,1500,50); I.ins.AP=Math.random()<0.6?Math.round(I.ins.SP*pick([1.1,1.15,1.2,1.25])/10)*10:I.ins.SP;
+  ["wag","gas","mnt"].forEach(k=>I[k].AP=r2(I[k].AP));
+  // price so the static budget earns an 8%-20% operating margin
+  ORDER.forEach(k=>{const it=I[k]; if(it.var) it.per=r2(it.qpu*it.SP); else {it.per=0; it.fix=r2(it.BQ*it.SP);} });
+  const sExp=ORDER.reduce((a,k)=>a+I[k].fix+I[k].per*s.QS,0);
+  s.price=Math.ceil(sExp/(s.QS*(1-rnd(0.08,0.20,0.01))));
+  s.revA=r2(s.QA*rnd(s.price*0.96,s.price*1.04,0.5));
+  return s;
+}
+function goodScenario(){
+  for(let t=0;t<200;t++){ const s=newScenario(); SC=s; build(); if(NOI.A>0 && NOI.F>0 && NOI.S>0 && Math.abs(NOI.A-NOI.S)>=50) return s; }
+  return JSON.parse(JSON.stringify(LARRY));
+}
+
+/* ---------- model ---------- */
+let LINES=[], NOI, L3={};
+function build(){
+  const s=SC, I=s.items;
+  ORDER.forEach(k=>{const it=I[k]; if(it.var){ it.per=r2(it.qpu*it.SP); } else { it.per=0; it.fix=r2(it.BQ*it.SP); } });
+  const fmlaMoney=x=>"$"+(Number.isInteger(x)?x.toLocaleString("en-US"):x.toFixed(2));
+  LINES=[{k:"q",label:"Number of lawns (Q)",frm:"",type:"q",A:s.QA,F:s.QA,S:s.QS},
+         {k:"rev",label:"Revenue",frm:`${fmlaMoney(s.price)}Q`,type:"rev",A:s.revA,F:r2(s.price*s.QA),S:r2(s.price*s.QS)},
+         {k:"exph",label:"Expenses:",type:"hdr"}];
+  ORDER.forEach(k=>{const it=I[k];
+    const frm= it.var ? (it.fix?`${fmlaMoney(it.fix)} + ${fmlaMoney(it.per)}Q`:`${fmlaMoney(it.per)}Q`) : fmlaMoney(it.fix);
+    const A=r2((it.var?(it.fixA||0):0)+r2(it.AQ*it.AP));
+    LINES.push({k,label:it.label,frm,type:"exp",A,F:r2(it.fix+it.per*s.QA),S:r2(it.fix+it.per*s.QS)});
+    // level 3
+    const SQ = it.var ? r2(it.qpu*s.QA) : it.BQ;
+    const AQAP=r2(it.AQ*it.AP), AQSP=r2(it.AQ*it.SP), SQSP=r2(SQ*it.SP);
+    L3[k]={SQ,AQAP,AQSP,SQSP,p:r2(AQAP-AQSP),e:r2(AQSP-SQSP)};
+  });
+  const ex=LINES.filter(l=>l.type==="exp");
+  const sum=f=>r2(ex.reduce((a,l)=>a+l[f],0));
+  LINES.push({k:"tex",label:"Total expenses",frm:"",type:"texp",A:sum("A"),F:sum("F"),S:sum("S")});
+  const R=LINES[1], T=LINES[LINES.length-1];
+  NOI={k:"noi",label:"Net operating income",frm:"",type:"noi",A:r2(R.A-T.A),F:r2(R.F-T.F),S:r2(R.S-T.S)};
+  LINES.push(NOI);
+}
+const line=k=>LINES.find(l=>l.k===k);
+
+/* ---------- answers ---------- */
+// keys: sbv.<k>, fbv.<k>, svv.<k>, p.<item>, e.<item>
+function ans(key){
+  const [t,k]=key.split(".");
+  if(t==="p") return {d:L3[k].p,type:"exp"}; if(t==="e") return {d:L3[k].e,type:"exp"};
+  const l=line(k); const d={sbv:l.A-l.S,fbv:l.A-l.F,svv:l.F-l.S}[t]; return {d:r2(d),type:l.type};
+}
+function dirOf(d,type){ if(Math.abs(d)<0.005) return ""; const good=(type==="exp"||type==="texp")?d<0:d>0; return good?"F":"U"; }
+const money=x=>{const a=Math.abs(x); return "$"+(Math.abs(a-Math.round(a))<0.005?Math.round(a).toLocaleString("en-US"):a.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}));};
+const num=x=>{const a=Math.abs(x); return Math.abs(a-Math.round(a))<0.005?Math.round(a).toLocaleString("en-US"):a.toLocaleString("en-US",{maximumFractionDigits:2});};
+const smoney=x=>x<-0.005?"("+money(x)+")":money(x);   // signed: losses in parentheses
+const snum=x=>x<-0.005?"("+num(x)+")":num(x);
+function ansText(key){ const a=ans(key), f=dirOf(a.d,a.type); return f?`${money(a.d)} ${f}`:"$0"; }
+function ansHTML(key){ const a=ans(key), f=dirOf(a.d,a.type); return f?`${money(a.d)} <span class="${f==="F"?"fav":"unf"}">${f}</span>`:"$0"; }
+
+let mode="practice", cur=0, sel="gas", answers={}, checked={}, revealed=new Set(), seenSteps=new Set([0]);
+const shown=key=>mode==="solution"||revealed.has(key);
+const known=key=>shown(key)||checked[key]==="right";
+function parseAns(s){
+  if(s==null) return null; s=String(s).trim().toUpperCase(); if(!s) return null;
+  if(/^[-–—]+$/.test(s)) return {n:0,letter:""};                 // "-" means no variance
+  const m=s.match(/[FU]/); const letter=m?m[0]:"";              // F or U anywhere ("350 F" or "F 350")
+  const n=parseFloat(s.replace(/[FU]/g,"").replace(/[,$\s()]/g,"").replace(/[–—]/g,"-"));
+  if(isNaN(n)) return null; return {n:Math.abs(n),letter};
+}
+function grade(key){
+  const p=parseAns(answers[key]); if(!p) return null;
+  const a=ans(key), f=dirOf(a.d,a.type), tol=Math.abs(a.d)<100?0.011:0.5;
+  const amtOK=Math.abs(p.n-Math.abs(a.d))<=tol;
+  if(!amtOK) return "wrong";
+  if(!f) return "right";
+  return p.letter===f?"right":"half";
+}
+
+/* ---------- steps ---------- */
+const STEPS=[
+ {short:"Static budget",lvl:"Starting point",cols:{sta:1}},
+ {short:"Actual results",lvl:"Starting point",cols:{act:1,sta:1}},
+ {short:"Level 0",lvl:"Level 0",cols:{act:1,sbv:1,sta:1},tree:0},
+ {short:"Level 1",lvl:"Level 1",cols:{act:1,sbv:1,sta:1},tree:1,neq:true},
+ {short:"Flexible budget",lvl:"Fixing the comparison",cols:{act:1,fbv:1,flx:1,svv:1,sta:1},tree:1,empty:true},
+ {short:"Level 2",lvl:"Level 2",cols:{act:1,fbv:1,flx:1,svv:1,sta:1},tree:2},
+ {short:"Level 3",lvl:"Level 3",cols:{act:1,fbv:1,flx:1,svv:1,sta:1},tree:3,zoom:true},
+ {short:"Big picture",lvl:"All levels",cols:{act:1,fbv:1,flx:1,svv:1,sta:1},tree:3,zoom:true}
+];
+const VL=()=>LINES.filter(l=>l.type!=="q"&&l.type!=="hdr").map(l=>l.k);
+function stepKeys(i){
+  if(i===2) return ["sbv.noi"];
+  if(i===3) return VL().map(k=>"sbv."+k);
+  if(i===5) return VL().flatMap(k=>["fbv."+k,"svv."+k]);
+  if(i===6) return ["p."+sel,"e."+sel];
+  if(i===7) return [...VL().flatMap(k=>["fbv."+k,"svv."+k]),"p."+sel,"e."+sel];
+  return [];
+}
+function visibleKeys(){ return [...document.querySelectorAll("#tin input.vin, #tin .cellbtn")].filter(e=>e.getBoundingClientRect().width>0 && getComputedStyle(e).visibility!=="hidden" && !e.closest("[inert]")).map(e=>e.dataset.key); }
+function actionKeys(){ return [...new Set([...stepKeys(cur),...visibleKeys()])]; }
+function stepDone(i){ const ks=stepKeys(i); return ks.length && ks.every(k=>known(k)); }
+
+/* ---------- grid ---------- */
+const COLS=["lab","frm","act","sbv","fbv","flx","svv","sta"];
+const WID={lab:215,frm:140,act:128,sbv:150,fbv:150,flx:128,svv:150,sta:128};
+const HEAD={lab:"",frm:"Revenue/cost formulas",act:"Actual results",sbv:"Static-budget variances<small>Level 1</small>",
+  fbv:"Flexible-budget variances<small>Level 2</small>",flx:"Flexible budget",svv:"Sales-volume variances<small>Level 2</small>",sta:"Static budget"};
+const CCLS={act:"col-act",flx:"col-flx",sta:"col-sta"};
+function headHTML(c){
+  if(c==="act") return `Actual results<small>${SC.QA.toLocaleString()} lawns</small>`;
+  if(c==="flx") return `Flexible budget<small>${SC.QA.toLocaleString()} lawns</small>`;
+  if(c==="sta") return `Static budget<small>${SC.QS.toLocaleString()} lawns</small>`;
+  if(c==="sbv"&&cur===2) return "Operating income variance<small>Level 0</small>";
+  return HEAD[c];
+}
+function amt(l,v){ if(l.type==="q") return v.toLocaleString("en-US"); return (l.type==="rev"||l.k==="wag"||l.type==="noi")?smoney(v):snum(v); }
+function buildGrid(){
+  const g=$("grid"); let h="";
+  COLS.forEach(c=>h+=`<div class="c h ${c} ${CCLS[c]||""}" data-col="${c}"><div class="in">${headHTML(c)}</div></div>`);
+  LINES.forEach(l=>{
+    COLS.forEach(c=>{
+      const cls=["c",c,CCLS[c]||""]; let inner="&nbsp;";
+      if(c!=="lab"&&c!=="frm") cls.push("num");
+      if(l.type==="exp"&&c==="lab") cls.push("indent");
+      if(l.type==="hdr") cls.push("hdr"); if(l.type==="texp") cls.push("tot"); if(l.type==="noi") cls.push("noi");
+      if(c==="lab") inner = l.type==="exp" ? `<span class="lbl" data-k="${l.k}">${l.label}</span>` : l.label;
+      else if(l.type!=="hdr"){
+        if(c==="frm") inner=l.frm||"&nbsp;";
+        else if(c==="act"||c==="flx"||c==="sta") inner=amt(l,{act:l.A,flx:l.F,sta:l.S}[c]);
+        else if(l.type!=="q"){ cls.push("var"); inner=`<span class="vslot" data-key="${c}.${l.k}"></span>`; }
+      }
+      h+=`<div class="${cls.join(" ")}" data-row="${l.k}" data-col="${c}"><div class="in">${inner}</div></div>`;
+    });
+  });
+  g.innerHTML=h;
+}
+function slotHTML(key,label){
+  if(shown(key)) return `<button type="button" class="cellbtn" data-key="${key}">${ansHTML(key)}</button>`;
+  const st=checked[key]||"";
+  return `<input class="vin ${st}" data-key="${key}" inputmode="text" autocomplete="off" spellcheck="false" placeholder="? F/U" aria-label="${label}" value="${(answers[key]||"").replace(/"/g,"&quot;")}">`;
+}
+function keyLabel(key){
+  const [t,k]=key.split(".");
+  if(t==="p"||t==="e") return `${SC.items[k].label}: ${t==="p"?"price":"efficiency"} variance`;
+  const n={sbv:cur===2?"operating income variance":"static-budget variance",fbv:"flexible-budget variance",svv:"sales-volume variance"}[t];
+  return `${line(k).label}: ${n}`;
+}
+function wireSlots(root){
+  root.querySelectorAll("input.vin").forEach(inp=>{
+    inp.addEventListener("input",()=>{answers[inp.dataset.key]=inp.value; delete checked[inp.dataset.key]; inp.classList.remove("right","wrong","half"); save();});
+    inp.addEventListener("focus",()=>explain(inp.dataset.key));
+    inp.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); const all=[...document.querySelectorAll("#tin input.vin")].filter(x=>x.offsetParent); const i=all.indexOf(inp); if(i>=0&&i<all.length-1) all[i+1].focus(); }});
+  });
+  root.querySelectorAll(".cellbtn").forEach(b=>b.addEventListener("click",()=>explain(b.dataset.key)));
+}
+function renderSlots(){
+  const g=$("grid");
+  g.querySelectorAll(".vslot").forEach(sp=>{ sp.innerHTML=slotHTML(sp.dataset.key,keyLabel(sp.dataset.key)); });
+  wireSlots(g);
+  // row pickers for level 3
+  g.querySelectorAll(".lbl").forEach(sp=>{
+    const k=sp.dataset.k;
+    if(STEPS[cur].zoom) sp.innerHTML=`<button type="button" class="rowpick" data-k="${k}" title="Show the Level 3 analysis for this line">${SC.items[k].label}</button>`;
+    else sp.textContent=SC.items[k].label;
+  });
+  g.querySelectorAll(".rowpick").forEach(b=>b.onclick=()=>{sel=b.dataset.k; applyStep(false);});
+}
+
+/* ---------- step rendering ---------- */
+function applyStep(resetExplain=true){
+  const s=STEPS[cur], g=$("grid");
+  const widths=COLS.map(c=>{ if(c==="lab"||c==="frm") return WID[c]+"px"; if(!s.cols[c]) return "0px"; return ((s.zoom&&(c==="act"||c==="fbv"||c==="flx"))?160:WID[c])+"px"; });
+  g.style.gridTemplateColumns=widths.join(" ");
+  COLS.forEach(c=>{ g.querySelector(`.c.h[data-col="${c}"] .in`).innerHTML=headHTML(c); });
+  g.querySelectorAll(".c").forEach(el=>{
+    const c=el.dataset.col, r=el.dataset.row;
+    el.classList.remove("dim","hide","rowhl","first","last");
+    if(!s.cols[c] && c!=="lab" && c!=="frm") el.classList.add("hide");
+    if(r && c==="sbv" && cur===2 && r!=="noi") el.classList.add("hide");
+    if(r && (c==="fbv"||c==="svv") && s.empty) el.classList.add("hide");
+    if(cur===2 && r && r!=="noi" && (c==="act"||c==="sta")) el.classList.add("dim");
+    if(r==="noi" && cur===2) el.classList.add("rowhl");
+    if(r===sel && s.zoom) el.classList.add("rowhl");
+  });
+  [cur===2?"noi":null, s.zoom?sel:null].filter(Boolean).forEach(r=>{ const cells=[...g.querySelectorAll(`.c.rowhl[data-row="${r}"]`)].filter(el=>!el.classList.contains("hide")); if(cells.length){cells[0].classList.add("first"); cells[cells.length-1].classList.add("last");} });
+  renderSlots();
+  $("zoom").classList.toggle("on",!!s.zoom);
+  if(!s.zoom) $("zoom").style.height="0px";
+  $("zoom").setAttribute("aria-hidden",s.zoom?"false":"true");
+  $("zoom").inert=!s.zoom;
+  renderZoom(); renderStory(); renderSteps(); renderTree();
+  $("bPrev").disabled=cur===0; $("bNext").disabled=cur===STEPS.length-1;
+  $("bNext").textContent=cur===STEPS.length-2?"Show the big picture":"Next step";
+  const ks=stepKeys(cur).length?actionKeys():[], anyIn=ks.some(k=>!shown(k));
+  $("bCheck").disabled=!ks.length||mode==="solution"||!anyIn; $("bClear").disabled=!ks.length||mode==="solution";
+  $("bReveal").disabled=!ks.length||mode==="solution";
+  $("bReveal").textContent= ks.length&&ks.every(k=>revealed.has(k)) ? "Hide answers" : "Show answers";
+  if(resetExplain){ $("status").textContent=""; $("status").className="status";
+    $("explain").innerHTML= ks.length? `<div class="where">${mode==="practice"?"Fill in the variances":"Solution mode"}</div><div>${mode==="practice"?"Click a blank variance cell for a tip. Type the amount and F or U, for example 350 F.":"Click any variance to see how it's calculated."}</div>` : `<div class="where">Nothing to calculate on this step</div><div>Read the explanation above, then go to the next step.</div>`; }
+  trackOverlay(700); save();
+}
+
+/* ---------- overlays ---------- */
+function colRect(c){ const el=document.querySelector(`#grid .c.h[data-col="${c}"]`); const box=$("tin").getBoundingClientRect(); const r=el.getBoundingClientRect(); return {l:r.left-box.left,r:r.right-box.left,cx:(r.left+r.right)/2-box.left,w:r.width}; }
+function cellRect(row,c){ const el=document.querySelector(`#grid .c[data-row="${row}"][data-col="${c}"]`); const box=$("tin").getBoundingClientRect(); const r=el.getBoundingClientRect(); return {l:r.left-box.left,r:r.right-box.left,cy:(r.top+r.bottom)/2-box.top}; }
+function setBrk(id,c1,c2,label,color,on){
+  const el=$(id); if(!on){el.style.opacity=0; return;}
+  const a=colRect(c1), b=colRect(c2);
+  el.style.opacity=1; el.style.left=a.cx+"px"; el.style.width=Math.max(0,b.cx-a.cx)+"px";
+  el.querySelector(".bar").style.borderColor=color; const bl=el.querySelector(".bl"); bl.textContent=label; bl.style.color=color;
+}
+function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function placeOverlays(){
+  const s=STEPS[cur], navy=cssv("--navy");
+  setBrk("brkL1","act","sta",cur===2?"Level 0: operating income variance":"Level 1: static-budget variances",navy,cur===2||cur===3);
+  setBrk("brkFB","act","flx","Flexible-budget variances",navy,cur>=5);
+  setBrk("brkSV","flx","sta","Sales-volume variances",navy,cur>=5);
+  const neq=$("neq");
+  if(s.neq){ neq.textContent=`${SC.QA} lawns ≠ ${SC.QS} lawns`; const r=cellRect("q","sbv"); neq.style.opacity=1; neq.style.left=(r.l+(r.r-r.l)/2-neq.offsetWidth/2)+"px"; neq.style.top=(r.cy-neq.offsetHeight/2)+"px"; }
+  else neq.style.opacity=0;
+  if(s.zoom) placeZoom();
+}
+let trackUntil=0;
+function trackOverlay(ms){ trackUntil=performance.now()+ms; const tick=()=>{ placeOverlays(); if(performance.now()<trackUntil) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
+window.addEventListener("resize",()=>placeOverlays());
+
+/* ---------- level 3 zoom ---------- */
+function renderZoom(){
+  if(!STEPS[cur].zoom) return;
+  const it=SC.items[sel], z=L3[sel];
+  $("zchips").innerHTML=`<span class="lab">Level 3 for:</span>`+ORDER.map(k=>`<button type="button" class="chip" data-k="${k}" aria-pressed="${k===sel}">${SC.items[k].short}</button>`).join("");
+  $("zchips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{sel=b.dataset.k; applyStep(false);});
+  const pm=x=>"$"+x.toFixed(2);
+  let std, note="";
+  if(it.var){ std=`Standard: ${num(it.qpu)} ${it.qpu===1?it.unit:it.units} per lawn at ${pm(it.SP)} per ${it.unit} (= ${pm(it.per)} per lawn). Actual: ${num(it.AQ)} ${it.units} at ${pm(it.AP)}.`;
+    if(it.fix) note=`Only the hourly part is analyzed here. The ${money(it.fix)} of fixed salaries came in at ${money(it.fixA)}, so all of the flexible-budget variance is in hourly wages.`; }
+  else { std=`Budget: ${num(it.BQ)} ${it.BQ===1?it.unit:it.units} at ${money(it.SP)} each. Actual: ${num(it.AQ)} ${it.AQ===1?it.unit:it.units} at ${money(it.AP)}.`;
+    note="This is a fixed cost, so the quantity allowed is the budgeted quantity for the month, whatever the number of lawns."; }
+  $("ztitle").innerHTML=`<b>${it.label}</b><p>${std}</p>${note?`<p>${note}</p>`:""}`;
+  const fmtP=v=> (v<10?pm(v):money(v));
+  const boxes=[["zb1","Actual results","AQ × AP",`${num(it.AQ)} ${it.ab} × ${fmtP(it.AP)}`,money(z.AQAP),"--cActB"],
+               ["zb2","As-if budget","AQ × SP",`${num(it.AQ)} ${it.ab} × ${fmtP(it.SP)}`,money(z.AQSP),"--cAsifB"],
+               ["zb3","Flexible budget","SQ × SP",`${num(z.SQ)} ${it.ab} × ${fmtP(it.SP)}`,money(z.SQSP),"--cFlxB"]];
+  boxes.forEach(([id,t,f,v,r,col])=>{ $(id).innerHTML=`<div class="zt" style="color:var(${col})">${t}</div><div class="zf">${f}</div><div class="zv">${v}</div><div class="zr">= ${r}</div>`; $(id).style.borderColor=`var(${col})`; });
+  $("zbP").querySelector(".bl").innerHTML=`Price variance<br>${slotHTML("p."+sel,"Price variance for "+it.label)}`;
+  $("zbE").querySelector(".bl").innerHTML=`Efficiency variance<br>${slotHTML("e."+sel,"Efficiency variance for "+it.label)}`;
+  const fk="fbv."+sel;
+  $("zbT").querySelector(".bl").innerHTML= known(fk) ? `Price + efficiency = flexible-budget variance ${ansText(fk)} (the same number as the table)` : `Price + efficiency = this line's flexible-budget variance in the table`;
+  wireSlots($("zoom"));
+}
+function placeZoom(){
+  const cA=colRect("act"), cM=colRect("fbv"), cF=colRect("flx");
+  const bw=Math.min(cA.w,cM.w,cF.w)-8;
+  [["zb1",cA],["zb2",cM],["zb3",cF]].forEach(([id,c],i)=>{ const el=$(id); el.style.left=(c.cx-bw/2)+"px"; el.style.width=bw+"px"; $("g"+(i+1)).style.left=c.cx+"px"; });
+  const hb=$("zb1").offsetHeight, y1=72+hb+6;
+  const zb=(id,c1,c2,col,top)=>{ const el=$(id); el.style.left=c1.cx+"px"; el.style.width=(c2.cx-c1.cx)+"px"; el.style.top=top+"px"; el.querySelector(".bar").style.borderColor=col; el.querySelector(".bl").style.color=col; };
+  const z=L3[sel], showP=known("p."+sel), showE=known("e."+sel), ink=cssv("--ink");
+  const colFor=(key,d)=>{ if(!known(key)) return ink; const f=dirOf(d,"exp"); return f==="F"?cssv("--fav"):f==="U"?cssv("--unf"):ink; };
+  zb("zbP",cA,cM,colFor("p."+sel,z.p),y1);
+  zb("zbE",cM,cF,colFor("e."+sel,z.e),y1);
+  zb("zbT",cA,cF,colFor("fbv."+sel,L3[sel].p+L3[sel].e),y1+78);
+  const t=$("zbT").querySelector(".bl"); t.style.whiteSpace="normal"; t.style.left="-70px"; t.style.right="-70px";
+  $("ztitle").style.width=Math.max(220,cA.l-10)+"px";
+  $("zoom").style.setProperty("--zh",(y1+150)+"px");
+  if($("zoom").classList.contains("on")) $("zoom").style.height=Math.max(300,y1+150)+"px"; else $("zoom").style.height="";
+}
+
+/* ---------- story ---------- */
+function K(key){ return known(key)?ansText(key):"?"; }
+function renderStory(){
+  const s=STEPS[cur], Q=SC.QA, QS=SC.QS; let title="", body=[], q="", eq="";
+  const it=SC.items[sel];
+  switch(cur){
+   case 0: title="Larry's static budget (master budget)";
+     body=[`Larry prepared his budget based on mowing <b>${QS.toLocaleString()} lawns</b>. Each revenue and cost line has a formula in terms of the number of lawns, Q.`,`Budgeted net operating income: <b>${smoney(NOI.S)}</b>.`]; break;
+   case 1: title="The actual results";
+     body=[`Larry actually mowed <b>${Q.toLocaleString()} lawns</b>. Actual net operating income was <b>${smoney(NOI.A)}</b>.`,`For the rest of the analysis, the question is why actual income differs from the budget, and what caused the difference.`]; break;
+   case 2: title="One number: the operating income variance";
+     body=[`Level 0 compares actual and static-budget <b>net operating income only</b>.`,`Fill in the highlighted variance: actual minus static-budget operating income. Is it favorable or unfavorable?`];
+     if(known("sbv.noi")) body.push(`Level 0 variance: <b>${ansText("sbv.noi")}</b>. This one number doesn't say why.`); break;
+   case 3: title="Line by line: static-budget variances";
+     body=[`Level 1 spreads the Level 0 variance across revenue and every expense line: actual minus static budget for each line.`,`The net operating income line should match your Level 0 answer.`];
+     q=`Can we judge Larry's cost control from these numbers? Not really: actual results are for ${Q} lawns, but the static budget is for ${QS}. It's apples to oranges.`; break;
+   case 4: title=`Build a flexible budget at ${Q} lawns`;
+     body=[`To compare fairly, apply the <b>same budget formulas</b> to the <b>actual output</b>, ${Q} lawns. Variable lines change with Q; fixed lines stay the same.`,`Check one: revenue = ${SC.price%1?"$"+SC.price.toFixed(2):"$"+SC.price} × ${Q} = ${money(line("rev").F)}.`];
+     q=`The flexible budget sits between actual results and the static budget. That position is what lets us split the Level 1 variance in two.`; break;
+   case 5: title="Split Level 1 into two variances";
+     body=[`<b>Sales-volume variance</b> = flexible budget − static budget. It comes only from mowing ${Q} lawns instead of ${QS}.`,`<b>Flexible-budget variance</b> = actual − flexible budget. It comes from prices and costs that differ from budget at the actual output.`];
+     eq=`<div class="eq"><span class="chipv">Flexible-budget ${K("fbv.noi")}</span> + <span class="chipv">Sales-volume ${K("svv.noi")}</span> = <span class="chipv">Static-budget (Level 1) ${K("sbv.noi")}</span></div>`; break;
+   case 6: title="Split a flexible-budget variance into price and efficiency";
+     body=[`Pick any expense line (click its name in the report or a button below it). The three-column approach adds the <b>as-if budget</b> (actual quantity × standard price) right <b>between</b> actual results and the flexible budget.`,
+           `Fill in the price and efficiency variances for <b>${it.label.toLowerCase()}</b>. Together they equal that line's flexible-budget variance.`];
+     q=`The three columns are the same columns as the report: actual results on the left, the flexible budget on the right, and the new as-if budget in between.`; break;
+   case 7: title="The big picture";
+     body=[`Each level breaks the one above it into more detail:`,
+       `<b>Level 0:</b> ${K("sbv.noi")}. <b>Level 1:</b> the same ${K("sbv.noi")}, by line item. <b>Level 2:</b> ${K("fbv.noi")} flexible-budget + ${K("svv.noi")} sales-volume. <b>Level 3</b> (${it.short.toLowerCase()}): ${K("p."+sel)} price + ${K("e."+sel)} efficiency = ${K("fbv."+sel)}.`]; break;
+  }
+  $("story").innerHTML=`<span class="lvl">Step ${cur+1} of ${STEPS.length}: ${s.lvl}</span><h2>${title}</h2>${body.map(p=>`<p>${p}</p>`).join("")}${eq}${q?`<p class="q">${q}</p>`:""}`;
+}
+function renderSteps(){
+  const n=$("steps"); n.innerHTML="";
+  STEPS.forEach((s,i)=>{ const b=document.createElement("button"); b.type="button"; b.className="stepdot"+(i===cur?" cur":"");
+    if(i===cur) b.setAttribute("aria-current","step");
+    b.innerHTML=`<span class="n">${i+1}</span>${s.short}${stepDone(i)&&mode==="practice"?' <span class="ok" aria-label="done">✓</span>':""}`;
+    b.onclick=()=>go(i); n.appendChild(b); });
+}
+
+/* ---------- roadmap tree ---------- */
+function renderTree(){
+  const s=STEPS[cur], lit=s.tree===undefined?-1:s.tree;
+  const navy=cssv("--navy"), onNavy=cssv("--onNavy"), line_=cssv("--line"), muted=cssv("--muted"), soft=cssv("--soft"), ob=cssv("--orangeBright");
+  const it=SC.items[sel];
+  const TN=[
+    {id:"l0",lvl:0,x:150,y:0,w:180,h:54,t:"Level 0",s:"Operating income variance",key:"sbv.noi",step:2},
+    {id:"l1",lvl:1,x:150,y:76,w:180,h:54,t:"Level 1",s:"Static-budget variance",key:"sbv.noi",step:3},
+    {id:"fb",lvl:2,x:20,y:152,w:190,h:54,t:"Level 2",s:"Flexible-budget variance",key:"fbv.noi",step:5},
+    {id:"sv",lvl:2,x:270,y:152,w:190,h:54,t:"Level 2",s:"Sales-volume variance",key:"svv.noi",step:5},
+    {id:"pv",lvl:3,x:0,y:228,w:112,h:54,t:"Level 3",s:"Price variance",key:"p."+sel,pre:it.short,step:6},
+    {id:"ev",lvl:3,x:118,y:228,w:118,h:54,t:"Level 3",s:"Efficiency variance",key:"e."+sel,pre:it.short,step:6}
+  ];
+  const byId=Object.fromEntries(TN.map(n=>[n.id,n]));
+  let h="";
+  [["l0","l1"],["l1","fb"],["l1","sv"],["fb","pv"],["fb","ev"]].forEach(([a,b])=>{ const A=byId[a],B=byId[b], on=B.lvl<=lit; h+=`<line x1="${A.x+A.w/2}" y1="${A.y+A.h}" x2="${B.x+B.w/2}" y2="${B.y}" stroke="${on?navy:line_}" stroke-width="2" ${on?"":'stroke-dasharray="4 4"'}/>`; });
+  TN.forEach(n=>{
+    const on=n.lvl<=lit, now=n.lvl===lit && cur<7, fill=on?navy:soft, tc=on?onNavy:muted;
+    const val = on ? (known(n.key)?(n.pre?n.pre+": ":"")+ansText(n.key):"?") : "?";
+    h+=`<g class="tnode" tabindex="0" role="button" aria-label="${n.t}: ${n.s}" data-step="${n.step}">`;
+    if(now) h+=`<rect x="${n.x-4}" y="${n.y-4}" width="${n.w+8}" height="${n.h+8}" rx="10" fill="none" stroke="${ob}" stroke-width="3"/>`;
+    h+=`<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="7" fill="${fill}" stroke="${on?navy:line_}" stroke-width="1.5" ${on?"":'stroke-dasharray="4 3"'}/>`;
+    h+=`<text x="${n.x+n.w/2}" y="${n.y+15}" text-anchor="middle" font-size="11" fill="${tc}" opacity=".85">${n.t}</text>`;
+    h+=`<text x="${n.x+n.w/2}" y="${n.y+31}" text-anchor="middle" font-size="${n.w<125?12:13}" font-weight="700" fill="${tc}">${n.s}</text>`;
+    h+=`<text x="${n.x+n.w/2}" y="${n.y+47}" text-anchor="middle" font-size="${n.w<125?12:13}" font-weight="700" fill="${tc}">${val}</text></g>`;
+  });
+  $("tree").innerHTML=h;
+  $("tree").querySelectorAll(".tnode").forEach(g=>{ g.addEventListener("click",()=>go(+g.dataset.step)); g.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault(); go(+g.dataset.step);} }); });
+}
+
+/* ---------- explanations ---------- */
+const RULE={rev:"More revenue than the comparison amount is favorable (F); less is unfavorable (U).",
+            exp:"Spending more than the comparison amount is unfavorable (U); spending less is favorable (F).",
+            texp:"Spending more than the comparison amount is unfavorable (U); spending less is favorable (F).",
+            noi:"Higher income than the comparison amount is favorable (F); lower is unfavorable (U)."};
+function explain(key){
+  const [t,k]=key.split(".");
+  const isShown=shown(key)||checked[key]==="right";
+  let where=keyLabel(key), body="", meaning="";
+  if(t==="p"||t==="e"){
+    const it=SC.items[k], z=L3[k], pm=x=>x<10?"$"+x.toFixed(2):money(x);
+    if(!isShown){
+      body = t==="p" ? `Tip: price variance = actual quantity × (actual price − standard price), which equals actual results − as-if budget. Paying more per ${it.unit} than the standard is unfavorable.`
+                     : `Tip: efficiency variance = standard price × (actual quantity − standard quantity allowed), which equals as-if budget − flexible budget. Using more ${it.units} than allowed is unfavorable.`;
+    } else {
+      const d=t==="p"?z.p:z.e, f=dirOf(d,"exp");
+      body = t==="p" ? `${num(it.AQ)} × (${pm(it.AP)} − ${pm(it.SP)}) = ${money(z.AQAP)} − ${money(z.AQSP)} = <b>${f?money(d)+" "+f:"$0"}</b>.`
+                     : `${pm(it.SP)} × (${num(it.AQ)} − ${num(z.SQ)}) = ${money(z.AQSP)} − ${money(z.SQSP)} = <b>${f?money(d)+" "+f:"$0"}</b>.`;
+      meaning = meaningOf(t,f,it,z);
+    }
+  } else {
+    const l=line(k);
+    if(!isShown){
+      const base={sbv:"Actual − static budget.",fbv:"Actual − flexible budget.",svv:"Flexible budget − static budget."}[t];
+      body=`Tip: ${cur===2&&t==="sbv"?"Actual operating income − static-budget operating income.":base} ${RULE[l.type]}`;
+      if(t==="svv"&&l.type==="exp") body+=" Ask yourself: does this cost change with the number of lawns?";
+      body+=` Type the amount and F or U, for example 350 F. Type 0 if there's no variance.`;
+    } else {
+      const pair={sbv:["Actual",l.A,"static budget",l.S],fbv:["Actual",l.A,"flexible budget",l.F],svv:["Flexible budget",l.F,"static budget",l.S]}[t];
+      const d=r2(pair[1]-pair[3]), f=dirOf(d,l.type);
+      body=`${pair[0]} ${smoney(pair[1])} − ${pair[2]} ${smoney(pair[3])} = <b>${f?money(d)+" "+f:"$0"}</b>. ${RULE[l.type]}`;
+      if(l.type==="noi" && (pair[1]<0||pair[3]<0)) body+=" Amounts in parentheses are operating losses.";
+      if(t==="svv"&&l.type==="exp"){ const it=SC.items[k]; body+= it.per? ` It comes only from the change in lawns: ${SC.QA-SC.QS} × ${money(it.per)}.` : " Fixed costs don't change with the number of lawns, so there's no sales-volume variance."; }
+      if(t==="fbv"&&l.type==="exp"&&STEPS[cur].zoom) body+=` Click the line's name to break it into price and efficiency variances.`;
+    }
+  }
+  $("explain").innerHTML=`<div class="where">${where}</div><div>${body}</div>${meaning?`<div class="meaning">${meaning}</div>`:""}`;
+}
+function meaningOf(t,f,it,z){
+  const pm=x=>x<10?"$"+x.toFixed(2):money(x);
+  const why=it.why||{}; let m="";
+  if(t==="p"){
+    if(f==="F") m=`<b class="fav">Favorable price variance:</b> Larry paid less per ${it.unit} (${pm(it.AP)}) than the standard (${pm(it.SP)}). Lower input prices raise income. Possible causes: discounts, a cheaper supplier, or lower market prices. Watch quality: cheaper inputs can lead to an unfavorable efficiency variance. ${why.pF||""}`;
+    else if(f==="U") m=`<b class="unf">Unfavorable price variance:</b> Larry paid more per ${it.unit} (${pm(it.AP)}) than the standard (${pm(it.SP)}). Higher input prices lower income. Possible causes: rising market prices, rush orders, or higher-paid workers. Usually the purchasing side, not production, is responsible. ${why.pU||""}`;
+    else m=`<b>No price variance:</b> Larry paid exactly the standard price per ${it.unit} (${pm(it.SP)}).`;
+  } else {
+    const fixedNote = it.var?"":" For a fixed cost, the quantity allowed is the budgeted quantity for the month.";
+    if(f==="F") m=`<b class="fav">Favorable efficiency variance:</b> Larry used fewer ${it.units} (${num(it.AQ)}) than allowed for the actual output (${num(z.SQ)}). Using inputs efficiently raises income. Check that quality wasn't cut to get there.${fixedNote} ${why.eF||""}`;
+    else if(f==="U") m=`<b class="unf">Unfavorable efficiency variance:</b> Larry used more ${it.units} (${num(it.AQ)}) than allowed for the actual output (${num(z.SQ)}). Possible causes: waste, extra work, poorly trained workers, or low-quality inputs.${fixedNote} ${why.eU||""}`;
+    else m=`<b>No efficiency variance:</b> Larry used exactly the quantity allowed (${num(z.SQ)} ${z.SQ===1?it.unit:it.units}).${fixedNote}`;
+  }
+  return m;
+}
+
+/* ---------- check / reveal / clear ---------- */
+function check(){
+  const ks=actionKeys().filter(k=>!shown(k)); let ok=0,half=0,blank=0;
+  ks.forEach(k=>{ const g=grade(k); if(!g){blank++; delete checked[k]; return;} checked[k]=g; if(g==="right") ok++; if(g==="half") half++; });
+  applyStep(false);
+  const st=$("status"), n=ks.length;
+  if(ok===n){ st.textContent="All correct. Nice work."; st.className="status good"; }
+  else { st.textContent=`${ok} of ${n} correct${half?`, ${half} with the right amount but the wrong F/U`:""}${blank?`, ${blank} blank`:""}. Click a cell for a tip.`; st.className="status bad"; }
+}
+$("bCheck").onclick=check;
+$("bReveal").onclick=()=>{ const ks=actionKeys(); const all=ks.every(k=>revealed.has(k)); ks.forEach(k=>all?revealed.delete(k):revealed.add(k)); applyStep(); };
+$("bClear").onclick=()=>{ actionKeys().forEach(k=>{delete answers[k]; delete checked[k]; revealed.delete(k);}); applyStep(); };
+
+/* ---------- persistence ---------- */
+function save(){ try{ localStorage.setItem("ch7_v1",JSON.stringify({SC,answers,checked,revealed:[...revealed],cur,sel})); }catch(e){} }
+function load(){ try{ const s=JSON.parse(localStorage.getItem("ch7_v1")||"null"); if(s&&s.SC&&s.SC.items){ SC=s.SC; answers=s.answers||{}; checked=s.checked||{}; revealed=new Set(s.revealed||[]); cur=s.cur||0; sel=s.sel||"gas"; } }catch(e){} }
+
+/* ---------- navigation and wiring ---------- */
+function go(i){ cur=Math.max(0,Math.min(STEPS.length-1,i)); applyStep(); }
+$("bPrev").onclick=()=>go(cur-1); $("bNext").onclick=()=>go(cur+1);
+document.addEventListener("keydown",e=>{ if(e.target.closest("input,textarea")) return; if(e.key==="ArrowRight") go(cur+1); if(e.key==="ArrowLeft") go(cur-1); });
+function setMode(m){ mode=m; $("mPractice").setAttribute("aria-pressed",m==="practice"); $("mSolution").setAttribute("aria-pressed",m==="solution"); applyStep(); }
+$("mPractice").onclick=()=>setMode("practice"); $("mSolution").onclick=()=>setMode("solution");
+function reset(scn){ SC=scn; answers={}; checked={}; revealed=new Set(); sel="gas"; build(); buildGrid(); $("subtitle").textContent=SC.name; applyStep(); }
+$("bNew").onclick=()=>reset(goodScenario());
+$("bClass").onclick=()=>reset(JSON.parse(JSON.stringify(LARRY)));
+if(window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{renderTree(); placeOverlays();});
+load(); build(); buildGrid(); $("subtitle").textContent=SC.name; applyStep();
+</script>
+</body>
+</html>
