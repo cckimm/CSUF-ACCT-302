@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter 8 Part I: Why Production Volume Variance Exists | ACCT 302</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#1d2430; --muted:#5d6675; --line:#d5d9e0; --soft:#f3f5f8;
+  --navy:#00244E; --orangeBright:#FF7900; --orange:#E06A00; --orangeTx:#B85200; --onNavy:#ffffff;
+  --fav:#1E7A3C; --unf:#B42318; --goodBg:#E7F4EC; --badBg:#FDECEA;
+  --blue:#1F5FA8; --blueBg:#E6EEF9; --orBg:#FFF1E2;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16191f; --ink:#e9ecf1; --muted:#a5adba; --line:#363c47; --soft:#1f232b;
+    --navy:#8fb3e3; --orangeBright:#FF9A3D; --orange:#FFA24D; --orangeTx:#FFA24D; --onNavy:#0d1a2b; --fav:#5CC883; --unf:#FF7B6E; --goodBg:#16301f; --badBg:#3a1d1a;
+    --blue:#7FB0EE; --blueBg:#1b2a40; --orBg:#3a2a18;
+  }
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif; font-size:17px; line-height:1.4}
+button,input,select{font:inherit; color:inherit}
+.wrap{max-width:1180px; margin:0 auto; padding:0 20px 40px}
+header.top{border-top:8px solid #00244E; border-bottom:3px solid var(--orangeBright); margin-bottom:16px}
+header.top .wrap{padding-top:18px; padding-bottom:14px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:12px}
+h1{margin:0; font-size:2rem; line-height:1.1}
+.sub{margin:.2em 0 0; color:var(--muted)}
+.btn{border:2px solid var(--navy); background:transparent; color:var(--navy); border-radius:8px; padding:.45em .9em; font-weight:700; cursor:pointer; min-height:44px}
+.btn.primary{background:var(--navy); color:var(--onNavy)}
+.btn:disabled{opacity:.4; cursor:default}
+.bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.btn:focus-visible,.stepdot:focus-visible,.pill:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--orangeBright); outline-offset:2px}
+
+.steps{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px}
+.stepdot{border:2px solid var(--line); background:var(--bg); border-radius:999px; padding:.3em .8em; font-weight:700; font-size:.9rem; cursor:pointer; min-height:40px; display:inline-flex; align-items:center; gap:.45em}
+.stepdot .n{display:inline-grid; place-items:center; width:1.55em; height:1.55em; border-radius:50%; background:var(--soft); font-size:.85em}
+.stepdot.cur{background:var(--navy); color:var(--onNavy); border-color:var(--navy)}
+.stepdot.cur .n{background:rgba(255,255,255,.22)}
+
+.panel{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:24px; align-items:start}
+.story h2{margin:0 0 .3em; font-size:1.55rem; line-height:1.15}
+.story .kick{display:inline-block; font-weight:700; color:var(--navy); margin-bottom:.2em}
+.story p{margin:.45em 0}
+.callout{border-left:5px solid var(--orangeBright); background:var(--soft); padding:.55em .9em; border-radius:0 8px 8px 0; margin:.8em 0}
+.callout.key{border-left-color:var(--navy)}
+.story,.viz{min-width:0}
+.card{border:1px solid var(--line); border-radius:12px; padding:14px 16px 16px; background:var(--bg); min-width:0; overflow-x:auto}
+.card h3{margin:0 0 .4em; font-size:1rem; color:var(--muted); font-weight:700}
+.nav{display:flex; justify-content:space-between; gap:10px; margin-top:22px; flex-wrap:wrap}
+
+/* slider */
+.sl{margin:.4em 0 .2em}
+.sl label{display:flex; justify-content:space-between; gap:8px; font-weight:700; flex-wrap:wrap}
+.sl output{color:var(--orangeTx); font-variant-numeric:tabular-nums}
+input[type=range]{width:100%; accent-color:var(--orangeBright); height:34px; margin:2px 0}
+.pills{display:flex; flex-wrap:wrap; gap:6px; margin-top:.3em}
+.pill{border:2px solid var(--line); background:var(--bg); border-radius:999px; padding:.15em .75em; cursor:pointer; font-weight:700; font-size:.88rem; min-height:36px}
+.pill[aria-pressed="true"]{border-color:var(--navy); background:var(--navy); color:var(--onNavy)}
+
+/* tiles */
+.tiles{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px}
+.tile{border:2px solid var(--line); border-radius:10px; padding:.4em .6em; text-align:center; background:var(--bg)}
+.tile small{display:block; color:var(--muted); font-size:.8rem; line-height:1.15}
+.tile b{display:block; font-size:1.25rem; font-variant-numeric:tabular-nums}
+.tile.bud{border-color:var(--blue)} .tile.bud b{color:var(--blue)}
+.tile.alloc{border-color:var(--orange)} .tile.alloc b{color:var(--orangeTx)}
+.tile.pvv.f{border-color:var(--fav); background:var(--goodBg)} .tile.pvv.f b{color:var(--fav)}
+.tile.pvv.u{border-color:var(--unf); background:var(--badBg)} .tile.pvv.u b{color:var(--unf)}
+.tile.pvv.z b{color:var(--muted)}
+.fav{color:var(--fav); font-weight:700} .unf{color:var(--unf); font-weight:700}
+.said{margin-top:10px; border-left:5px solid var(--navy); background:var(--soft); padding:.55em .9em; border-radius:0 8px 8px 0; min-height:4.6em}
+
+/* tables */
+table.map{border-collapse:collapse; width:100%; font-size:.95rem}
+table.map th,table.map td{border-bottom:1px solid var(--line); padding:.4em .55em; text-align:left; vertical-align:top}
+table.map th{color:var(--muted); font-size:.85rem; border-bottom:2px solid var(--ink)}
+table.map td.arrow{color:var(--orangeTx); font-weight:700; width:1.5em; text-align:center}
+.hl{background:var(--orBg)}
+
+/* bars (disney) */
+.hb{margin:.5em 0}
+.hb .lab{display:flex; justify-content:space-between; gap:8px; font-weight:700; font-size:.95rem; flex-wrap:wrap}
+.hb .track{height:30px; background:var(--soft); border-radius:6px; overflow:hidden; position:relative}
+.hb .fill{height:100%; border-radius:6px; transition:width .25s}
+.hb .fill.pay{background:var(--orangeTx)} .hb .fill.pass{background:var(--blue)}
+
+/* flow */
+.flow{display:flex; flex-wrap:wrap; align-items:stretch; gap:8px}
+.flow .box{flex:1 1 130px; border:2px solid var(--line); border-radius:10px; padding:.45em .6em; text-align:center; background:var(--bg)}
+.flow .box small{display:block; color:var(--muted); font-size:.8rem; line-height:1.15}
+.flow .box b{font-size:1.2rem; font-variant-numeric:tabular-nums}
+.flow .op{align-self:center; font-weight:700; font-size:1.4rem; color:var(--muted)}
+.flow .box.res{border-color:var(--orange); background:var(--orBg)}
+
+/* inputs */
+.vin{width:7.6em; text-align:right; padding:.22em .45em; border:1px solid var(--line); border-bottom:2px solid var(--navy); border-radius:4px; background:var(--bg); font-weight:700; font-variant-numeric:tabular-nums}
+.vin.right{border-color:var(--fav); background:var(--goodBg)}
+.vin.wrong{border-color:var(--unf); background:var(--badBg)}
+select.fu{padding:.22em .3em; border:1px solid var(--line); border-bottom:2px solid var(--navy); border-radius:4px; background:var(--bg); font-weight:700}
+select.fu.right{border-color:var(--fav); background:var(--goodBg)} select.fu.wrong{border-color:var(--unf); background:var(--badBg)}
+.status{font-weight:700; margin-left:.4em}
+.status.good{color:var(--fav)} .status.bad{color:var(--unf)}
+.qrow{display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:8px 10px; align-items:center; padding:.45em 0; border-bottom:1px solid var(--line)}
+.qrow .ql small{display:block; color:var(--muted); font-size:.82rem}
+
+/* true/false */
+.tf{border:1px solid var(--line); border-radius:10px; padding:.6em .8em; margin-bottom:8px}
+.tf p{margin:0 0 .4em; font-weight:700}
+.tf .ans{display:flex; gap:8px; flex-wrap:wrap}
+.tf .fb{margin-top:.5em; padding:.4em .7em; border-radius:6px; display:none}
+.tf.done .fb{display:block}
+.tf .fb.ok{background:var(--goodBg)} .tf .fb.no{background:var(--badBg)}
+
+svg text{font-family:"Carlito","Calibri",Arial,sans-serif}
+.foot{color:var(--muted); font-size:.85rem; margin-top:22px}
+@media (max-width:900px){ .panel{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:600px){ body{font-size:16px} h1{font-size:1.6rem} .story h2{font-size:1.35rem} .tiles{grid-template-columns:1fr 1fr 1fr} .tile b{font-size:1.05rem} .qrow{grid-template-columns:1fr 1fr} .qrow .ql{grid-column:1/-1} }
+@media (max-width:400px){ .wrap{padding-left:14px; padding-right:14px} .card{padding:12px 10px 14px} table.map{font-size:.82rem} table.map th,table.map td{padding:.35em .3em} table.map th{font-size:.75rem} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+.gl{stroke:var(--line); stroke-width:1}
+.ax{fill:var(--muted); font-size:12px}
+.axt{fill:var(--muted); font-size:12.5px; font-weight:700}
+.lnB{stroke:var(--blue); stroke-width:3.5; fill:none}
+.lnA{stroke:var(--orange); stroke-width:3.5; fill:none}
+.tB{fill:var(--blue); font-weight:700; font-size:13px}
+.tA{fill:var(--orangeTx); font-weight:700; font-size:13px}
+.tZ{font-size:12.5px; font-weight:700}
+.zF{fill:var(--goodBg)} .zU{fill:var(--badBg)}
+.tFav{fill:var(--fav)} .tUnf{fill:var(--unf)}
+.dsh{stroke:var(--muted); stroke-width:1.5; stroke-dasharray:5 4}
+.barB{fill:var(--blue)} .barA{fill:var(--orangeTx)} .barX{fill:var(--muted)}
+.halo{paint-order:stroke; stroke:var(--bg); stroke-width:4px; stroke-linejoin:round}
+.brk{opacity:0; transition:opacity .4s} .brk.on{opacity:1}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>Why production volume variance exists</h1>
+      <p class="sub">Chapter 8 Part I · Fixed manufacturing overhead · Tuffy Company</p>
+    </div>
+    <div class="bar">
+      <button type="button" class="btn" id="bRestart">Start over</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="steps" id="steps" aria-label="Steps"></nav>
+  <main id="panel" class="panel"></main>
+  <div class="nav">
+    <button type="button" class="btn" id="bPrev">← Back</button>
+    <button type="button" class="btn primary" id="bNext">Next →</button>
+  </div>
+  <p class="foot"><a href="widgets.html">All in-class widgets</a> · ACCT 302 · Cal State Fullerton · Professor Kim</p>
+</div>
+<script>
+(function(){
+"use strict";
+var $ = function(s,r){ return (r||document).querySelector(s); };
+var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+function money(n){ var v=Math.round(Math.abs(n)); return (n<0?"−":"")+"$"+v.toLocaleString("en-US"); }
+function num(n){ return Math.round(n).toLocaleString("en-US"); }
+function fu(n){ return n>0?"F":"U"; }
+
+var mq=window.matchMedia("(max-width:640px)");
+function narrow(){ return mq.matches; }
+var STEPS=["Warm-up","The sticker","Bill vs. stickers","Fixed vs. variable","Tuffy’s variances","What it means","Your turn"];
+var S={ step:0, visits:25, tables:1200, mode:"fixed", r5:0, tf:{}, prac:null, pans:{}, prevealed:false };
+
+/* ---------- helpers ---------- */
+function slider(id,label,min,max,step,val,fmtFn){
+  return '<div class="sl"><label for="'+id+'"><span>'+label+'</span><output id="'+id+'Out">'+fmtFn(val)+'</output></label>'+
+    '<input type="range" id="'+id+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+val+'"></div>';
+}
+function nextBtn(){ }
+
+/* ---------- STEP 1: Disney ---------- */
+function s1(){
+  return {
+    story:
+    '<span class="kick">Step 1 of 7 · Warm-up</span><h2>The Disneyland pass</h2>'+
+    '<p>A one-day ticket costs <b>$150</b>. An unlimited annual Magic Pass costs <b>$1,500</b> no matter how often you go. Say you bought the pass expecting about <b>10 visits</b> ($1,500 ÷ $150).</p>'+
+    slider("visits","Days you actually visited",0,40,1,S.visits,function(v){return v+" days";})+
+    '<div class="pills" id="vpills"><button type="button" class="pill" data-v="10">10 (as planned)</button><button type="button" class="pill" data-v="25">25 (loved it)</button><button type="button" class="pill" data-v="4">4 (too busy)</button></div>'+
+    '<div class="callout key"><b>Notice:</b> the pass price never changed. Only the number of visits you spread it over changed. That is the whole idea behind production volume variance.</div>',
+    viz:
+    '<div class="card"><h3>What would your visits have cost?</h3>'+
+    '<div class="hb"><div class="lab"><span>Paying day by day</span><span id="d1v"></span></div><div class="track"><div class="fill pay" id="d1b"></div></div></div>'+
+    '<div class="hb"><div class="lab"><span>Annual pass (fixed)</span><span>$1,500</span></div><div class="track"><div class="fill pass" id="d2b" style="width:25%"></div></div></div>'+
+    '<div class="said" role="status" id="dsaid"></div></div>'+
+    '<div class="card" style="margin-top:12px"><h3>Same idea, in overhead language</h3>'+
+    '<table class="map"><thead><tr><th>Disneyland</th><th></th><th>Fixed overhead</th></tr></thead><tbody>'+
+    '<tr><td>Pass price, $1,500</td><td class="arrow">→</td><td>Budgeted fixed overhead</td></tr>'+
+    '<tr><td>$150 per visit<br><small>($1,500 ÷ 10 planned visits)</small></td><td class="arrow">→</td><td>Fixed overhead rate per unit</td></tr>'+
+    '<tr><td>10 planned visits</td><td class="arrow">→</td><td>Planned volume (denominator)</td></tr>'+
+    '<tr><td>Visits you actually made</td><td class="arrow">→</td><td>Actual output (standard quantity allowed)</td></tr>'+
+    '<tr class="hl"><td>Savings = (visits − 10) × $150</td><td class="arrow">→</td><td><b>Production volume variance</b></td></tr>'+
+    '</tbody></table></div>',
+    after:function(){
+      function upd(){
+        var v=S.visits, pay=v*150, d=pay-1500;
+        $("#visitsOut").textContent=v+" days";
+        $("#d1b").style.width=Math.min(100,pay/6000*100)+"%";
+        $("#d2b").style.width=(1500/6000*100)+"%";
+        $("#d1v").textContent=v+" × $150 = "+money(pay);
+        var t;
+        if(d>0) t='You visited more than the 10 you planned on. Day tickets would have cost '+money(pay)+', the pass cost $1,500, so you <b>saved '+money(d)+'</b>: <span class="fav">favorable</span>. The $1,500 was spread over more visits.';
+        else if(d<0) t='You visited fewer than 10 times. Day tickets would have cost only '+money(pay)+', so you <b>paid '+money(-d)+' for visits you never used</b>: <span class="unf">unfavorable</span>. The $1,500 was spread over too few visits.';
+        else t='Exactly 10 visits: the pass cost the same as buying day tickets. Savings = $0, so <b>no variance</b>. The plan was exactly right.';
+        $("#dsaid").innerHTML=t;
+        $$("#vpills .pill").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.dataset.v===v)); });
+      }
+      $("#visits").addEventListener("input",function(e){ S.visits=+e.target.value; upd(); });
+      $$("#vpills .pill").forEach(function(b){ b.addEventListener("click",function(){ S.visits=+b.dataset.v; $("#visits").value=S.visits; upd(); }); });
+      upd();
+    }
+  };
+}
+
+/* ---------- STEP 2: the sticker ---------- */
+function s2(){
+  return {
+    story:
+    '<span class="kick">Step 2 of 7 · Meet Tuffy Company</span><h2>Every table gets a “fixed overhead sticker”</h2>'+
+    '<p>Tuffy makes tables. For August it budgets <b>$10,000</b> of fixed overhead (rent, depreciation, supervisor salaries). Overhead is applied on direct labor hours. Each table takes <b>2 hours</b>, and Tuffy plans to make <b>1,000 tables</b>, which is <b>2,000 labor hours</b> (the denominator).</p>'+
+    '<p>To cost a table we must put some fixed overhead on it, so before the month starts we compute a <b>rate</b> by dividing the budgeted fixed overhead by the planned hours.</p>'+
+    '<div class="callout"><b>Try it.</b> Fill in the two boxes on the right.</div>',
+    viz:
+    '<div class="card"><h3>Building the sticker price</h3>'+
+    '<div class="flow"><div class="box"><small>Budgeted fixed OH</small><b>$10,000</b></div><div class="op">÷</div>'+
+    '<div class="box"><small>Denominator hours</small><b>2,000 hrs</b></div><div class="op">=</div>'+
+    '<div class="box res"><small>Fixed OH rate (FPOHR)</small><span class="op" style="font-size:1rem;color:var(--ink)">$ <input class="vin" id="r1" inputmode="decimal" style="width:4.5em" aria-label="Fixed overhead rate per hour"> / hr</span></div></div>'+
+    '<div class="flow" style="margin-top:8px"><div class="box res"><small>Fixed OH rate</small><b>$5 / hr</b></div><div class="op">×</div>'+
+    '<div class="box"><small>Hours per table</small><b>2 hrs</b></div><div class="op">=</div>'+
+    '<div class="box res"><small>Sticker per table</small><span class="op" style="font-size:1rem;color:var(--ink)">$ <input class="vin" id="r2" inputmode="decimal" style="width:4.5em" aria-label="Fixed overhead per table"> / table</span></div></div>'+
+    '<div class="said" role="status" id="s2said">Enter the rate per hour first.</div></div>'+
+    '<div class="callout key" style="margin-top:12px"><b>Big idea:</b> the rate is a <i>forecast</i>. It is exactly right only if Tuffy makes exactly the planned 1,000 tables. At 1,000 tables, 1,000 × $10 = $10,000, so the stickers cover the bill exactly and the variance is $0.</div>',
+    after:function(){
+      var r1=$("#r1"), r2=$("#r2");
+      function upd(){
+        var a=parseFloat(r1.value), b=parseFloat(r2.value), t="";
+        r1.classList.remove("right","wrong"); r2.classList.remove("right","wrong");
+        if(r1.value!==""){ if(Math.abs(a-5)<.005){ r1.classList.add("right"); t="Right: $10,000 ÷ 2,000 hours = $5 per hour. Now multiply by 2 hours per table."; } else { r1.classList.add("wrong"); t="Not quite. Divide the $10,000 budget by the 2,000 denominator hours."; } }
+        if(r2.value!==""){ if(Math.abs(b-10)<.005){ r2.classList.add("right"); t="Right: <b>$10 of fixed overhead rides on every table</b>. Every table Tuffy finishes “absorbs” $10 of the rent bill, whether or not the rent really went up."; } else { r2.classList.add("wrong"); t="Not quite. $5 per hour × 2 hours per table."; } }
+        $("#s2said").innerHTML=t||"Enter the rate per hour first.";
+      }
+      r1.addEventListener("input",upd); r2.addEventListener("input",upd); upd();
+    }
+  };
+}
+
+/* ---------- chart ---------- */
+function chartSVG(mode,u){
+  var N=narrow(), W=N?400:620,H=360,L=N?62:70,R=18,T=18,B=48, XM=1600, YM=16000;
+  var sx=function(x){return L+x/XM*(W-L-R);}, sy=function(y){return H-B-y/YM*(H-T-B);};
+  var slope = mode==="fixed"?10:8;
+  var bud = mode==="fixed"?10000:slope*u;
+  var alloc = slope*u;
+  var o='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Chart of budgeted versus allocated overhead as output changes">';
+  var i;
+  for(i=0;i<=16000;i+=4000){ o+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+sy(i)+'" y2="'+sy(i)+'"/><text class="ax" x="'+(L-8)+'" y="'+(sy(i)+4)+'" text-anchor="end">'+money(i)+'</text>'; }
+  for(i=0;i<=1600;i+=400){ o+='<text class="ax" x="'+sx(i)+'" y="'+(H-B+16)+'" text-anchor="middle">'+num(i)+'</text>'; }
+  o+='<text class="axt" x="'+((L+W-R)/2)+'" y="'+(H-8)+'" text-anchor="middle">Tables produced (actual output)</text>';
+  if(mode==="fixed"){
+    o+='<polygon class="zU" points="'+sx(0)+','+sy(0)+' '+sx(0)+','+sy(10000)+' '+sx(1000)+','+sy(10000)+'"/>';
+    o+='<polygon class="zF" points="'+sx(1000)+','+sy(10000)+' '+sx(1600)+','+sy(10000)+' '+sx(1600)+','+sy(16000)+'"/>';
+    o+='<text class="tZ tUnf" x="'+sx(120)+'" y="'+sy(8600)+'">Unfavorable zone</text>';
+    o+='<text class="tZ tFav" x="'+sx(1590)+'" y="'+sy(10900)+'" text-anchor="end">'+(N?"Favorable":"Favorable zone")+'</text>';
+  }
+  o+='<line class="dsh" x1="'+sx(1000)+'" x2="'+sx(1000)+'" y1="'+sy(0)+'" y2="'+sy(mode==="fixed"?10000:8000)+'"/>';
+  o+='<text class="ax halo" x="'+(sx(1000)-6)+'" y="'+(sy(700))+'" text-anchor="end">'+(N?"Planned: 1,000":"Planned volume: 1,000")+'</text>';
+  if(mode==="fixed"){
+    o+='<line class="lnB" x1="'+sx(0)+'" x2="'+sx(XM)+'" y1="'+sy(10000)+'" y2="'+sy(10000)+'"/>';
+    o+='<text class="tB" x="'+(sx(30))+'" y="'+(sy(10000)-8)+'">'+(N?"Budgeted FOH: flat $10,000":"Budgeted FOH: flat $10,000 (the bill)")+'</text>';
+    o+='<line class="lnA" x1="'+sx(0)+'" y1="'+sy(0)+'" x2="'+sx(XM)+'" y2="'+sy(16000)+'"/>';
+    o+='<text class="tA" x="'+(sx(1470))+'" y="'+(sy(15300))+'" text-anchor="end">'+(N?"Allocated = $10 × tables":"Allocated FOH = $10 × tables")+'</text>';
+  } else {
+    o+='<line class="lnA" x1="'+sx(0)+'" y1="'+sy(0)+'" x2="'+sx(XM)+'" y2="'+sy(12800)+'"/>';
+    o+='<text class="tA" x="'+(sx(60))+'" y="'+(sy(11200))+'">Flexible budget = Allocated VOH</text>';
+    o+='<text class="tA" x="'+(sx(60))+'" y="'+(sy(10100))+'" style="font-weight:400">(both move together: $8 per table)</text>';
+  }
+  var yHi=Math.max(alloc,bud), yLo=Math.min(alloc,bud), d=alloc-bud;
+  var col = mode==="variable"||d===0 ? "var(--muted)" : (d>0?"var(--fav)":"var(--unf)");
+  o+='<line x1="'+sx(u)+'" x2="'+sx(u)+'" y1="'+sy(0)+'" y2="'+sy(yHi)+'" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 3"/>';
+  if(mode==="fixed" && d!==0) o+='<line x1="'+sx(u)+'" x2="'+sx(u)+'" y1="'+sy(yHi)+'" y2="'+sy(yLo)+'" stroke="'+col+'" stroke-width="7" stroke-linecap="round"/>';
+  o+='<circle cx="'+sx(u)+'" cy="'+sy(alloc)+'" r="6" fill="var(--orange)" stroke="var(--bg)" stroke-width="2"/>';
+  if(mode==="fixed") o+='<circle cx="'+sx(u)+'" cy="'+sy(bud)+'" r="6" fill="var(--blue)" stroke="var(--bg)" stroke-width="2"/>';
+  var mid=(yHi+yLo)/2, right = u<1150;
+  var lab;
+  if(mode==="fixed") lab = d===0 ? "PVV = $0" : "PVV "+money(Math.abs(d))+" "+(d>0?"F":"U");
+  else lab = "Gap = $0";
+  var tx = right? sx(u)+12 : sx(u)-12, anc = right?"start":"end";
+  var ty = mode==="fixed" ? sy(mid)+5 : sy(alloc)-12;
+  o+='<text class="halo" x="'+tx+'" y="'+ty+'" text-anchor="'+anc+'" style="font-size:15px;font-weight:700;fill:'+col+'">'+lab+'</text>';
+  o+='</svg>';
+  return o;
+}
+function tilesHTML(mode,u){
+  var slope = mode==="fixed"?10:8, bud = mode==="fixed"?10000:slope*u, alloc=slope*u, d=alloc-bud;
+  var cls = (mode==="fixed" && d>0)?"f":(mode==="fixed" && d<0?"u":"z");
+  var txt = mode==="fixed" && d!==0 ? money(Math.abs(d))+" "+(d>0?"F":"U") : "$0";
+  return '<div class="tiles">'+
+    '<div class="tile bud"><small>'+(mode==="fixed"?"Budgeted fixed OH":"Flexible budget (VOH)")+'</small><b>'+money(bud)+'</b></div>'+
+    '<div class="tile alloc"><small>'+(mode==="fixed"?"Allocated fixed OH":"Allocated VOH")+'</small><b>'+money(alloc)+'</b></div>'+
+    '<div class="tile pvv '+cls+'"><small>'+(mode==="fixed"?"Production volume variance":"Volume variance")+'</small><b>'+txt+'</b></div></div>';
+}
+
+/* ---------- STEP 3: bill vs stickers ---------- */
+function s3(){
+  return {
+    story:
+    '<span class="kick">Step 3 of 7 · The bill vs. the stickers</span><h2>The bill stays put. The stickers don’t.</h2>'+
+    '<p>For now, assume the rent and other fixed costs came in exactly on budget: <b>$10,000</b>. Then drag the slider to change how many tables Tuffy makes.</p>'+
+    slider("tab3","Tables produced in August",400,1600,50,S.tables,function(v){return num(v)+" tables";})+
+    '<div class="pills" id="tpills3"><button type="button" class="pill" data-v="1000">Plan (1,000)</button><button type="button" class="pill" data-v="1200">Busy month (1,200)</button><button type="button" class="pill" data-v="700">Slow month (700)</button></div>'+
+    '<div class="callout key"><b>What “allocated” means.</b> Nobody is billed extra. “Allocated” just means <i>how much fixed cost we load into the cost of the tables</i>, at $10 per table. It answers: “how much rent does each table carry?”</div>'+
+    '<div class="callout"><b>Why is more allocated <i>favorable</i>?</b> The $10 sticker is our <i>forecast</i> of rent per table. If the same bill is shared by more tables than planned, each table <b>really</b> carries less than $10 of rent. Cheaper tables than forecast is good news. If fewer tables are made, each carries more than $10 and some of the bill is left over. That is bad news.</div>',
+    viz:'<div class="card"><h3>Fixed overhead: budgeted vs. allocated</h3><div id="ch3"></div><div id="ti3"></div><div id="pt3"></div><div class="said" role="status" id="sd3"></div></div>',
+    after:function(){ wireChart("tab3","tpills3","ch3","ti3","sd3","fixed"); }
+  };
+}
+function money2(n){ return "$"+n.toFixed(2); }
+function perTableHTML(u){
+  var real=10000/u, cls = Math.abs(real-10)<0.005?"z":(real<10?"f":"u");
+  var note = cls==="z" ? "exactly as planned" : (real<10 ? "lower than planned: favorable" : "higher than planned: unfavorable");
+  return '<div class="tiles" style="grid-template-columns:1fr 1fr">'+
+    '<div class="tile"><small>Planned rent per table (the sticker)</small><b>$10.00</b></div>'+
+    '<div class="tile pvv '+cls+'"><small>Real rent per table ($10,000 ÷ '+num(u)+')</small><b>'+money2(real)+'</b><small>'+note+'</small></div></div>';
+}
+function saidFixed(u){
+  var alloc=10*u, d=alloc-10000, real=10000/u;
+  if(d===0) return 'At exactly the planned <b>1,000 tables</b>, the $10 stickers add up to $10,000, the same as the bill. Real rent per table is exactly the $10 we planned, so <b>PVV = $0</b>.';
+  if(d>0) return 'The same $10,000 bill is now shared by <b>'+num(u)+' tables</b>, so each table <b>really</b> carries only <b>'+money2(real)+'</b> of rent, not the $10 we planned. Yet we costed every table at $10, so the tables together absorbed <b>'+money(alloc)+'</b>, which is <b>'+money(d)+' more than the bill</b> (over-applied). We got more tables out of the same rent. <span class="fav">Favorable PVV of '+money(d)+'.</span>';
+  return 'The same $10,000 bill is now shared by only <b>'+num(u)+' tables</b>, so each table <b>really</b> carries <b>'+money2(real)+'</b> of rent, more than the $10 we planned. We costed tables at only $10, so they absorbed just <b>'+money(alloc)+'</b>, leaving <b>'+money(-d)+' of the bill that no table absorbed</b> (under-applied). That is capacity we paid for but didn’t use. <span class="unf">Unfavorable PVV of '+money(-d)+'.</span>';
+}
+function wireChart(sid,pid,cid,tid,did,mode){
+  function upd(){
+    var u=S.tables, m = typeof mode==="function"?mode():mode;
+    $("#"+sid+"Out").textContent=num(u)+" tables";
+    $("#"+cid).innerHTML=chartSVG(m,u);
+    $("#"+tid).innerHTML=tilesHTML(m,u);
+    if(did==="sd3"){ $("#"+did).innerHTML=saidFixed(u); $("#pt3").innerHTML=perTableHTML(u); }
+    $$("#"+pid+" .pill").forEach(function(b){ b.setAttribute("aria-pressed", String(+b.dataset.v===u)); });
+    if(sid==="tab4") upd4();
+  }
+  $("#"+sid).addEventListener("input",function(e){ S.tables=+e.target.value; upd(); });
+  $$("#"+pid+" .pill").forEach(function(b){ b.addEventListener("click",function(){ S.tables=+b.dataset.v; $("#"+sid).value=S.tables; upd(); }); });
+  upd();
+  return upd;
+}
+
+/* ---------- STEP 4: fixed vs variable ---------- */
+function upd4(){
+  var u=S.tables, dv=u-1000;
+  var vb=8*u, fb=10000, va=8*u, fa=10*u;
+  var el=$("#cmp4"); if(!el) return;
+  el.innerHTML=
+   '<table class="map"><thead><tr><th></th><th>Variable OH<br><small>$8 per table ($4/hr × 2 hrs)</small></th><th>Fixed OH<br><small>$10 per table</small></th></tr></thead><tbody>'+
+   '<tr><td>Output vs. plan</td><td colspan="2" style="text-align:center"><b>'+(dv>0?"+":"")+num(dv)+' tables</b></td></tr>'+
+   '<tr><td>Budget allowed at this output</td><td>'+money(vb)+' <small>(moves with output)</small></td><td>'+money(fb)+' <small>(can’t move)</small></td></tr>'+
+   '<tr><td>Overhead allocated to tables</td><td>'+money(va)+'</td><td>'+money(fa)+'</td></tr>'+
+   '<tr class="hl"><td><b>Gap: allocated vs. budget</b></td><td><b>$0</b> <small>always</small></td><td><b>'+(fa===fb?"$0":money(Math.abs(fa-fb))+" "+(fa>fb?"F":"U"))+'</b></td></tr>'+
+   '</tbody></table>';
+}
+function s4(){
+  return {
+    story:
+    '<span class="kick">Step 4 of 7 · Why is fixed overhead different?</span><h2>Variable costs flex. Fixed costs can’t.</h2>'+
+    '<p>For direct materials, direct labor, and variable overhead, the budget is <b>flexed</b> to actual output. If Tuffy makes 200 more tables, it is <i>allowed</i> to spend more on those costs, so the budget and the amount allocated rise together and never drift apart. Any variance is a price or efficiency issue.</p>'+
+    '<p>Fixed overhead is a lump sum. Making 200 more tables does <b>not</b> raise the bill, so the budget can’t flex, but the sticker per table still gets applied to every table made. That gap is the production volume variance.</p>'+
+    '<div class="seg-title" style="font-weight:700;margin-top:.6em">Choose a cost type</div>'+
+    '<div class="pills" id="mpills"><button type="button" class="pill" data-m="fixed">Fixed overhead</button><button type="button" class="pill" data-m="variable">Variable overhead</button></div>'+
+    slider("tab4","Tables produced",400,1600,50,S.tables,function(v){return num(v)+" tables";})+
+    '<div class="callout key"><b>That is why fixed overhead has no “efficiency variance.”</b> Working faster doesn’t change a lump-sum bill. Its second layer of analysis is the production volume variance instead.</div>',
+    viz:'<div class="card"><h3>Does the budget move when output moves?</h3><div id="ch4"></div><div id="ti4"></div></div><div class="card" style="margin-top:12px" id="cmp4"></div>',
+    after:function(){
+      var upd=wireChart("tab4","tpills4","ch4","ti4","sd4",function(){return S.mode;});
+      function setMode(m){ S.mode=m; $$("#mpills .pill").forEach(function(b){ b.setAttribute("aria-pressed",String(b.dataset.m===m)); }); upd(); }
+      $$("#mpills .pill").forEach(function(b){ b.addEventListener("click",function(){ setMode(b.dataset.m); }); });
+      setMode(S.mode);
+    }
+  };
+}
+
+/* ---------- STEP 5: Tuffy's variances ---------- */
+function bars5(){
+  var N=narrow(), W=N?400:560,H=330,L=N?58:60,B=58,T=16, YM=14000, bw=N?76:110;
+  var sy=function(y){return H-B-y/YM*(H-T-B);};
+  var xs=N?[118,218,318]:[140,310,480];
+  var data=N?[{v:10500,c:"barX",t:"Actual",s:"incurred"},{v:10000,c:"barB",t:"Budgeted",s:"= flexible"},{v:12000,c:"barA",t:"Allocated",s:"2,400 × $5"}]:[{v:10500,c:"barX",t:"Actual FOH",s:"incurred"},{v:10000,c:"barB",t:"Budgeted FOH",s:"static = flexible"},{v:12000,c:"barA",t:"Allocated FOH",s:"2,400 hrs × $5"}];
+  var o='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Actual, budgeted, and allocated fixed overhead for Tuffy">';
+  for(var i=0;i<=14000;i+=4000) o+='<line class="gl" x1="'+L+'" x2="'+(W-8)+'" y1="'+sy(i)+'" y2="'+sy(i)+'"/><text class="ax" x="'+(L-8)+'" y="'+(sy(i)+4)+'" text-anchor="end">'+money(i)+'</text>';
+  data.forEach(function(d,k){
+    o+='<rect class="'+d.c+'" x="'+(xs[k]-bw/2)+'" y="'+sy(d.v)+'" width="'+bw+'" height="'+(sy(0)-sy(d.v))+'" rx="4"/>';
+    o+='<text x="'+xs[k]+'" y="'+(sy(d.v)+22)+'" text-anchor="middle" style="fill:var(--bg);font-weight:700;font-size:16px">'+money(d.v)+'</text>';
+    o+='<text x="'+xs[k]+'" y="'+(H-B+20)+'" text-anchor="middle" style="fill:var(--ink);font-weight:700;font-size:14px">'+d.t+'</text>';
+    o+='<text class="ax" x="'+xs[k]+'" y="'+(H-B+37)+'" text-anchor="middle">'+d.s+'</text>';
+  });
+  o+='<g class="brk'+(S.r5>=1?' on':'')+'" id="b1"><line class="dsh" x1="'+(xs[0]+bw/2)+'" x2="'+(xs[1]-bw/2)+'" y1="'+sy(10500)+'" y2="'+sy(10500)+'"/>'+
+     '<line x1="'+((xs[0]+xs[1])/2)+'" x2="'+((xs[0]+xs[1])/2)+'" y1="'+sy(10500)+'" y2="'+sy(10000)+'" stroke="var(--unf)" stroke-width="6" stroke-linecap="round"/>'+
+     '<text x="'+((xs[0]+xs[1])/2)+'" y="'+(sy(10500)-26)+'" text-anchor="middle" class="tUnf" style="font-weight:700;font-size:14px">'+(N?"Spending":"Spending variance")+'</text>'+
+     '<text x="'+((xs[0]+xs[1])/2)+'" y="'+(sy(10500)-9)+'" text-anchor="middle" class="tUnf" style="font-weight:700;font-size:14px">$500 U</text></g>';
+  o+='<g class="brk'+(S.r5>=2?' on':'')+'" id="b2"><line class="dsh" x1="'+(xs[1]+bw/2)+'" x2="'+(xs[2]-bw/2)+'" y1="'+sy(12000)+'" y2="'+sy(12000)+'"/>'+
+     '<line class="dsh" x1="'+(xs[1]+bw/2)+'" x2="'+(xs[2]-bw/2)+'" y1="'+sy(10000)+'" y2="'+sy(10000)+'"/>'+
+     '<line x1="'+((xs[1]+xs[2])/2)+'" x2="'+((xs[1]+xs[2])/2)+'" y1="'+sy(10000)+'" y2="'+sy(12000)+'" stroke="var(--fav)" stroke-width="6" stroke-linecap="round"/>'+
+     '<text x="'+((xs[1]+xs[2])/2)+'" y="'+(sy(12000)-30)+'" text-anchor="middle" class="tFav" style="font-weight:700;font-size:14px">'+(N?"Volume":"Production volume")+'</text>'+
+     '<text x="'+((xs[1]+xs[2])/2)+'" y="'+(sy(12000)-13)+'" text-anchor="middle" class="tFav" style="font-weight:700;font-size:14px">'+(N?"$2,000 F":"variance $2,000 F")+'</text></g>';
+  return o+'</svg>';
+}
+function s5(){
+  return {
+    story:
+    '<span class="kick">Step 5 of 7 · Putting numbers on it</span><h2>Tuffy’s August</h2>'+
+    '<p>During August Tuffy produced <b>1,200 tables</b> (not 1,000), and workers worked <b>2,200 hours</b>. Actual fixed overhead was <b>$10,500</b>.</p>'+
+    '<p>Standard hours allowed for 1,200 tables = 1,200 × 2 = <b>2,400 hours</b>. Allocated fixed overhead = 2,400 × $5 = <b>$12,000</b>.</p>'+
+    '<div class="callout"><b>Two different questions.</b><br>① Did we <i>spend</i> more than budgeted? (actual vs. budget)<br>② Did the stickers cover the budget? (budget vs. allocated)</div>'+
+    '<div class="card" id="fm5" style="margin-top:12px"></div>',
+    viz:
+    '<div class="card"><h3>Actual vs. budgeted vs. allocated fixed overhead</h3><div id="bars5"></div>'+
+    '<div class="bar" style="margin-top:6px"><button type="button" class="btn primary" id="rev5"></button><button type="button" class="btn" id="rst5">Reset</button></div>'+
+    '<div class="said" role="status" id="sd5"></div></div>',
+    after:function(){
+      function upd(){
+        $("#bars5").innerHTML=bars5();
+        var r=S.r5;
+        $("#rev5").textContent = r===0?"Step ①: show the spending variance":(r===1?"Step ②: show the production volume variance":(r===2?"Show the net result":"All revealed"));
+        $("#rev5").disabled = r>=3;
+        var t=[
+          "Start with the three bars. The <b>budget</b> ($10,000) is the same whether Tuffy makes 500 or 1,500 tables.",
+          "<b>① Spending variance</b> (= flexible-budget variance for fixed costs): $10,500 − $10,000 = <b>$500 unfavorable</b>. This one is real extra spending: Tuffy paid $500 more than budgeted.",
+          "<b>② Production volume variance</b>: budgeted $10,000 vs. allocated $12,000. Tuffy made more tables than planned, so the budgeted bill is shared by more tables: about <b>$8.33 of rent per table instead of the $10</b> forecast. The tables absorbed <b>$2,000 more</b> than the bill. <span class=\"fav\">Favorable.</span> No cash was saved; it means more output per rent dollar than planned.",
+          "<b>Net:</b> $12,000 allocated − $10,500 actual = <b>$1,500 over-applied</b>, which equals $2,000 F (volume) − $500 U (spending). This is the same over/under-applied overhead you saw in job costing."
+        ];
+        $("#sd5").innerHTML=t[r];
+        $("#fm5").innerHTML=
+          '<h3>Two ways to compute PVV</h3>'+
+          '<p style="margin:.2em 0"><b>Budgeted FOH − Allocated FOH</b><br>$10,000 − $12,000 = −$2,000 → <span class="fav">$2,000 F</span></p>'+
+          '<p style="margin:.5em 0 .2em"><b>(Denominator hours − SHA) × FPOHR</b><br>(2,000 − 2,400) × $5 = −$2,000 → <span class="fav">$2,000 F</span></p>'+
+          '<p style="margin:.5em 0 0;color:var(--muted);font-size:.92rem">A minus sign here means allocated &gt; budgeted, which is favorable. Note the <b>2,200 actual hours never appear</b>: they belong in efficiency variances, not here.</p>';
+      }
+      $("#rev5").addEventListener("click",function(){ if(S.r5<3){ S.r5++; upd(); } });
+      $("#rst5").addEventListener("click",function(){ S.r5=0; upd(); });
+      upd();
+    }
+  };
+}
+
+/* ---------- STEP 6: what it means ---------- */
+var TF=[
+  {q:"“Tuffy spent $2,000 less on fixed overhead than it budgeted.”", a:false, e:"False. Tuffy actually spent $500 <i>more</i> ($10,500 vs. $10,000). The $2,000 comes from the stickers: allocation, not spending."},
+  {q:"“If Tuffy had made only 800 tables, the production volume variance would be unfavorable.”", a:true, e:"True. 800 × $10 = $8,000 allocated vs. a $10,000 budget, so $2,000 of the fixed cost went unabsorbed: $2,000 U."},
+  {q:"“The PVV uses the 2,200 hours Tuffy’s workers actually worked.”", a:false, e:"False. It uses <i>standard hours allowed for actual output</i> (2,400) and the denominator hours (2,000). Actual hours show up in efficiency variances."},
+  {q:"“Fixed overhead has no efficiency variance because it is a lump sum.”", a:true, e:"True. Using hours more or less efficiently doesn’t change a lump-sum bill. Its second layer is the production volume variance."}
+];
+function s6(){
+  var rows=[
+    ["If output rises","The budget is flexed up with it","Budget stays flat; only the amount allocated rises"],
+    ["What the variance tells you","Paid more/less than allowed, or used more/less than allowed","Actual output was above/below the volume used to set the rate"],
+    ["Cash effect","Real dollars over or under","None. The rent bill is the same"],
+    ["Who can act on it","Purchasing and production managers","Planning, sales, and capacity decisions"],
+    ["“Favorable” means","Spent or used less than allowed","Used more of the capacity than planned"]
+  ];
+  var tb='<table class="map"><thead><tr><th></th><th>DM, DL, variable OH variances</th><th>Production volume variance</th></tr></thead><tbody>'+
+    rows.map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>';}).join("")+'</tbody></table>';
+  var tf=TF.map(function(t,i){
+    return '<div class="tf" id="tf'+i+'"><p>'+t.q+'</p><div class="ans"><button type="button" class="pill" data-i="'+i+'" data-a="true">True</button><button type="button" class="pill" data-i="'+i+'" data-a="false">False</button></div><div class="fb"></div></div>';
+  }).join("");
+  return {
+    story:
+    '<span class="kick">Step 6 of 7 · What does it mean?</span><h2>Reading the variance correctly</h2>'+
+    '<p>The production volume variance is not a “mistake” by a manager. It tells you that the <b>volume assumed when the rate was set</b> was different from the volume actually produced.</p>'+
+    '<div class="callout key"><b>Favorable isn’t automatically good.</b> A company can produce extra units nobody orders. That makes PVV look favorable because fixed cost gets parked in inventory instead of expensed. Always ask <i>why</i> volume was different.</div>'+
+    '<div class="card"><h3>How it differs from the variances you know</h3>'+tb+'</div>',
+    viz:'<div class="card"><h3>Quick check: true or false?</h3>'+tf+'</div>',
+    after:function(){
+      function paint(i){
+        var el=$("#tf"+i), st=S.tf[i]; if(st===undefined) return;
+        var ok = st===TF[i].a;
+        el.classList.add("done");
+        var fb=$(".fb",el); fb.className="fb "+(ok?"ok":"no"); fb.innerHTML=(ok?"<b>Correct.</b> ":"<b>Not quite.</b> ")+TF[i].e;
+        $$(".pill",el).forEach(function(b){ b.setAttribute("aria-pressed", String((b.dataset.a==="true")===st)); });
+      }
+      TF.forEach(function(_,i){ paint(i); });
+      $$(".tf .pill").forEach(function(b){ b.addEventListener("click",function(){ S.tf[+b.dataset.i]=(b.dataset.a==="true"); paint(+b.dataset.i); }); });
+    }
+  };
+}
+
+/* ---------- STEP 7: practice ---------- */
+var NAMES=["tables","bikes","lamps","chairs","backpacks","bookcases"];
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function classProb(){ return mk("tables",2,1000,5,1200,10500); }
+function mk(name,hpu,n,rate,m,A){
+  var DH=n*hpu, B=DH*rate, SHA=m*hpu, alloc=SHA*rate;
+  return {name:name,hpu:hpu,n:n,rate:rate,m:m,A:A,DH:DH,B:B,SHA:SHA,alloc:alloc, spend:A-B, pvv:B-alloc};
+}
+function newProb(){
+  var n=pick([400,500,600,800,1000,1200]), hpu=pick([1,2,3]), rate=pick([4,5,6,8,10,12]);
+  var f=pick([0.75,0.8,0.9,1.1,1.2,1.25]), m=Math.round(n*f);
+  var B=n*hpu*rate, A=B+pick([-400,-200,300,500,600]);
+  return mk(pick(NAMES),hpu,n,rate,m,A);
+}
+function s7(){
+  if(!S.prac){ S.prac=classProb(); S.pans={}; S.prevealed=false; }
+  var P=S.prac;
+  var rows=[
+    {k:"fpohr",l:"Fixed OH rate per hour (FPOHR)",h:"Budgeted FOH ÷ denominator hours",t:P.rate,f:false},
+    {k:"sha",l:"Standard hours allowed (SHA)",h:"Actual output × hours per unit",t:P.SHA,f:false},
+    {k:"alloc",l:"Allocated fixed overhead",h:"SHA × FPOHR",t:P.alloc,f:false},
+    {k:"spend",l:"Spending (flexible-budget) variance",h:"Actual FOH vs. budgeted FOH",t:Math.abs(P.spend),f:true,fu:P.spend>0?"U":"F"},
+    {k:"pvv",l:"Production volume variance",h:"Budgeted FOH vs. allocated FOH",t:Math.abs(P.pvv),f:true,fu:P.pvv<0?"F":"U"}
+  ];
+  S._rows=rows;
+  var rowHTML=rows.map(function(r){
+    var a=S.pans[r.k]||{v:"",s:""};
+    return '<div class="qrow"><div class="ql">'+r.l+'<small>'+r.h+'</small></div>'+
+      '<input class="vin" id="in_'+r.k+'" inputmode="decimal" placeholder="$" value="'+a.v+'" aria-label="'+r.l+'">'+
+      (r.f?'<select class="fu" id="sel_'+r.k+'" aria-label="Favorable or unfavorable for '+r.l+'"><option value="">F / U</option><option value="F"'+(a.s==="F"?" selected":"")+'>F</option><option value="U"'+(a.s==="U"?" selected":"")+'>U</option></select>':'<span></span>')+'</div>';
+  }).join("");
+  return {
+    story:
+    '<span class="kick">Step 7 of 7 · Your turn</span><h2>Compute the fixed overhead variances</h2>'+
+    '<div class="card" id="prob"></div>'+
+    '<div class="callout" style="margin-top:12px"><b>Tip:</b> the PVV and the spending variance answer different questions. Compare allocated to budgeted for PVV, and actual to budgeted for spending.</div>',
+    viz:
+    '<div class="card"><h3>Your answers (enter dollar amounts, then pick F or U)</h3>'+rowHTML+
+    '<div class="bar" style="margin-top:12px"><button type="button" class="btn primary" id="pCheck">Check my answers</button><button type="button" class="btn" id="pShow">Show answers</button><button type="button" class="btn" id="pNew">New numbers</button><button type="button" class="btn" id="pClass">Class example</button><span class="status" id="pStat"></span></div>'+
+    '<div class="said" role="status" id="pSol" style="display:none"></div></div>',
+    after:function(){
+      $("#prob").innerHTML='<h3>The problem</h3><p style="margin:.2em 0">A company makes <b>'+P.name+'</b>. It budgets fixed overhead of <b>'+money(P.B)+'</b> for the month and applies it on direct labor hours. Each unit takes <b>'+P.hpu+' hour'+(P.hpu>1?'s':'')+'</b>, and the company planned to make <b>'+num(P.n)+'</b> units (denominator hours = '+num(P.DH)+'). It actually made <b>'+num(P.m)+'</b> units. Actual fixed overhead was <b>'+money(P.A)+'</b>.</p>';
+      rows.forEach(function(r){
+        var i=$("#in_"+r.k), s=$("#sel_"+r.k);
+        i.addEventListener("input",function(){ S.pans[r.k]=S.pans[r.k]||{v:"",s:""}; S.pans[r.k].v=i.value; i.classList.remove("right","wrong"); });
+        if(s) s.addEventListener("change",function(){ S.pans[r.k]=S.pans[r.k]||{v:"",s:""}; S.pans[r.k].s=s.value; s.classList.remove("right","wrong"); });
+      });
+      function parse(v){ var x=parseFloat(String(v).replace(/[$,\s]/g,"")); return isNaN(x)?null:Math.abs(x); }
+      $("#pCheck").addEventListener("click",function(){
+        var ok=0,tot=0;
+        rows.forEach(function(r){
+          var i=$("#in_"+r.k), s=$("#sel_"+r.k), v=parse(i.value);
+          var good = v!==null && Math.abs(v-r.t)<0.5; tot++;
+          i.classList.remove("right","wrong"); i.classList.add(good?"right":"wrong");
+          var good2=true;
+          if(r.f){ good2 = s.value===r.fu; s.classList.remove("right","wrong"); s.classList.add(good2?"right":"wrong"); tot++; if(good2) ok++; }
+          if(good) ok++;
+        });
+        var st=$("#pStat"); st.textContent=ok+" of "+tot+" correct"; st.className="status "+(ok===tot?"good":"bad");
+      });
+      $("#pShow").addEventListener("click",function(){
+        rows.forEach(function(r){ var i=$("#in_"+r.k); i.value=num(r.t); S.pans[r.k]={v:i.value,s:r.f?r.fu:""}; i.classList.remove("wrong"); i.classList.add("right"); if(r.f){ var s=$("#sel_"+r.k); s.value=r.fu; s.classList.remove("wrong"); s.classList.add("right"); } });
+        var sol=$("#pSol"); sol.style.display="block";
+        sol.innerHTML='<b>Worked solution</b><br>FPOHR = '+money(P.B)+' ÷ '+num(P.DH)+' hrs = '+money(P.rate)+' per hr<br>SHA = '+num(P.m)+' × '+P.hpu+' = '+num(P.SHA)+' hrs<br>Allocated = '+num(P.SHA)+' × '+money(P.rate)+' = '+money(P.alloc)+'<br>Spending = '+money(P.A)+' − '+money(P.B)+' = '+money(Math.abs(P.spend))+' <b class="'+(P.spend>0?'unf':'fav')+'">'+(P.spend>0?'U':'F')+'</b> (actual above budget is unfavorable)<br>PVV = '+money(P.B)+' − '+money(P.alloc)+' = '+(P.pvv<0?'−':'')+money(Math.abs(P.pvv))+' → <b class="'+(P.pvv<0?'fav':'unf')+'">'+money(Math.abs(P.pvv))+' '+(P.pvv<0?'F':'U')+'</b> ('+(P.pvv<0?'allocated exceeds budget':'budget exceeds allocated')+')';
+        var st=$("#pStat"); st.textContent="";
+      });
+      $("#pNew").addEventListener("click",function(){ S.prac=newProb(); S.pans={}; render(); });
+      $("#pClass").addEventListener("click",function(){ S.prac=classProb(); S.pans={}; render(); });
+    }
+  };
+}
+
+/* ---------- shell ---------- */
+var BUILD=[s1,s2,s3,s4,s5,s6,s7];
+function render(){
+  var st=BUILD[S.step]();
+  $("#panel").innerHTML='<section class="story">'+st.story+'</section><section class="viz">'+st.viz+'</section>';
+  st.after();
+  $("#steps").innerHTML=STEPS.map(function(n,i){ return '<button type="button" class="stepdot'+(i===S.step?' cur':'')+'" data-i="'+i+'" aria-current="'+(i===S.step?'step':'false')+'"><span class="n">'+(i+1)+'</span>'+n+'</button>'; }).join("");
+  $$("#steps .stepdot").forEach(function(b){ b.addEventListener("click",function(){ go(+b.dataset.i); }); });
+  $("#bPrev").disabled=S.step===0; $("#bNext").disabled=S.step===STEPS.length-1;
+}
+function go(i){ S.step=Math.max(0,Math.min(STEPS.length-1,i)); render(); window.scrollTo({top:0,behavior:"smooth"}); }
+$("#bPrev").addEventListener("click",function(){ go(S.step-1); });
+$("#bNext").addEventListener("click",function(){ go(S.step+1); });
+$("#bRestart").addEventListener("click",function(){ S.visits=25; S.tables=1200; S.mode="fixed"; S.r5=0; S.tf={}; S.prac=null; S.pans={}; go(0); });
+if(mq.addEventListener) mq.addEventListener("change",function(){ render(); });
+render();
+})();
+</script>
+<script data-goatcounter="https://chunkim.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
