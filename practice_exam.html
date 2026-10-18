@@ -1,60 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ACCT 302 - Practice Exams</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ACCT 302 Practice Exams</title>
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  *{box-sizing:border-box}
-  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;max-width:900px;margin:0 auto;padding:20px;background-color:#f5f5f5;line-height:1.6;color:#222}
-  .header{text-align:center;background:linear-gradient(135deg,#1a237e,#3949ab);color:#fff;padding:25px;border-radius:12px;margin-bottom:25px;box-shadow:0 4px 15px rgba(0,0,0,.2)}
-  .header h1{margin:0 0 10px 0;font-size:2em}
-  .header p{margin:5px 0;opacity:.9}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-  .card{background:#fff;border-radius:10px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:4px solid #3949ab;display:flex;flex-direction:column}
-  .card h2{margin:0 0 6px 0;font-size:1.25em;color:#1a237e}
-  .card .meta{color:#555;margin:0 0 4px 0;font-size:.95em}
-  .card .count{color:#666;font-size:.9em;margin:0 0 18px 0}
-  .btn{margin-top:auto;display:inline-block;text-align:center;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:600;color:#fff;background:linear-gradient(135deg,#1565c0,#42a5f5);transition:all .3s ease}
-  .btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(21,101,192,.4)}
-  .btn.green{background:linear-gradient(135deg,#43a047,#66bb6a)}
-  .btn.green:hover{box-shadow:0 4px 12px rgba(67,160,71,.4)}
-  .card.locked{border-left-color:#bdbdbd;opacity:.75}
-  .card.locked h2{color:#616161}
-  .locked-label{margin-top:auto;text-align:center;padding:12px 20px;border-radius:8px;font-weight:600;color:#616161;background:#eeeeee;border:1px dashed #bdbdbd}
-  .note{margin-top:25px;background:#fff;border-radius:10px;padding:18px 22px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:.95em;color:#444}
-  footer{text-align:center;color:#777;font-size:.85em;margin:30px 0 10px}
+:root{--bg:#fff;--ink:#1f1f1f;--muted:#6b6b6b;--navy:#00244E;--orange:#FF7900;--card:#f4f5f7;--lock:#b4b7bd;box-sizing:border-box;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1c1e;--ink:#f0f0f0;--muted:#a8a8a8;--navy:#7fa8d9;--card:#2a2a2d;--lock:#5a5c62}}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif;font-size:18px}
+header{border-top:8px solid #00244E;border-bottom:4px solid var(--orange);padding:1.5em 6vw 1em;text-align:center}
+h1{margin:0;font-size:2em}
+header p{margin:.3em 0 0;color:var(--muted)}
+main{padding:1.5em 6vw;max-width:40em;margin:0 auto}
+.card{display:block;background:var(--card);border-left:6px solid var(--orange);border-radius:.6em;padding:1em 1.2em;margin-bottom:.8em;color:inherit;text-decoration:none}
+a.card:hover,a.card:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.card strong{display:block;font-size:1.2em;color:var(--navy)}
+.card span{display:block;color:var(--muted);margin-top:.2em}
+.card .status{margin-top:.5em;font-weight:700}
+.card.locked{border-left-color:var(--lock);cursor:not-allowed}
+.card.locked strong{color:var(--muted)}
+.card.locked .status::before{content:"\1F512  "}
+.card:not(.locked) .status{color:var(--navy)}
+.note{margin:1.6em 0 .4em;color:var(--muted);font-size:.95em;text-align:center}
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>ACCT 302 - Cost Accounting</h1>
-  <p><strong>Practice Exams</strong></p>
-  <p>California State University, Fullerton</p>
+<header>
+<h1>ACCT 302 Practice Exams</h1>
+<p>Cal State Fullerton · Professor Kim · Cost Accounting</p>
+</header>
+<main>
+<a class="card" href="exam1.html">
+<strong>Practice Exam 1</strong>
+<span>Chapters 1, 2, 3, 4, 5 · 38 questions · randomized values</span>
+<span class="status">Available now</span>
+</a>
+<div class="card locked" id="exam2" data-href="exam2.html" data-opens="2026-10-21T08:00:00-07:00" data-label="Opens Wednesday, October 21, 2026 at 8:00 AM Pacific" role="link" aria-disabled="true">
+<strong>Practice Exam 2</strong>
+<span>Chapters 6, 7, 8, 9 · 27 questions · randomized values</span>
+<span class="status">Opens Wednesday, October 21, 2026 at 8:00 AM Pacific</span>
 </div>
-
-<div class="cards">
-  <div class="card">
-    <h2>Practice Exam 1</h2>
-    <p class="meta">Chapters 1, 2, 3, 4, 5</p>
-    <p class="count">38 questions &middot; randomized values</p>
-    <a class="btn green" href="exam1.html">Start Practice Exam 1</a>
-  </div>
-  <div class="card locked">
-    <h2>Practice Final Exam</h2>
-    <p class="meta">Chapters 12, 14, 16, 18</p>
-    <p class="count">Opens later in the term</p>
-    <div class="locked-label">&#128274; Not available yet</div>
-  </div>
+<div class="card locked" aria-disabled="true">
+<strong>Practice Final Exam</strong>
+<span>Chapters 12, 14, 16, 18</span>
+<span class="status">Opens later in the term</span>
 </div>
-
-<div class="note">
-  Each exam reshuffles the questions and regenerates the numbers every time you press
-  <strong>New Exam</strong>, so you can practice the same topics repeatedly. Use
-  <strong>Show/Hide Answers</strong> to check your work.
-</div>
-
-<footer>For practice only &mdash; not graded and not a guarantee of exam content.</footer>
+<p class="note">Each exam reshuffles the questions and regenerates the numbers every time you press <b>New Exam</b>, so you can practice the same topics repeatedly. Use <b>Show/Hide Answers</b> to check your work.</p>
+<p class="note">For practice only. Not graded and not a guarantee of exam content.</p>
+</main>
+<script>
+(function(){
+  var preview=/[?&]preview=1/.test(location.search);
+  function refresh(){
+    var el=document.getElementById("exam2");
+    if(!el||el.tagName==="A")return;
+    var open=preview||Date.now()>=new Date(el.getAttribute("data-opens")).getTime();
+    if(!open)return;
+    var a=document.createElement("a");
+    a.className="card"; a.id="exam2";
+    a.href=el.getAttribute("data-href")+(preview?"?preview=1":"");
+    a.innerHTML=el.innerHTML;
+    a.querySelector(".status").textContent=preview&&Date.now()<new Date(el.getAttribute("data-opens")).getTime()?"Preview (not yet open to students)":"Available now";
+    el.parentNode.replaceChild(a,el);
+  }
+  refresh();
+  setInterval(refresh,15000);
+})();
+</script>
 <script data-goatcounter="https://chunkim.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
