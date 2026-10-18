@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter 8 Part II: Comprehensive Variance Analysis | ACCT 302</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#1d2430; --muted:#5d6675; --line:#d5d9e0; --soft:#f3f5f8;
+  --navy:#00244E; --orangeBright:#FF7900; --orangeTx:#B85200; --onNavy:#ffffff;
+  --fav:#1E7A3C; --unf:#B42318; --goodBg:#E7F4EC; --badBg:#FDECEA;
+  --blue:#1F5FA8; --blueBg:#E6EEF9; --orBg:#FFF1E2; --orLine:#E06A00; --teal:#0F7A6C; --tealBg:#E1F3F0; --grayBg:#EEF0F3;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16191f; --ink:#e9ecf1; --muted:#a5adba; --line:#363c47; --soft:#1f232b;
+    --navy:#8fb3e3; --orangeBright:#FF9A3D; --orangeTx:#FFA24D; --onNavy:#0d1a2b; --fav:#5CC883; --unf:#FF7B6E; --goodBg:#16301f; --badBg:#3a1d1a;
+    --blue:#7FB0EE; --blueBg:#1b2a40; --orBg:#3a2a18; --orLine:#FFA24D; --teal:#5ED1BF; --tealBg:#12302c; --grayBg:#262a31;
+  }
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif; font-size:17px; line-height:1.4}
+button,input,select{font:inherit; color:inherit}
+.wrap{max-width:1240px; margin:0 auto; padding:0 20px 40px}
+header.top{border-top:8px solid #00244E; border-bottom:3px solid var(--orangeBright); margin-bottom:16px}
+header.top .wrap{padding-top:18px; padding-bottom:14px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:12px}
+h1{margin:0; font-size:2rem; line-height:1.1}
+.sub{margin:.2em 0 0; color:var(--muted)}
+.btn{border:2px solid var(--navy); background:transparent; color:var(--navy); border-radius:8px; padding:.4em .9em; font-weight:700; cursor:pointer; min-height:44px}
+.btn.primary{background:var(--navy); color:var(--onNavy)}
+.btn.small{min-height:38px; padding:.25em .7em; font-size:.92rem}
+.btn:disabled{opacity:.4; cursor:default}
+.bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--orangeBright); outline-offset:2px}
+
+.steps{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px}
+.stepdot{border:2px solid var(--line); background:var(--bg); border-radius:999px; padding:.3em .8em; font-weight:700; font-size:.9rem; cursor:pointer; min-height:40px; display:inline-flex; align-items:center; gap:.45em}
+.stepdot .n{display:inline-grid; place-items:center; width:1.55em; height:1.55em; border-radius:50%; background:var(--soft); font-size:.85em}
+.stepdot.cur{background:var(--navy); color:var(--onNavy); border-color:var(--navy)}
+.stepdot.cur .n{background:rgba(255,255,255,.22)}
+.stepdot.done .n{background:var(--fav); color:#fff}
+
+.kick{display:inline-block; font-weight:700; color:var(--navy); margin-bottom:.15em}
+h2{margin:0 0 .25em; font-size:1.5rem; line-height:1.15}
+p{margin:.4em 0}
+.card{border:1px solid var(--line); border-radius:12px; padding:14px 16px 16px; background:var(--bg); min-width:0}
+.card h3{margin:0 0 .45em; font-size:1rem; color:var(--muted); font-weight:700}
+.callout{border-left:5px solid var(--orangeBright); background:var(--soft); padding:.55em .9em; border-radius:0 8px 8px 0; margin:.7em 0}
+.callout.key{border-left-color:var(--navy)}
+.grid2{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; align-items:start}
+.stack>*+*{margin-top:12px}
+.fav{color:var(--fav); font-weight:700} .unf{color:var(--unf); font-weight:700}
+.eq{display:inline-block; background:var(--soft); border:1px solid var(--line); border-radius:6px; padding:0 .45em; font-weight:700; white-space:nowrap}
+table.t{border-collapse:collapse; width:100%; font-size:.95rem; font-variant-numeric:tabular-nums}
+table.t th,table.t td{border-bottom:1px solid var(--line); padding:.4em .5em; text-align:left; vertical-align:top}
+table.t th{color:var(--muted); font-size:.85rem; border-bottom:2px solid var(--ink)}
+table.t td.r,table.t th.r{text-align:right}
+details.prob{border:1px solid var(--line); border-radius:12px; margin-bottom:12px}
+details.prob summary{cursor:pointer; padding:.6em 1em; font-weight:700; color:var(--navy)}
+details.prob .in{padding:0 1em 1em}
+
+/* phases */
+.phases{display:flex; flex-wrap:wrap; gap:8px; margin:.5em 0 12px}
+.ph{display:inline-flex; gap:.45em; align-items:center; border:2px solid var(--line); border-radius:999px; padding:.15em .8em; font-weight:700; font-size:.92rem; color:var(--muted)}
+.ph .n{display:inline-grid; place-items:center; width:1.5em; height:1.5em; border-radius:50%; background:var(--soft)}
+.ph.on{border-color:var(--navy); color:var(--navy); background:var(--blueBg)}
+.ph.ok{border-color:var(--fav); color:var(--fav)} .ph.ok .n{background:var(--fav); color:#fff}
+
+/* tray + chips */
+.tray{display:flex; flex-wrap:wrap; gap:8px}
+.chip{touch-action:none; user-select:none; -webkit-user-select:none; cursor:grab; border:2px solid var(--line); border-left-width:6px; border-radius:10px; background:var(--bg); padding:.3em .65em; font-weight:700; font-size:.95rem; text-align:left; line-height:1.2; position:relative}
+.chip small{display:block; font-weight:400; color:var(--muted); font-size:.78rem}
+.chip.c-var{border-left-color:var(--navy)} .chip.c-actual{border-left-color:var(--orLine)} .chip.c-setup{border-left-color:var(--muted)} .chip.c-derived{border-left-color:var(--teal)} .chip.c-unknown{border-style:dashed; border-left-color:var(--unf)}
+.chip.sel{outline:3px solid var(--orangeBright); outline-offset:1px; background:var(--orBg)}
+.chip.used::after{content:"✓"; position:absolute; top:-8px; right:-6px; background:var(--fav); color:#fff; border-radius:50%; width:1.35em; height:1.35em; display:grid; place-items:center; font-size:.8rem}
+.legend{display:flex; flex-wrap:wrap; gap:12px; color:var(--muted); font-size:.82rem; margin-top:8px}
+.legend i{display:inline-block; width:.9em; height:.9em; border-radius:3px; vertical-align:-1px; margin-right:.3em; background:var(--bg); border:2px solid var(--line); border-left-width:5px}
+.ghost{position:fixed; z-index:50; pointer-events:none; opacity:.92; box-shadow:0 6px 18px rgba(0,0,0,.28); transform:translate(-50%,-50%) rotate(-2deg)}
+body.dragging{cursor:grabbing}
+.fb{margin-top:10px; border-left:5px solid var(--navy); background:var(--soft); padding:.5em .85em; border-radius:0 8px 8px 0; min-height:2.8em}
+.fb.ok{border-left-color:var(--fav); background:var(--goodBg)} .fb.bad{border-left-color:var(--unf); background:var(--badBg)}
+
+/* board */
+.board{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+.col{border:2px solid var(--line); border-radius:12px; overflow:hidden; background:var(--bg); display:flex; flex-direction:column}
+.col .hd{padding:.5em .7em .55em; border-bottom:2px solid var(--line)}
+.col .hd b{display:block; font-size:1.02rem; line-height:1.15}
+.col .hd small{display:block; color:var(--muted); font-size:.8rem; margin-top:.1em; line-height:1.2}
+.col.c1 .hd{background:var(--orBg); box-shadow:inset 0 5px 0 var(--orLine)} .col.c2 .hd{background:var(--tealBg); box-shadow:inset 0 5px 0 var(--teal)} .col.c3 .hd{background:var(--blueBg); box-shadow:inset 0 5px 0 var(--blue)}
+.num{display:inline-grid; place-items:center; width:1.5em; height:1.5em; border-radius:50%; background:var(--navy); color:var(--onNavy); font-size:.85rem; margin-right:.35em; vertical-align:1px}
+.toks{display:flex; flex-wrap:wrap; gap:4px; margin-top:.35em; align-items:center}
+.tok{border-radius:6px; padding:.02em .45em; font-size:.8rem; font-weight:700; border:1.5px solid; background:var(--bg)}
+.tok.act{color:var(--orangeTx); border-color:var(--orLine)} .tok.bud{color:var(--blue); border-color:var(--blue)}
+.tok.hl{outline:3px solid var(--orangeBright); outline-offset:1px}
+.col .body{padding:.5em .6em .7em; flex:1}
+.line{margin:.3em 0 .55em}
+.line .lab{font-size:.8rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
+.eqrow{display:flex; flex-wrap:wrap; align-items:center; gap:6px}
+.eqrow .op{font-weight:700; color:var(--muted)}
+.slot{min-width:5.2em; min-height:2.6em; border:2px dashed var(--muted); border-radius:8px; background:var(--bg); padding:.1em .45em; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; cursor:pointer; font-weight:700; font-variant-numeric:tabular-nums; line-height:1.1}
+.slot .cap{font-weight:400; font-size:.72rem; color:var(--muted); line-height:1.1}
+.slot:not(.full) .cap{font-size:.8rem}
+.slot.armed{border-color:var(--orangeBright); background:var(--orBg)}
+.slot.over{background:var(--orBg); border-color:var(--orangeBright); border-style:solid}
+.slot.full{border-style:solid; border-color:var(--fav); background:var(--goodBg)}
+.slot.full.unk{border-color:var(--unf); background:var(--badBg); color:var(--unf)}
+.slot.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.cell{min-width:5.6em; min-height:2.6em; border:2px solid var(--line); border-radius:8px; background:var(--soft); padding:.1em .45em; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-variant-numeric:tabular-nums; color:var(--muted); text-align:center}
+.cell.got{border-color:var(--fav); background:var(--goodBg); color:var(--ink); animation:pop .5s}
+@keyframes pop{0%{transform:scale(.85)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+.col .note{font-size:.85rem; color:var(--muted); margin-top:.2em}
+.vstrip{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:12px}
+.vbox{border:2px solid var(--navy); border-radius:12px; padding:.5em .7em .65em; background:var(--bg)}
+.vbox b{display:block}
+.vbox .how{font-size:.85rem; color:var(--muted); margin:.1em 0 .4em; line-height:1.2}
+.vbox .eqrow{gap:8px}
+
+/* rows */
+.crow{border:2px solid var(--line); border-radius:12px; padding:.6em .8em .7em; margin-bottom:10px; background:var(--bg)}
+.crow.cur{border-color:var(--navy)}
+.crow.ok{border-color:var(--fav); background:var(--goodBg)}
+.crow .tag{display:inline-block; font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; border-radius:999px; padding:0 .6em; background:var(--soft); color:var(--muted)}
+.crow .tag.back{background:var(--orBg); color:var(--orangeTx)} .crow .tag.verify{background:var(--tealBg); color:var(--teal)}
+.crow .prompt{margin:.3em 0 .5em}
+.crow .inp{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.vin{width:9em; text-align:right; padding:.25em .45em; border:1px solid var(--line); border-bottom:2px solid var(--navy); border-radius:4px; background:var(--bg); font-weight:700; font-variant-numeric:tabular-nums}
+.vin.wrong{border-color:var(--unf); background:var(--badBg)}
+select.fu{padding:.25em .3em; border:1px solid var(--line); border-bottom:2px solid var(--navy); border-radius:4px; background:var(--bg); font-weight:700}
+.crow .exp{margin-top:.45em}
+.crow .msg{margin-top:.4em; color:var(--unf); font-weight:700}
+.locked{color:var(--muted); border:2px dashed var(--line); border-radius:12px; padding:.7em .9em}
+.done-banner{border:2px solid var(--fav); background:var(--goodBg); border-radius:12px; padding:.6em .9em; margin-top:10px}
+
+/* intro template */
+.tmpl{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:.5em 0}
+.tmpl .mc{border:2px solid var(--line); border-radius:10px; padding:.4em .5em}
+.tmpl .mc b{display:block; font-size:.9rem; margin-bottom:.25em}
+.tmpl .mc.c1{background:var(--orBg)} .tmpl .mc.c2{background:var(--tealBg)} .tmpl .mc.c3{background:var(--blueBg)}
+.tok.shared{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.tok.diff{outline:3px dashed var(--unf); outline-offset:1px}
+.tok.dim{opacity:.35}
+.pills{display:flex; flex-wrap:wrap; gap:6px}
+.pill{border:2px solid var(--line); background:var(--bg); border-radius:999px; padding:.15em .8em; cursor:pointer; font-weight:700; font-size:.92rem; min-height:38px}
+.pill[aria-pressed="true"]{border-color:var(--navy); background:var(--navy); color:var(--onNavy)}
+.phrow{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:8px}
+.phrow .phases{flex:1 1 auto}
+.phrow .btn{margin:.5em 0 12px}
+.setbar{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px}
+.settag{display:inline-block; border:2px solid var(--line); border-radius:999px; padding:.1em .8em; font-weight:700; font-size:.92rem; color:var(--muted)}
+.settag.prac{border-color:var(--orangeBright); color:var(--orangeTx); background:var(--orBg)}
+.setload{display:inline-flex; align-items:center; gap:6px; font-weight:700; color:var(--muted)}
+.seedin{width:5.2em; padding:.25em .45em; border:1px solid var(--line); border-bottom:2px solid var(--navy); border-radius:4px; background:var(--bg); font-weight:700; font-variant-numeric:tabular-nums; min-height:38px}
+.seedin.wrong{border-color:var(--unf); background:var(--badBg)}
+[hidden]{display:none!important}
+.hintline{margin-top:.4em; padding:.35em .7em; border-left:4px solid var(--teal); background:var(--tealBg); border-radius:0 8px 8px 0; font-size:.95rem}
+.tipline{margin:.45em 0; padding:.35em .7em; border-left:4px solid var(--orangeBright); background:var(--orBg); border-radius:0 8px 8px 0; font-size:.95rem}
+.rate{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px}
+.rcard{border:2px solid var(--line); border-radius:10px; padding:.5em .7em}
+.rcard b{display:block}
+.rcard .f{color:var(--muted); font-size:.88rem; margin:.1em 0 .4em}
+.foot{color:var(--muted); font-size:.85rem; margin-top:22px}
+.nav{display:flex; justify-content:space-between; gap:10px; margin-top:20px; flex-wrap:wrap}
+@media (max-width:900px){ .board{grid-template-columns:minmax(0,1fr)} .grid2{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:600px){ body{font-size:16px} h1{font-size:1.6rem} h2{font-size:1.3rem} .tmpl{grid-template-columns:minmax(0,1fr)} .vin{width:7.5em} }
+@media (max-width:400px){ .wrap{padding-left:14px; padding-right:14px} .card{padding:12px 10px 14px} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important} }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>Working backwards from the variances</h1>
+      <p class="sub">Chapter 8 Part II · Steesa Company comprehensive problem</p>
+      <div class="setbar">
+        <button type="button" class="btn small" id="bNew">Practice with new numbers</button>
+        <button type="button" class="btn small" id="bOrig" hidden>Back to class problem</button>
+      </div>
+    </div>
+    <div class="bar"><button type="button" class="btn" id="bRestart">Start over</button></div>
+  </div>
+</header>
+<div class="wrap">
+  <nav class="steps" id="steps" aria-label="Stages"></nav>
+  <main id="panel"></main>
+  <div class="nav">
+    <button type="button" class="btn" id="bPrev">← Back</button>
+    <button type="button" class="btn primary" id="bNext">Next →</button>
+  </div>
+  <p class="foot">ACCT 302 · Cal State Fullerton · Professor Kim</p>
+</div>
+<script>
+(function(){
+"use strict";
+/* ===== DATA (built from a parameter set P so the numbers can change) ===== */
+var KIND,CHIP,STAGES,QS,PROBLEM,RESULTS,P,SEED=0;
+var TOK_ACT="act", TOK_BUD="bud";
+
+/* ---------- number formatting ---------- */
+function num(x){ return (Math.round(x*100)/100).toLocaleString("en-US",{maximumFractionDigits:2}); }
+function money(n){ return "$"+Math.round(n).toLocaleString("en-US"); }
+function pr(x){ return "$"+(Math.round(x*100)/100).toFixed(2); }
+function rt(x){ x=Math.round(x*100)/100; return "$"+(x%1===0?x.toLocaleString("en-US"):x.toFixed(2)); }
+function vt(a,d){ return money(a)+" "+d; }
+function pc(x){ return (Math.round(x*1000)/10)+"%"; }
+function sgn(a,d){ return d==="U"?a:-a; }
+
+/* ---------- the original class problem ---------- */
+var P0={U:30000,q:3,SP:11.5,g:1.1,pD:"F",AQp:160000,dl:6000,eD:"U",
+        h:0.8,PU:50000,BH:40000,Rdl:20,Rvm:12,Rfm:16,dh:1500,hD:"U",rq:2,rD:"U",vs:3200,vD:"U",fs:52540,fD:"F"};
+
+/* ---------- random practice sets (seeded, so a set number always gives the same problem) ---------- */
+function rng(seed){
+  var a=(seed*2654435761)>>>0;
+  var f=function(){ a=(a+0x6D2B79F5)|0; var t=Math.imul(a^(a>>>15),1|a); t=(t+Math.imul(t^(t>>>7),61|t))^t; return ((t^(t>>>14))>>>0)/4294967296; };
+  f(); f(); f(); return f;
+}
+function genParams(seed){
+  var r=rng(seed);
+  function ri(a,b){ return a+Math.floor(r()*(b-a+1)); }
+  function pick(a){ return a[Math.floor(r()*a.length)]; }
+  var p={};
+  p.h=pick([0.5,0.6,0.75,0.8,1,1.25]);
+  p.PU=pick([40000,50000,60000]);
+  p.BH=Math.round(p.PU*p.h);
+  var over=r()<0.2, frac=over?1.05+r()*0.15:0.6+r()*0.3;
+  p.U=Math.round(p.PU*frac/2000)*2000;
+  if(p.U===p.PU) p.U-=2000;
+  p.q=pick([2,2.5,3,4]);
+  p.SP=ri(12,30)/2;
+  p.g=ri(2,15)/10;
+  p.pD=pick(["F","F","U"]);
+  var SQA=Math.round(p.U*p.q);
+  p.dl=500*ri(2,Math.max(2,Math.floor(0.1*SQA/500)));
+  p.eD=pick(["U","U","F"]);
+  var AQu=SQA+sgn(p.dl,p.eD);
+  p.AQp=1000*Math.round(SQA*(0.8+r()*1.0)/1000);
+  if(p.AQp===AQu) p.AQp+=5000;
+  p.Rdl=ri(16,28); p.Rvm=ri(8,15); p.Rfm=ri(10,20);
+  var SHA=Math.round(p.U*p.h);
+  p.dh=500*ri(1,Math.max(1,Math.floor(0.08*SHA/500)));
+  p.hD=pick(["U","U","F"]);
+  if(SHA+sgn(p.dh,p.hD)===p.BH) p.dh+=500;
+  p.rq=ri(1,4); p.rD=pick(["U","F"]);
+  p.vs=100*ri(8,70); p.vD=pick(["U","F"]);
+  p.fs=10*ri(1500,9000); p.fD=pick(["F","U"]);
+  var alloc=SHA*p.Rfm, bud=p.Rfm*p.BH;
+  if(bud+sgn(p.fs,p.fD)-alloc===0) p.fs+=10;
+  return p;
+}
+
+/* ---------- build every number and every sentence from P ---------- */
+function build(p){
+  P=p;
+  var U=p.U,q=p.q,SP=p.SP,g=p.g,pD=p.pD,AQp=p.AQp,dl=p.dl,eD=p.eD,h=p.h,PU=p.PU,BH=p.BH,Rdl=p.Rdl,Rvm=p.Rvm,Rfm=p.Rfm,dh=p.dh,hD=p.hD,r=p.rq/4,rD=p.rD,vs=p.vs,vD=p.vD,fs=p.fs,fD=p.fD;
+  /* materials */
+  var SQA=Math.round(U*q), flexDM=Math.round(SQA*SP), ppv=Math.round(AQp*g), AQu=SQA+sgn(dl,eD), evDM=Math.round(dl*SP);
+  var col2u=flexDM+sgn(evDM,eD), col2p=Math.round(AQp*SP), col1dm=col2p+sgn(ppv,pD), AP=SP+sgn(g,pD);
+  /* labor */
+  var SHA=Math.round(U*h), AH=SHA+sgn(dh,hD), dlFlex=SHA*Rdl, dlEV=dh*Rdl, dlCol2=AH*Rdl, AR=Rdl+sgn(r,rD), DLact=Math.round(AH*AR), rv=Math.round(AH*r);
+  /* variable overhead */
+  var vmFlex=SHA*Rvm, vmEV=dh*Rvm, vmCol2=AH*Rvm, vmAct=vmCol2+sgn(vs,vD);
+  /* fixed overhead */
+  var DLbud=Rdl*BH, VMbud=Rvm*BH, FMbud=Rfm*BH, alloc=SHA*Rfm, fmAct=FMbud+sgn(fs,fD);
+  var pvvS=FMbud-alloc, pvv=Math.abs(pvvS), pvvD=pvvS>0?"U":"F";
+  var netS=fmAct-alloc, net=Math.abs(netS), netD=netS>0?"U":"F";
+  var low=pD==="F"?"lower":"higher", hrsMore=hD==="U"?"more":"fewer";
+  var bigEV=eD==="U"?"bigger":"smaller";
+  p.ans={AQp:AQp,AQu:AQu,AH:AH,dlEV:dlEV,hD:hD,vs:vs,vD:vD,pvv:pvv,pvvD:pvvD,net:net,netD:netD,SHA:SHA,fmAct:fmAct,vmAct:vmAct,DLact:DLact,ppv:ppv,evDM:evDM};
+
+  KIND={
+    unknown:"a piece the problem does not give you",
+    units:"the actual output (units produced)",
+    dmPerUnit:"the standard pounds of materials per unit",
+    dmSP:"the standard price per pound of materials",
+    dlPerUnit:"the standard direct labor hours per unit",
+    dlSR:"the standard direct labor rate per hour",
+    vmSR:"the standard variable overhead rate per labor hour",
+    fmSR:"the standard fixed overhead rate per labor hour",
+    fmBudget:"the budgeted fixed overhead for the month",
+    ppv:"the purchase price variance",
+    apDelta:"the gap between the actual and standard price per pound",
+    dmEV:"the direct materials efficiency variance",
+    dlActual:"the actual direct labor cost",
+    dlRV:"the direct labor rate variance",
+    vmActual:"the actual variable overhead cost",
+    vmEV:"the variable overhead efficiency variance",
+    fmActual:"the actual fixed overhead cost",
+    dlBudgetHrs:"the budgeted (denominator) labor hours",
+    dlHrsActual:"the actual labor hours worked"
+  };
+  CHIP={
+    unknown:{k:"unknown",label:"Not given: back it out later",short:"?",cat:"unknown"},
+    units:{k:"units",label:"Actual output: "+num(U)+" units",short:num(U)+" units",cat:"setup"},
+    dmPerUnit:{k:"dmPerUnit",label:"DM standard: "+num(q)+" lbs per unit",short:num(q)+" lbs/unit",cat:"setup"},
+    dmSP:{k:"dmSP",label:"DM standard price: "+pr(SP)+" per lb",short:pr(SP)+"/lb",cat:"setup"},
+    dlPerUnit:{k:"dlPerUnit",label:"DL standard: "+num(h)+" hours per unit",short:num(h)+" hrs/unit",cat:"setup"},
+    dlSR:{k:"dlSR",label:"DL standard rate: "+rt(Rdl)+" per hour",sub:"from Prep",short:rt(Rdl)+"/hr",cat:"derived"},
+    vmSR:{k:"vmSR",label:"VMOH standard rate: "+rt(Rvm)+" per hour",sub:"from Prep",short:rt(Rvm)+"/hr",cat:"derived"},
+    fmSR:{k:"fmSR",label:"FMOH standard rate: "+rt(Rfm)+" per hour",sub:"from Prep",short:rt(Rfm)+"/hr",cat:"derived"},
+    fmBudget:{k:"fmBudget",label:"Budgeted FMOH: "+money(FMbud),short:money(FMbud),cat:"setup"},
+    ppv:{k:"ppv",label:"Purchase price variance: "+vt(ppv,pD),short:vt(ppv,pD),cat:"var"},
+    apDelta:{k:"apDelta",label:"Actual purchase price is "+pr(g)+" per lb "+low+" than standard",short:(pD==="F"?"−":"+")+pr(g)+"/lb",cat:"var"},
+    dmEV:{k:"dmEV",label:"Materials efficiency variance: "+vt(evDM,eD),short:vt(evDM,eD),cat:"var"},
+    dlActual:{k:"dlActual",label:"Actual direct labor cost: "+money(DLact),short:money(DLact),cat:"actual"},
+    dlRV:{k:"dlRV",label:"Labor rate variance: "+vt(rv,rD),short:vt(rv,rD),cat:"var"},
+    vmActual:{k:"vmActual",label:"Actual VMOH cost: "+money(vmAct),short:money(vmAct),cat:"actual"},
+    vmEV:{k:"vmEV",label:"VMOH efficiency variance: "+vt(vmEV,hD),short:vt(vmEV,hD),cat:"var"},
+    fmActual:{k:"fmActual",label:"Actual FMOH cost: "+money(fmAct),short:money(fmAct),cat:"actual"},
+    dlBudgetHrs:{k:"dlBudgetHrs",label:"Budgeted labor hours: "+num(BH),short:num(BH)+" hrs",cat:"setup"},
+    dlHrsActual:{k:"dlHrsActual",label:"Actual labor hours: "+num(AH),sub:"from the labor stage",short:num(AH)+" hrs",cat:"derived"}
+  };
+  PROBLEM='<p>The Steesa Company uses a standard costing system and allocates all manufacturing overhead based on <b>direct labor hours</b>. In August the company expects to incur <b>'+money(DLbud)+'</b> for direct labor, <b>'+money(VMbud)+'</b> for VMOH, and <b>'+money(FMbud)+'</b> for FMOH. It budgets <b>'+num(BH)+'</b> direct labor hours. The standard for direct labor is <b>'+num(h)+' hours per unit</b>. The standard for direct materials is <b>'+num(q)+' lbs per unit at '+pr(SP)+' per lb</b>. During August the firm actually produced <b>'+num(U)+' units</b>.</p>';
+  RESULTS=[["Purchase price variance",vt(ppv,pD),"Actual purchase price is "+pr(g)+" per lb "+low+" than standard"],["Materials efficiency variance",vt(evDM,eD),""],["Actual direct labor costs",money(DLact),""],["Labor rate variance",vt(rv,rD),""],["Actual VMOH costs",money(vmAct),""],["VMOH efficiency variance",vt(vmEV,hD),""],["Actual FMOH costs",money(fmAct),""]];
+
+  /* shared wording */
+
+
+  var DM_TOKS2=[["act","Actual qty","aq"],["bud","Standard price","sp"]];
+  var DM_TOKS3=[["bud","Standard Quantity Allowed","sqa"],["bud","Standard price","sp"]];
+  var HR_TOKS1=[["act","Actual hours","aq"],["act","Actual rate","ap"]];
+  var HR_TOKS2=[["act","Actual hours","aq"],["bud","Standard rate","sp"]];
+  var HR_TOKS3=[["bud","Standard Hours Allowed","sqa"],["bud","Standard rate","sp"]];
+
+  STAGES=[
+   {id:"intro",name:"The problem",type:"intro"},
+   {id:"prep",name:"Prep",type:"prep",
+    kick:"Stage 2 · Prep work",title:"Turn the budgets into rates",
+    goal:"Several columns need a standard <b>rate per labor hour</b>. The problem only gives budgeted dollars and hours, so work out the rates first.",
+    cards:[
+     {id:"p.dl",title:"Direct labor rate"},
+     {id:"p.vm",title:"Variable overhead rate"},
+     {id:"p.fm",title:"Fixed overhead rate"},
+     {id:"p.units",title:"Planned units (bonus)"}
+    ],
+    rows:[
+     {id:"p1",phase:2,tag:"compute",prompt:"<b>Direct labor rate.</b> What is the standard direct labor rate per labor hour?<div class=\"hintline\"><b>Hint:</b> A direct labor rate per labor hour means <b>direct labor cost per labor hour</b>. What is the numerator, and what is the denominator? Use the <i>budgeted</i> amounts from the problem.</div>",ans:Rdl,unit:"$ per hr",fills:{"p.dl":rt(Rdl)+" per hr"},explain:rt(Rdl)+" per DL hour ("+money(DLbud)+" ÷ "+num(BH)+" budgeted hours). This is the <i>standard rate</i> that appears in the “Standard Rate” columns."},
+     {id:"p2",phase:2,tag:"compute",prompt:"<b>Variable overhead rate.</b> What is the standard VMOH rate per labor hour?<div class=\"hintline\"><b>Hint:</b> A VMOH rate per labor hour means <b>variable overhead cost per labor hour</b>. What is the numerator, and what is the denominator? Use the <i>budgeted</i> amounts.</div>",ans:Rvm,unit:"$ per hr",fills:{"p.vm":rt(Rvm)+" per hr"},explain:rt(Rvm)+" per DL hour ("+money(VMbud)+" ÷ "+num(BH)+")."},
+     {id:"p3",phase:2,tag:"compute",prompt:"<b>Fixed overhead rate.</b> What is the standard FMOH rate per labor hour?<div class=\"hintline\"><b>Hint:</b> A FMOH rate per labor hour means <b>fixed overhead cost per labor hour</b>. What is the numerator, and what is the denominator? Use the <i>budgeted</i> amounts.</div>",ans:Rfm,unit:"$ per hr",fills:{"p.fm":rt(Rfm)+" per hr"},explain:rt(Rfm)+" per DL hour ("+money(FMbud)+" ÷ "+num(BH)+"). This is the sticker price from the production volume variance idea: every standard hour allowed carries "+rt(Rfm)+" of fixed cost."},
+     {id:"p4",phase:2,tag:"compute",prompt:"<b>Bonus.</b> How many units did Steesa <i>plan</i> to make?<div class=\"hintline\"><b>Hint:</b> The budgeted labor hours were set to cover the <i>planned</i> units, and each unit is allowed a standard number of hours. Units = hours ÷ hours per unit: what is the numerator, and what is the denominator?</div>",ans:PU,unit:"units",fills:{"p.units":num(PU)+" units"},explain:"<b>"+num(PU)+" units</b> ("+num(BH)+" ÷ "+num(h)+"). The "+rt(Rfm)+" rate assumed "+num(PU)+" units. Steesa made "+num(U)+". Keep this in mind for the fixed overhead stage."}
+    ]},
+
+   {id:"dm",name:"Direct materials",type:"board",
+    kick:"Stage 3 · Direct materials",title:"How many pounds were bought? How many were used?",
+    goal:"Find <b>① pounds purchased</b> and <b>② pounds used</b>. Neither is given. You have the two variances.",
+    tray:["unknown","units","dmPerUnit","dmSP","ppv","apDelta","dmEV","dlPerUnit","dlBudgetHrs"],
+    tokNames:{aq:"Actual qty",ap:"Actual price",sp:"Standard price",sqa:"Standard Quantity Allowed"},
+    slots:{
+     "c1.aq":{kind:"unknown",cap:"Actual qty",tok:"aq",why:"The problem never says how many pounds were <b>purchased</b>. Mark it as not given. The price variance will reveal it."},
+     "c1.ap":{kind:"unknown",cap:"Actual price",tok:"ap",why:"No actual price is given either, only how far it is from the standard price."},
+     "c2p.aq":{kind:"unknown",cap:"Actual qty",tok:"aq",why:"Columns ① and ② use the <b>same actual quantity purchased</b>. Still unknown."},
+     "c2p.sp":{kind:"dmSP",cap:"Standard price",tok:"sp",why:"Column ② says <b>Standard</b> price, so it takes the standard "+pr(SP)+" per lb."},
+     "c2u.aq":{kind:"unknown",cap:"Actual qty",tok:"aq",why:"Pounds <b>used</b> is a different quantity from pounds purchased, and it is also not given."},
+     "c2u.sp":{kind:"dmSP",cap:"Standard price",tok:"sp",why:"Standard price again: "+pr(SP)+" per lb."},
+     "c3.units":{kind:"units",cap:"Actual output",tok:"sqa",why:"Column ③ is allowed for <b>actual output</b>, so start from the "+num(U)+" units actually produced."},
+     "c3.per":{kind:"dmPerUnit",cap:"Std qty / unit",tok:"sqa",why:"Standard quantity allowed = actual units × <b>standard</b> lbs per unit."},
+     "c3.sp":{kind:"dmSP",cap:"Standard price",tok:"sp",why:"Column ③ is also priced at the standard "+pr(SP)+" per lb."},
+     "v.ppv":{kind:"ppv",cap:"Price variance",tok:null,why:"The given price variance goes in the <b>price variance</b> box, between columns ① and ②."},
+     "v.apd":{kind:"apDelta",cap:"AP − SP",tok:null,why:"The price gap per pound (actual − standard) is what the price variance is built from: variance = AQ × (AP − SP)."},
+     "v.ev":{kind:"dmEV",cap:"Efficiency variance",tok:null,why:"The given efficiency variance goes between columns ② (used) and ③."}
+    },
+    cells:{"c1.tot":"?","c2p.tot":"?","c2u.tot":"?","c3.sqa":"?","c3.tot":"?"},
+    cols:[
+     {n:1,cls:"c1",title:"Actual costs incurred",toks:[["act","Actual qty","aq"],["act","Actual price","ap"]],
+      lines:[{label:"Purchased",parts:[{s:"c1.aq"},{t:"×"},{s:"c1.ap"},{t:"="},{c:"c1.tot"}]}]},
+     {n:2,cls:"c2",title:"As-If Column",sub:"Actual qty × Standard price",toks:DM_TOKS2,
+      lines:[{label:"Purchased",parts:[{s:"c2p.aq"},{t:"×"},{s:"c2p.sp"},{t:"="},{c:"c2p.tot"}]},
+             {label:"Used",parts:[{s:"c2u.aq"},{t:"×"},{s:"c2u.sp"},{t:"="},{c:"c2u.tot"}]}]},
+     {n:3,cls:"c3",title:"Flexible budget",sub:"Standard quantity allowed for actual output × Standard price",toks:DM_TOKS3,
+      lines:[{label:"Standard quantity allowed (SQA)",parts:[{s:"c3.units"},{t:"×"},{s:"c3.per"},{t:"="},{c:"c3.sqa"}]},
+             {label:"Flexible budget",parts:[{r:"c3.sqa"},{t:"×"},{s:"c3.sp"},{t:"="},{c:"c3.tot"}]}]}
+    ],
+    vstrip:[
+     {title:"Price variance",how:"① vs ②: same quantity, different price",parts:[{s:"v.ppv"},{t:"="},{t:"AQ ×"},{s:"v.apd"}]},
+     {title:"Efficiency variance",how:"② (used) vs ③: same price, different quantity",parts:[{s:"v.ev"}]}
+    ],
+    rows:[
+     {id:"r1",phase:2,tag:"compute",prompt:"Column ③ first, because every piece of it is given. <b>Standard quantity allowed for actual output (SQA)</b> = actual units × standard lbs per unit = "+num(U)+" × "+num(q)+".",ans:SQA,unit:"lbs",fills:{"c3.sqa":num(SQA)+" lbs"},explain:"SQA = "+num(SQA)+" lbs: what "+num(U)+" units <i>should</i> have used."},
+     {id:"r2",phase:2,tag:"compute",prompt:"<b>Flexible budget</b> = SQA × standard price = "+num(SQA)+" × "+pr(SP)+".",ans:flexDM,unit:"$",fills:{"c3.tot":money(flexDM)},explain:money(flexDM)+"."},
+     {id:"r3",phase:3,tag:"back out",q:"q1",qtext:num(AQp)+" lbs",
+      prompt:"<b>Price variance (① vs ②).</b> Both columns contain the <b>same actual quantity purchased</b>, so it factors out: <span class=\"eq\">AQ × (AP − SP) = variance</span>. The variance is <b>"+pD+"</b>, so the price gap is "+(pD==="F"?"negative":"positive")+": <span class=\"eq\">AQ × ("+(pD==="F"?"−":"+")+pr(g)+") = "+(pD==="F"?"−":"+")+money(ppv)+"</span>.<div class=\"tipline\"><b>Another way to see it:</b> the left column (①) is what we <i>actually</i> paid; the as-if column (②) is what the same pounds would cost at the <i>standard</i> price. "+(pD==="F"?"A favorable price variance means we paid less than standard, so actual − as-if = ① − ② = −":"An unfavorable price variance means we paid more than standard, so actual − as-if = ① − ② = +")+money(ppv)+".</div><b>How many pounds were purchased?</b>",
+      ans:AQp,unit:"lbs",fills:{"c1.aq":num(AQp)+" lbs","c2p.aq":num(AQp)+" lbs"},hint:"Divide the variance by the price gap per pound: "+money(ppv)+" ÷ "+pr(g)+".",explain:money(ppv)+" ÷ "+pr(g)+" = <b>"+num(AQp)+" lbs purchased</b>."},
+     {id:"r4",phase:3,tag:"back out",
+      prompt:"<b>Efficiency variance (② used vs ③).</b> These two columns share the <b>same standard price</b>; only the quantity differs. The variance is <b>"+eD+"</b>, so column ② (what we actually used) is <i>"+bigEV+"</i> than the flexible budget. Column ② (used) = "+money(flexDM)+(eD==="U"?" + ":" − ")+money(evDM)+" = ?",
+      ans:col2u,unit:"$",fills:{"c2u.tot":money(col2u)},hint:eD==="U"?"U means the actual-side column is bigger: add the variance to the flexible budget.":"F means the actual-side column is smaller: subtract the variance from the flexible budget.",explain:"Column ② (used) = "+money(col2u)+"."},
+     {id:"r5",phase:3,tag:"back out",q:"q2",qtext:num(AQu)+" lbs",
+      prompt:"Column ② is <span class=\"eq\">AQ used × "+pr(SP)+"</span>. <b>How many pounds were used?</b>",ans:AQu,unit:"lbs",fills:{"c2u.aq":num(AQu)+" lbs"},hint:"Divide column ② by the standard price: "+money(col2u)+" ÷ "+pr(SP)+".",
+      explain:money(col2u)+" ÷ "+pr(SP)+" = <b>"+num(AQu)+" lbs used</b>. Check: "+num(dl)+" lbs "+(eD==="U"?"over":"under")+" the "+num(SQA)+" allowed × "+pr(SP)+" = "+money(evDM)+" ✓. Purchased ("+num(AQp)+") and used ("+num(AQu)+") are different: the price variance uses what was <i>bought</i>, the efficiency variance uses what was <i>used</i>."},
+     {id:"r6",phase:3,tag:"verify",prompt:"<b>Complete the board.</b> Column ② (purchased) = "+num(AQp)+" lbs × "+pr(SP)+".",ans:col2p,unit:"$",fills:{"c2p.tot":money(col2p)},explain:money(col2p)+"."},
+     {id:"r7",phase:3,tag:"verify",prompt:"<b>Column ①</b> = column ② (purchased) "+(pD==="F"?"−":"+")+" "+money(ppv)+" ("+pD+" means actual cost is "+(pD==="F"?"lower":"higher")+").",ans:col1dm,unit:"$",fills:{"c1.tot":money(col1dm),"c1.ap":pr(AP)},explain:money(col1dm)+". Check: "+money(col1dm)+" ÷ "+num(AQp)+" lbs = <b>"+pr(AP)+"</b> = "+pr(SP)+(pD==="F"?" − ":" + ")+pr(g)+" ✓."}
+    ]},
+
+   {id:"dl",name:"Direct labor",type:"board",
+    kick:"Stage 4 · Direct labor",title:"How many hours were worked? Was labor efficient?",
+    goal:"Find <b>③ actual labor hours</b> and <b>④ the direct labor efficiency variance</b>. This time a column total <i>is</i> given.",
+    tray:["unknown","units","dlPerUnit","dlSR","dlActual","dlRV","dmEV","vmEV","dlBudgetHrs"],
+    tokNames:{aq:"Actual hours",ap:"Actual rate",sp:"Standard rate",sqa:"Standard Hours Allowed"},
+    slots:{
+     "c1.aq":{kind:"unknown",cap:"Actual hours",tok:"aq",why:"Actual hours worked is not given directly. It is one of the answers."},
+     "c1.ap":{kind:"unknown",cap:"Actual rate",tok:"ap",why:"The actual hourly rate is not given."},
+     "c1.tot":{kind:"dlActual",cap:"Actual cost",tok:null,why:"Column ① is <b>actual costs incurred</b>: the total labor cost given in the results table."},
+     "c2.aq":{kind:"unknown",cap:"Actual hours",tok:"aq",why:"Column ② uses the <b>same actual hours</b> as column ①. Still unknown."},
+     "c2.rate":{kind:"dlSR",cap:"Standard rate",tok:"sp",why:"Column ② says <b>Standard</b> rate: the "+rt(Rdl)+" per hour from Prep."},
+     "c3.units":{kind:"units",cap:"Actual output",tok:"sqa",why:"The flexible budget is for <b>actual output</b>: "+num(U)+" units."},
+     "c3.per":{kind:"dlPerUnit",cap:"Std hrs / unit",tok:"sqa",why:"Standard hours allowed = actual units × <b>standard</b> hours per unit."},
+     "c3.rate":{kind:"dlSR",cap:"Standard rate",tok:"sp",why:"Standard rate again: "+rt(Rdl)+" per hour."},
+     "v.rv":{kind:"dlRV",cap:"Rate variance",tok:null,why:"The given labor rate variance goes between columns ① and ②."}
+    },
+    cells:{"c2.tot":"?","c3.sha":"?","c3.tot":"?","v.ev":"?"},
+    cols:[
+     {n:1,cls:"c1",title:"Actual costs incurred",toks:HR_TOKS1,
+      lines:[{label:"Actual labor",parts:[{s:"c1.aq"},{t:"×"},{s:"c1.ap"},{t:"="},{s:"c1.tot"}]}]},
+     {n:2,cls:"c2",title:"As-If Column",sub:"Actual hours × Standard rate",toks:HR_TOKS2,
+      lines:[{label:"As-if cost",parts:[{s:"c2.aq"},{t:"×"},{s:"c2.rate"},{t:"="},{c:"c2.tot"}]}]},
+     {n:3,cls:"c3",title:"Flexible budget",sub:"Standard hours allowed for actual output × Standard rate",toks:HR_TOKS3,
+      lines:[{label:"Standard hours allowed (SHA)",parts:[{s:"c3.units"},{t:"×"},{s:"c3.per"},{t:"="},{c:"c3.sha"}]},
+             {label:"Flexible budget",parts:[{r:"c3.sha"},{t:"×"},{s:"c3.rate"},{t:"="},{c:"c3.tot"}]}]}
+    ],
+    vstrip:[
+     {title:"Rate variance",how:"① vs ②: same hours, different rate",parts:[{s:"v.rv"}]},
+     {title:"Efficiency variance",how:"② vs ③: same rate, different hours (answer ④)",parts:[{c:"v.ev"}]}
+    ],
+    rows:[
+     {id:"r1",phase:2,tag:"compute",prompt:"Column ③: <b>standard hours allowed (SHA)</b> = actual units × standard hours per unit = "+num(U)+" × "+num(h)+".",ans:SHA,unit:"hrs",fills:{"c3.sha":num(SHA)+" hrs"},explain:"SHA = "+num(SHA)+" hours."},
+     {id:"r2",phase:2,tag:"compute",prompt:"<b>Flexible budget</b> = SHA × standard rate = "+num(SHA)+" × "+rt(Rdl)+".",ans:dlFlex,unit:"$",fills:{"c3.tot":money(dlFlex)},explain:money(dlFlex)+"."},
+     {id:"r3",phase:3,tag:"back out",prompt:"<b>Rate variance (① vs ②).</b> Same actual hours, different rate. The variance is <b>"+rD+"</b>, so the actual cost in ① is "+money(rv)+" <i>"+(rD==="U"?"higher":"lower")+"</i> than the as-if cost in ②. Column ② = "+money(DLact)+(rD==="U"?" − ":" + ")+money(rv)+" = ?",ans:dlCol2,unit:"$",fills:{"c2.tot":money(dlCol2)},hint:rD==="U"?"U means column ① is bigger, so subtract the variance from column ①.":"F means column ① is smaller, so add the variance to column ①.",explain:"Column ② = "+money(dlCol2)+"."},
+     {id:"r4",phase:3,tag:"back out",q:"q3",qtext:num(AH)+" hrs",prompt:"Column ② is <span class=\"eq\">AQ × "+rt(Rdl)+"</span>. <b>How many actual hours were worked?</b>",ans:AH,unit:"hrs",fills:{"c1.aq":num(AH)+" hrs","c2.aq":num(AH)+" hrs"},hint:"Divide column ② by the standard rate: "+money(dlCol2)+" ÷ "+rt(Rdl)+".",explain:money(dlCol2)+" ÷ "+rt(Rdl)+" = <b>"+num(AH)+" hours</b>."},
+     {id:"r5",phase:3,tag:"back out",q:"q4",qtext:vt(dlEV,hD),prompt:"<b>Efficiency variance (② vs ③).</b> Same standard rate, different hours: column ② − column ③ = "+money(dlCol2)+" − "+money(dlFlex)+". Enter the amount and F or U.",ans:dlEV,fu:hD,unit:"$",fills:{"v.ev":vt(dlEV,hD)},hint:hD==="U"?"Column ② (actual hours) is bigger than ③ (allowed hours), so it is unfavorable.":"Column ② (actual hours) is smaller than ③ (allowed hours), so it is favorable.",explain:"<b>"+vt(dlEV,hD)+"</b>. Same as (actual hours − SHA) × "+rt(Rdl)+": "+num(dh)+" "+hrsMore+" hours than allowed."},
+     {id:"r6",phase:3,tag:"verify",prompt:"<b>Complete the board.</b> Actual rate = "+money(DLact)+" ÷ "+num(AH)+" hours.",ans:AR,unit:"$ per hr",fills:{"c1.ap":pr(AR)},explain:pr(AR)+" per hour: "+pr(r)+" "+(rD==="U"?"above":"below")+" the "+rt(Rdl)+" standard rate."}
+    ]},
+
+   {id:"vm",name:"Variable OH",type:"board",
+    kick:"Stage 5 · Variable overhead",title:"What is the variable overhead spending variance?",
+    goal:"Find <b>⑤ VMOH spending variance</b>. The efficiency variance is given. Use it to get column ②.",
+    tray:["unknown","units","dlPerUnit","vmSR","vmActual","vmEV","dlRV","fmSR","dlBudgetHrs"],
+    tokNames:{aq:"Actual hours",ap:"Actual rate",sp:"Standard rate",sqa:"Standard Hours Allowed"},
+    slots:{
+     "c1.aq":{kind:"unknown",cap:"Actual hours",tok:"aq",why:"Overhead is allocated on direct labor hours, so “actual quantity” means actual labor hours. Not given here."},
+     "c1.ap":{kind:"unknown",cap:"Actual rate",tok:"ap",why:"The actual VMOH rate per hour is not given."},
+     "c1.tot":{kind:"vmActual",cap:"Actual cost",tok:null,why:"Column ① is <b>actual costs incurred</b>: actual VMOH of "+money(vmAct)+"."},
+     "c2.aq":{kind:"unknown",cap:"Actual hours",tok:"aq",why:"Same actual hours as column ①. Still unknown at this point."},
+     "c2.rate":{kind:"vmSR",cap:"Standard rate",tok:"sp",why:"<b>Standard</b> rate for VMOH: "+rt(Rvm)+" per hour."},
+     "c3.units":{kind:"units",cap:"Actual output",tok:"sqa",why:"Flexible budget is for the "+num(U)+" units actually produced."},
+     "c3.per":{kind:"dlPerUnit",cap:"Std hrs / unit",tok:"sqa",why:"The allocation base is direct labor hours: "+num(h)+" standard hours per unit."},
+     "c3.rate":{kind:"vmSR",cap:"Standard rate",tok:"sp",why:"Standard VMOH rate: "+rt(Rvm)+" per hour."},
+     "v.ev":{kind:"vmEV",cap:"Efficiency variance",tok:null,why:"The given efficiency variance sits between columns ② and ③."}
+    },
+    cells:{"c2.tot":"?","c3.sha":"?","c3.tot":"?","v.sv":"?"},
+    cols:[
+     {n:1,cls:"c1",title:"Actual costs incurred",toks:HR_TOKS1,
+      lines:[{label:"Actual VMOH",parts:[{s:"c1.aq"},{t:"×"},{s:"c1.ap"},{t:"="},{s:"c1.tot"}]}]},
+     {n:2,cls:"c2",title:"As-If Column",sub:"Actual hours × Standard rate",toks:HR_TOKS2,
+      lines:[{label:"As-if cost",parts:[{s:"c2.aq"},{t:"×"},{s:"c2.rate"},{t:"="},{c:"c2.tot"}]}]},
+     {n:3,cls:"c3",title:"Flexible budget",sub:"Standard hours allowed for actual output × Standard rate",toks:HR_TOKS3,
+      lines:[{label:"Standard hours allowed (SHA)",parts:[{s:"c3.units"},{t:"×"},{s:"c3.per"},{t:"="},{c:"c3.sha"}]},
+             {label:"Flexible budget",parts:[{r:"c3.sha"},{t:"×"},{s:"c3.rate"},{t:"="},{c:"c3.tot"}]}]}
+    ],
+    vstrip:[
+     {title:"Spending variance",how:"① vs ②: same hours, different rate (answer ⑤)",parts:[{c:"v.sv"}]},
+     {title:"Efficiency variance",how:"② vs ③: same rate, different hours",parts:[{s:"v.ev"}]}
+    ],
+    rows:[
+     {id:"r1",phase:2,tag:"compute",prompt:"Column ③: <b>standard hours allowed</b> = "+num(U)+" units × "+num(h)+" hrs per unit.",ans:SHA,unit:"hrs",fills:{"c3.sha":num(SHA)+" hrs"},explain:"SHA = "+num(SHA)+" hours (same as the labor stage)."},
+     {id:"r2",phase:2,tag:"compute",prompt:"<b>Flexible budget</b> = SHA × standard rate = "+num(SHA)+" × "+rt(Rvm)+".",ans:vmFlex,unit:"$",fills:{"c3.tot":money(vmFlex)},explain:money(vmFlex)+"."},
+     {id:"r3",phase:3,tag:"back out",prompt:"<b>Efficiency variance (② vs ③).</b> Same rate, different hours. The variance is <b>"+hD+"</b>, so column ② is "+money(vmEV)+" <i>"+(hD==="U"?"higher":"lower")+"</i> than the flexible budget. Column ② = "+money(vmFlex)+(hD==="U"?" + ":" − ")+money(vmEV)+" = ?",ans:vmCol2,unit:"$",fills:{"c2.tot":money(vmCol2)},hint:hD==="U"?"U means the actual-hours column is bigger: add "+money(vmEV)+" to the flexible budget.":"F means the actual-hours column is smaller: subtract "+money(vmEV)+" from the flexible budget.",explain:"Column ② = "+money(vmCol2)+". You never needed the actual hours to get it."},
+     {id:"r4",phase:3,tag:"back out",q:"q5",qtext:vt(vs,vD),prompt:"<b>Spending variance (① vs ②).</b> Same hours, different rate: column ① − column ② = "+money(vmAct)+" − "+money(vmCol2)+". Enter the amount and F or U.",ans:vs,fu:vD,unit:"$",fills:{"v.sv":vt(vs,vD)},hint:"Actual cost ("+money(vmAct)+") is "+(vD==="U"?"higher":"lower")+" than the as-if cost ("+money(vmCol2)+"), so it is "+(vD==="U"?"unfavorable":"favorable")+".",explain:"<b>"+vt(vs,vD)+"</b>: Steesa paid "+(vD==="U"?"more":"less")+" per labor hour of overhead than the standard rate."},
+     {id:"r5",phase:3,tag:"verify",prompt:"<b>Cross-check with the labor stage.</b> Which hours does column ② imply? "+money(vmCol2)+" ÷ "+rt(Rvm)+" = ?",ans:AH,unit:"hrs",fills:{"c2.aq":num(AH)+" hrs","c1.aq":num(AH)+" hrs"},explain:num(AH)+" hours, the same actual hours as the labor stage, because both use direct labor hours as the base. Efficiency check: ("+num(Math.max(AH,SHA))+" − "+num(Math.min(AH,SHA))+") × "+rt(Rvm)+" = "+money(vmEV)+" ✓."}
+    ]},
+
+   {id:"fm",name:"Fixed OH",type:"board",
+    kick:"Stage 6 · Fixed overhead",title:"What is the production volume variance?",
+    goal:"Find <b>⑥ FMOH production volume variance</b>. Nothing to back out here, but the columns look different: fixed overhead has no efficiency variance.",
+    tray:["units","dlPerUnit","fmSR","fmBudget","fmActual","vmSR","dlHrsActual","dlBudgetHrs"],
+    tokNames:{},
+    slots:{
+     "c1.tot":{kind:"fmActual",cap:"Actual FMOH",tok:null,why:"Column ① is <b>actual FMOH incurred</b>: "+money(fmAct)+"."},
+     "c2.tot":{kind:"fmBudget",cap:"Budgeted FMOH",tok:null,why:"Column ② is the <b>budgeted FMOH</b>. Fixed overhead is a lump sum, so the flexible budget is the same "+money(FMbud)+" at any output."},
+     "c3.units":{kind:"units",cap:"Actual output",tok:"sqa",why:"Allocation starts from the "+num(U)+" units actually produced."},
+     "c3.per":{kind:"dlPerUnit",cap:"Std hrs / unit",tok:"sqa",why:"Standard hours allowed = actual units × "+num(h)+" hrs per unit. It uses <b>standard</b> hours, not the hours actually worked."},
+     "c3.rate":{kind:"fmSR",cap:"Standard rate",tok:"sp",why:"Allocated FMOH = hours allowed × the standard fixed overhead rate, "+rt(Rfm)+" per hour."}
+    },
+    cells:{"c3.sha":"?","c3.tot":"?","v.sv":"?","v.pvv":"?","v.net":"?"},
+    cols:[
+     {n:1,cls:"c1",title:"Actual FMOH incurred",toks:[["act","Actual FMOH","t1"]],
+      lines:[{label:"Actual",parts:[{s:"c1.tot"}]}]},
+     {n:2,cls:"c2",title:"Flexible budget",sub:"Budgeted FMOH (does not flex)",toks:[["bud","Budgeted FMOH","t2"]],
+      lines:[{label:"Budget",parts:[{s:"c2.tot"}]}],note:"Same dollars at any output level."},
+     {n:3,cls:"c3",title:"Allocated",sub:"FMOH allocated to actual output",toks:[["bud","Standard Hours Allowed","sqa"],["bud","Standard rate","sp"]],
+      lines:[{label:"Standard hours allowed (SHA)",parts:[{s:"c3.units"},{t:"×"},{s:"c3.per"},{t:"="},{c:"c3.sha"}]},
+             {label:"Allocated FMOH",parts:[{r:"c3.sha"},{t:"×"},{s:"c3.rate"},{t:"="},{c:"c3.tot"}]}]}
+    ],
+    vstrip:[
+     {title:"Spending variance",how:"① vs ②",parts:[{c:"v.sv"}]},
+     {title:"Production volume variance",how:"② vs ③ (answer ⑥)",parts:[{c:"v.pvv"}]},
+     {title:"Under-/over-applied",how:"① vs ③",parts:[{c:"v.net"}]}
+    ],
+    rows:[
+     {id:"r1",phase:2,tag:"compute",prompt:"<b>Standard hours allowed (SHA)</b> = actual units × standard hours per unit = "+num(U)+" × "+num(h)+".",ans:SHA,unit:"hrs",fills:{"c3.sha":num(SHA)+" hrs"},traps:[{v:AH,msg:num(AH)+" is the <i>actual</i> hours worked. Allocation uses <b>standard hours allowed for actual output</b>."},{v:BH,msg:num(BH)+" is the <i>budgeted</i> (denominator) hours. Use the hours allowed for the units actually produced."}],explain:"SHA = "+num(SHA)+" hours."},
+     {id:"r2",phase:2,tag:"compute",prompt:"<b>Allocated FMOH</b> = SHA × fixed overhead rate = "+num(SHA)+" × "+rt(Rfm)+".",ans:alloc,unit:"$",fills:{"c3.tot":money(alloc)},explain:money(alloc)+" of fixed overhead was absorbed by the "+num(U)+" units."},
+     {id:"r3",phase:3,tag:"compute",prompt:"<b>Spending variance (① vs ②)</b> = actual − budgeted = "+money(fmAct)+" − "+money(FMbud)+". Enter the amount and F or U.",ans:fs,fu:fD,unit:"$",fills:{"v.sv":vt(fs,fD)},hint:fD==="F"?"Actual spending is below the budget, so it is favorable.":"Actual spending is above the budget, so it is unfavorable.",explain:"<b>"+vt(fs,fD)+"</b>: Steesa spent "+(fD==="F"?"less":"more")+" than the "+money(FMbud)+" budget."},
+     {id:"r4",phase:3,tag:"compute",q:"q6",qtext:vt(pvv,pvvD),prompt:"<b>Production volume variance (② vs ③)</b> = budgeted − allocated = "+money(FMbud)+" − "+money(alloc)+". Enter the amount and F or U.",ans:pvv,fu:pvvD,unit:"$",fills:{"v.pvv":vt(pvv,pvvD)},
+      hint:pvvD==="U"?"Allocated ("+money(alloc)+") is below the budget ("+money(FMbud)+"), so the stickers did not cover the bill: unfavorable.":"Allocated ("+money(alloc)+") is above the budget ("+money(FMbud)+"), so more cost was absorbed than budgeted: favorable.",
+      explain:pvvD==="U"
+       ?"<b>"+vt(pvv,pvvD)+"</b>. The "+rt(Rfm)+" rate assumed "+num(PU)+" units ("+num(BH)+" hrs ÷ "+num(h)+") but Steesa made "+num(U)+". Only "+num(SHA)+" of the "+num(BH)+" budgeted hours were “used” ("+pc(SHA/BH)+"), so "+pc(1-SHA/BH)+" of the fixed cost, "+money(pvv)+", was not absorbed."
+       :"<b>"+vt(pvv,pvvD)+"</b>. The "+rt(Rfm)+" rate assumed "+num(PU)+" units ("+num(BH)+" hrs ÷ "+num(h)+") but Steesa made "+num(U)+". It allowed "+num(SHA)+" hours against "+num(BH)+" budgeted ("+pc(SHA/BH)+"), so "+pc(SHA/BH-1)+" more fixed cost, "+money(pvv)+", was absorbed than the budget."},
+     {id:"r5",phase:3,tag:"verify",prompt:"<b>Check.</b> Total under- or over-applied FMOH = actual − allocated = "+money(fmAct)+" − "+money(alloc)+". Enter the amount and F or U (U = under-applied, F = over-applied).",ans:net,fu:netD,unit:"$",fills:{"v.net":vt(net,netD)},explain:"<b>"+vt(net,netD)+"</b>: the volume variance ("+vt(pvv,pvvD)+") and the spending variance ("+vt(fs,fD)+") combine (U adds, F subtracts) to "+vt(net,netD)+" ✓. The same under- or over-applied overhead you saw in job costing."}
+    ]},
+   {id:"sheet",name:"Answer sheet",type:"sheet"}
+  ];
+
+  QS=[
+   {q:"q1",n:"①",t:"Pounds of direct materials purchased",stage:"dm"},
+   {q:"q2",n:"②",t:"Pounds of direct materials used",stage:"dm"},
+   {q:"q3",n:"③",t:"Actual labor hours",stage:"dl"},
+   {q:"q4",n:"④",t:"Direct labor efficiency variance",stage:"dl"},
+   {q:"q5",n:"⑤",t:"VMOH spending variance",stage:"vm"},
+   {q:"q6",n:"⑥",t:"FMOH production volume variance",stage:"fm"}
+  ];
+}
+/* ===== ENGINE ===== */
+var $=function(s,r){return (r||document).querySelector(s);};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+var S;
+function resetState(){ S={order:{},stage:0,sel:null,placed:{},cells:{},slotVals:{},solved:{},revealed:{},ans:{},pat:"price",fb:{},tries:{}}; }
+resetState();
+function bag(name,st){ var o=S[name]; return o[st.id]||(o[st.id]={}); }
+function slotIds(st){ return st.slots?Object.keys(st.slots):[]; }
+function phase1Done(st){ var p=bag("placed",st); return slotIds(st).every(function(id){return p[id];}); }
+function rowsDone(st){ var s=bag("solved",st); return st.rows.every(function(r){return s[r.id];}); }
+function stageDone(st){ return (st.type==="board"||st.type==="prep") && rowsDone(st); }
+
+/* ---------- rendering helpers ---------- */
+function tokHTML(t){ return '<span class="tok '+t[0]+'" data-tok="'+t[2]+'">'+esc(t[1])+'</span>'; }
+function slotHTML(st,id){
+  var sl=st.slots[id], chipId=bag("placed",st)[id], val=bag("slotVals",st)[id];
+  if(!chipId) return '<button type="button" class="slot" data-slot="'+id+'" data-tok="'+(sl.tok||"")+'" aria-label="Empty slot: '+esc(sl.cap)+'"><span class="cap">'+esc(sl.cap)+'</span></button>';
+  var chip=CHIP[chipId];
+  if(chip.k==="unknown"){
+    if(val) return '<button type="button" class="slot full" data-slot="'+id+'" data-tok="'+(sl.tok||"")+'" aria-label="'+esc(sl.cap)+': '+esc(val)+'"><span>'+esc(val)+'</span><span class="cap">'+esc(sl.cap)+'</span></button>';
+    return '<button type="button" class="slot full unk" data-slot="'+id+'" data-tok="'+(sl.tok||"")+'" aria-label="'+esc(sl.cap)+': not given"><span>?</span><span class="cap">'+esc(sl.cap)+' · not given</span></button>';
+  }
+  return '<button type="button" class="slot full" data-slot="'+id+'" data-tok="'+(sl.tok||"")+'" aria-label="'+esc(sl.cap)+': '+esc(chip.short)+'"><span>'+esc(chip.short)+'</span><span class="cap">'+esc(sl.cap)+'</span></button>';
+}
+function cellHTML(st,id,ref){
+  var v=bag("cells",st)[id];
+  var ph=(st.cells&&st.cells[id])||"?";
+  if(ref){ return '<span class="cell'+(v?' got':'')+'" data-cell="'+id+'">'+esc(v||(id.indexOf("sha")>-1?"SHA":"SQA"))+'</span>'; }
+  return '<span class="cell'+(v?' got':'')+'" data-cell="'+id+'">'+esc(v||ph)+'</span>';
+}
+function partsHTML(st,parts){
+  return '<div class="eqrow">'+parts.map(function(p){
+    if(p.s) return slotHTML(st,p.s);
+    if(p.c) return cellHTML(st,p.c,false);
+    if(p.r) return cellHTML(st,p.r,true);
+    return '<span class="op">'+esc(p.t)+'</span>';
+  }).join("")+'</div>';
+}
+function boardHTML(st){
+  if(st.type==="prep"){
+    return '<div class="card"><h3>Rate card</h3><div class="rate">'+st.cards.map(function(c){
+      return '<div class="rcard"><b>'+c.title+'</b>'+cellHTML(st,c.id,false)+'</div>';
+    }).join("")+'</div></div>';
+  }
+  var cols=st.cols.map(function(c){
+    return '<section class="col '+c.cls+'"><div class="hd"><b><span class="num">'+c.n+'</span>'+esc(c.title)+'</b>'+(c.sub?'<small>'+esc(c.sub)+'</small>':'')+
+      '<div class="toks">'+c.toks.map(tokHTML).join('<span class="op">×</span>').replace(/<span class="op">×<\/span>/g,'<span style="color:var(--muted);font-weight:700">×</span>')+'</div></div><div class="body">'+
+      c.lines.map(function(l){ return '<div class="line"><div class="lab">'+esc(l.label)+'</div>'+partsHTML(st,l.parts)+'</div>'; }).join("")+
+      (c.note?'<div class="note">'+esc(c.note)+'</div>':'')+'</div></section>';
+  }).join("");
+  var vs=st.vstrip.map(function(v){
+    return '<div class="vbox"><b>'+esc(v.title)+'</b><div class="how">'+esc(v.how)+'</div>'+partsHTML(st,v.parts)+'</div>';
+  }).join("");
+  return '<div class="board">'+cols+'</div><div class="vstrip">'+vs+'</div>';
+}
+function trayOrder(st){
+  if(!S.order[st.id]){ var a=st.tray.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } S.order[st.id]=a; }
+  return S.order[st.id];
+}
+function trayHTML(st){
+  var placed=bag("placed",st), usedIds={};
+  Object.keys(placed).forEach(function(k){usedIds[placed[k]]=1;});
+  return trayOrder(st).map(function(id){
+    var c=CHIP[id];
+    return '<button type="button" class="chip c-'+c.cat+(S.sel===id?' sel':'')+(usedIds[id]?' used':'')+'" data-chip="'+id+'" aria-pressed="'+(S.sel===id)+'">'+esc(c.label)+(c.sub?'<small>'+esc(c.sub)+'</small>':'')+'</button>';
+  }).join("");
+}
+function phasesHTML(st){
+  var p1=st.type==="board"?phase1Done(st):true, solved=bag("solved",st);
+  var r2=st.rows.filter(function(r){return r.phase===2;}), r3=st.rows.filter(function(r){return r.phase===3;});
+  var d2=r2.every(function(r){return solved[r.id];}), d3=r3.every(function(r){return solved[r.id];});
+  var list=[];
+  if(st.type==="board") list.push([1,"Place the clues",p1]);
+  list.push([st.type==="board"?2:1,"Compute what you can",p1&&d2]);
+  if(r3.length) list.push([st.type==="board"?3:2,st.p3label||(st.id==="fm"?"Find the variances":"Back out the missing piece"),p1&&d2&&d3]);
+  var onSet=false;
+  return list.map(function(x){
+    var cls=x[2]?"ok":(!onSet?(onSet=true,"on"):"");
+    return '<span class="ph '+cls+'"><span class="n">'+(x[2]?"✓":x[0])+'</span>'+x[1]+'</span>';
+  }).join("");
+}
+function unitHTML(r){ return r.unit==="$"?"":'<span>'+esc(r.unit)+'</span>'; }
+function rowHTML(st,r,cur){
+  var solved=bag("solved",st)[r.id];
+  var tagCls=r.tag==="back out"?"back":(r.tag==="verify"?"verify":"");
+  var tag='<span class="tag '+tagCls+'">'+(r.tag==="back out"?"Back out the missing piece":(r.tag==="verify"?"Check":"Compute"))+'</span>';
+  if(solved){
+    return '<div class="crow ok" data-row="'+r.id+'">'+tag+' <b>✓</b><div class="exp">'+r.explain+(S.revealed[st.id+r.id]?' <i>(answer shown)</i>':'')+'</div></div>';
+  }
+  var fuSel=r.fu?'<select class="fu" id="fu-'+r.id+'" aria-label="Favorable or unfavorable"><option value="">F / U</option><option value="F">F</option><option value="U">U</option></select>':'';
+  return '<div class="crow cur" data-row="'+r.id+'">'+tag+'<div class="prompt">'+r.prompt+'</div>'+
+    '<div class="inp"><span>=</span>'+(r.unit==="$"?'<span>$</span>':'')+'<input class="vin" id="in-'+r.id+'" inputmode="decimal" autocomplete="off" aria-label="Your answer" placeholder="your answer">'+unitHTML(r)+fuSel+
+    '<button type="button" class="btn small primary" data-act="check" data-row="'+r.id+'">Check</button><button type="button" class="btn small" data-act="show" data-row="'+r.id+'">Show me</button></div>'+
+    '<div class="msg" id="msg-'+r.id+'" role="status"></div></div>';
+}
+function rowsHTML(st){
+  if(st.type==="board" && !phase1Done(st)) return '<div class="locked">Place every clue in the board first. Your calculations unlock after that. (Use “Fill the board for me” if you are short on time.)</div>';
+  var solved=bag("solved",st), html="", cur=null;
+  st.rows.forEach(function(r){ if(solved[r.id]) html+=rowHTML(st,r,false); else if(!cur){ cur=r; } });
+  if(cur) html+=rowHTML(st,cur,true);
+  return html;
+}
+function doneHTML(st){
+  if(!rowsDone(st)) return "";
+  var qs=QS.filter(function(q){return q.stage===st.id;});
+  var sum=qs.length?'<div>'+qs.map(function(q){var a=S.ans[q.q]; return '<b>'+q.n+'</b> '+esc(q.t)+': <b>'+(a?esc(a.text):"")+'</b>';}).join('<br>')+'</div>':'';
+  return '<div class="done-banner"><b>✓ Stage complete.</b>'+(sum?'<div style="margin:.3em 0">'+sum+'</div>':'')+'<button type="button" class="btn primary small" id="goNext">Next stage →</button></div>';
+}
+
+/* ---------- stage shells ---------- */
+function stageShell(st){
+  var board=st.type==="board";
+  return '<div class="kick">'+esc(st.kick)+'</div><h2>'+esc(st.title)+'</h2><p>'+st.goal+'</p>'+
+   '<details class="prob"><summary>The problem and the results table (tap to open)</summary><div class="in">'+PROBLEM+resultsTable()+'</div></details>'+
+   '<div class="phrow"><div class="phases" id="phases"></div><button type="button" class="btn small" id="clearStage">Clear this stage</button></div>'+
+   (board?'<div class="card"><h3>Clues <button type="button" class="btn small" id="autofill" style="margin-left:.6em">Fill the board for me</button></h3>'+
+     '<div class="tray" id="tray"></div>'+
+     '<div class="legend"><span><i style="border-left-color:var(--muted)"></i>Problem fact</span><span><i style="border-left-color:var(--navy)"></i>Given variance</span><span><i style="border-left-color:var(--orLine)"></i>Given actual cost</span><span><i style="border-left-color:var(--teal)"></i>Computed earlier</span><span><i style="border-left-color:var(--unf);border-style:dashed"></i>Not given</span></div>'+
+     '<div class="fb" id="fb" role="status">Drag a clue into the slot it belongs to, or tap a clue and then tap a slot. Read the column labels: they tell you what goes where. Some slots hold something the problem does <b>not</b> give you.</div></div>':'')+
+   '<div id="board" class="stack" style="margin-top:12px"></div>'+
+   '<h3 style="margin:16px 0 8px;color:var(--muted)">Your work</h3><div id="rows"></div><div id="done"></div>';
+}
+function resultsTable(){
+  return '<table class="t"><thead><tr><th>Item</th><th class="r">Amount</th></tr></thead><tbody>'+RESULTS.map(function(r){return '<tr><td>'+r[0]+(r[2]?'<br><small style="color:var(--muted)">('+r[2]+')</small>':'')+'</td><td class="r"><b>'+r[1]+'</b></td></tr>';}).join("")+'</tbody></table>';
+}
+function refresh(){
+  var st=STAGES[S.stage];
+  $("#phases").innerHTML=phasesHTML(st);
+  if($("#tray")) $("#tray").innerHTML=trayHTML(st);
+  $("#board").innerHTML=boardHTML(st);
+  $("#rows").innerHTML=rowsHTML(st);
+  $("#done").innerHTML=doneHTML(st);
+  armSlots();
+  renderSteps();
+}
+function armSlots(){
+  var sel=S.sel;
+  $$(".slot").forEach(function(el){ el.classList.toggle("armed",!!sel && !el.classList.contains("full")); });
+}
+function setFb(type,html){
+  var el=$("#fb"); if(!el) return;
+  el.className="fb"+(type?" "+type:""); el.innerHTML=html;
+}
+
+/* ---------- placing chips ---------- */
+function place(chipId,slotId){
+  var st=STAGES[S.stage]; var sl=st.slots[slotId], chip=CHIP[chipId], placed=bag("placed",st);
+  if(!sl||!chip) return;
+  if(chip.k===sl.kind){
+    placed[slotId]=chipId; S.sel=null;
+    var all=phase1Done(st);
+    refresh();
+    setFb("ok","<b>✓ Yes.</b> "+sl.why+(all?'<br><b>All the clues are in.</b> Now compute what you can, then back out what is missing.':""));
+    if(all){ var i=$("#panel .crow.cur input"); if(i) i.focus(); }
+  } else {
+    var msg='<b>Not there.</b> The slot “'+esc(sl.cap)+'” needs <b>'+KIND[sl.kind]+'</b>, but “'+esc(chip.short)+'” is '+KIND[chip.k]+'.';
+    if(sl.kind==="unknown") msg='<b>That one is not a missing piece.</b> The problem does give you '+KIND[chip.k]+' (“'+esc(chip.short)+'”). The slot “'+esc(sl.cap)+'” is something the problem does <b>not</b> give directly.';
+    if(chip.k==="unknown") msg='<b>That piece is given.</b> The slot “'+esc(sl.cap)+'” needs <b>'+KIND[sl.kind]+'</b>. Look for it in the clues.';
+    setFb("bad",msg);
+    var el=$('.slot[data-slot="'+slotId+'"]'); if(el){ el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+  }
+}
+function unplace(slotId){
+  var st=STAGES[S.stage], placed=bag("placed",st);
+  if(!placed[slotId]) return;
+  var vals=bag("slotVals",st); if(vals[slotId]) return; /* filled by a solved row: leave */
+  delete placed[slotId]; refresh(); setFb("","Removed. Drag a clue back in.");
+}
+function autofill(){
+  var st=STAGES[S.stage], placed=bag("placed",st);
+  slotIds(st).forEach(function(id){ placed[id]=st.slots[id].kind==="unknown"?"unknown":st.tray.filter(function(c){return CHIP[c].k===st.slots[id].kind;})[0]; });
+  S.sel=null; refresh(); setFb("ok","Board filled. Look at which clues went where, and why. Then continue below.");
+}
+
+/* ---------- checking rows ---------- */
+function parseNum(v){ v=String(v).replace(/[$,\s]/g,"").replace(/−/g,"-"); if(v==="") return null; var x=parseFloat(v); return isNaN(x)?null:Math.abs(x); }
+function markSolved(st,r,revealed){
+  bag("solved",st)[r.id]=true; if(revealed) S.revealed[st.id+r.id]=true;
+  var cells=bag("cells",st), vals=bag("slotVals",st), placed=bag("placed",st);
+  Object.keys(r.fills||{}).forEach(function(k){
+    if(st.slots && st.slots[k]){ vals[k]=r.fills[k]; if(!placed[k]) placed[k]="unknown"; } else cells[k]=r.fills[k];
+  });
+  if(r.q) S.ans[r.q]={text:r.qtext||(money(r.ans)+(r.fu?" "+r.fu:"")),revealed:!!revealed};
+  refresh();
+  var i=$("#panel .crow.cur input"); if(i) i.focus();
+}
+function checkRow(rowId){
+  var st=STAGES[S.stage], r=st.rows.filter(function(x){return x.id===rowId;})[0]; if(!r) return;
+  var inp=$("#in-"+r.id), msg=$("#msg-"+r.id), v=parseNum(inp.value);
+  inp.classList.remove("wrong");
+  if(v===null){ msg.textContent="Type a number first."; return; }
+  if(Math.abs(v-r.ans)<0.005){
+    if(r.fu){ var fuv=$("#fu-"+r.id).value; if(fuv!==r.fu){ msg.innerHTML=(fuv===""?"Right amount. Now choose <b>F</b> or <b>U</b>.":"Right amount, but check F or U. ")+(fuv===""?"":(r.hint||"")); return; } }
+    markSolved(st,r,false);
+  } else {
+    inp.classList.add("wrong");
+    var trap=(r.traps||[]).filter(function(t){return Math.abs(v-t.v)<0.005;})[0];
+    msg.innerHTML=trap?trap.msg:("Not quite. "+(r.hint||"Re-read the labels and check the arithmetic."));
+  }
+}
+function showRow(rowId){
+  var st=STAGES[S.stage], r=st.rows.filter(function(x){return x.id===rowId;})[0]; if(r) markSolved(st,r,true);
+}
+
+/* ---------- steps / nav ---------- */
+function renderSteps(){
+  $("#steps").innerHTML=STAGES.map(function(s,i){
+    return '<button type="button" class="stepdot'+(i===S.stage?' cur':'')+(stageDone(s)?' done':'')+'" data-i="'+i+'" aria-current="'+(i===S.stage?"step":"false")+'"><span class="n">'+(stageDone(s)?"✓":(i+1))+'</span>'+esc(s.name)+'</button>';
+  }).join("");
+  $$("#steps .stepdot").forEach(function(b){ b.addEventListener("click",function(){ go(+b.dataset.i); }); });
+  $("#bPrev").disabled=S.stage===0; $("#bNext").disabled=S.stage===STAGES.length-1;
+}
+function go(i){ S.stage=Math.max(0,Math.min(STAGES.length-1,i)); S.sel=null; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+
+/* ---------- intro + sheet ---------- */
+function tmplHTML(pat){
+  var cols=[["c1","① Actual costs",[["act","Actual qty","aq"],["act","Actual price","ap"]]],["c2","② As-If Column",[["act","Actual qty","aq"],["bud","Standard price","sp"]]],["c3","③ Flexible budget",[["bud","Standard Quantity Allowed","sqa"],["bud","Standard price","sp"]]]];
+  var cmp=pat==="price"?[0,1]:[1,2];
+  var shared=pat==="price"?"aq":"sp", diff=pat==="price"?["ap","sp"]:["aq","sqa"];
+  var out=cols.map(function(c,i){
+    var inCmp=cmp.indexOf(i)>-1;
+    return '<div class="mc '+c[0]+'"><b>'+c[1]+'</b><div class="toks">'+c[2].map(function(t,k){
+      var cls="tok "+t[0]+(inCmp?(t[2]===shared?" shared":(diff.indexOf(t[2])>-1?" diff":"")):" dim");
+      return '<span class="'+cls+'">'+t[1]+'</span>'+(k===0?'<span style="color:var(--muted);font-weight:700">×</span>':"");
+    }).join("")+'</div></div>';
+  }).join("");
+  var f=pat==="price"
+   ?'<p><b>Price (rate, spending) variance = ① − ②</b>. Both use the <span class="tok shared">same actual qty</span>, so it factors out:<br><span class="eq">AQ × (AP − SP)</span><br>If the variance and the price gap are known: <span class="eq">AQ = variance ÷ price gap</span>.</p>'
+   :'<p><b>Efficiency variance = ② − ③</b>. Both use the <span class="tok shared">same standard price</span>, so it factors out:<br><span class="eq">SP × (AQ − SQA)</span><br>If the variance and the price are known: <span class="eq">AQ − SQA = variance ÷ price</span>.</p>';
+  return '<div class="tmpl">'+out+'</div>'+f+'<p style="color:var(--muted);font-size:.9rem">Dashed red outline = the part that is different. Filled dark = the part both columns share.</p>';
+}
+function introHTML(){
+  return '<div class="kick">Stage 1 · Read the problem</div><h2>Variances are clues, not just answers</h2>'+
+  '<p>In most problems you are given every input and the variances are what you <i>compute</i>. Here some inputs are <b>missing</b> and some variances are <b>given</b>. You will use the variances to back out what is missing.</p>'+
+  '<div class="grid2" style="margin-top:12px"><div class="card"><h3>The problem (Steesa Company)</h3>'+PROBLEM+'<p><b>Find:</b> ① lbs of DM purchased, ② lbs of DM used, ③ actual labor hours, ④ DL efficiency variance, ⑤ VMOH spending variance, ⑥ FMOH production volume variance.</p></div>'+
+  '<div class="card"><h3>The following results are available for August</h3>'+resultsTable()+'</div></div>'+
+  '<div class="card" style="margin-top:12px"><h3>Which way does the arithmetic run?</h3><div class="grid2">'+
+   '<div><b>Usual problem →</b><p>Given: quantities and prices. Fill the three columns, subtract, and the <b>variances are the answers</b>.</p></div>'+
+   '<div><b>← This problem</b><p>Given: some <b>variances</b> and some totals. Each variance is the gap between two neighbouring columns, so a variance plus one column gives you the other column, and then the missing input.</p></div></div></div>'+
+  '<div class="card" style="margin-top:12px"><h3>Read the labels: which columns share what?</h3><div class="pills" id="patPills" role="group" aria-label="Variance type"><button type="button" class="pill" data-pat="price" aria-pressed="'+(S.pat==="price")+'">Price / rate / spending variance</button><button type="button" class="pill" data-pat="eff" aria-pressed="'+(S.pat==="eff")+'">Efficiency variance</button></div><div id="tmpl">'+tmplHTML(S.pat)+'</div></div>'+
+  '<div class="card" style="margin-top:12px"><h3>Your three back-out tools</h3><div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">'+
+   '<div><b>1. Column + variance → next column</b><p><span class="unf">U</span>: the left column is <i>bigger</i> than the right. <span class="fav">F</span>: the left column is <i>smaller</i>. So next column = this column ± the variance.</p></div>'+
+   '<div><b>2. Total ÷ known factor → missing factor</b><p>Every column is quantity × price. Know the total and the price? Quantity = total ÷ price.</p></div>'+
+   '<div><b>3. Variance ÷ price gap → shared quantity</b><p>When no column total is given, use <span class="eq">AQ × (AP − SP)</span> and divide by the price gap.</p></div></div></div>'+
+  '<div class="callout key">Ready? The next stage works out the standard rates. After that, each stage is a board you fill by dragging clues into the three columns.</div>';
+}
+function sheetHTML(){
+  var n=QS.filter(function(q){return S.ans[q.q];}).length;
+  var rows=QS.map(function(q){
+    var a=S.ans[q.q], st=STAGES.filter(function(s){return s.id===q.stage;})[0], idx=STAGES.indexOf(st);
+    return '<tr><td><b>'+q.n+'</b> '+esc(q.t)+'</td><td class="r">'+(a?'<b>'+esc(a.text)+'</b>'+(a.revealed?' <small>(shown)</small>':''):'<button type="button" class="btn small" data-goto="'+idx+'">Solve in “'+esc(st.name)+'”</button>')+'</td></tr>';
+  }).join("");
+  return '<div class="kick">Stage 7 · Answer sheet</div><h2>Your answers</h2><p>'+n+' of 6 solved.</p>'+
+  '<div class="card"><table class="t"><thead><tr><th>Question</th><th class="r">Answer</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+  '<div class="card" style="margin-top:12px"><h3>On the exam, follow this routine</h3><ol style="margin:.2em 0 0 1.2em;padding:0"><li><b>Read the three column labels</b> and write what each contains (actual or standard, quantity or price).</li><li><b>Fill in what is given</b> and mark what is not. Compute the column whose pieces are all known (usually the flexible budget).</li><li><b>Use the variance</b> as the gap between neighbouring columns (U: left column bigger; F: left column smaller) to get the next column.</li><li><b>Divide by the price</b> (or by the price gap) to turn a dollar column back into a quantity.</li><li><b>Check</b> with the other variance or the other stage.</li></ol></div>'+
+  '<p style="margin-top:12px"><button type="button" class="btn small" id="clearAll">Clear all answers</button></p>'+'<div class="callout">Fixed overhead is the odd one out: its flexible budget is the same lump sum at any output, there is no efficiency variance, and the production volume variance is the gap between that budget and what was allocated to the units made.</div>';
+}
+
+/* ---------- render ---------- */
+function render(){
+  var st=STAGES[S.stage], p=$("#panel");
+  if(st.type==="intro"){ p.innerHTML=introHTML(); renderSteps(); }
+  else if(st.type==="sheet"){ p.innerHTML=sheetHTML(); renderSteps(); }
+  else { p.innerHTML=stageShell(st); refresh(); }
+}
+
+/* ---------- events ---------- */
+var drag=null, suppress=false;
+document.addEventListener("click",function(e){
+  if(suppress) return;
+  var t=e.target;
+  var chip=t.closest&&t.closest(".chip[data-chip]");
+  if(chip){ var id=chip.dataset.chip; S.sel=(S.sel===id)?null:id; $("#tray").innerHTML=trayHTML(STAGES[S.stage]); armSlots(); if(S.sel) setFb("","Selected: <b>"+esc(CHIP[id].label)+"</b>. Now tap the slot where it belongs."); return; }
+  var slot=t.closest&&t.closest(".slot[data-slot]");
+  if(slot){ if(S.sel) place(S.sel,slot.dataset.slot); else unplace(slot.dataset.slot); return; }
+  var act=t.closest&&t.closest("[data-act]");
+  if(act){ if(act.dataset.act==="check") checkRow(act.dataset.row); else showRow(act.dataset.row); return; }
+  if(t.id==="autofill"){ autofill(); return; }
+  if(t.id==="clearStage"){ clearStage(); return; }
+  if(t.id==="clearAll"){ clearAll(); return; }
+  if(t.id==="goNext"){ go(S.stage+1); return; }
+  var g=t.closest&&t.closest("[data-goto]"); if(g){ go(+g.dataset.goto); return; }
+  var pp=t.closest&&t.closest("#patPills .pill"); if(pp){ S.pat=pp.dataset.pat; $("#tmpl").innerHTML=tmplHTML(S.pat); $$("#patPills .pill").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.pat===S.pat));}); return; }
+});
+document.addEventListener("keydown",function(e){
+  if(e.key==="Enter" && e.target.matches && e.target.matches("input.vin")){ var row=e.target.closest(".crow"); if(row) checkRow(row.dataset.row); }
+});
+document.addEventListener("pointerdown",function(e){
+  var chip=e.target.closest&&e.target.closest(".chip[data-chip]"); if(!chip||(e.button&&e.button!==0)) return;
+  drag={id:chip.dataset.chip,sx:e.clientX,sy:e.clientY,moved:false,ghost:null,over:null};
+});
+document.addEventListener("pointermove",function(e){
+  if(!drag) return;
+  if(!drag.moved && Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)>6){
+    drag.moved=true; var g=document.createElement("div"); g.className="chip ghost c-"+CHIP[drag.id].cat; g.textContent=CHIP[drag.id].label; document.body.appendChild(g); drag.ghost=g; document.body.classList.add("dragging");
+    S.sel=drag.id; armSlots();
+  }
+  if(drag.moved){ drag.x=e.clientX; drag.y=e.clientY; track(); autoScroll(); }
+});
+function track(){
+  if(!drag||!drag.moved) return;
+  drag.ghost.style.left=drag.x+"px"; drag.ghost.style.top=drag.y+"px";
+  var el=document.elementFromPoint(drag.x,drag.y), slot=el&&el.closest?el.closest(".slot[data-slot]"):null;
+  if(drag.over&&drag.over!==slot) drag.over.classList.remove("over");
+  if(slot) slot.classList.add("over"); drag.over=slot;
+}
+var scrolling=false;
+function autoScroll(){
+  if(scrolling||!drag||!drag.moved) return;
+  var h=window.innerHeight, edge=70, dy=0;
+  if(drag.y>h-edge) dy=Math.ceil((drag.y-(h-edge))/4); else if(drag.y<edge) dy=-Math.ceil((edge-drag.y)/4);
+  if(!dy) return;
+  scrolling=true;
+  (function step(){
+    if(!drag||!drag.moved){ scrolling=false; return; }
+    var h2=window.innerHeight, d=0;
+    if(drag.y>h2-edge) d=Math.ceil((drag.y-(h2-edge))/4); else if(drag.y<edge) d=-Math.ceil((edge-drag.y)/4);
+    if(!d){ scrolling=false; return; }
+    window.scrollBy(0,d); track(); requestAnimationFrame(step);
+  })();
+}
+function endDrag(e,drop){
+  if(!drag) return;
+  var d=drag; drag=null;
+  if(d.moved){
+    suppress=true; setTimeout(function(){suppress=false;},60);
+    if(d.ghost) d.ghost.remove(); document.body.classList.remove("dragging"); if(d.over) d.over.classList.remove("over");
+    var slot=drop&&d.over; S.sel=null;
+    if(slot) place(d.id,slot.dataset.slot); else { $("#tray").innerHTML=trayHTML(STAGES[S.stage]); armSlots(); }
+  }
+}
+document.addEventListener("pointerup",function(e){ endDrag(e,true); });
+document.addEventListener("pointercancel",function(e){ endDrag(e,false); });
+document.addEventListener("mouseover",function(e){ hl(e.target,true); });
+document.addEventListener("mouseout",function(e){ hl(e.target,false); });
+document.addEventListener("focusin",function(e){ hl(e.target,true); });
+document.addEventListener("focusout",function(e){ hl(e.target,false); });
+function hl(el,on){
+  var slot=el&&el.closest?el.closest(".slot[data-slot]"):null; if(!slot) return;
+  var tok=slot.dataset.tok, col=slot.closest(".col"); if(!col||!tok) return;
+  $$(".tok",col).forEach(function(t){ t.classList.toggle("hl",on&&t.dataset.tok===tok); });
+}
+$("#bPrev").addEventListener("click",function(){ go(S.stage-1); });
+$("#bNext").addEventListener("click",function(){ go(S.stage+1); });
+
+/* ---------- clear, restart, and new numbers ---------- */
+function clearStage(){
+  var st=STAGES[S.stage]; if(st.type!=="board"&&st.type!=="prep") return;
+  ["placed","cells","slotVals","solved","fb","tries"].forEach(function(k){ delete S[k][st.id]; });
+  st.rows.forEach(function(r){ delete S.revealed[st.id+r.id]; if(r.q) delete S.ans[r.q]; });
+  S.sel=null; render();
+  var b=$("#clearStage"); if(b) b.focus();
+}
+function clearAll(){ var keep=S.stage; var ord=S.order; resetState(); S.order=ord; S.stage=keep; render(); }
+function hasProgress(){
+  return ["placed","cells","slotVals","solved"].some(function(k){ return Object.keys(S[k]).some(function(s){ return Object.keys(S[k][s]).length>0; }); });
+}
+function guarded(btn,fn){
+  if(!hasProgress()){ fn(); return; }
+  if(btn.dataset.armed){ clearTimeout(btn._t); delete btn.dataset.armed; btn.textContent=btn.dataset.label; fn(); return; }
+  btn.dataset.label=btn.textContent; btn.dataset.armed="1"; btn.textContent="Tap again to confirm";
+  btn._t=setTimeout(function(){ delete btn.dataset.armed; btn.textContent=btn.dataset.label; },3500);
+}
+function setScenario(seed,noGo){
+  SEED=seed; build(seed?genParams(seed):P0); resetState();
+  $("#bOrig").hidden=!seed;
+  try{ if(window.history&&history.replaceState){ history.replaceState(null,"",seed?("#set="+seed):(location.pathname+location.search)); } }catch(err){}
+  if(!noGo) go(0); else render();
+}
+function newSeed(){ var s; do{ s=1000+Math.floor(Math.random()*9000); }while(s===SEED); return s; }
+$("#bRestart").addEventListener("click",function(){ var s=SEED; guarded(this,function(){ setScenario(s); }); });
+$("#bNew").addEventListener("click",function(){ guarded(this,function(){ setScenario(newSeed()); }); });
+$("#bOrig").addEventListener("click",function(){ guarded(this,function(){ setScenario(0); }); });
+/* start-up: honour #set=1234 in the link */
+(function(){
+  var m=/set=(\d{1,5})/.exec(location.hash||""), s=m?parseInt(m[1],10):0;
+  setScenario(s>0?s:0,true);
+})();
+})();
+</script>
+<script data-goatcounter="https://chunkim.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
