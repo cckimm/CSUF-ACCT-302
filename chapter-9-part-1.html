@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter 9 Part I: Absorption vs. Variable Costing | ACCT 302</title>
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff;--ink:#1f1f1f;--muted:#5f6368;--navy:#00244E;--orange:#FF7900;--orBg:#fff1e3;
+  --card:#f4f5f7;--line:#d9dce1;--ac:#00244E;--vc:#1b8a8f;--fm:#FF7900;--var:#8aa0bb;
+  --gain:#1e7a3c;--loss:#b3261e;--sold:#b9bfc9;--onac:#fff;--onvc:#fff;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#1c1c1e;--ink:#f0f0f0;--muted:#a8a8a8;--navy:#7fa8d9;--orBg:#3a2a1a;--card:#2a2a2d;--line:#45474d;
+    --ac:#7fa8d9;--vc:#4cc3c8;--var:#6c819c;--gain:#6fd08c;--loss:#ff8a80;--sold:#5d6068;--onac:#0b1520;--onvc:#0b1520}
+}
+*,*::before,*::after{box-sizing:inherit}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif;font-size:18px;line-height:1.35}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer}
+header{border-top:8px solid #00244E;border-bottom:4px solid var(--orange);padding:.7em 5vw .6em;display:flex;gap:1em;align-items:center;justify-content:space-between;flex-wrap:wrap}
+header h1{margin:0;font-size:1.35em;line-height:1.15}
+header p{margin:.1em 0 0;color:var(--muted);font-size:.9em}
+.btn{border:2px solid var(--navy);background:transparent;color:var(--navy);border-radius:.5em;padding:.3em .85em;font-weight:700;min-height:40px}
+.btn:hover,.btn:focus-visible{background:var(--navy);color:var(--bg);outline:none}
+.btn.solid{background:var(--navy);color:var(--bg)}
+.btn.solid:hover,.btn.solid:focus-visible{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn:disabled{opacity:.35;cursor:default;pointer-events:none}
+main{max-width:56em;margin:0 auto;padding:.8em 5vw 1.5em}
+
+/* stepper */
+.steps{display:flex;gap:.4em;flex-wrap:wrap;margin:0 0 .8em;padding:0;list-style:none}
+.steps button{border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:2em;padding:.15em .8em;font-size:.9em;font-weight:700;min-height:36px}
+.steps button .k{display:inline-block;min-width:1.4em;height:1.4em;line-height:1.4em;text-align:center;border-radius:50%;background:var(--line);color:var(--ink);margin-right:.35em;font-size:.85em}
+.steps button[aria-current="step"]{border-color:var(--orange);background:var(--orBg)}
+.steps button[aria-current="step"] .k{background:var(--orange);color:#fff}
+.steps button:hover,.steps button:focus-visible{border-color:var(--navy);outline:none}
+
+/* slide */
+.page h2{font-size:1.5em;margin:0 0 .2em;color:var(--navy);line-height:1.15}
+.page h2:focus{outline:none}
+.say{display:flex;gap:.7em;align-items:flex-start;background:var(--card);border-left:6px solid var(--orange);border-radius:.6em;padding:.6em .8em;margin:.4em 0 .9em}
+.say p{margin:0;flex:1;font-size:1.02em}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:.6em;margin-top:1em}
+.nav .count{color:var(--muted);font-size:.9em}
+
+.chips{display:flex;flex-wrap:wrap;gap:.4em;margin:.2em 0 .9em}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:2em;padding:.15em .75em;font-size:.95em}
+.chip b{color:var(--navy)}
+.tag{display:inline-block;font-size:.8em;font-weight:700;border-radius:.3em;padding:0 .4em;vertical-align:.05em}
+.tag.ac{background:var(--ac);color:var(--onac)}.tag.vc{background:var(--vc);color:var(--onvc)}
+
+/* page 1 choice cards */
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:.8em}
+.pick{display:flex;flex-direction:column;align-items:center;gap:.4em;text-align:center;background:var(--card);border:3px solid var(--line);border-radius:.8em;padding:.8em;color:inherit;min-height:9em}
+.pick:hover,.pick:focus-visible{border-color:var(--navy);outline:none}
+.pick .nm{font-weight:700;font-size:1.1em}
+.pick .art{display:flex;align-items:center;justify-content:center;gap:.5em;min-height:3.2em}
+.pick .rev{font-size:.95em;color:var(--ink);min-height:2.6em}
+.pick.right{border-color:var(--gain)}
+.pick.wrong{border-color:var(--loss)}
+.fb{min-height:1.6em;margin:.6em 0 0;font-weight:700}
+.arrow{font-size:1.4em;color:var(--muted)}
+.exp{border:2px solid var(--vc);border-radius:.4em;padding:.1em .5em;font-size:.85em;font-weight:700;color:var(--vc)}
+
+/* controls */
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;margin-bottom:.1em}
+.ctl output{font-size:1.4em;color:var(--navy)}
+input[type=range]{width:100%;accent-color:var(--orange);height:2.2em;margin:0}
+.ticks{display:flex;justify-content:space-between;font-size:.8em;color:var(--muted)}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:1em 1.6em;margin-bottom:.4em}
+.presets{display:flex;flex-wrap:wrap;gap:.4em;margin:.6em 0 0;align-items:center}
+.presets span{color:var(--muted);font-size:.9em}
+.pbtn{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:2em;padding:.2em .8em;font-size:.92em;min-height:36px}
+.pbtn:hover,.pbtn:focus-visible{border-color:var(--orange);outline:none}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.4em;margin-top:.9em;font-size:1.05em}
+.flow .box{background:var(--card);border:1px solid var(--line);border-radius:.5em;padding:.25em .65em;text-align:center;line-height:1.15}
+.flow .box small{display:block;color:var(--muted);font-size:.72em}
+.flow .box b{font-size:1.15em}
+.flow .op{font-weight:700;color:var(--muted)}
+.flow .end{border:2px solid var(--orange)}
+.badge{display:inline-flex;align-items:center;gap:.4em;font-weight:700;border-radius:2em;padding:.15em .8em}
+.badge.inc{background:#e5f4ea;color:#14572a}.badge.eq{background:#e8ecf2;color:#2c3e57}.badge.dec{background:#fdeceb;color:#8c1d16}
+@media (prefers-color-scheme:dark){.badge.inc{background:#1d3a28;color:#9be3b3}.badge.eq{background:#2b3442;color:#c4d3e8}.badge.dec{background:#47241f;color:#ffb4ab}}
+.mini{display:flex;flex-wrap:wrap;gap:.5em .9em;align-items:center;background:var(--card);border-radius:.6em;padding:.4em .7em;margin:0 0 .8em}
+.mini .grp{display:flex;align-items:center;gap:.35em}
+.mini .grp b{min-width:3.6em;text-align:center;font-size:1.05em}
+.mini .grp span{color:var(--muted);font-size:.9em}
+.nudge{width:40px;height:40px;border-radius:50%;border:2px solid var(--navy);background:var(--bg);color:var(--navy);font-weight:700;font-size:1.2em;line-height:1;padding:0}
+.nudge:hover,.nudge:focus-visible{background:var(--navy);color:var(--bg);outline:none}
+.nudge:disabled{opacity:.3;pointer-events:none}
+.mini .badge{margin-left:auto}
+
+/* crates */
+.crates{display:flex;flex-wrap:wrap;gap:5px;margin:.3em 0}
+.crate{width:30px;height:30px;border-radius:5px;position:relative;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:.8em;font-weight:700;color:#fff;overflow:hidden;flex:none}
+.crate.beg,.crate.base{background:var(--var)}
+.crate.new{background:var(--ac);color:var(--onac)}
+.crate.sold{background:transparent;border:2px dashed var(--sold);color:var(--muted)}
+.crate.fm::after{content:"";position:absolute;left:0;right:0;bottom:0;height:11px;background:var(--fm)}
+.crate.extra{outline:3px solid var(--gain);outline-offset:1px}
+.crate.ghost{background:transparent;border:2px dashed var(--loss);color:var(--loss)}
+.crate.ghost.fm::after{background:transparent;border-top:2px dashed var(--fm)}
+.crate.demo{width:44px;height:44px}
+.crate.demo.fm::after{height:16px}
+.legend{display:flex;flex-wrap:wrap;gap:.3em 1em;font-size:.85em;color:var(--muted);margin:.2em 0 .6em}
+.legend i{display:inline-block;width:.9em;height:.9em;border-radius:3px;vertical-align:-.12em;margin-right:.25em}
+.sw-sold{border:2px dashed var(--sold)}.sw-fm{background:var(--fm)}.sw-new{background:var(--ac)}
+.shelves{display:grid;grid-template-columns:1fr 1fr;gap:.8em}
+.shelf{background:var(--card);border-radius:.6em;padding:.5em .7em}
+.shelf h3{font-size:1em;margin:0}
+.shelf p{margin:.2em 0 0;font-size:.95em}
+.lab{font-weight:700;font-size:.92em}
+.up{color:var(--gain)}.down{color:var(--loss)}.zero{color:var(--muted)}
+.delta{font-weight:700}
+
+/* bars */
+.bars{position:relative;--lw:5.9em;margin:.4em 0 0}
+.brow{display:grid;grid-template-columns:5.4em 1fr;gap:.5em;align-items:center;margin:.4em 0}
+.track{position:relative;height:2.3em;background:var(--card);border:1px solid var(--line);border-radius:.4em;overflow:hidden}
+.seg{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:.85em;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap}
+.seg.ac{background:var(--ac);color:var(--onac)}.seg.vc{background:var(--vc);color:var(--onvc)}.seg.fm{background:var(--fm)}
+.refline{position:absolute;top:-.2em;bottom:-.2em;border-left:2px dashed var(--ink);opacity:.55;pointer-events:none}
+.reflab{font-size:.8em;color:var(--muted);position:relative;height:1.3em;margin-left:5.9em}
+.reflab span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.gapline{margin:.6em 0 0;font-size:1.1em}
+
+/* net income */
+.nrow{display:grid;grid-template-columns:5.4em 1fr 6.5em;gap:.5em;align-items:center;margin:.35em 0}
+.ntrack{position:relative;height:2.2em;background:var(--card);border:1px solid var(--line);border-radius:.4em}
+.nbar{position:absolute;top:3px;bottom:3px;left:0}
+.nbar.ac{background:var(--ac)}.nbar.vc{background:var(--vc)}
+.nval{font-weight:700;text-align:right}
+.eqrow{display:flex;flex-wrap:wrap;align-items:center;gap:.4em;margin:.9em 0 0}
+.eqbox{background:var(--card);border:2px solid var(--line);border-radius:.6em;padding:.3em .7em;text-align:center;line-height:1.15;flex:1 1 7em}
+.eqbox small{display:block;color:var(--muted);font-size:.78em}
+.eqbox b{font-size:1.3em}
+.eqbox.hot{border-color:var(--orange);background:var(--orBg)}
+.eqop{font-weight:700;font-size:1.3em;color:var(--muted)}
+.mono{font-variant-numeric:tabular-nums}
+.plain{margin:.7em 0 0;font-size:1.05em}
+
+/* rule table */
+.rule{width:100%;border-collapse:separate;border-spacing:0 .45em}
+.rule td{background:var(--card);padding:.55em .7em;vertical-align:middle;border-top:3px solid transparent;border-bottom:3px solid transparent;font-size:1.02em}
+.rule td:first-child{border-left:3px solid transparent;border-radius:.5em 0 0 .5em}
+.rule td:last-child{border-right:3px solid transparent;border-radius:0 .5em .5em 0}
+.rule tr.on td{background:var(--orBg);border-top-color:var(--orange);border-bottom-color:var(--orange)}
+.rule tr.on td:first-child{border-left-color:var(--orange)}
+.rule tr.on td:last-child{border-right-color:var(--orange)}
+.rule tr:not(.on) td{opacity:.5}
+.ic{display:inline-block;font-weight:700;margin-right:.3em}
+.note{font-size:.88em;color:var(--muted);margin:.5em 0 0}
+footer{border-top:4px solid var(--orange);padding:.7em 5vw;color:var(--muted);font-size:.85em;text-align:center}
+
+
+/* animated stage */
+.stagebar{display:flex;gap:.6em;align-items:center;flex-wrap:wrap;margin:.1em 0 .6em}
+.tg{display:inline-flex;border:2px solid var(--line);border-radius:2em;overflow:hidden}
+.tg button{border:0;background:var(--bg);color:var(--ink);padding:.2em .9em;font-weight:700;min-height:40px}
+.tg button[aria-pressed="true"]{background:var(--orBg);box-shadow:inset 0 -3px 0 var(--orange)}
+.stage{position:relative;background:var(--card);border:1px solid var(--line);border-radius:.7em;overflow:hidden;height:260px}
+.stage .zone{position:absolute;border:2px solid var(--line);border-radius:.5em;background:var(--bg);color:var(--muted);font-weight:700;font-size:.78em;display:flex;align-items:flex-end;justify-content:center;padding:0 0 3px;text-align:center}
+.stage .zone.wh{border-style:dashed;align-items:flex-start;justify-content:flex-start;padding:2px 6px}
+.stage .zone.exp{left:50%;transform:translateX(-50%);top:8px;width:200px;height:54px;border-color:var(--fm);align-items:center;flex-direction:column;justify-content:center;padding:0;color:var(--ink)}
+.stage .zone.exp small{font-size:.9em;color:var(--muted)}
+.stage .zone.exp b{font-size:1.5em;color:var(--fm);line-height:1.1}
+.stage .crate{position:absolute;left:0;top:0;width:22px;height:22px;border-radius:4px}
+.stage .crate.fm::after{height:8px}
+.stage .coin{position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:var(--fm);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--bg);z-index:3}
+.stagetx{margin:.5em 0 .3em;font-size:1.02em;min-height:2.6em}
+
+@media (max-width:720px){
+  body{font-size:17px}
+  .choice,.shelves,.big2{grid-template-columns:1fr}
+  .nrow{grid-template-columns:4.6em 1fr 5.6em}
+  .brow{grid-template-columns:4.2em 1fr}
+  .bars{--lw:4.7em}
+  .reflab{margin-left:4.7em}
+  .crate{width:26px;height:26px}
+  .mini .badge{margin-left:0}
+  .say{flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:no-preference){
+  .crate,.seg,.nbar{transition:all .25s ease}
+}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Chapter 9 Part I: Absorption vs. Variable Costing</h1>
+    <p>Six short pages. Read, then try it.</p>
+  </div>
+  <button class="btn" id="bReset" type="button">Reset</button>
+</header>
+
+<main>
+<ol class="steps" id="steps"></ol>
+
+<!-- 1 -->
+<section class="page" data-i="0" aria-labelledby="h0">
+  <h2 id="h0" tabindex="-1">The company</h2>
+  <div class="say"><p data-say>Both methods agree on everything except fixed manufacturing overhead, or FMOH. Absorption costing puts it inside every unit made. Variable costing expenses it right away. Tap the method that expenses all of the $120,000 right now.</p></div>
+  <div class="chips">
+    <span class="chip">Price <b>$40</b></span>
+    <span class="chip">Variable cost <b>$16</b> per unit</span>
+    <span class="chip">FMOH <b>$120,000</b> (<b>$12</b> per unit at full capacity, 10,000 units)</span>
+    <span class="chip">Starts with <b>2,000</b> units in inventory</span>
+  </div>
+  <div class="choice" id="choice">
+    <button class="pick" type="button" data-m="ac" aria-label="Absorption costing">
+      <span class="nm"><span class="tag ac">AC</span> Absorption costing</span>
+      <span class="art"><span class="crate demo new fm"></span><span class="crate demo new fm"></span><span class="crate demo new fm"></span></span>
+      <span class="rev" data-rev></span>
+    </button>
+    <button class="pick" type="button" data-m="vc" aria-label="Variable costing">
+      <span class="nm"><span class="tag vc">VC</span> Variable costing</span>
+      <span class="art"><span class="crate demo new"></span><span class="crate demo new"></span><span class="crate demo new"></span></span>
+      <span class="rev" data-rev></span>
+    </button>
+  </div>
+  <p class="fb" id="fb" role="status"></p>
+</section>
+
+<!-- 2 -->
+<section class="page" data-i="1" aria-labelledby="h1" hidden>
+  <h2 id="h1" tabindex="-1">Set the period</h2>
+  <div class="say"><p data-say>Your turn. Slide units produced and units sold, and watch inventory go up, stay the same, or go down.</p></div>
+  <div class="big2">
+    <div class="ctl">
+      <label for="sP">Units produced <output id="oP" class="mono"></output></label>
+      <input type="range" id="sP" min="6000" max="10000" step="500" value="10000">
+      <div class="ticks"><span>6,000</span><span>10,000 (full capacity)</span></div>
+    </div>
+    <div class="ctl">
+      <label for="sS">Units sold <output id="oS" class="mono"></output></label>
+      <input type="range" id="sS" min="6000" max="12000" step="500" value="8000">
+      <div class="ticks"><span>6,000</span><span id="sMaxTick">12,000</span></div>
+    </div>
+  </div>
+  <div class="presets" id="presets2">
+    <span>Try:</span>
+    <button class="pbtn" type="button" data-p="10000" data-s="8000">Production &gt; sales</button>
+    <button class="pbtn" type="button" data-p="10000" data-s="10000">Production = sales</button>
+    <button class="pbtn" type="button" data-p="8500" data-s="10000">Production &lt; sales</button>
+  </div>
+  <div class="flow mono" id="flow"></div>
+</section>
+
+<!-- 3 -->
+<section class="page" data-i="2" aria-labelledby="h2" hidden>
+  <h2 id="h2" tabindex="-1">The warehouse</h2>
+  <div class="say"><p data-say>Press Play. Crates leave the factory and ship to customers. Under absorption costing, fixed overhead rides inside each crate and is expensed only when the crate is sold. Under variable costing, all of it goes straight to expense.</p></div>
+  <div data-mini></div>
+  <div class="stagebar">
+    <div class="tg" role="group" aria-label="Costing method">
+      <button type="button" data-mode="ac" aria-pressed="true"><span class="tag ac">AC</span> Absorption</button>
+      <button type="button" data-mode="vc" aria-pressed="false"><span class="tag vc">VC</span> Variable</button>
+    </div>
+    <button class="btn solid" id="bPlay" type="button">&#9654; Play the period</button>
+  </div>
+  <div class="stage" id="stage" role="img" aria-label="Animation: crates move from the factory to the warehouse and then to customers, with fixed overhead coins going to expense"></div>
+  <p class="stagetx" id="stageTx" role="status"></p>
+  <div class="legend">
+    <span><i class="sw-new"></i>Each square = 500 units</span>
+    <span><i class="sw-fm"></i>Orange band or coin = the fixed overhead on those 500 units</span>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="page" data-i="3" aria-labelledby="h3" hidden>
+  <h2 id="h3" tabindex="-1">Where the fixed overhead goes</h2>
+  <div class="say"><p data-say>Variable costing expenses all of the fixed overhead right away. Absorption costing expenses only the part that is not left sitting in inventory.</p></div>
+  <div data-mini></div>
+  <div class="bars" id="bars"></div>
+  <div class="reflab" id="reflab"></div>
+  <p class="gapline" id="gapline"></p>
+</section>
+
+<!-- 5 -->
+<section class="page" data-i="4" aria-labelledby="h4" hidden>
+  <h2 id="h4" tabindex="-1">Net income</h2>
+  <div class="say"><p data-say>The two net incomes differ by exactly the change in inventory units times the $12 fixed overhead rate.</p></div>
+  <div data-mini></div>
+  <div id="nbars"></div>
+  <div class="eqrow mono" id="eq"></div>
+  <p class="plain" id="plain"></p>
+</section>
+
+<!-- 6 -->
+<section class="page" data-i="5" aria-labelledby="h5" hidden>
+  <h2 id="h5" tabindex="-1">The rule</h2>
+  <div class="say"><p data-say>Match your sliders to the rule. Inventory up means absorption costing net income is higher. No change means they are equal. Inventory down means absorption costing net income is lower.</p></div>
+  <div data-mini></div>
+  <table class="rule" id="rule"><tbody>
+    <tr data-k="inc"><td><span class="ic up">&#9650;</span>Inventory increases<br><small>production &gt; sales</small></td><td><b>AC net income &gt; VC net income</b><br><small>AC parks some FMOH in inventory, so it expenses <b>less</b>.</small></td></tr>
+    <tr data-k="eq"><td><span class="ic zero">&#9644;</span>No change<br><small>production = sales</small></td><td><b>AC net income = VC net income</b><br><small>No FMOH parked or released.</small></td></tr>
+    <tr data-k="dec"><td><span class="ic down">&#9660;</span>Inventory decreases<br><small>production &lt; sales</small></td><td><b>AC net income &lt; VC net income</b><br><small>AC releases old FMOH from inventory, so it expenses <b>more</b>.</small></td></tr>
+  </tbody></table>
+</section>
+
+<div class="nav">
+  <button class="btn" id="bBack" type="button">&larr; Back</button>
+  <span class="count" id="count"></span>
+  <button class="btn solid" id="bNext" type="button">Next &rarr;</button>
+</div>
+</main>
+<footer>ACCT 302 &middot; Cal State Fullerton &middot; Professor Kim</footer>
+
+<template id="miniT">
+  <div class="mini">
+    <div class="grp"><span>Produced</span><button class="nudge" data-n="P-" aria-label="Produce 500 fewer units" type="button">&minus;</button><b class="mono" data-o="P"></b><button class="nudge" data-n="P+" aria-label="Produce 500 more units" type="button">+</button></div>
+    <div class="grp"><span>Sold</span><button class="nudge" data-n="S-" aria-label="Sell 500 fewer units" type="button">&minus;</button><b class="mono" data-o="S"></b><button class="nudge" data-n="S+" aria-label="Sell 500 more units" type="button">+</button></div>
+    <span class="badge" data-badge role="status"></span>
+  </div>
+</template>
+
+<script>
+(function(){
+"use strict";
+var BEG=2000, PRICE=40, VCOST=16, FMOH=120000, RATE=12, CRATE=500, PMIN=6000, PMAX=10000, SMAX=12000, STEP=500;
+var DEF={P:10000,S:8000};
+var st={P:DEF.P,S:DEF.S,page:0,answered:false};
+var NPAGES=6, NAMES=["Company","Set it","Warehouse","Overhead","Net income","The rule"];
+
+function $(id){return document.getElementById(id)}
+function num(n){return Math.round(n).toLocaleString("en-US")}
+function money(n){var r=Math.round(n);return (r<0?"−":"")+"$"+Math.abs(r).toLocaleString("en-US")}
+function signed(n){var r=Math.round(n);return r===0?"$0":(r>0?"+":"−")+"$"+Math.abs(r).toLocaleString("en-US")}
+function unitsSigned(n){return n===0?"0":(n>0?"+":"−")+num(Math.abs(n))}
+function maxS(){return Math.min(SMAX,BEG+st.P)}
+
+function calc(P,S){
+  var end=BEG+P-S, dInv=end-BEG;
+  var vcNI=S*(PRICE-VCOST)-FMOH;
+  var cogs=S*(VCOST+RATE), pvv=FMOH-RATE*P;
+  var acNI=S*PRICE-cogs-pvv;
+  var fmEndAC=RATE*end, fmBegAC=RATE*BEG;
+  var acFmExp=RATE*S+pvv;
+  var kind=dInv>0?"inc":(dInv<0?"dec":"eq");
+  return {P:P,S:S,end:end,dInv:dInv,vcNI:vcNI,acNI:acNI,pvv:pvv,fmEndAC:fmEndAC,fmBegAC:fmBegAC,acFmExp:acFmExp,gap:acNI-vcNI,kind:kind};
+}
+function div(cls,txt){return '<div class="'+cls+'">'+(txt||"")+'</div>'}
+function badgeHTML(c){
+  var k=c.kind;
+  return (k==="inc"?"▲ Inventory increases":(k==="dec"?"▼ Inventory decreases":"▬ No change"))+(c.dInv!==0?" ("+unitsSigned(c.dInv)+")":"");
+}
+
+/* ---------- renderers ---------- */
+function renderFlow(c){
+  $("flow").innerHTML=
+   '<div class="box"><small>Beginning</small><b>'+num(BEG)+'</b></div><span class="op">+</span>'+
+   '<div class="box"><small>Produced</small><b>'+num(c.P)+'</b></div><span class="op">−</span>'+
+   '<div class="box"><small>Sold</small><b>'+num(c.S)+'</b></div><span class="op">=</span>'+
+   '<div class="box end"><small>Ending</small><b>'+num(c.end)+'</b></div>'+
+   '<span class="badge '+c.kind+'" role="status">'+badgeHTML(c)+'</span>';
+}
+/* ----- animated stage (page 3) ----- */
+var stg={W:0,cols:5,cs:22,gap:4,x0:92,y0:104,token:0,dirty:true,exp:0,mode:"ac"};
+var COIN=6000;
+function slot(i){return {x:stg.x0+(i%stg.cols)*(stg.cs+stg.gap),y:stg.y0+Math.floor(i/stg.cols)*(stg.cs+stg.gap)}}
+function tf(p){return "translate("+p.x+"px,"+p.y+"px)"}
+function reduced(){return window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches}
+function mk(cls,pos,txt){var d=document.createElement("div");d.className=cls;d.style.transform=tf(pos);if(txt)d.textContent=txt;$("stage").appendChild(d);return d}
+function setExp(v){stg.exp=v;var e=$("expVal");if(e)e.textContent=money(v)}
+function buildStage(){
+  var el=$("stage"), W=el.clientWidth;
+  if(!W){stg.dirty=true;return false}
+  stg.W=W;
+  var whW=W-stg.x0-96;
+  stg.cols=Math.max(4,Math.floor(whW/(stg.cs+stg.gap)));
+  var rows=Math.ceil((BEG/CRATE+PMAX/CRATE)/stg.cols);
+  var H=Math.max(stg.y0+rows*(stg.cs+stg.gap)+14,stg.y0+58);
+  el.style.height=H+"px";
+  el.innerHTML=
+   '<div class="zone wh" style="left:84px;right:90px;top:'+(stg.y0-20)+'px;bottom:6px">Warehouse</div>'+
+   '<div class="zone" style="left:8px;top:'+(stg.y0-8)+'px;width:64px;height:56px">Factory</div>'+
+   '<div class="zone" style="right:8px;top:'+(stg.y0-8)+'px;width:72px;height:56px">Customers</div>'+
+   '<div class="zone exp"><small>FMOH expense this period</small><b id="expVal">$0</b></div>';
+  stg.dirty=false;
+  return true;
+}
+function pts(){return {fac:{x:29,y:stg.y0+2},cus:{x:stg.W-8-72+25,y:stg.y0+2},exp:{x:stg.W/2-8,y:22}}}
+function fly(el,to,dur,delay){
+  return new Promise(function(res){
+    var a;
+    try{ a=el.animate([{transform:el.style.transform},{transform:tf(to)}],{duration:dur,delay:delay||0,fill:"both",easing:"ease-in-out"}); }
+    catch(e){ el.style.transform=tf(to); res(); return; }
+    a.finished.then(function(){ el.style.transform=tf(to); a.cancel(); res(); }).catch(function(){ res(); });
+  });
+}
+function finalStage(){
+  stg.token++;
+  if(!buildStage()) return;
+  var c=calc(st.P,st.S), ac=stg.mode==="ac", ne=c.end/CRATE;
+  for(var i=0;i<ne;i++) mk("crate new"+(ac?" fm":""),slot(i));
+  setExp(ac?c.acFmExp:FMOH);
+  stageText(c);
+  $("bPlay").innerHTML="\u25B6 Play the period";
+}
+function stageText(c){
+  var ac=stg.mode==="ac";
+  $("stageTx").innerHTML=ac
+    ? 'Ending inventory: <b>'+num(c.end)+' units</b>, carrying <b>'+money(c.fmEndAC)+'</b> of FMOH. FMOH expensed: <b>'+money(c.acFmExp)+'</b>.'
+    : 'Ending inventory: <b>'+num(c.end)+' units</b>, carrying <b>$0</b> of FMOH. FMOH expensed: <b>'+money(FMOH)+'</b>.';
+}
+function playStage(){
+  if(reduced()){ finalStage(); return; }
+  stg.token++; var my=stg.token;
+  if(!buildStage()) return;
+  var c=calc(st.P,st.S), ac=stg.mode==="ac";
+  var nb=BEG/CRATE, np=c.P/CRATE, ns=c.S/CRATE, tot=nb+np, P=pts(), arr=[], cls="crate new"+(ac?" fm":"");
+  setExp(0); stageText(c);
+  $("bPlay").textContent="Playing\u2026";
+  function addExp(){ if(my===stg.token) setExp(stg.exp+COIN); }
+  function coinTo(from,to,dur,delay){
+    var cn=mk("coin",from,"$");
+    return fly(cn,to,dur,delay).then(function(){ cn.remove(); addExp(); });
+  }
+  var i;
+  for(i=0;i<nb;i++) arr[i]=mk(cls,slot(i));
+  var ps=[];
+  for(i=0;i<np;i++){ arr[nb+i]=mk(cls,P.fac); ps.push(fly(arr[nb+i],slot(nb+i),450,i*60)); }
+  var loose=ac?(FMOH/COIN-np):(FMOH/COIN);
+  for(i=0;i<loose;i++) ps.push(coinTo(P.fac,P.exp,600,150+i*60));
+  Promise.all(ps).then(function(){
+    if(my!==stg.token) return;
+    var qs=[];
+    for(var j=0;j<ns;j++){
+      (function(j){
+        qs.push(fly(arr[j],P.cus,500,j*55).then(function(){
+          var el=arr[j]; el.remove();
+          if(ac && my===stg.token) return coinTo(P.cus,P.exp,450,0);
+        }));
+      })(j);
+    }
+    return Promise.all(qs);
+  }).then(function(){
+    if(my!==stg.token) return;
+    var ws=[];
+    for(var k=ns;k<tot;k++) ws.push(fly(arr[k],slot(k-ns),350,0));
+    return Promise.all(ws);
+  }).then(function(){
+    if(my!==stg.token) return;
+    setExp(ac?c.acFmExp:FMOH);
+    $("bPlay").innerHTML="\u21BB Replay";
+  });
+}
+function renderStage(){
+  if(st.page===2) finalStage(); else { stg.dirty=true; stg.token++; }
+}
+
+function renderBars(c){
+  var MAX=160000, pct=function(v){return v/MAX*100};
+  var acExp=c.acFmExp, acPark=c.fmEndAC;
+  $("bars").innerHTML=
+   '<div class="brow"><div class="lab"><span class="tag vc">VC</span></div><div class="track">'+
+     '<div class="seg vc" style="left:0;width:'+pct(FMOH)+'%">'+money(FMOH)+' expensed</div></div></div>'+
+   '<div class="brow"><div class="lab"><span class="tag ac">AC</span></div><div class="track">'+
+     '<div class="seg ac" style="left:0;width:'+pct(acExp)+'%">'+(acExp>26000?money(acExp)+' expensed':'')+'</div>'+
+     '<div class="seg fm" style="left:'+pct(acExp)+'%;width:'+pct(acPark)+'%">'+(acPark>26000?money(acPark)+' in inventory':'')+'</div></div></div>'+
+   '<div class="refline" style="left:calc(var(--lw) + (100% - var(--lw)) * '+(FMOH/MAX)+')"></div>';
+  $("reflab").innerHTML='<span style="left:'+(FMOH/MAX*100)+'%">VC expense: '+money(FMOH)+'</span>';
+  var g=acExp-FMOH;
+  $("gapline").innerHTML=g===0
+    ? 'AC expenses the <b>same</b> FMOH as VC.'
+    : 'AC expenses <b class="'+(g>0?"down":"up")+'">'+money(Math.abs(g))+' '+(g>0?'more':'less')+'</b> FMOH than VC.';
+}
+function renderNI(c){
+  var hi=180000;
+  function bar(cls,label,v){
+    return '<div class="nrow"><div class="lab"><span class="tag '+cls+'">'+label+'</span></div>'+
+      '<div class="ntrack"><div class="nbar '+cls+'" style="width:'+(v/hi*100)+'%"></div></div>'+
+      '<div class="nval mono">'+money(v)+'</div></div>';
+  }
+  $("nbars").innerHTML=bar("vc","VC",c.vcNI)+bar("ac","AC",c.acNI);
+  $("eq").innerHTML=
+    '<div class="eqbox"><small>VC net income</small><b>'+money(c.vcNI)+'</b></div><span class="eqop">+</span>'+
+    '<div class="eqbox hot"><small>('+num(c.end)+' − '+num(BEG)+') × $12</small><b>'+signed(c.gap)+'</b></div><span class="eqop">=</span>'+
+    '<div class="eqbox"><small>AC net income</small><b>'+money(c.acNI)+'</b></div>';
+  var s;
+  if(c.kind==="inc") s='Inventory grew, so AC parked <b>'+money(c.gap)+'</b> of FMOH in it. <b>AC net income is higher.</b>';
+  else if(c.kind==="dec") s='Inventory shrank, so AC released <b>'+money(-c.gap)+'</b> of old FMOH into expense. <b>AC net income is lower.</b>';
+  else s='Inventory did not change, so <b>the net incomes are equal.</b>';
+  $("plain").innerHTML=s;
+}
+function renderRule(c){
+  var rows=document.querySelectorAll("#rule tr");
+  for(var i=0;i<rows.length;i++) rows[i].classList.toggle("on",rows[i].getAttribute("data-k")===c.kind);
+}
+function renderMini(c){
+  var minis=document.querySelectorAll(".mini");
+  for(var i=0;i<minis.length;i++){
+    var m=minis[i];
+    m.querySelector('[data-o="P"]').textContent=num(c.P);
+    m.querySelector('[data-o="S"]').textContent=num(c.S);
+    var b=m.querySelector("[data-badge]"); b.className="badge "+c.kind; b.textContent=badgeHTML(c);
+    m.querySelector('[data-n="P-"]').disabled=st.P<=PMIN;
+    m.querySelector('[data-n="P+"]').disabled=st.P>=PMAX;
+    m.querySelector('[data-n="S-"]').disabled=st.S<=PMIN;
+    m.querySelector('[data-n="S+"]').disabled=st.S>=maxS();
+  }
+}
+function render(){
+  if(st.S>maxS()) st.S=maxS();
+  var sS=$("sS"); sS.max=maxS();
+  $("sMaxTick").textContent=num(maxS());
+  $("sP").value=st.P; sS.value=st.S;
+  $("oP").textContent=num(st.P); $("oS").textContent=num(st.S);
+  var c=calc(st.P,st.S);
+  renderFlow(c); renderBars(c); renderNI(c); renderRule(c); renderMini(c); renderStage();
+}
+
+/* ---------- pages ---------- */
+var pages=document.querySelectorAll(".page");
+function buildSteps(){
+  var h="";
+  for(var i=0;i<NPAGES;i++) h+='<li><button type="button" data-go="'+i+'"><span class="k">'+(i+1)+'</span>'+NAMES[i]+'</button></li>';
+  $("steps").innerHTML=h;
+}
+function show(i,focus){
+  st.page=Math.max(0,Math.min(NPAGES-1,i));
+  for(var k=0;k<pages.length;k++) pages[k].hidden=(k!==st.page);
+  var btns=document.querySelectorAll("#steps button");
+  for(k=0;k<btns.length;k++){ if(k===st.page) btns[k].setAttribute("aria-current","step"); else btns[k].removeAttribute("aria-current"); }
+  $("bBack").disabled=st.page===0;
+  $("bNext").disabled=st.page===NPAGES-1;
+  $("count").textContent="Page "+(st.page+1)+" of "+NPAGES;
+  if(st.page===2 && (stg.dirty||focus!==undefined)) finalStage();
+  if(focus){ var h=pages[st.page].querySelector("h2"); if(h) h.focus({preventScroll:true}); window.scrollTo(0,0); }
+}
+
+/* ---------- page 1 choice ---------- */
+function setupChoice(){
+  var cards=document.querySelectorAll("#choice .pick");
+  var revealText={
+    ac:'FMOH rides inside each unit: <b>$12 per unit</b>. It is expensed only when the unit is sold.',
+    vc:'All <b>$120,000</b> is expensed this period. Units carry only the $16 variable cost.'
+  };
+  for(var i=0;i<cards.length;i++) cards[i].addEventListener("click",function(){
+    var m=this.getAttribute("data-m"), ok=(m==="vc");
+    var all=document.querySelectorAll("#choice .pick");
+    for(var k=0;k<all.length;k++){
+      var mm=all[k].getAttribute("data-m");
+      all[k].querySelector("[data-rev]").innerHTML=revealText[mm];
+      all[k].classList.remove("right","wrong");
+    }
+    this.classList.add(ok?"right":"wrong");
+    if(ok) {
+      st.answered=true;
+      $("fb").innerHTML='<span class="up">Yes. Variable costing treats all FMOH as a period cost.</span>';
+      var ar=document.querySelector('#choice [data-m="vc"] .art');
+      if(!ar.querySelector(".exp")) ar.insertAdjacentHTML("beforeend",'<span class="arrow">→</span><span class="exp">Expense now</span>');
+    } else {
+      $("fb").innerHTML='<span class="down">Not that one. Absorption costing puts FMOH into inventory. Try the other.</span>';
+    }
+  });
+}
+function resetChoice(){
+  var all=document.querySelectorAll("#choice .pick");
+  for(var k=0;k<all.length;k++){ all[k].querySelector("[data-rev]").innerHTML=""; all[k].classList.remove("right","wrong"); }
+  var e=document.querySelector("#choice .exp"); if(e){ e.previousSibling.remove(); e.remove(); }
+  $("fb").innerHTML=""; st.answered=false;
+}
+
+/* ---------- wiring ---------- */
+function setup(){
+  buildSteps();
+  var tpl=$("miniT");
+  var holders=document.querySelectorAll("[data-mini]");
+  for(var i=0;i<holders.length;i++) holders[i].appendChild(tpl.content.cloneNode(true));
+  document.addEventListener("click",function(ev){
+    var t=ev.target.closest&&ev.target.closest("[data-n]"); if(!t) return;
+    var n=t.getAttribute("data-n");
+    if(n==="P-") st.P=Math.max(PMIN,st.P-STEP);
+    else if(n==="P+") st.P=Math.min(PMAX,st.P+STEP);
+    else if(n==="S-") st.S=Math.max(PMIN,st.S-STEP);
+    else if(n==="S+") st.S=Math.min(maxS(),st.S+STEP);
+    render();
+  });
+  $("steps").addEventListener("click",function(ev){ var b=ev.target.closest("[data-go]"); if(b) show(+b.getAttribute("data-go"),true); });
+  $("bBack").addEventListener("click",function(){show(st.page-1,true)});
+  $("bNext").addEventListener("click",function(){show(st.page+1,true)});
+  $("sP").addEventListener("input",function(){st.P=+this.value;render()});
+  $("sS").addEventListener("input",function(){st.S=+this.value;render()});
+  $("bReset").addEventListener("click",function(){st.P=DEF.P;st.S=DEF.S;resetChoice();render();show(0,true)});
+  $("bPlay").addEventListener("click",playStage);
+  var tgs=document.querySelectorAll(".tg button");
+  for(i=0;i<tgs.length;i++) tgs[i].addEventListener("click",function(){
+    stg.mode=this.getAttribute("data-mode");
+    var all=document.querySelectorAll(".tg button");
+    for(var k=0;k<all.length;k++) all[k].setAttribute("aria-pressed",all[k]===this?"true":"false");
+    finalStage();
+  });
+  window.addEventListener("resize",function(){ if(st.page===2) finalStage(); });
+  var pb=document.querySelectorAll(".pbtn");
+  for(i=0;i<pb.length;i++) pb[i].addEventListener("click",function(){st.P=+this.getAttribute("data-p");st.S=+this.getAttribute("data-s");render()});
+  setupChoice(); render(); show(0,false);
+}
+if(/[?&]test=1/.test(location.search)) window.__calc=calc;
+setup();
+})();
+</script>
+<script data-goatcounter="https://chunkim.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
