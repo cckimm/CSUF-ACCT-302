@@ -364,7 +364,6 @@ var stg={W:0,cols:5,cs:22,gap:4,x0:92,y0:104,token:0,dirty:true,exp:0,mode:"ac"}
 var COIN=6000;
 function slot(i){return {x:stg.x0+(i%stg.cols)*(stg.cs+stg.gap),y:stg.y0+Math.floor(i/stg.cols)*(stg.cs+stg.gap)}}
 function tf(p){return "translate("+p.x+"px,"+p.y+"px)"}
-function reduced(){return window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches}
 function mk(cls,pos,txt){var d=document.createElement("div");d.className=cls;d.style.transform=tf(pos);if(txt)d.textContent=txt;$("stage").appendChild(d);return d}
 function setExp(v){stg.exp=v;var e=$("expVal");if(e)e.textContent=money(v)}
 function buildStage(){
@@ -409,13 +408,13 @@ function stageText(c){
     : 'Ending inventory: <b>'+num(c.end)+' units</b>, carrying <b>$0</b> of FMOH. FMOH expensed: <b>'+money(FMOH)+'</b>.';
 }
 function playStage(){
-  if(reduced()){ finalStage(); return; }
   stg.token++; var my=stg.token;
   if(!buildStage()) return;
   var c=calc(st.P,st.S), ac=stg.mode==="ac";
   var nb=BEG/CRATE, np=c.P/CRATE, ns=c.S/CRATE, tot=nb+np, P=pts(), arr=[], cls="crate new"+(ac?" fm":"");
   setExp(0); stageText(c);
   $("bPlay").textContent="Playing\u2026";
+  setTimeout(function(){ if(my===stg.token && $("bPlay").textContent.indexOf("Playing")===0) finalStage(); },9000);
   function addExp(){ if(my===stg.token) setExp(stg.exp+COIN); }
   function coinTo(from,to,dur,delay){
     var cn=mk("coin",from,"$");
