@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter 12 Part II: Constraints, Segments, and Equipment | ACCT 302</title>
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff;--ink:#1f1f1f;--muted:#5f6368;--navy:#00244E;--orange:#FF7900;--orBg:#fff1e3;
+  --card:#f4f5f7;--line:#d9dce1;--teal:#1b8a8f;--grey:#9aa3ae;
+  --gain:#1e7a3c;--loss:#b3261e;--gainBg:#e5f4ea;--lossBg:#fdeceb;--onNavy:#fff;--onTeal:#fff;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#1c1c1e;--ink:#f0f0f0;--muted:#a8a8a8;--navy:#7fa8d9;--orBg:#3a2a1a;--card:#2a2a2d;--line:#45474d;
+    --teal:#4cc3c8;--grey:#6c737c;--gain:#6fd08c;--loss:#ff8a80;--gainBg:#1d3a28;--lossBg:#47241f;--onNavy:#0b1520;--onTeal:#0b1520}
+}
+*,*::before,*::after{box-sizing:inherit}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif;font-size:18px;line-height:1.35;overflow-x:hidden}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer}
+header{border-top:8px solid #00244E;border-bottom:4px solid var(--orange);padding:.7em 5vw .6em;display:flex;gap:1em;align-items:center;justify-content:space-between;flex-wrap:wrap}
+header h1{margin:0;font-size:1.35em;line-height:1.15}
+header p{margin:.1em 0 0;color:var(--muted);font-size:.9em}
+.btn{border:2px solid var(--navy);background:transparent;color:var(--navy);border-radius:.5em;padding:.3em .85em;font-weight:700;min-height:40px}
+.btn:hover,.btn:focus-visible{background:var(--navy);color:var(--bg);outline:none}
+.btn.solid{background:var(--navy);color:var(--bg)}
+.btn.solid:hover,.btn.solid:focus-visible{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn.sm{min-height:36px;padding:.12em .7em;font-size:.93em}
+.btn:disabled{opacity:.35;cursor:default;pointer-events:none}
+.btn.guide{border-color:var(--orange);color:var(--ink);background:var(--orBg)}
+.btn.guide:hover,.btn.guide:focus-visible{background:var(--orange);color:#fff}
+main{max-width:56em;margin:0 auto;padding:.8em 5vw 1.5em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* stepper */
+.steps{display:flex;gap:.4em;flex-wrap:wrap;margin:0 0 .8em;padding:0;list-style:none}
+.steps button{border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:2em;padding:.15em .8em;font-size:.9em;font-weight:700;min-height:36px}
+.steps button .k{display:inline-block;min-width:1.4em;height:1.4em;line-height:1.4em;text-align:center;border-radius:50%;background:var(--line);color:var(--ink);margin-right:.35em;font-size:.85em}
+.steps button[aria-current="step"]{border-color:var(--orange);background:var(--orBg)}
+.steps button[aria-current="step"] .k{background:var(--orange);color:#fff}
+.steps button:hover,.steps button:focus-visible{border-color:var(--navy);outline:none}
+
+/* page */
+.page h2{font-size:1.5em;margin:0 0 .2em;color:var(--navy);line-height:1.15}
+.page h2:focus{outline:none}
+.say{background:var(--card);border-left:6px solid var(--orange);border-radius:.6em;padding:.6em .8em;margin:.4em 0 .8em}
+.say p{margin:0;font-size:1.02em}
+.say .lead{margin:0 0 .25em}
+.say ul,.say ol{margin:.15em 0 0;padding-left:1.35em}
+.say li{margin:.15em 0}
+.say ul.rules{list-style:none;padding-left:0;margin-top:.45em}
+.say ul.rules .tchip{display:inline-block;min-width:6.6em;text-align:center;margin-right:.35em}
+.say .formula{margin:.45em 0 0;font-weight:700}
+/* the facts of the case */
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:.6em 1.6em;border:1px solid var(--line);border-radius:.6em;padding:.55em .9em .65em;margin:.2em 0 .9em}
+.fgrp h4{margin:0 0 .15em;font-size:.8em;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.fgrp ul{margin:0;padding-left:1.15em}
+.fgrp li{margin:.1em 0}
+.fgrp b{color:var(--navy)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:.6em;margin-top:1.2em}
+.nav .count{color:var(--muted);font-size:.9em}
+h3.sub{font-size:1.05em;margin:1em 0 .35em;color:var(--navy)}
+
+/* what to do */
+.todo{border:2px solid var(--navy);border-radius:.6em;padding:.5em .85em .6em;margin:.4em 0 .9em}
+.todohead{display:flex;align-items:center;justify-content:space-between;gap:.6em;flex-wrap:wrap}
+.todohead b{color:var(--navy);font-size:1.05em}
+.todo ol{margin:.35em 0 0;padding-left:1.4em}
+.todo li{margin:.15em 0}
+
+/* numbers bar */
+.case{display:flex;flex-wrap:wrap;align-items:center;gap:.4em;margin:0 0 .5em}
+.case .lbl{color:var(--muted);font-size:.9em;margin-right:.1em}
+.pbtn{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:2em;padding:.2em .85em;font-size:.93em;min-height:38px}
+.pbtn:hover,.pbtn:focus-visible{border-color:var(--orange);outline:none}
+.pbtn[aria-pressed="true"]{border:2px solid var(--orange);background:var(--orBg);font-weight:700}
+.pbtn:disabled{opacity:.45;cursor:default}
+.practice-note{background:var(--orBg);border-radius:.5em;padding:.35em .7em;margin:0 0 .6em;font-size:.95em}
+
+.chips{display:flex;flex-wrap:wrap;gap:.4em;margin:.2em 0 .8em}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:2em;padding:.15em .75em;font-size:.95em}
+.chip b{color:var(--navy)}
+s.chip,.chip.off{color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px}
+.irr s.chip{background:none;border:0;border-radius:0;padding:0 .15em}
+.irr s.chip+s.chip::before{content:"\00b7";display:inline-block;text-decoration:none;margin-right:.5em;color:var(--muted)}
+.mono{font-variant-numeric:tabular-nums}
+.note{font-size:.92em;color:var(--muted);margin:.45em 0 0}
+.up{color:var(--gain)}.down{color:var(--loss)}.zero{color:var(--muted)}
+
+/* controls */
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;gap:.5em;font-weight:700;margin-bottom:.1em}
+.ctl output{font-size:1.3em;color:var(--navy)}
+input[type=range]{width:100%;accent-color:var(--orange);height:2.2em;margin:0}
+.ticks{display:flex;justify-content:space-between;font-size:.8em;color:var(--muted)}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:.8em 1.6em;margin:.2em 0 .6em}
+.tgl{display:inline-flex;align-items:center;gap:.5em;font-weight:700;cursor:pointer;margin:.3em 0;min-height:40px}
+.tgl input{width:1.3em;height:1.3em;accent-color:var(--orange)}
+.nudge{width:40px;height:40px;border-radius:50%;border:2px solid var(--navy);background:var(--bg);color:var(--navy);font-weight:700;font-size:1.2em;line-height:1;padding:0}
+.nudge:hover,.nudge:focus-visible{background:var(--navy);color:var(--bg);outline:none}
+.nudge:disabled{opacity:.3;pointer-events:none}
+
+/* badges and verdicts */
+.badge{display:inline-flex;align-items:center;gap:.4em;font-weight:700;border-radius:2em;padding:.12em .8em}
+.badge.good{background:var(--gainBg);color:var(--gain)}.badge.bad{background:var(--lossBg);color:var(--loss)}.badge.even{background:var(--card);color:var(--muted)}
+.verdict{display:flex;flex-wrap:wrap;align-items:center;gap:.5em;margin:.6em 0 0;font-size:1.08em}
+.mask{display:inline-block;min-width:3.2em;text-align:center;border-radius:.35em;background:var(--line);color:var(--muted);font-weight:700;letter-spacing:.1em}
+
+/* horizontal bars */
+.hb{display:grid;grid-template-columns:6.2em 1fr;gap:.5em;align-items:center;margin:.45em 0}
+.hb .nm{font-weight:700;line-height:1.1}
+.hb .nm small{display:block;font-weight:400;color:var(--muted);font-size:.8em}
+.htrack{position:relative;height:2.4em;background:var(--card);border:1px solid var(--line);border-radius:.4em;overflow:hidden}
+.hseg{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:.8em;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap;border-right:1px solid var(--bg);padding:0 3px}
+.hseg.navy{background:var(--navy);color:var(--onNavy)}.hseg.teal{background:var(--teal);color:var(--onTeal)}.hseg.orange{background:var(--orange)}
+.hseg.grey{background:repeating-linear-gradient(135deg,var(--grey) 0 6px,transparent 6px 11px);color:var(--ink);border:1px dashed var(--grey)}
+.hseg.red{background:repeating-linear-gradient(135deg,var(--loss) 0 6px,transparent 6px 11px);color:var(--loss);border:2px dashed var(--loss)}
+.htot{font-weight:700;margin-top:.15em;font-size:.95em}
+.cwrap{position:relative}
+.vline{position:absolute;top:-5px;bottom:-5px;border-left:3px dashed var(--ink);opacity:.75;pointer-events:none}
+.vline span{position:absolute;top:-1.35em;left:0;transform:translateX(-50%);font-size:.72em;font-weight:700;white-space:nowrap;color:var(--ink)}
+.vline.end span{left:auto;right:0;transform:none}
+.vline.start span{transform:none}
+.legend{display:flex;flex-wrap:wrap;gap:.3em 1em;font-size:.85em;color:var(--muted);margin:.25em 0 .4em}
+.legend i{display:inline-block;width:.95em;height:.95em;border-radius:3px;vertical-align:-.12em;margin-right:.3em}
+.sw-navy{background:var(--navy)}.sw-teal{background:var(--teal)}.sw-orange{background:var(--orange)}
+.sw-grey{background:repeating-linear-gradient(135deg,var(--grey) 0 3px,transparent 3px 6px);border:1px dashed var(--grey)}
+.sw-red{background:repeating-linear-gradient(135deg,var(--loss) 0 3px,transparent 3px 6px);border:1px dashed var(--loss)}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.98em;margin:.2em 0 .4em}
+.tbl caption{text-align:left;font-weight:700;color:var(--navy);padding:0 0 .25em}
+.tbl th,.tbl td{padding:.32em .55em;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.tbl th{font-size:.9em;color:var(--muted)}
+.tbl .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl td small{display:block;color:var(--muted);font-size:.82em}
+.tbl tr.tot td{border-top:2px solid var(--ink);border-bottom:0;font-weight:700}
+.tbl tr.hi td{background:var(--orBg)}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.neg{color:var(--loss)}
+
+/* sort cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(15.5em,1fr));gap:.7em}
+.rc{background:var(--card);border:3px solid var(--line);border-radius:.7em;padding:.6em .7em;display:flex;flex-direction:column;gap:.35em}
+.rc.right{border-color:var(--gain)}.rc.wrong{border-color:var(--loss)}
+.rc-dec{font-size:.85em;color:var(--muted)}
+.rc-item{font-weight:700;font-size:1.05em;flex:1}
+.rc-btns{display:flex;gap:.4em;flex-wrap:wrap}
+.rc-res p{margin:.15em 0}
+.rc-res p:focus{outline:none}
+.rc-v{font-weight:700}
+.rc.right .rc-v{color:var(--gain)}.rc.wrong .rc-v{color:var(--loss)}
+.tchips{display:flex;gap:.35em;flex-wrap:wrap}
+.tchip{font-size:.85em;font-weight:700;border-radius:2em;padding:.05em .6em}
+.tchip.y{background:var(--gainBg);color:var(--gain)}.tchip.n{background:var(--lossBg);color:var(--loss)}
+.rc-why{font-size:.95em}
+.score{display:flex;flex-wrap:wrap;gap:.6em;align-items:center;justify-content:space-between;margin:.8em 0 0;font-weight:700}
+.tests{display:flex;flex-wrap:wrap;gap:.5em;margin:0 0 .7em}
+.test{border:2px solid var(--navy);border-radius:.5em;padding:.2em .7em;font-weight:700}
+.test b{color:var(--orange);margin-right:.35em}
+
+/* check yourself */
+.check{background:var(--card);border-left:6px solid var(--navy);border-radius:.6em;padding:.6em .85em;margin:1.1em 0 0}
+.check .h{font-weight:700;color:var(--navy);font-size:1.05em}
+.check p{margin:.25em 0}
+.crow{display:flex;flex-wrap:wrap;gap:.5em;align-items:center;margin:.35em 0}
+.crow input{font:inherit;font-size:1.05em;padding:.3em .55em;border:2px solid var(--line);border-radius:.4em;background:var(--bg);color:var(--ink);width:10em;min-height:40px}
+.crow input:focus{outline:none;border-color:var(--orange)}
+.cfb{font-weight:700;min-height:1.3em}
+.cfb.ok{color:var(--gain)}.cfb.no{color:var(--loss)}
+.cex{border-top:1px solid var(--line);margin-top:.45em;padding-top:.45em}
+.cex p{margin:.2em 0}
+
+/* guided tour */
+.tspot{position:absolute;z-index:50;border:3px solid var(--orange);border-radius:.6em;box-shadow:0 0 0 200vmax rgba(0,0,0,.45);pointer-events:none}
+.tbub{position:absolute;z-index:51;background:var(--bg);color:var(--ink);border:2px solid var(--orange);border-radius:.7em;padding:.6em .8em;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.tbub:focus{outline:none}
+.tbub .ts{font-size:.8em;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.tbub p{margin:.25em 0}
+.tbub .do{font-weight:700}
+.tbub .why{color:var(--muted)}
+.tnav{display:flex;gap:.4em;justify-content:flex-end;margin-top:.5em;flex-wrap:wrap}
+
+footer{border-top:4px solid var(--orange);padding:.7em 5vw;color:var(--muted);font-size:.85em;text-align:center}
+
+@media (max-width:720px){
+  body{font-size:17px}
+  .big2,.facts{grid-template-columns:1fr}
+  .hb{grid-template-columns:4.8em 1fr}
+}
+
+.win{display:inline-block;margin-left:.35em;font-size:.75em;font-weight:700;color:var(--gain);background:var(--gainBg);border-radius:2em;padding:0 .45em;vertical-align:.1em}
+.pred{background:var(--card);border-radius:.6em;padding:.5em .8em;margin:.3em 0 .8em}
+.pred p{margin:.2em 0}
+.pred .rc-btns{margin:.3em 0}
+.fbok{color:var(--gain);font-weight:700}.fbno{color:var(--loss);font-weight:700}
+.capbox{padding-top:.6em}
+
+/* bottleneck */
+.bnctl{display:flex;flex-wrap:wrap;align-items:center;gap:.6em 1.2em;background:var(--card);border-radius:.6em;padding:.45em .7em;margin:0 0 .7em}
+.bnctl .grp{display:flex;align-items:center;gap:.35em}
+.bnctl .grp b{min-width:2.6em;text-align:center;font-size:1.15em}
+.bnctl .gl{font-weight:700}
+.bnctl .gu{color:var(--muted);font-size:.9em}
+.bnctl .btn{margin-left:auto}
+.stage{position:relative;background:var(--card);border:1px solid var(--line);border-radius:.7em;overflow:hidden;height:230px}
+.stage .zone{position:absolute;border:2px solid var(--line);border-radius:.5em;background:var(--bg);color:var(--muted);font-weight:700;font-size:.78em;text-align:center;line-height:1.15;padding:3px}
+.stage .zone b{display:block;color:var(--ink);font-size:1.15em}
+.stage .zone.wait{border-style:dashed;text-align:left}
+.stage .zone.bn{border-color:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+.stage .zone .bntag{position:absolute;left:50%;bottom:-11px;transform:translateX(-50%);background:var(--orange);color:#fff;border-radius:1em;padding:0 .5em;font-size:.85em;white-space:nowrap}
+.stage .zone.idle{animation:idle .5s}
+@keyframes idle{50%{background:var(--lossBg)}}
+.stage .arrow{position:absolute;top:104px;color:var(--muted);font-size:1.3em;transform:translateX(-50%)}
+.stage .dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--navy);box-shadow:0 0 0 2px var(--bg);z-index:2}
+.stage .dot.done{background:var(--gain)}
+.stagetx{margin:.5em 0 .3em;min-height:1.4em}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(11em,1fr));gap:.5em}
+.stat{background:var(--card);border-radius:.6em;padding:.4em .7em;line-height:1.2}
+.stat small{display:block;color:var(--muted);font-size:.82em}
+.stat b{font-size:1.2em}
+.toc{margin:.2em 0 0;padding-left:1.4em}
+.toc li{margin:.25em 0}
+
+/* drop */
+.tbl td.gone,.tbl th.gone{opacity:.4;text-decoration:line-through}
+.tbl .after{background:var(--orBg)}
+.dropnote{margin:.2em 0 .5em;font-size:.95em}
+.droprow{margin:.2em 0 .6em}
+#drop7[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:#fff}
+.stage.narrow .zone{font-size:.66em;padding:2px}
+.stage.narrow .zone b{font-size:1.1em}
+.stage.narrow .arrow{font-size:1em}
+@media (max-width:720px){
+  .stage{height:250px}
+  .bnctl .btn{margin-left:0}
+}
+
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Chapter 12 Part II: Constraints, Segments, and Equipment</h1>
+    <p>Four short pages. Read What to do, or press Show me how for a guided walk-through.</p>
+  </div>
+  <button class="btn" id="bReset" type="button">Reset</button>
+</header>
+<main>
+<ol class="steps" id="steps" aria-label="Pages"></ol>
+<!-- 1 -->
+<section class="page" aria-labelledby="h0">
+  <h2 id="h0" tabindex="-1">Product mix: one scarce resource</h2>
+  <div class="say">
+    <p class="lead">When one resource limits production:</p>
+    <ul>
+      <li>Don't rank products by contribution margin per unit or by CM ratio.</li>
+      <li>Rank them by <b>contribution margin per unit of the scarce resource</b> (here, per machine-hour).</li>
+      <li>Make the top product first.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <p id="ctx5"></p>
+  <div class="tblwrap" id="tbl5"></div>
+  <div id="pred5" class="pred"></div>
+  <div class="ctl" id="ctlH5">
+    <label for="h5">Machine-hours given to Engine S <output id="oh5" class="mono"></output></label>
+    <input type="range" id="h5">
+    <div class="ticks"><span>0 (all to Engine B)</span><span id="h5b"></span></div>
+  </div>
+  <div id="mix5"></div>
+  <div data-check></div>
+</section>
+
+<!-- 2 -->
+<section class="page" aria-labelledby="h1" hidden>
+  <h2 id="h1" tabindex="-1">Bottleneck: the slowest step sets the pace</h2>
+  <div class="say">
+    <p class="lead">A <b>bottleneck</b> is the step with the least capacity.</p>
+    <ul>
+      <li>The whole line finishes only as many units as the bottleneck can handle.</li>
+      <li>Extra capacity anywhere else just piles up work in process.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <p id="ctx6"></p>
+  <div class="bnctl">
+    <div class="grp" id="gF"><span class="gl">Forging</span><button class="nudge" type="button" data-n="F-" aria-label="Forging capacity minus 50">&minus;</button><b class="mono" id="vF"></b><button class="nudge" type="button" data-n="F+" aria-label="Forging capacity plus 50">+</button><span class="gu">per day</span></div>
+    <div class="grp" id="gA"><span class="gl">Assembly</span><button class="nudge" type="button" data-n="A-" aria-label="Assembly capacity minus 50">&minus;</button><b class="mono" id="vA"></b><button class="nudge" type="button" data-n="A+" aria-label="Assembly capacity plus 50">+</button><span class="gu">per day</span></div>
+    <button class="btn solid" type="button" id="play6">&#9654; Play a day</button>
+  </div>
+  <div class="stage" id="stage6" aria-hidden="true"></div>
+  <p class="stagetx" id="stx6" role="status"></p>
+  <div class="stats" id="stats6"></div>
+  <h3 class="sub">Four steps to manage a bottleneck</h3>
+  <ol class="toc" id="toc6">
+    <li><b>Recognize</b> that the bottleneck determines the contribution margin of the whole system.</li>
+    <li><b>Identify</b> the bottleneck operation.</li>
+    <li><b>Keep the bottleneck busy</b>, and subordinate every non-bottleneck operation to it.</li>
+    <li><b>Increase the bottleneck's efficiency and capacity</b>: eliminate idle time, shift work to other machines or outside suppliers, cut setup and processing time, and improve quality.</li>
+  </ol>
+  <div data-check></div>
+</section>
+
+<!-- 3 -->
+<section class="page" aria-labelledby="h2" hidden>
+  <h2 id="h2" tabindex="-1">Drop a product line?</h2>
+  <div class="say">
+    <p class="lead">A segment that shows a loss isn't automatically one to drop. If you drop it:</p>
+    <ul>
+      <li>you <b>lose</b> its contribution margin, and</li>
+      <li>you <b>save</b> only the fixed costs that truly go away.</li>
+    </ul>
+    <p class="formula">Drop it only if the fixed costs saved are bigger than the contribution margin lost.</p>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <p id="ctx7"></p>
+  <div class="tblwrap" id="tbl7"></div>
+  <p class="dropnote" id="dnote7"></p>
+  <div class="droprow"><button class="btn solid" type="button" id="drop7" aria-pressed="false"></button></div>
+  <div class="ctl" id="ctlV7">
+    <label for="v7"><span id="lv7"></span> <output id="ov7" class="mono"></output></label>
+    <input type="range" id="v7">
+    <div class="ticks"><span>$0</span><span id="v7b"></span></div>
+  </div>
+  <div id="led7"></div>
+  <div data-check></div>
+</section>
+
+<!-- 4 -->
+<section class="page" aria-labelledby="h3" hidden>
+  <h2 id="h3" tabindex="-1">Replace the machine?</h2>
+  <div class="say">
+    <p class="lead">The old machine's book value is a <b>sunk cost</b>. Compare only future cash over the remaining life:</p>
+    <ul>
+      <li>operating costs,</li>
+      <li>the price of the new machine, and</li>
+      <li>what the old machine sells for today.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <div class="tblwrap" id="tbl8"></div>
+  <h3 class="sub">Which items count?</h3>
+  <div class="cards" id="tags8"></div>
+  <div class="score" id="tagscore8"></div>
+  <label class="tgl" id="tglB8"><input type="checkbox" id="b8"> Add the old machine's book value to both sides</label>
+  <div id="bars8"></div>
+  <div id="res8"></div>
+  <div data-check></div>
+</section>
+
+<div class="nav">
+  <button class="btn" id="bBack" type="button">&larr; Back</button>
+  <span class="count" id="count"></span>
+  <button class="btn solid" id="bNext" type="button">Next &rarr;</button>
+</div>
+</main>
+<footer>ACCT 302 &middot; Cal State Fullerton &middot; Professor Kim</footer>
+<div id="live" class="sr" aria-live="polite"></div>
+<script>
+/* ===== shared core: helpers, pager, guide, numbers bar, practice checks ===== */
+var U=(function(){
+"use strict";
+function $(id){return document.getElementById(id)}
+function q(s,r){return (r||document).querySelector(s)}
+function qa(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function fmt(n,d){return n.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d})}
+function r2(n){return Math.round(n*100)/100}
+function money(n){var r=r2(n);var d=Math.abs(r-Math.round(r))>1e-9?2:0;return (r<0?"−":"")+"$"+fmt(Math.abs(r),d)}
+function money2(n){var r=r2(n);return (r<0?"−":"")+"$"+fmt(Math.abs(r),2)}
+function signed(n){var r=r2(n);return r===0?"$0":(r>0?"+":"−")+money(Math.abs(r))}
+function num(n){return fmt(Math.round(n),0)}
+function rnd(a,b,step){step=step||1;var k=Math.floor(Math.random()*(Math.floor((b-a)/step+1e-9)+1));return r2(a+k*step)}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function parseNum(s){
+  s=String(s).trim(); if(!s) return NaN;
+  var neg=/^\(.*\)$/.test(s)||/^\$?\s*[-−–]/.test(s)||/[-−–]\s*$/.test(s);
+  s=s.replace(/[^0-9.]/g,""); if(!s||s===".") return NaN;
+  var v=parseFloat(s); return neg?-v:v;
+}
+function announce(t){var l=$("live"); if(l){l.textContent="";setTimeout(function(){l.textContent=t},30)}}
+
+/* ---------- guided tour ("Show me how") ---------- */
+var Tour=(function(){
+  var spot=null,bub=null,steps=null,i=0,root=null,ret=null,timer=null;
+  function val(x){return typeof x==="function"?x():x}
+  function target(){var a=steps[i].at;if(typeof a==="function") return a();return (root&&root.querySelector(a))||document.querySelector(a)}
+  function start(s,r,from){
+    stop(); steps=s; root=r; ret=from||null; i=0;
+    spot=document.createElement("div"); spot.className="tspot";
+    bub=document.createElement("div"); bub.className="tbub"; bub.setAttribute("role","dialog"); bub.setAttribute("aria-label","Show me how"); bub.tabIndex=-1;
+    document.body.appendChild(spot); document.body.appendChild(bub);
+    window.addEventListener("resize",place); window.addEventListener("scroll",place,{passive:true});
+    document.addEventListener("keydown",onKey,true);
+    timer=setInterval(place,250);
+    go(0);
+  }
+  function go(n){
+    i=n; var s=steps[i];
+    bub.innerHTML='<div class="ts">Show me how &middot; step '+(i+1)+' of '+steps.length+'</div><p class="do">'+val(s.t)+'</p>'+(s.why?'<p class="why">'+val(s.why)+'</p>':'')+
+      '<div class="tnav"><button type="button" class="btn sm" data-a="b">&larr; Back</button><button type="button" class="btn sm" data-a="x">Close</button><button type="button" class="btn sm solid" data-a="n">'+(i===steps.length-1?'Done':'Next &rarr;')+'</button></div>';
+    var bb=q('[data-a=b]',bub); bb.disabled=i===0; bb.onclick=function(){go(i-1)};
+    q('[data-a=x]',bub).onclick=stop;
+    q('[data-a=n]',bub).onclick=function(){ if(i===steps.length-1) stop(); else go(i+1); };
+    var t=target(); if(t&&t.scrollIntoView) t.scrollIntoView({block:"center",inline:"nearest"});
+    place(); bub.focus({preventScroll:true});
+  }
+  function place(){
+    if(!bub) return;
+    var t=target(), vw=document.documentElement.clientWidth, vh=window.innerHeight, sx=window.scrollX, sy=window.scrollY;
+    var bw=Math.min(360,vw-24); bub.style.width=bw+"px";
+    if(!t||!t.getClientRects().length){spot.style.display="none";bub.style.left=(sx+(vw-bw)/2)+"px";bub.style.top=(sy+80)+"px";return}
+    spot.style.display="";
+    var r=t.getBoundingClientRect(),p=6;
+    spot.style.left=(r.left+sx-p)+"px"; spot.style.top=(r.top+sy-p)+"px";
+    spot.style.width=Math.min(r.width+2*p,vw-(r.left-p))+"px"; spot.style.height=(r.height+2*p)+"px";
+    bub.style.left=Math.min(Math.max(12,r.left+sx),sx+vw-bw-12)+"px";
+    var bh=bub.offsetHeight,below=vh-r.bottom,above=r.top,top;
+    if(r.height>vh*0.55) top=sy+vh-bh-12;
+    else if(below>=bh+24||below>=above) top=r.bottom+sy+p+10;
+    else top=r.top+sy-p-10-bh;
+    bub.style.top=Math.max(sy+8,top)+"px";
+  }
+  function onKey(e){if(e.key==="Escape"&&bub){e.preventDefault();stop()}}
+  function stop(){
+    if(!bub) return;
+    spot.remove(); bub.remove(); spot=bub=null; clearInterval(timer);
+    window.removeEventListener("resize",place); window.removeEventListener("scroll",place);
+    document.removeEventListener("keydown",onKey,true);
+    if(ret){try{ret.focus({preventScroll:true})}catch(e){}} ret=null;
+  }
+  return {start:start,stop:stop,active:function(){return !!bub}};
+})();
+
+/* ---------- pager ---------- */
+function pager(names){
+  var pages=qa("section.page"), steps=$("steps"), cur=0, hooks=[];
+  names.forEach(function(nm,i){
+    var li=document.createElement("li"),b=document.createElement("button");
+    b.type="button"; b.innerHTML='<span class="k">'+(i+1)+'</span>'+nm;
+    b.onclick=function(){show(i,true)}; li.appendChild(b); steps.appendChild(li);
+  });
+  function show(i,focus){
+    Tour.stop();
+    cur=Math.max(0,Math.min(pages.length-1,i));
+    pages.forEach(function(p,k){p.hidden=k!==cur});
+    qa("#steps button").forEach(function(b,k){if(k===cur) b.setAttribute("aria-current","step"); else b.removeAttribute("aria-current")});
+    $("bBack").disabled=cur===0; $("bNext").disabled=cur===pages.length-1;
+    $("count").textContent="Page "+(cur+1)+" of "+pages.length;
+    try{history.replaceState(null,"","#p"+(cur+1))}catch(e){}
+    allPages.forEach(function(p){if(p.i===cur) p.render()});
+    hooks.forEach(function(h){h(cur)});
+    if(focus){var h=q("h2",pages[cur]); if(h) h.focus({preventScroll:true}); window.scrollTo(0,0)}
+  }
+  $("bBack").onclick=function(){show(cur-1,true)};
+  $("bNext").onclick=function(){show(cur+1,true)};
+  return {show:show,cur:function(){return cur},onShow:function(f){hooks.push(f)},
+    start:function(){var m=/^#p(\d+)$/.exec(location.hash);show(m?parseInt(m[1],10)-1:0,false)}};
+}
+
+/* ---------- "What to do" list + guide button ---------- */
+function todo(el,steps,sec){
+  el.className="todo";
+  el.innerHTML='<div class="todohead"><b>What to do</b><button type="button" class="btn sm guide">&#9654; Show me how</button></div><ol></ol>';
+  var ol=q("ol",el);
+  steps.forEach(function(s){var li=document.createElement("li");li.innerHTML=typeof s.t==="function"?s.t():s.t;ol.appendChild(li)});
+  var b=q("button",el); b.onclick=function(){Tour.start(steps,sec,b)};
+}
+
+/* ---------- numbers bar ---------- */
+function caseBar(el,opts,onPick){
+  el.className="case";
+  el.innerHTML='<span class="lbl">Numbers:</span>';
+  var btns=opts.map(function(o){
+    var b=document.createElement("button"); b.type="button"; b.className="pbtn"; b.setAttribute("data-k",o.k);
+    b.innerHTML=o.label+(o.k==="new"?' &#8635;':''); b.onclick=function(){onPick(o.k)}; el.appendChild(b); return b;
+  });
+  return {set:function(k){btns.forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-k")===k?"true":"false")})}};
+}
+
+/* ---------- check yourself ---------- */
+function check(el,get,onSolve){
+  el.className="check";
+  el.innerHTML='<div class="h">Check yourself</div><p data-q></p><div class="crow"><input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-label="Your answer" placeholder="Your answer"><button type="button" class="btn solid sm" data-c>Check</button><button type="button" class="btn sm" data-s>Show answer</button></div><p class="cfb" role="status"></p><div class="cex" hidden></div>';
+  var qEl=q("[data-q]",el),inp=q("input",el),fb=q(".cfb",el),ex=q(".cex",el),key=null,cur=null;
+  function sync(force){
+    cur=get(); var k=cur.q+"|"+cur.ans;
+    if(force||k!==key){key=k;qEl.innerHTML=cur.q;inp.value="";fb.textContent="";fb.className="cfb";ex.hidden=true}
+    ex.innerHTML=cur.explain;
+  }
+  function tol(){return cur.tol!=null?cur.tol:(cur.dec?0.005:0.5)}
+  function doCheck(){
+    var v=parseNum(inp.value);
+    if(isNaN(v)){fb.className="cfb no";fb.textContent="Type a number first.";return}
+    if(Math.abs(v-cur.ans)<=tol()+1e-9){fb.className="cfb ok";fb.textContent="Correct! "+(cur.ok||"");ex.hidden=false;if(onSolve) onSolve()}
+    else if(cur.ans!==0&&Math.abs(Math.abs(v)-Math.abs(cur.ans))<=tol()+1e-9){fb.className="cfb no";fb.textContent="Right amount, wrong sign. Is it an increase or a decrease?"}
+    else{fb.className="cfb no";fb.textContent="Not yet. "+(cur.hint||"Try again, or press Show answer.")}
+  }
+  q("[data-c]",el).onclick=doCheck;
+  inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();doCheck()}});
+  q("[data-s]",el).onclick=function(){ex.hidden=false;fb.className="cfb";fb.textContent="Here is the worked answer.";if(onSolve) onSolve()};
+  return {sync:sync,reset:function(){sync(true)}};
+}
+
+/* ---------- hide bar labels that don't fit ---------- */
+function fitLabels(root){qa(".hseg",root).forEach(function(e){if(e.textContent&&e.scrollWidth>e.clientWidth+1){e.title=e.title||e.textContent;e.textContent=""}})}
+var allPages=[],rzT=null;
+window.addEventListener("resize",function(){clearTimeout(rzT);rzT=setTimeout(function(){allPages.forEach(function(p){if(p.st.k!==null||!p.hasCases) p.render()})},200)});
+/* ---------- page wrapper ---------- */
+function page(cfg){
+  var sec=qa("section.page")[cfg.i];
+  var st={k:null,revealed:false,sec:sec};
+  st.masked=function(){return st.k==="new"&&!st.revealed};
+  st.M=function(html){return st.masked()?'<span class="mask" title="Hidden until you check your answer">?</span>':html};
+  var tEl=q("[data-todo]",sec); if(tEl) todo(tEl,cfg.todo,sec);
+  var cb=null,note=null,hint=null,chk=null,chkEl=q("[data-check]",sec);
+  if(cfg.cases){
+    var cEl=q("[data-case]",sec);
+    cb=caseBar(cEl,cfg.cases,function(k){load(k,true)});
+    note=document.createElement("p"); note.className="practice-note"; note.hidden=true;
+    note.innerHTML='<b>Practice mode.</b> These are new numbers for the same problem. Answers marked <span class="mask">?</span> stay hidden until you get the check right or press Show answer.';
+    cEl.parentNode.insertBefore(note,cEl.nextSibling);
+  }
+  if(chkEl&&cfg.check){
+    chk=check(chkEl,function(){return cfg.check(st)},function(){st.revealed=true;render()});
+    if(!cfg.checkAlways){
+      hint=document.createElement("p"); hint.className="note";
+      hint.innerHTML='Want to practice? Press <b>New numbers &#8635;</b> at the top of this page. You get a fresh version of this problem, and a box to check your answer.';
+      chkEl.parentNode.insertBefore(hint,chkEl.nextSibling);
+    }
+  }
+  function load(k,user){
+    st.k=k; st.revealed=false; cfg.load(k,st); if(cb) cb.set(k); render(); if(chk) chk.reset();
+    if(user) announce(k==="new"?"New numbers loaded. Answers are hidden until you check.":"Numbers loaded.");
+  }
+  function render(){
+    var prac=st.k==="new";
+    if(note) note.hidden=!prac;
+    cfg.render(st);
+    fitLabels(sec);
+    if(chk){var show=cfg.checkAlways||prac; chkEl.hidden=!show; if(hint) hint.hidden=show; if(show) chk.sync()}
+  }
+  var api={i:cfg.i,st:st,load:load,render:render,hasCases:!!cfg.cases}; allPages.push(api); return api;
+}
+
+/* ---------- vertical marker line on a bar ---------- */
+function vline(pct,label){return '<div class="vline'+(pct>85?' end':(pct<15?' start':''))+'" style="left:'+pct+'%">'+(label?'<span>'+label+'</span>':'')+'</div>'}
+/* ---------- horizontal stacked bar ---------- */
+function hbar(nm,sub,segs,max,tot,extra){
+  var x=0,h='<div class="hb"><div class="nm">'+nm+(sub?'<small>'+sub+'</small>':'')+'</div><div><div class="cwrap"><div class="htrack">';
+  segs.forEach(function(s){
+    if(!(s.v>0)) return; var w=Math.min(100-x,s.v/max*100);
+    h+='<div class="hseg '+s.c+'" style="left:'+x+'%;width:'+w+'%"'+(s.t?' title="'+s.t+'"':'')+'>'+(w>=9?(s.l||''):'')+'</div>'; x+=w;
+  });
+  h+='</div>'+(extra||'')+'</div>'+(tot?'<div class="htot">'+tot+'</div>':'')+'</div></div>';
+  return h;
+}
+
+return {$:$,q:q,qa:qa,hbar:hbar,vline:vline,money:money,money2:money2,signed:signed,num:num,rnd:rnd,pick:pick,shuffle:shuffle,clone:clone,
+  parseNum:parseNum,announce:announce,Tour:Tour,pager:pager,page:page};
+})();
+
+(function(){
+"use strict";
+var $=U.$,q=U.q,qa=U.qa,money=U.money,money2=U.money2,signed=U.signed,num=U.num,rnd=U.rnd,hbar=U.hbar;
+var pg=U.pager(["Product mix","Bottleneck","Drop a line?","Replace?"]);
+var NEWSTEP={t:"To practice, press <b>New numbers</b>.",why:"You get a fresh version of the same problem. Answers hide until you work them out and press Check.",at:'[data-case] [data-k="new"]'};
+function badge(cls,t){return '<span class="badge '+cls+'">'+t+'</span>'}
+function cost(v){return v===0?"$0":"−"+money(v)}
+function pct(v){return (Math.round(v*1000)/10)+"%"}
+
+/* =========================================================
+   Page 1: Product mix, Power Recreation
+   ========================================================= */
+var LEC5={H:600,S:{p:800,v:560,h:2},B:{p:1000,v:625,h:5}};
+var s5={d:null,hS:0,pred:null};
+function new5(){
+  for(var t=0;t<200;t++){
+    var hS=rnd(1,5,1),hB=rnd(2,8,1); if(hS===hB) continue;
+    var pS=rnd(300,1200,50),pB=rnd(300,1500,50);
+    var vS=Math.round(pS*rnd(0.5,0.8,0.05)/5)*5,vB=Math.round(pB*rnd(0.5,0.8,0.05)/5)*5;
+    var cS=pS-vS,cB=pB-vB; if(cS===cB||cS/hS===cB/hB) continue;
+    var trap=(cS>cB)!==(cS/hS>cB/hB); if(!trap&&Math.random()<0.8) continue;
+    return {H:rnd(30,90,1)*10,S:{p:pS,v:vS,h:hS},B:{p:pB,v:vB,h:hB}};
+  }
+  return U.clone(LEC5);
+}
+function mix(d,hS){var uS=Math.floor(hS/d.S.h),uB=Math.floor((d.H-uS*d.S.h)/d.B.h);var cS=d.S.p-d.S.v,cB=d.B.p-d.B.v;
+  return {uS:uS,uB:uB,hS:uS*d.S.h,hB:uB*d.B.h,un:d.H-uS*d.S.h-uB*d.B.h,tS:uS*cS,tB:uB*cB,tot:uS*cS+uB*cB}}
+function c5(){
+  var d=s5.d,cS=d.S.p-d.S.v,cB=d.B.p-d.B.v,best=null;
+  for(var h=0;h<=d.H;h+=d.S.h){var m=mix(d,h);if(!best||m.tot>best.tot) best=m}
+  return {cS:cS,cB:cB,rS:cS/d.S.p,rB:cB/d.B.p,mS:cS/d.S.h,mB:cB/d.B.h,cur:mix(d,s5.hS),best:best};
+}
+var P5=U.page({i:0,cases:[{k:"lec",label:"Lecture example"},{k:"new",label:"New numbers"}],
+  todo:[
+    {t:"Compare the two engines in the table.",why:"Notice which engine has the higher contribution margin per unit and CM ratio. Those measures ignore how many machine-hours each engine uses.",at:"#tbl5"},
+    {t:"Predict which engine should get the machine-hours.",why:"After you predict, the table shows contribution margin per machine-hour, the measure that counts when hours are scarce.",at:"#pred5"},
+    {t:"Slide to split the machine-hours between the engines.",why:function(){return "Each Engine S uses "+s5.d.S.h+" machine-hours; each Engine B uses "+s5.d.B.h+". Hours that can't make a whole engine go unused."},at:"#ctlH5"},
+    {t:"Find the split with the highest total contribution margin.",why:"With one scarce resource and no demand limits, give the hours to the engine with the highest contribution margin per machine-hour.",at:"#mix5"},
+    NEWSTEP],
+  load:function(k){
+    s5.d=k==="new"?new5():U.clone(LEC5); s5.pred=null;
+    var d=s5.d,sl=$("h5"); sl.min=0; sl.max=Math.floor(d.H/d.S.h)*d.S.h; sl.step=d.S.h;
+    s5.hS=Math.round(sl.max/2/d.S.h)*d.S.h; sl.value=s5.hS;
+    $("h5b").textContent=num(+sl.max)+" (all to Engine S)";
+  },
+  render:function(st){
+    var d=s5.d,c=c5(),M=st.M,shown=s5.pred!==null;
+    $("ctx5").innerHTML='Power Recreation assembles a snowmobile engine (Engine S) and a boat engine (Engine B). Only <b>'+num(d.H)+' machine-hours</b> are available each day, and it can sell all it makes.';
+    function w(a,b){return a>b?'<span class="win">higher</span>':''}
+    var t='<table class="tbl"><thead><tr><th></th><th class="r">Engine S</th><th class="r">Engine B</th></tr></thead><tbody>';
+    t+='<tr><td>Selling price</td><td class="r">'+money(d.S.p)+'</td><td class="r">'+money(d.B.p)+'</td></tr>';
+    t+='<tr><td>Variable cost per unit</td><td class="r">'+money(d.S.v)+'</td><td class="r">'+money(d.B.v)+'</td></tr>';
+    t+='<tr><td>Contribution margin per unit</td><td class="r">'+money(c.cS)+w(c.cS,c.cB)+'</td><td class="r">'+money(c.cB)+w(c.cB,c.cS)+'</td></tr>';
+    t+='<tr><td>CM ratio</td><td class="r">'+pct(c.rS)+w(c.rS,c.rB)+'</td><td class="r">'+pct(c.rB)+w(c.rB,c.rS)+'</td></tr>';
+    t+='<tr><td>Machine-hours per unit</td><td class="r">'+d.S.h+'</td><td class="r">'+d.B.h+'</td></tr>';
+    t+='<tr class="hi"><td><b>CM per machine-hour</b></td>'+(shown?'<td class="r">'+M(money2(c.mS)+w(c.mS,c.mB))+'</td><td class="r">'+M(money2(c.mB)+w(c.mB,c.mS))+'</td>':'<td class="r" colspan="2"><i>Predict below to reveal</i></td>')+'</tr>';
+    t+='</tbody></table>';
+    $("tbl5").innerHTML=t;
+    var win=c.mS>c.mB?"S":"B";
+    var p='<p><b>Predict:</b> which engine should get the '+num(d.H)+' machine-hours?</p>';
+    if(!shown) p+='<div class="rc-btns"><button type="button" class="pbtn" data-p="S">Engine S</button><button type="button" class="pbtn" data-p="B">Engine B</button></div>';
+    else{
+      var good=s5.pred===win,unitWin=c.cS>c.cB?"S":"B";
+      p+='<p class="'+(good?'fbok':'fbno')+'">'+(good?'&#10003; ':'&#10007; ')+'You picked Engine '+s5.pred+'. '+
+        (st.masked()?'Check the CM per machine-hour row to see if you were right.':
+         (good?'Right: Engine '+win+' earns more per machine-hour.':'Tempting'+(s5.pred===unitWin?', because Engine '+unitWin+' has the higher CM per unit':'')+'. But Engine '+win+' earns more per machine-hour.'))+'</p>';
+      if(!st.masked()) p+='<p>Engine S: '+money(c.cS)+' ÷ '+d.S.h+' h = <b>'+money2(c.mS)+'</b> per hour. Engine B: '+money(c.cB)+' ÷ '+d.B.h+' h = <b>'+money2(c.mB)+'</b> per hour.</p>';
+    }
+    $("pred5").innerHTML=p;
+    qa("#pred5 [data-p]").forEach(function(b){b.onclick=function(){s5.pred=b.getAttribute("data-p");P5.render();var r=q("#pred5 .fbok,#pred5 .fbno");if(r){r.tabIndex=-1;r.focus({preventScroll:true})}}});
+    var m=c.cur;
+    $("oh5").textContent=num(m.hS)+" of "+num(d.H);
+    var h=hbar("Hours","per day",[{v:m.hS,c:"navy",l:"S "+num(m.hS)+" h"},{v:m.hB,c:"teal",l:"B "+num(m.hB)+" h"},{v:m.un,c:"grey",l:"unused"}],d.H,"");
+    h+='<div class="legend"><span><i class="sw-navy"></i>Engine S hours</span><span><i class="sw-teal"></i>Engine B hours</span>'+(m.un?'<span><i class="sw-grey"></i>Unused ('+m.un+' h, not enough for another Engine B)</span>':'')+'</div>';
+    h+='<div class="tblwrap"><table class="tbl"><tr><td>Engine S</td><td class="r">'+num(m.uS)+' units × '+money(c.cS)+'</td><td class="r">'+M(money(m.tS))+'</td></tr>'+
+      '<tr><td>Engine B</td><td class="r">'+num(m.uB)+' units × '+money(c.cB)+'</td><td class="r">'+M(money(m.tB))+'</td></tr>'+
+      '<tr class="tot"><td>Total contribution margin per day</td><td></td><td class="r">'+M(money(m.tot))+'</td></tr></table></div>';
+    var gap=c.best.tot-m.tot;
+    h+='<p class="verdict">'+M(gap===0?badge("good","Best mix")+' No other split earns more.':badge("even",money(gap)+" below the best")+' The best mix earns '+money(c.best.tot)+'.')+'</p>';
+    $("mix5").innerHTML=h;
+  },
+  check:function(){
+    var d=s5.d,c=c5(),b=c.best;
+    return {q:'What is the <b>highest</b> total contribution margin Power Recreation can earn per day with '+num(d.H)+' machine-hours?',ans:b.tot,
+      hint:"Compute contribution margin per machine-hour for each engine, and give the hours to the higher one.",
+      explain:'<p>CM per machine-hour: Engine S '+money(c.cS)+' ÷ '+d.S.h+' = '+money2(c.mS)+'; Engine B '+money(c.cB)+' ÷ '+d.B.h+' = '+money2(c.mB)+'.</p>'+
+        '<p>Best mix: '+num(b.uS)+' Engine S ('+num(b.hS)+' h) and '+num(b.uB)+' Engine B ('+num(b.hB)+' h).</p>'+
+        '<p><b>Total: '+num(b.uS)+' × '+money(c.cS)+' + '+num(b.uB)+' × '+money(c.cB)+' = '+money(b.tot)+'</b></p>'};
+  }});
+$("h5").addEventListener("input",function(){s5.hS=+this.value;P5.render()});
+P5.load("lec");
+
+/* =========================================================
+   Page 2: Bottleneck (forging -> assembly)
+   ========================================================= */
+var LEC6={F:400,A:300,cm:240,ask:"F"};
+var s6={d:null,tok:0,playing:false};
+var PER=25,MINC=50,MAXC=600;
+function new6(){var F,A;do{F=rnd(150,550,50);A=rnd(150,550,50)}while(F===A);return {F:F,A:A,cm:rnd(100,400,10),ask:Math.random()<0.5?"F":"A"}}
+function c6(){var d=s6.d,out=Math.min(d.F,d.A);return {out:out,cmDay:out*d.cm,bn:d.F<d.A?"F":(d.A<d.F?"A":"")}}
+function geo(){
+  var st=$("stage6"),W=st.clientWidth||600;
+  var n=W<560;
+  return {W:W,n:n,F:{x:(n?.01:.02)*W,y:70,w:(n?.19:.15)*W,h:90},Q:{x:(n?.22:.20)*W,y:22,w:(n?.30:.36)*W,h:186},A:{x:(n?.54:.59)*W,y:70,w:(n?.19:.15)*W,h:90},D:{x:(n?.76:.77)*W,y:22,w:(n?.23:.21)*W,h:186},
+    a1:(n?.205:.185)*W,a2:(n?.53:.575)*W,a3:(n?.745:.755)*W};
+}
+function slot(z,k){var cols=Math.max(1,Math.floor((z.w-10)/18));return {x:z.x+6+(k%cols)*18,y:z.y+34+Math.floor(k/cols)*18}}
+function mid(z){return {x:z.x+z.w/2-7,y:z.y+z.h/2+8}}
+function zoneHTML(z,cls,label,big,bn){return '<div class="zone '+cls+(bn?' bn':'')+'" data-z="'+cls+'" style="left:'+z.x+'px;top:'+z.y+'px;width:'+z.w+'px;height:'+z.h+'px">'+label+(big?'<b>'+big+'</b>':'')+(bn?'<span class="bntag">Bottleneck</span>':'')+'</div>'}
+function buildStage(){
+  var g=geo(),d=s6.d,c=c6(),st=$("stage6");
+  st.innerHTML=zoneHTML(g.F,"forge","Forging",num(d.F)+"/day",c.bn==="F")+zoneHTML(g.Q,"wait","Waiting (work in process)","",false)+
+    zoneHTML(g.A,"asm","Assembly",num(d.A)+"/day",c.bn==="A")+zoneHTML(g.D,"done","Finished","",false)+
+    '<span class="arrow" style="left:'+g.a1+'px">&rarr;</span><span class="arrow" style="left:'+g.a2+'px">&rarr;</span><span class="arrow" style="left:'+g.a3+'px">&rarr;</span>';
+  st.classList.toggle("narrow",g.n);
+  return g;
+}
+function mkDot(p){var e=document.createElement("div");e.className="dot";e._x=p.x;e._y=p.y;e.style.transform="translate("+p.x+"px,"+p.y+"px)";$("stage6").appendChild(e);return e}
+function mv(e,p,dur){var a="translate("+e._x+"px,"+e._y+"px)",b="translate("+p.x+"px,"+p.y+"px)";e._x=p.x;e._y=p.y;e.style.transform=b;try{e.animate([{transform:a},{transform:b}],{duration:dur,easing:"ease-in-out"})}catch(x){}}
+function play6(){
+  var tok=++s6.tok,d=s6.d,g=buildStage(),nF=Math.round(d.F/PER),nA=Math.round(d.A/PER),T=3600,queue=[],done=0;
+  s6.playing=true; $("play6").disabled=true; $("stx6").textContent="Playing one day…";
+  function alive(){return tok===s6.tok}
+  for(var i=0;i<nF;i++)(function(i){setTimeout(function(){
+    if(!alive()) return; var e=mkDot(mid(g.F)),item={e:e,ok:false}; queue.push(item);
+    mv(e,slot(g.Q,queue.length-1),450); setTimeout(function(){item.ok=true},460);
+  },i*T/nF)})(i);
+  for(var j=0;j<nA;j++)(function(j){setTimeout(function(){
+    if(!alive()) return;
+    if(!queue.length||!queue[0].ok){var z=q('#stage6 [data-z="asm"]');if(z){z.classList.remove("idle");void z.offsetWidth;z.classList.add("idle")}return}
+    var it=queue.shift(),k=done++; mv(it.e,mid(g.A),280);
+    setTimeout(function(){if(!alive())return;it.e.classList.add("done");mv(it.e,slot(g.D,k),380)},300);
+    queue.forEach(function(r,ix){if(r.ok) mv(r.e,slot(g.Q,ix),220)});
+  },j*T/nA+500)})(j);
+  setTimeout(function(){
+    if(!alive()) return; s6.playing=false; $("play6").disabled=false;
+    var c=c6(),wait=d.F-d.A;
+    $("stx6").innerHTML='One day: forging made <b>'+num(d.F)+'</b>, assembly finished <b>'+num(c.out)+'</b>. '+
+      (wait>0?'<b>'+num(wait)+'</b> engines are left waiting in front of assembly.':(wait<0?'Assembly sat idle for <b>'+num(-wait)+'</b> engines’ worth of capacity.':'Nothing piled up and nothing sat idle.'));
+  },T+1400);
+}
+function reset6(){s6.tok++;s6.playing=false;$("play6").disabled=false;buildStage();$("stx6").textContent="Press Play a day. Each dot is "+PER+" engines."}
+var P6=U.page({i:1,cases:[{k:"lec",label:"Lecture example"},{k:"new",label:"New numbers"}],checkAlways:true,
+  todo:[
+    {t:"Press <b>Play a day</b>.",why:"Each dot is 25 engines. Watch where they pile up.",at:"#play6"},
+    {t:"Find where engines pile up. The station right after the pile is the bottleneck.",why:"The station with the smaller capacity limits the whole line.",at:"#stage6"},
+    {t:"Add 50 to forging capacity, then play again.",why:"If forging isn't the bottleneck, output doesn't change. You only make the pile bigger.",at:"#gF"},
+    {t:"Now add 50 to assembly capacity instead.",why:"Output and contribution margin rise, until the other station becomes the new bottleneck.",at:"#gA"},
+    {t:"Read the four steps to manage a bottleneck.",why:"They come from the theory of constraints.",at:"#toc6"},
+    {t:"Answer the Check yourself question.",why:"It uses the capacities you set. Press New numbers for another version.",at:"[data-check]"}],
+  load:function(k){s6.d=k==="new"?new6():U.clone(LEC6);reset6()},
+  render:function(){
+    var d=s6.d,c=c6();
+    $("ctx6").innerHTML='Each snowmobile engine is forged first, then assembled. Contribution margin: <b>'+money(d.cm)+'</b> per engine.';
+    $("vF").textContent=num(d.F); $("vA").textContent=num(d.A);
+    qa("#gF .nudge,#gA .nudge").forEach(function(b){var n=b.getAttribute("data-n"),v=d[n[0]];b.disabled=n[1]==="-"?v<=MINC:v>=MAXC});
+    var wait=d.F-d.A;
+    $("stats6").innerHTML='<div class="stat"><small>Engines finished per day</small><b>'+num(c.out)+'</b></div>'+
+      '<div class="stat"><small>Bottleneck</small><b>'+(c.bn==="F"?"Forging":(c.bn==="A"?"Assembly":"None (balanced)"))+'</b></div>'+
+      '<div class="stat"><small>'+(wait>0?'Piling up before assembly':(wait<0?'Idle assembly capacity':'Piling up'))+'</small><b>'+num(Math.abs(wait))+' per day</b></div>'+
+      '<div class="stat"><small>Contribution margin per day</small><b>'+money(c.cmDay)+'</b></div>';
+  },
+  check:function(){
+    var d=s6.d,c=c6(),st=d.ask,F2=d.F+(st==="F"?50:0),A2=d.A+(st==="A"?50:0),gain=(Math.min(F2,A2)-c.out)*d.cm;
+    var nm=st==="F"?"forging":"assembly";
+    return {q:'Forging can handle <b>'+num(d.F)+'</b> and assembly <b>'+num(d.A)+'</b> engines per day. If the company adds 50 engines per day of capacity to <b>'+nm+'</b>, by how much does contribution margin per day increase?',
+      ans:gain,hint:"Output is set by the smaller capacity. Find the output before and after, then multiply the change by the contribution margin.",
+      explain:'<p>Output now: the smaller of '+num(d.F)+' and '+num(d.A)+' = '+num(c.out)+' engines.</p>'+
+        '<p>Output after adding 50 to '+nm+': the smaller of '+num(F2)+' and '+num(A2)+' = '+num(Math.min(F2,A2))+' engines.</p>'+
+        '<p><b>Increase: ('+num(Math.min(F2,A2))+' − '+num(c.out)+') × '+money(d.cm)+' = '+money(gain)+'</b></p>'+
+        (gain===0?'<p>Adding capacity to a non-bottleneck step adds nothing.</p>':'')};
+  }});
+qa("#gF .nudge,#gA .nudge").forEach(function(b){b.onclick=function(){
+  var n=b.getAttribute("data-n");s6.d[n[0]]=Math.max(MINC,Math.min(MAXC,s6.d[n[0]]+(n[1]==="+"?50:-50)));reset6();P6.render();
+}});
+$("play6").onclick=play6;
+var rzT;window.addEventListener("resize",function(){clearTimeout(rzT);rzT=setTimeout(function(){if(!$("stage6").closest("[hidden]")) reset6()},200)});
+pg.onShow(function(i){if(i===1) reset6()});
+P6.load("lec");
+
+/* =========================================================
+   Page 3: Add or drop a segment (Titan, Titian)
+   ========================================================= */
+var LEC7={seg:"Product",A:{s:300000,v:210000,f:40000},B:{s:100000,v:90000,f:30000},avoid:5000,note:""};
+var QC7={seg:"Segment",A:{s:10000,v:6000,f:3000},B:{s:15000,v:11500,f:4000},avoid:1500,
+  note:"Titian Corporation. Variable costs = variable cost of goods sold + variable selling and administrative. Fixed costs = fixed cost of goods sold (allocated by number of employees) + fixed selling and administrative (allocated equally)."};
+var s7={d:null,dropped:false};
+function new7(){
+  var sA=rnd(100000,500000,10000),vA=Math.round(sA*rnd(0.5,0.75,0.05)/1000)*1000,fA=Math.round(sA*rnd(0.1,0.2,0.02)/1000)*1000;
+  var sB=rnd(50000,250000,10000),vB=Math.round(sB*rnd(0.7,0.92,0.02)/1000)*1000,cmB=sB-vB,fB=cmB+rnd(5000,30000,1000);
+  return {seg:U.pick(["Product","Segment"]),A:{s:sA,v:vA,f:fA},B:{s:sB,v:vB,f:fB},avoid:rnd(0,fB,1000),note:""};
+}
+function c7(){
+  var d=s7.d,cA=d.A.s-d.A.v,cB=d.B.s-d.B.v,oA=cA-d.A.f,oB=cB-d.B.f,tot=oA+oB,stay=d.B.f-d.avoid,after=cA-d.A.f-stay;
+  return {cA:cA,cB:cB,oA:oA,oB:oB,tot:tot,stay:stay,after:after,chg:d.avoid-cB};
+}
+function acct(v){return v<0?"("+money(-v)+")":money(v)}
+var P7=U.page({i:2,cases:[{k:"lec",label:"Lecture example (Titan)"},{k:"qc",label:"Quick Check (Titian)"},{k:"new",label:"New numbers"}],
+  todo:[
+    {t:"Look at line B in the table. It shows an operating loss.",why:"Its fixed costs include allocated costs that may not go away if B is dropped.",at:"#tbl7"},
+    {t:"Press the <b>Drop</b> button and compare total operating income.",why:"Total income can fall, because B's contribution margin was covering fixed costs that stay.",at:"#drop7"},
+    {t:"Slide the amount of B's fixed costs that would go away.",why:"Only these avoidable fixed costs are relevant. The rest stay and fall on A.",at:"#ctlV7"},
+    {t:"Find the point where dropping starts to pay.",why:"Dropping pays only when the fixed costs that go away are bigger than the contribution margin you lose.",at:"#led7"},
+    NEWSTEP],
+  load:function(k){
+    s7.d=k==="new"?new7():U.clone(k==="qc"?QC7:LEC7); s7.dropped=false;
+    var d=s7.d,v=$("v7"); v.min=0; v.max=d.B.f; v.step=d.B.f<=10000?100:1000; v.value=d.avoid;
+    $("v7b").textContent=money(d.B.f)+" (all of it)";
+  },
+  render:function(st){
+    var d=s7.d,c=c7(),M=st.M,A=d.seg+" A",B=d.seg+" B",dr=s7.dropped,g=dr?' gone':'';
+    $("ctx7").innerHTML=(d.note?d.note+' ':'')+'If '+B+' is closed, <b>'+money(d.avoid)+'</b> of its fixed costs would go away. The rest stay.';
+    $("lv7").textContent=B+"'s fixed costs that would go away";
+    $("ov7").textContent=money(d.avoid);
+    $("drop7").textContent=dr?"Bring back "+B:"Drop "+B; $("drop7").setAttribute("aria-pressed",dr?"true":"false");
+    var t='<table class="tbl"><thead><tr><th></th><th class="r">'+A+'</th><th class="r'+g+'">'+B+'</th><th class="r">Total now</th>'+(dr?'<th class="r after">After dropping B</th>':'')+'</tr></thead><tbody>';
+    function row(l,a,b,tt,af,cls){t+='<tr'+(cls?' class="'+cls+'"':'')+'><td>'+l+'</td><td class="r">'+acct(a)+'</td><td class="r'+g+'">'+acct(b)+'</td><td class="r">'+acct(tt)+'</td>'+(dr?'<td class="r after">'+af+'</td>':'')+'</tr>'}
+    row("Sales",d.A.s,d.B.s,d.A.s+d.B.s,acct(d.A.s));
+    row("Variable costs",d.A.v,d.B.v,d.A.v+d.B.v,acct(d.A.v));
+    row("Contribution margin",c.cA,c.cB,c.cA+c.cB,acct(c.cA));
+    row("Fixed costs",d.A.f,d.B.f,d.A.f+d.B.f,M(acct(d.A.f+c.stay)));
+    row("Operating income",c.oA,c.oB,c.tot,M('<b>'+acct(c.after)+'</b>'),"tot");
+    t+='</tbody></table>';
+    $("tbl7").innerHTML=t;
+    $("dnote7").innerHTML=dr?'After dropping '+B+', its fixed costs that stay ('+M(money(c.stay))+') fall on '+A+'. Total operating income goes from '+acct(c.tot)+' to '+M('<b>'+acct(c.after)+'</b>')+'.':'';
+    var L='<div class="tblwrap"><table class="tbl"><caption>If '+B+' is dropped</caption>';
+    L+='<tr><td>Costs you save: variable costs</td><td class="r">'+M(money(d.B.v))+'</td></tr>';
+    L+='<tr><td>Costs you save: fixed costs that go away</td><td class="r">'+M(money(d.avoid))+'</td></tr>';
+    L+='<tr><td>Revenue you lose: '+B+'’s sales</td><td class="r neg">'+M(cost(d.B.s))+'</td></tr>';
+    L+='<tr class="tot"><td>Change in operating income</td><td class="r">'+M('<span class="'+(c.chg<0?'down':(c.chg>0?'up':''))+'">'+signed(c.chg)+'</span>')+'</td></tr></table></div>';
+    L+='<p class="verdict">'+M(c.chg<0?badge("good","Keep "+B)+' Dropping it would lower income by '+money(-c.chg)+'.':(c.chg>0?badge("good","Drop "+B)+' Dropping it raises income by '+money(c.chg)+'.':badge("even","Either way")+' Income is the same.'))+'</p>';
+    L+='<p class="note">Dropping '+B+' pays only if more than '+M('<b>'+money(c.cB)+'</b>')+' of its fixed costs would go away (its contribution margin).</p>';
+    $("led7").innerHTML=L;
+  },
+  check:function(){
+    var d=s7.d,c=c7(),B=d.seg+" B";
+    return {q:'If '+B+' is dropped, by how much does total operating income change? Type a minus sign for a decrease.',ans:c.chg,
+      hint:"Costs you save (variable costs + fixed costs that go away) minus the sales you lose.",
+      explain:'<p>Costs saved: '+money(d.B.v)+' + '+money(d.avoid)+' = '+money(d.B.v+d.avoid)+'</p><p>Revenue lost: '+money(d.B.s)+'</p>'+
+        '<p><b>Change: '+money(d.B.v+d.avoid)+' − '+money(d.B.s)+' = '+signed(c.chg)+'</b> → '+(c.chg<0?'do not drop.':(c.chg>0?'drop.':'either way.'))+'</p>'};
+  }});
+$("v7").addEventListener("input",function(){s7.d.avoid=+this.value;P7.render()});
+$("drop7").onclick=function(){s7.dropped=!s7.dropped;P7.render()};
+P7.load("lec");
+
+/* =========================================================
+   Page 4: Equipment replacement
+   ========================================================= */
+var LEC8={n:2,old:{cost:1000000,life:5,age:3,acc:600000,disp:40000,op:800000},nw:{cost:600000,life:2,op:460000},ask:"R"};
+var QC8={n:5,old:{cost:630000,life:10,age:5,acc:240000,disp:112000,op:103000},nw:{cost:530000,life:5,op:58000},ask:"K"};
+var s8={d:null,bv:false,tags:{}};
+function new8(){
+  var n=rnd(2,6,1),age=rnd(2,6,1),life=n+age,cost=rnd(200000,1200000,10000),acc=Math.round(cost*age/life/1000)*1000,bv=cost-acc;
+  var disp=Math.round(bv*rnd(0.05,0.4,0.05)/1000)*1000,op=rnd(50000,800000,5000),nop=Math.round(op*rnd(0.4,0.85,0.05)/1000)*1000;
+  var nc=Math.max(disp+20000,Math.round(((op-nop)*n+disp)*rnd(0.75,1.25,0.05)/10000)*10000);
+  return {n:n,old:{cost:cost,life:life,age:age,acc:acc,disp:disp,op:op},nw:{cost:nc,life:n,op:nop},ask:Math.random()<0.5?"K":"R"};
+}
+function c8(){var d=s8.d,bv=d.old.cost-d.old.acc,keep=d.old.op*d.n,rep=d.nw.op*d.n+d.nw.cost-d.old.disp;return {bv:bv,keep:keep,rep:rep,diff:keep-rep}}
+function tagItems(){
+  var d=s8.d,c=c8();
+  return [
+    {item:"Old machine's original cost, "+money(d.old.cost),rel:false,why:"Sunk: it was paid in the past."},
+    {item:"Old machine's accumulated depreciation, "+money(d.old.acc),rel:false,why:"Sunk: an accounting record of past cost."},
+    {item:"Old machine's book value, "+money(c.bv),rel:false,why:"Sunk: original cost minus accumulated depreciation. Nothing you decide now changes it."},
+    {item:"Cash from selling the old machine now, "+money(d.old.disp),rel:true,why:"Future cash you get only if you replace."},
+    {item:"Cost of the new machine, "+money(d.nw.cost),rel:true,why:"Future cash you pay only if you replace."},
+    {item:"Annual operating costs: "+money(d.old.op)+" (old) vs "+money(d.nw.op)+" (new)",rel:true,why:"Future cash that differs between keeping and replacing."}
+  ];
+}
+function renderTags(focusIx){
+  var items=tagItems(),box=$("tags8");box.innerHTML="";
+  items.forEach(function(it,ix){
+    var a=s8.tags[ix],el=document.createElement("div");
+    el.className="rc"+(a===undefined?"":(a===it.rel?" right":" wrong"));
+    var h='<div class="rc-item">'+it.item+'</div>';
+    if(a===undefined) h+='<div class="rc-btns" role="group" aria-label="Sort this item"><button type="button" class="pbtn" data-a="1">Relevant</button><button type="button" class="pbtn" data-a="0">Not relevant</button></div>';
+    else h+='<div class="rc-res"><p class="rc-v" tabindex="-1">'+(a===it.rel?'&#10003; Correct: ':'&#10007; Not quite. It is ')+(it.rel?'relevant':'not relevant')+'.</p><p class="rc-why">'+it.why+'</p></div>';
+    el.innerHTML=h;
+    qa("button[data-a]",el).forEach(function(b){b.onclick=function(){s8.tags[ix]=b.getAttribute("data-a")==="1";renderTags(ix)}});
+    if(focusIx===ix) setTimeout(function(){var p=q(".rc-v",el);if(p) p.focus({preventScroll:true})},0);
+    box.appendChild(el);
+  });
+  var done=Object.keys(s8.tags).length,right=0;Object.keys(s8.tags).forEach(function(k){if(s8.tags[k]===items[k].rel) right++});
+  $("tagscore8").innerHTML='<span role="status">'+(done===items.length?'All tagged: '+right+' of '+items.length+' correct.':'Tagged '+done+' of '+items.length+' &middot; '+right+' correct')+'</span><button type="button" class="btn sm" id="again8">Start over</button>';
+  $("again8").onclick=function(){s8.tags={};renderTags()};
+}
+var P8=U.page({i:3,cases:[{k:"lec",label:"Lecture example"},{k:"qc",label:"Quick Check (Tuffy)"},{k:"new",label:"New numbers"}],
+  todo:[
+    {t:"Read the data for the old and new machines.",why:"Some numbers describe the past. Only future cash that differs counts.",at:"#tbl8"},
+    {t:"Tag each item as Relevant or Not relevant.",why:"Original cost, accumulated depreciation, and book value are sunk.",at:"#tags8"},
+    {t:"Compare the total relevant costs over the remaining life.",why:"Keep = old operating costs. Replace = new machine − cash from selling the old one + new operating costs.",at:"#bars8"},
+    {t:"Turn on <b>Add the old machine's book value to both sides</b>.",why:"Kept, the book value becomes depreciation. Replaced, it is written off. Same amount either way, so it never changes the decision.",at:"#tglB8"},
+    NEWSTEP],
+  load:function(k){s8.d=k==="new"?new8():U.clone(k==="qc"?QC8:LEC8); s8.tags={}; renderTags()},
+  render:function(st){
+    var d=s8.d,c=c8(),M=st.M;
+    var t='<table class="tbl"><thead><tr><th></th><th class="r">Old machine</th><th class="r">New machine</th></tr></thead><tbody>';
+    function row(l,a,b){t+='<tr><td>'+l+'</td><td class="r">'+a+'</td><td class="r">'+b+'</td></tr>'}
+    row("Original cost",money(d.old.cost),money(d.nw.cost));
+    row("Useful life",d.old.life+" years",d.nw.life+" years");
+    row("Current age",d.old.age+" years","0 years");
+    row("Remaining useful life",d.n+" years",d.n+" years");
+    row("Accumulated depreciation",money(d.old.acc),"N/A");
+    row("Book value",money(c.bv),"N/A");
+    row("Current disposal value",money(d.old.disp),"N/A");
+    row("Terminal disposal value",money(0),money(0));
+    row("Annual cash operating cost",money(d.old.op),money(d.nw.op));
+    $("tbl8").innerHTML=t+'</tbody></table>';
+    var bv=s8.bv?c.bv:0,mx=Math.max(c.keep,c.rep)+bv;
+    var h=hbar("Keep",d.n+"-year cost",[{v:c.keep,c:"navy",l:"Operating "+money(c.keep)},{v:bv,c:"grey",l:"Book value (depreciation)"}],mx,
+      "Relevant: "+M(money(c.keep))+(s8.bv?" &middot; with book value: "+M(money(c.keep+c.bv)):""));
+    h+=hbar("Replace",d.n+"-year cost",[{v:d.nw.op*d.n,c:"navy",l:"Operating "+money(d.nw.op*d.n)},{v:d.nw.cost-d.old.disp,c:"teal",l:"New machine − sale of old"},{v:bv,c:"grey",l:"Book value (write-off)"}],mx,
+      "Relevant: "+M(money(c.rep))+(s8.bv?" &middot; with book value: "+M(money(c.rep+c.bv)):""));
+    h+='<div class="legend"><span><i class="sw-navy"></i>Operating costs over '+d.n+' years</span><span><i class="sw-teal"></i>New machine cost minus cash from selling the old one</span>'+(s8.bv?'<span><i class="sw-grey"></i>Old book value ('+money(c.bv)+' on both)</span>':'')+'</div>';
+    $("bars8").innerHTML=h;
+    var v=c.diff>0?badge("good","Replace")+' Replacing saves '+money(c.diff)+' over '+d.n+' years.':(c.diff<0?badge("good","Keep")+' Keeping saves '+money(-c.diff)+' over '+d.n+' years.':badge("even","Either way")+' The costs are equal.');
+    $("res8").innerHTML='<p class="verdict">'+M(v)+'</p>';
+  },
+  check:function(){
+    var d=s8.d,c=c8(),K=d.ask==="K";
+    return {q:'What is the total relevant cost of <b>'+(K?'keeping the old machine':'replacing it with the new machine')+'</b> over the remaining '+d.n+' years?',ans:K?c.keep:c.rep,
+      hint:K?"Keeping only costs the old machine's operating costs over the remaining life.":"New machine cost − cash from selling the old one + new operating costs over the remaining life.",
+      explain:'<p>Keep: '+money(d.old.op)+' × '+d.n+' = '+money(c.keep)+'</p>'+
+        '<p>Replace: '+money(d.nw.op)+' × '+d.n+' + '+money(d.nw.cost)+' − '+money(d.old.disp)+' = '+money(c.rep)+'</p>'+
+        '<p><b>'+(c.diff>0?'Replace: it saves '+money(c.diff)+'.':(c.diff<0?'Keep: it saves '+money(-c.diff)+'.':'Either way.'))+'</b> The book value of '+money(c.bv)+' is sunk, so it is left out.</p>'};
+  }});
+$("b8").addEventListener("change",function(){s8.bv=this.checked;P8.render()});
+P8.load("lec");
+
+$("bReset").onclick=function(){
+  P5.load("lec"); P6.load("lec"); P7.load("lec"); s8.bv=false; $("b8").checked=false; P8.load("lec");
+  pg.show(0,true); U.announce("Reset to the lecture numbers.");
+};
+if(/[?&]test=1/.test(location.search)) window.__t={s5:s5,c5:c5,new5:new5,P5:P5,s6:s6,c6:c6,P6:P6,new6:new6,play6:play6,s7:s7,c7:c7,P7:P7,new7:new7,s8:s8,c8:c8,P8:P8,new8:new8};
+pg.start();
+})();
+
+</script>
+<script data-goatcounter="https://chunkim.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
