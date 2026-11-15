@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter 16: Allocating Support-Department Costs | ACCT 302</title>
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff;--ink:#1f1f1f;--muted:#5f6368;--navy:#00244E;--orange:#FF7900;--orBg:#fff1e3;
+  --card:#f4f5f7;--line:#d9dce1;--teal:#1b8a8f;--grey:#9aa3ae;
+  --gain:#1e7a3c;--loss:#b3261e;--gainBg:#e5f4ea;--lossBg:#fdeceb;--onNavy:#fff;--onTeal:#fff;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#1c1c1e;--ink:#f0f0f0;--muted:#a8a8a8;--navy:#7fa8d9;--orBg:#3a2a1a;--card:#2a2a2d;--line:#45474d;
+    --teal:#4cc3c8;--grey:#6c737c;--gain:#6fd08c;--loss:#ff8a80;--gainBg:#1d3a28;--lossBg:#47241f;--onNavy:#0b1520;--onTeal:#0b1520}
+}
+*,*::before,*::after{box-sizing:inherit}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif;font-size:18px;line-height:1.35;overflow-x:hidden}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer}
+header{border-top:8px solid #00244E;border-bottom:4px solid var(--orange);padding:.7em 5vw .6em;display:flex;gap:1em;align-items:center;justify-content:space-between;flex-wrap:wrap}
+header h1{margin:0;font-size:1.35em;line-height:1.15}
+header p{margin:.1em 0 0;color:var(--muted);font-size:.9em}
+.btn{border:2px solid var(--navy);background:transparent;color:var(--navy);border-radius:.5em;padding:.3em .85em;font-weight:700;min-height:40px}
+.btn:hover,.btn:focus-visible{background:var(--navy);color:var(--bg);outline:none}
+.btn.solid{background:var(--navy);color:var(--bg)}
+.btn.solid:hover,.btn.solid:focus-visible{background:var(--orange);border-color:var(--orange);color:#fff}
+.btn.sm{min-height:36px;padding:.12em .7em;font-size:.93em}
+.btn:disabled{opacity:.35;cursor:default;pointer-events:none}
+.btn.guide{border-color:var(--orange);color:var(--ink);background:var(--orBg)}
+.btn.guide:hover,.btn.guide:focus-visible{background:var(--orange);color:#fff}
+main{max-width:56em;margin:0 auto;padding:.8em 5vw 1.5em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* stepper */
+.steps{display:flex;gap:.4em;flex-wrap:wrap;margin:0 0 .8em;padding:0;list-style:none}
+.steps button{border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:2em;padding:.15em .8em;font-size:.9em;font-weight:700;min-height:36px}
+.steps button .k{display:inline-block;min-width:1.4em;height:1.4em;line-height:1.4em;text-align:center;border-radius:50%;background:var(--line);color:var(--ink);margin-right:.35em;font-size:.85em}
+.steps button[aria-current="step"]{border-color:var(--orange);background:var(--orBg)}
+.steps button[aria-current="step"] .k{background:var(--orange);color:#fff}
+.steps button:hover,.steps button:focus-visible{border-color:var(--navy);outline:none}
+
+/* page */
+.page h2{font-size:1.5em;margin:0 0 .2em;color:var(--navy);line-height:1.15}
+.page h2:focus{outline:none}
+.say{background:var(--card);border-left:6px solid var(--orange);border-radius:.6em;padding:.6em .8em;margin:.4em 0 .8em}
+.say p{margin:0;font-size:1.02em}
+.say .lead{margin:0 0 .25em}
+.say ul,.say ol{margin:.15em 0 0;padding-left:1.35em}
+.say li{margin:.15em 0}
+.say ul.rules{list-style:none;padding-left:0;margin-top:.45em}
+.say ul.rules .tchip{display:inline-block;min-width:6.6em;text-align:center;margin-right:.35em}
+.say .formula{margin:.45em 0 0;font-weight:700}
+/* the facts of the case */
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:.6em 1.6em;border:1px solid var(--line);border-radius:.6em;padding:.55em .9em .65em;margin:.2em 0 .9em}
+.fgrp h4{margin:0 0 .15em;font-size:.8em;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.fgrp ul{margin:0;padding-left:1.15em}
+.fgrp li{margin:.1em 0}
+.fgrp b{color:var(--navy)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:.6em;margin-top:1.2em}
+.nav .count{color:var(--muted);font-size:.9em}
+h3.sub{font-size:1.05em;margin:1em 0 .35em;color:var(--navy)}
+
+/* what to do */
+.todo{border:2px solid var(--navy);border-radius:.6em;padding:.5em .85em .6em;margin:.4em 0 .9em}
+.todohead{display:flex;align-items:center;justify-content:space-between;gap:.6em;flex-wrap:wrap}
+.todohead b{color:var(--navy);font-size:1.05em}
+.todo ol{margin:.35em 0 0;padding-left:1.4em}
+.todo li{margin:.15em 0}
+
+/* numbers bar */
+.case{display:flex;flex-wrap:wrap;align-items:center;gap:.4em;margin:0 0 .5em}
+.case .lbl{color:var(--muted);font-size:.9em;margin-right:.1em}
+.pbtn{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:2em;padding:.2em .85em;font-size:.93em;min-height:38px}
+.pbtn:hover,.pbtn:focus-visible{border-color:var(--orange);outline:none}
+.pbtn[aria-pressed="true"]{border:2px solid var(--orange);background:var(--orBg);font-weight:700}
+.pbtn:disabled{opacity:.45;cursor:default}
+.practice-note{background:var(--orBg);border-radius:.5em;padding:.35em .7em;margin:0 0 .6em;font-size:.95em}
+
+.chips{display:flex;flex-wrap:wrap;gap:.4em;margin:.2em 0 .8em}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:2em;padding:.15em .75em;font-size:.95em}
+.chip b{color:var(--navy)}
+s.chip,.chip.off{color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px}
+.irr s.chip{background:none;border:0;border-radius:0;padding:0 .15em}
+.irr s.chip+s.chip::before{content:"\00b7";display:inline-block;text-decoration:none;margin-right:.5em;color:var(--muted)}
+.mono{font-variant-numeric:tabular-nums}
+.note{font-size:.92em;color:var(--muted);margin:.45em 0 0}
+.up{color:var(--gain)}.down{color:var(--loss)}.zero{color:var(--muted)}
+
+/* controls */
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;gap:.5em;font-weight:700;margin-bottom:.1em}
+.ctl output{font-size:1.3em;color:var(--navy)}
+input[type=range]{width:100%;accent-color:var(--orange);height:2.2em;margin:0}
+.ticks{display:flex;justify-content:space-between;font-size:.8em;color:var(--muted)}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:.8em 1.6em;margin:.2em 0 .6em}
+.tgl{display:inline-flex;align-items:center;gap:.5em;font-weight:700;cursor:pointer;margin:.3em 0;min-height:40px}
+.tgl input{width:1.3em;height:1.3em;accent-color:var(--orange)}
+.nudge{width:40px;height:40px;border-radius:50%;border:2px solid var(--navy);background:var(--bg);color:var(--navy);font-weight:700;font-size:1.2em;line-height:1;padding:0}
+.nudge:hover,.nudge:focus-visible{background:var(--navy);color:var(--bg);outline:none}
+.nudge:disabled{opacity:.3;pointer-events:none}
+
+/* badges and verdicts */
+.badge{display:inline-flex;align-items:center;gap:.4em;font-weight:700;border-radius:2em;padding:.12em .8em}
+.badge.good{background:var(--gainBg);color:var(--gain)}.badge.bad{background:var(--lossBg);color:var(--loss)}.badge.even{background:var(--card);color:var(--muted)}
+.verdict{display:flex;flex-wrap:wrap;align-items:center;gap:.5em;margin:.6em 0 0;font-size:1.08em}
+.mask{display:inline-block;min-width:3.2em;text-align:center;border-radius:.35em;background:var(--line);color:var(--muted);font-weight:700;letter-spacing:.1em}
+
+/* horizontal bars */
+.hb{display:grid;grid-template-columns:6.2em 1fr;gap:.5em;align-items:center;margin:.45em 0}
+.hb .nm{font-weight:700;line-height:1.1}
+.hb .nm small{display:block;font-weight:400;color:var(--muted);font-size:.8em}
+.htrack{position:relative;height:2.4em;background:var(--card);border:1px solid var(--line);border-radius:.4em;overflow:hidden}
+.hseg{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:.8em;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap;border-right:1px solid var(--bg);padding:0 3px}
+.hseg.navy{background:var(--navy);color:var(--onNavy)}.hseg.teal{background:var(--teal);color:var(--onTeal)}.hseg.orange{background:var(--orange)}
+.hseg.grey{background:repeating-linear-gradient(135deg,var(--grey) 0 6px,transparent 6px 11px);color:var(--ink);border:1px dashed var(--grey)}
+.hseg.red{background:repeating-linear-gradient(135deg,var(--loss) 0 6px,transparent 6px 11px);color:var(--loss);border:2px dashed var(--loss)}
+.htot{font-weight:700;margin-top:.15em;font-size:.95em}
+.cwrap{position:relative}
+.vline{position:absolute;top:-5px;bottom:-5px;border-left:3px dashed var(--ink);opacity:.75;pointer-events:none}
+.vline span{position:absolute;top:-1.35em;left:0;transform:translateX(-50%);font-size:.72em;font-weight:700;white-space:nowrap;color:var(--ink)}
+.vline.end span{left:auto;right:0;transform:none}
+.vline.start span{transform:none}
+.legend{display:flex;flex-wrap:wrap;gap:.3em 1em;font-size:.85em;color:var(--muted);margin:.25em 0 .4em}
+.legend i{display:inline-block;width:.95em;height:.95em;border-radius:3px;vertical-align:-.12em;margin-right:.3em}
+.sw-navy{background:var(--navy)}.sw-teal{background:var(--teal)}.sw-orange{background:var(--orange)}
+.sw-grey{background:repeating-linear-gradient(135deg,var(--grey) 0 3px,transparent 3px 6px);border:1px dashed var(--grey)}
+.sw-red{background:repeating-linear-gradient(135deg,var(--loss) 0 3px,transparent 3px 6px);border:1px dashed var(--loss)}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.98em;margin:.2em 0 .4em}
+.tbl caption{text-align:left;font-weight:700;color:var(--navy);padding:0 0 .25em}
+.tbl th,.tbl td{padding:.32em .55em;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.tbl th{font-size:.9em;color:var(--muted)}
+.tbl .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl td small{display:block;color:var(--muted);font-size:.82em}
+.tbl tr.tot td{border-top:2px solid var(--ink);border-bottom:0;font-weight:700}
+.tbl tr.hi td{background:var(--orBg)}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.neg{color:var(--loss)}
+
+/* sort cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(15.5em,1fr));gap:.7em}
+.rc{background:var(--card);border:3px solid var(--line);border-radius:.7em;padding:.6em .7em;display:flex;flex-direction:column;gap:.35em}
+.rc.right{border-color:var(--gain)}.rc.wrong{border-color:var(--loss)}
+.rc-dec{font-size:.85em;color:var(--muted)}
+.rc-item{font-weight:700;font-size:1.05em;flex:1}
+.rc-btns{display:flex;gap:.4em;flex-wrap:wrap}
+.rc-res p{margin:.15em 0}
+.rc-res p:focus{outline:none}
+.rc-v{font-weight:700}
+.rc.right .rc-v{color:var(--gain)}.rc.wrong .rc-v{color:var(--loss)}
+.tchips{display:flex;gap:.35em;flex-wrap:wrap}
+.tchip{font-size:.85em;font-weight:700;border-radius:2em;padding:.05em .6em}
+.tchip.y{background:var(--gainBg);color:var(--gain)}.tchip.n{background:var(--lossBg);color:var(--loss)}
+.rc-why{font-size:.95em}
+.score{display:flex;flex-wrap:wrap;gap:.6em;align-items:center;justify-content:space-between;margin:.8em 0 0;font-weight:700}
+.tests{display:flex;flex-wrap:wrap;gap:.5em;margin:0 0 .7em}
+.test{border:2px solid var(--navy);border-radius:.5em;padding:.2em .7em;font-weight:700}
+.test b{color:var(--orange);margin-right:.35em}
+
+/* check yourself */
+.check{background:var(--card);border-left:6px solid var(--navy);border-radius:.6em;padding:.6em .85em;margin:1.1em 0 0}
+.check .h{font-weight:700;color:var(--navy);font-size:1.05em}
+.check p{margin:.25em 0}
+.crow{display:flex;flex-wrap:wrap;gap:.5em;align-items:center;margin:.35em 0}
+.crow input{font:inherit;font-size:1.05em;padding:.3em .55em;border:2px solid var(--line);border-radius:.4em;background:var(--bg);color:var(--ink);width:10em;min-height:40px}
+.crow input:focus{outline:none;border-color:var(--orange)}
+.cfb{font-weight:700;min-height:1.3em}
+.cfb.ok{color:var(--gain)}.cfb.no{color:var(--loss)}
+.cex{border-top:1px solid var(--line);margin-top:.45em;padding-top:.45em}
+.cex p{margin:.2em 0}
+
+/* guided tour */
+.tspot{position:absolute;z-index:50;border:3px solid var(--orange);border-radius:.6em;box-shadow:0 0 0 200vmax rgba(0,0,0,.45);pointer-events:none}
+.tbub{position:absolute;z-index:51;background:var(--bg);color:var(--ink);border:2px solid var(--orange);border-radius:.7em;padding:.6em .8em;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.tbub:focus{outline:none}
+.tbub .ts{font-size:.8em;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.tbub p{margin:.25em 0}
+.tbub .do{font-weight:700}
+.tbub .why{color:var(--muted)}
+.tnav{display:flex;gap:.4em;justify-content:flex-end;margin-top:.5em;flex-wrap:wrap}
+
+footer{border-top:4px solid var(--orange);padding:.7em 5vw;color:var(--muted);font-size:.85em;text-align:center}
+
+@media (max-width:720px){
+  body{font-size:17px}
+  .big2,.facts{grid-template-columns:1fr}
+  .hb{grid-template-columns:4.8em 1fr}
+}
+
+.say ol{margin:.15em 0 0;padding-left:1.35em}
+.tchip.m{background:var(--orBg);color:var(--ink)}
+.preview{display:flex;flex-wrap:wrap;gap:.4em;align-items:center;margin:.2em 0 .5em}
+.preview .lbl{color:var(--muted);font-size:.9em;margin-right:.2em}
+
+/* stage */
+.stagewrap{background:var(--card);border:1px solid var(--line);border-radius:.7em;padding:.35em}
+svg.stage{display:block;width:100%;height:auto;max-height:70vh}
+.bx rect.b{fill:var(--bg);stroke:var(--line);stroke-width:2.5}
+.bx.sup rect.b{stroke:var(--navy)}
+.bx.op rect.b{stroke:var(--teal)}
+.bx.hot rect.b{stroke:var(--orange);stroke-width:5}
+.bx.flash rect.b{fill:var(--orBg)}
+.bx text{fill:var(--ink);font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif}
+.bx .tag{font-size:13px;font-weight:700;fill:#fff}
+.bx.sup rect.tg{fill:var(--navy)}.bx.op rect.tg{fill:var(--teal)}
+.bx .nm{font-size:16px;font-weight:700}
+.bx .am{font-size:23px;font-weight:700}
+.bx .nt{font-size:13px;fill:var(--muted)}
+.bx.done .am{fill:var(--muted)}
+.bx.neg .am{fill:var(--loss)}
+.arr path.l{stroke:var(--ink);stroke-width:2.5;fill:none;opacity:.7}
+.arr.hot path.l{stroke:var(--orange);stroke-width:4.5;opacity:1}
+.arr.dim path.l{opacity:.15}
+.arr.off path.l{stroke-dasharray:7 6;opacity:.35}
+.arr .x{stroke:var(--loss);stroke-width:4;display:none}
+.arr.off .x{display:inline}
+.arr .lb rect{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.arr.hot .lb rect{stroke:var(--orange);stroke-width:2.5}
+.arr .lb text{font-size:15px;font-weight:700;fill:var(--ink);font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif}
+.arr.dim .lb,.arr.off .lb{opacity:.35}
+.mk{fill:var(--ink)}.mkh{fill:var(--orange)}
+.chip rect{fill:var(--orange)}
+.chip text{fill:#fff;font-size:15px;font-weight:700;font-family:"Carlito","Calibri","Segoe UI",Arial,sans-serif}
+
+/* player */
+.pctl{display:flex;flex-wrap:wrap;gap:.4em;align-items:center;margin:.2em 0 .5em}
+.pctl .cnt{color:var(--muted);font-weight:700;margin:0 .3em;min-width:6.5em;text-align:center}
+.pctl .btn.play{margin-left:auto}
+.capb{background:var(--card);border-left:6px solid var(--orange);border-radius:.6em;padding:.55em .85em;margin:.6em 0 0;min-height:4.6em}
+.capb .st{display:block;font-size:.8em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.capb .tt{display:block;font-weight:700;color:var(--navy);font-size:1.08em;margin:.05em 0 .2em}
+.eqp{border:2px solid var(--navy);border-radius:.6em;padding:.5em .85em;margin:.6em 0 0}
+.eqp .h{font-weight:700;color:var(--navy);font-size:.95em;margin-bottom:.15em}
+.eqp .ln{margin:.15em 0;font-variant-numeric:tabular-nums}
+.eqp .ln.key{font-weight:700}
+.eqp .ln.dim{color:var(--muted)}
+.tbl tr.pending td{opacity:.3}
+.tbl tr.now td{background:var(--orBg)}
+.tbl .neg{color:var(--loss)}
+.cmpbars{margin:.6em 0 .2em}
+#tbl1 table,#tbl2 table,#tbl3 table,#tbl0 table,#cmp4 table{min-width:32em}
+@media (max-width:720px){
+  .pctl .btn.play{margin-left:0}
+  .bx .nm{font-size:20px}
+  .bx .am{font-size:29px}
+  .bx .nt{font-size:16px}
+  .bx .tag{font-size:15px}
+  .arr .lb text{font-size:20px}
+  .chip text{font-size:20px}
+}
+
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Chapter 16: Allocating Support-Department Costs</h1>
+    <p>Parts I and II · Five short pages. Read What to do, or press Show me how for a guided walk-through.</p>
+  </div>
+  <button class="btn" id="bReset" type="button">Reset</button>
+</header>
+<main>
+<ol class="steps" id="steps" aria-label="Pages"></ol>
+<!-- 1 -->
+<section class="page" aria-labelledby="h0">
+  <h2 id="h0" tabindex="-1">The setup: two support and two operating departments</h2>
+  <div class="say">
+    <p class="lead">Support departments serve the operating departments <b>and each other</b>. All three methods end with every support cost in the operating departments. They differ only in how they treat the services the two support departments give <b>each other</b>:</p>
+    <ul class="rules">
+      <li><span class="tchip m">Direct</span> ignores them.</li>
+      <li><span class="tchip m">Step-down</span> recognizes them in one direction only.</li>
+      <li><span class="tchip m">Reciprocal</span> recognizes them in both directions.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <div class="facts" id="facts0"></div>
+  <div class="preview" id="prev0" role="group" aria-label="Preview which arrows each method uses">
+    <span class="lbl">Which arrows does each method use?</span>
+    <button type="button" class="pbtn" data-m="all" aria-pressed="true">All services</button>
+    <button type="button" class="pbtn" data-m="dir" aria-pressed="false">Direct</button>
+    <button type="button" class="pbtn" data-m="sd" aria-pressed="false">Step-down</button>
+    <button type="button" class="pbtn" data-m="rc" aria-pressed="false">Reciprocal</button>
+  </div>
+  <div class="stagewrap" id="stage0"></div>
+  <p class="capb" id="prevtx0" role="status"></p>
+  <div class="tblwrap" id="tbl0"></div>
+</section>
+
+<!-- 2 -->
+<section class="page" aria-labelledby="h1" hidden>
+  <h2 id="h1" tabindex="-1">Direct method</h2>
+  <div class="say">
+    <p class="lead">The <b>direct method</b> allocates each support department's cost <b>only to the operating departments</b>.</p>
+    <ul>
+      <li>Services the support departments give each other are ignored.</li>
+      <li>So each support department's percentages are re-based over the operating departments only.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <div class="player" id="pl1"></div>
+  <div class="tblwrap" id="tbl1"></div>
+  <div data-check></div>
+</section>
+
+<!-- 3 -->
+<section class="page" aria-labelledby="h2" hidden>
+  <h2 id="h2" tabindex="-1">Step-down method</h2>
+  <div class="say">
+    <p class="lead">The <b>step-down method</b> allocates the support departments one at a time, in order.</p>
+    <ul>
+      <li>Go first: the support department that gives the <b>larger share</b> of its service to the other support department.</li>
+      <li>It is allocated to everyone, including the other support department.</li>
+      <li>Once a department is allocated, nothing is allocated back to it.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <div class="player" id="pl2"></div>
+  <div class="tblwrap" id="tbl2"></div>
+  <div data-check></div>
+</section>
+
+<!-- 4 -->
+<section class="page" aria-labelledby="h3" hidden>
+  <h2 id="h3" tabindex="-1">Reciprocal method</h2>
+  <div class="say">
+    <p class="lead">The <b>reciprocal method</b> fully recognizes the services the support departments give each other. Three steps:</p>
+    <ol>
+      <li>Write one equation per support department: complete cost = own cost + its share of the other's complete cost.</li>
+      <li>Solve the equations for the <b>complete reciprocated costs</b>.</li>
+      <li>Allocate those amounts using <b>all</b> the percentages.</li>
+    </ol>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <div class="player" id="pl3"></div>
+  <div class="tblwrap" id="tbl3"></div>
+  <div data-check></div>
+</section>
+
+<!-- 5 -->
+<section class="page" aria-labelledby="h4" hidden>
+  <h2 id="h4" tabindex="-1">Compare the three methods</h2>
+  <div class="say">
+    <p class="lead">Every method allocates the <b>same total</b> support cost. Only the split between the operating departments changes.</p>
+    <ul>
+      <li>Differences grow when the support departments serve each other more, and when the operating departments use the two support departments differently.</li>
+      <li>Reciprocal is conceptually the most precise, because it counts all the mutual services.</li>
+      <li>Direct and step-down are simpler to compute and understand. Direct is widely used.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div data-case></div>
+  <div id="cmp4"></div>
+</section>
+
+<div class="nav">
+  <button class="btn" id="bBack" type="button">&larr; Back</button>
+  <span class="count" id="count"></span>
+  <button class="btn solid" id="bNext" type="button">Next &rarr;</button>
+</div>
+</main>
+<footer>ACCT 302 &middot; Cal State Fullerton &middot; Professor Kim</footer>
+<div id="live" class="sr" aria-live="polite"></div>
+<script>
+/* ===== shared core: helpers, pager, guide, numbers bar, practice checks ===== */
+var U=(function(){
+"use strict";
+function $(id){return document.getElementById(id)}
+function q(s,r){return (r||document).querySelector(s)}
+function qa(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function fmt(n,d){return n.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d})}
+function r2(n){return Math.round(n*100)/100}
+function money(n){var r=r2(n);var d=Math.abs(r-Math.round(r))>1e-9?2:0;return (r<0?"−":"")+"$"+fmt(Math.abs(r),d)}
+function money2(n){var r=r2(n);return (r<0?"−":"")+"$"+fmt(Math.abs(r),2)}
+function signed(n){var r=r2(n);return r===0?"$0":(r>0?"+":"−")+money(Math.abs(r))}
+function num(n){return fmt(Math.round(n),0)}
+function rnd(a,b,step){step=step||1;var k=Math.floor(Math.random()*(Math.floor((b-a)/step+1e-9)+1));return r2(a+k*step)}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function parseNum(s){
+  s=String(s).trim(); if(!s) return NaN;
+  var neg=/^\(.*\)$/.test(s)||/^\$?\s*[-−–]/.test(s)||/[-−–]\s*$/.test(s);
+  s=s.replace(/[^0-9.]/g,""); if(!s||s===".") return NaN;
+  var v=parseFloat(s); return neg?-v:v;
+}
+function announce(t){var l=$("live"); if(l){l.textContent="";setTimeout(function(){l.textContent=t},30)}}
+
+/* ---------- guided tour ("Show me how") ---------- */
+var Tour=(function(){
+  var spot=null,bub=null,steps=null,i=0,root=null,ret=null,timer=null;
+  function val(x){return typeof x==="function"?x():x}
+  function target(){var a=steps[i].at;if(typeof a==="function") return a();return (root&&root.querySelector(a))||document.querySelector(a)}
+  function start(s,r,from){
+    stop(); steps=s; root=r; ret=from||null; i=0;
+    spot=document.createElement("div"); spot.className="tspot";
+    bub=document.createElement("div"); bub.className="tbub"; bub.setAttribute("role","dialog"); bub.setAttribute("aria-label","Show me how"); bub.tabIndex=-1;
+    document.body.appendChild(spot); document.body.appendChild(bub);
+    window.addEventListener("resize",place); window.addEventListener("scroll",place,{passive:true});
+    document.addEventListener("keydown",onKey,true);
+    timer=setInterval(place,250);
+    go(0);
+  }
+  function go(n){
+    i=n; var s=steps[i];
+    bub.innerHTML='<div class="ts">Show me how &middot; step '+(i+1)+' of '+steps.length+'</div><p class="do">'+val(s.t)+'</p>'+(s.why?'<p class="why">'+val(s.why)+'</p>':'')+
+      '<div class="tnav"><button type="button" class="btn sm" data-a="b">&larr; Back</button><button type="button" class="btn sm" data-a="x">Close</button><button type="button" class="btn sm solid" data-a="n">'+(i===steps.length-1?'Done':'Next &rarr;')+'</button></div>';
+    var bb=q('[data-a=b]',bub); bb.disabled=i===0; bb.onclick=function(){go(i-1)};
+    q('[data-a=x]',bub).onclick=stop;
+    q('[data-a=n]',bub).onclick=function(){ if(i===steps.length-1) stop(); else go(i+1); };
+    var t=target(); if(t&&t.scrollIntoView) t.scrollIntoView({block:"center",inline:"nearest"});
+    place(); bub.focus({preventScroll:true});
+  }
+  function place(){
+    if(!bub) return;
+    var t=target(), vw=document.documentElement.clientWidth, vh=window.innerHeight, sx=window.scrollX, sy=window.scrollY;
+    var bw=Math.min(360,vw-24); bub.style.width=bw+"px";
+    if(!t||!t.getClientRects().length){spot.style.display="none";bub.style.left=(sx+(vw-bw)/2)+"px";bub.style.top=(sy+80)+"px";return}
+    spot.style.display="";
+    var r=t.getBoundingClientRect(),p=6;
+    spot.style.left=(r.left+sx-p)+"px"; spot.style.top=(r.top+sy-p)+"px";
+    spot.style.width=Math.min(r.width+2*p,vw-(r.left-p))+"px"; spot.style.height=(r.height+2*p)+"px";
+    bub.style.left=Math.min(Math.max(12,r.left+sx),sx+vw-bw-12)+"px";
+    var bh=bub.offsetHeight,below=vh-r.bottom,above=r.top,top;
+    if(r.height>vh*0.55) top=sy+vh-bh-12;
+    else if(below>=bh+24||below>=above) top=r.bottom+sy+p+10;
+    else top=r.top+sy-p-10-bh;
+    bub.style.top=Math.max(sy+8,top)+"px";
+  }
+  function onKey(e){if(e.key==="Escape"&&bub){e.preventDefault();stop()}}
+  function stop(){
+    if(!bub) return;
+    spot.remove(); bub.remove(); spot=bub=null; clearInterval(timer);
+    window.removeEventListener("resize",place); window.removeEventListener("scroll",place);
+    document.removeEventListener("keydown",onKey,true);
+    if(ret){try{ret.focus({preventScroll:true})}catch(e){}} ret=null;
+  }
+  return {start:start,stop:stop,active:function(){return !!bub}};
+})();
+
+/* ---------- pager ---------- */
+function pager(names){
+  var pages=qa("section.page"), steps=$("steps"), cur=0, hooks=[];
+  names.forEach(function(nm,i){
+    var li=document.createElement("li"),b=document.createElement("button");
+    b.type="button"; b.innerHTML='<span class="k">'+(i+1)+'</span>'+nm;
+    b.onclick=function(){show(i,true)}; li.appendChild(b); steps.appendChild(li);
+  });
+  function show(i,focus){
+    Tour.stop();
+    cur=Math.max(0,Math.min(pages.length-1,i));
+    pages.forEach(function(p,k){p.hidden=k!==cur});
+    qa("#steps button").forEach(function(b,k){if(k===cur) b.setAttribute("aria-current","step"); else b.removeAttribute("aria-current")});
+    $("bBack").disabled=cur===0; $("bNext").disabled=cur===pages.length-1;
+    $("count").textContent="Page "+(cur+1)+" of "+pages.length;
+    try{history.replaceState(null,"","#p"+(cur+1))}catch(e){}
+    allPages.forEach(function(p){if(p.i===cur) p.render()});
+    hooks.forEach(function(h){h(cur)});
+    if(focus){var h=q("h2",pages[cur]); if(h) h.focus({preventScroll:true}); window.scrollTo(0,0)}
+  }
+  $("bBack").onclick=function(){show(cur-1,true)};
+  $("bNext").onclick=function(){show(cur+1,true)};
+  return {show:show,cur:function(){return cur},onShow:function(f){hooks.push(f)},
+    start:function(){var m=/^#p(\d+)$/.exec(location.hash);show(m?parseInt(m[1],10)-1:0,false)}};
+}
+
+/* ---------- "What to do" list + guide button ---------- */
+function todo(el,steps,sec){
+  el.className="todo";
+  el.innerHTML='<div class="todohead"><b>What to do</b><button type="button" class="btn sm guide">&#9654; Show me how</button></div><ol></ol>';
+  var ol=q("ol",el);
+  steps.forEach(function(s){var li=document.createElement("li");li.innerHTML=typeof s.t==="function"?s.t():s.t;ol.appendChild(li)});
+  var b=q("button",el); b.onclick=function(){Tour.start(steps,sec,b)};
+}
+
+/* ---------- numbers bar ---------- */
+function caseBar(el,opts,onPick){
+  el.className="case";
+  el.innerHTML='<span class="lbl">Numbers:</span>';
+  var btns=opts.map(function(o){
+    var b=document.createElement("button"); b.type="button"; b.className="pbtn"; b.setAttribute("data-k",o.k);
+    b.innerHTML=o.label+(o.k==="new"?' &#8635;':''); b.onclick=function(){onPick(o.k)}; el.appendChild(b); return b;
+  });
+  return {set:function(k){btns.forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-k")===k?"true":"false")})}};
+}
+
+/* ---------- check yourself ---------- */
+function check(el,get,onSolve){
+  el.className="check";
+  el.innerHTML='<div class="h">Check yourself</div><p data-q></p><div class="crow"><input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-label="Your answer" placeholder="Your answer"><button type="button" class="btn solid sm" data-c>Check</button><button type="button" class="btn sm" data-s>Show answer</button></div><p class="cfb" role="status"></p><div class="cex" hidden></div>';
+  var qEl=q("[data-q]",el),inp=q("input",el),fb=q(".cfb",el),ex=q(".cex",el),key=null,cur=null;
+  function sync(force){
+    cur=get(); var k=cur.q+"|"+cur.ans;
+    if(force||k!==key){key=k;qEl.innerHTML=cur.q;inp.value="";fb.textContent="";fb.className="cfb";ex.hidden=true}
+    ex.innerHTML=cur.explain;
+  }
+  function tol(){return cur.tol!=null?cur.tol:(cur.dec?0.005:0.5)}
+  function doCheck(){
+    var v=parseNum(inp.value);
+    if(isNaN(v)){fb.className="cfb no";fb.textContent="Type a number first.";return}
+    if(Math.abs(v-cur.ans)<=tol()+1e-9){fb.className="cfb ok";fb.textContent="Correct! "+(cur.ok||"");ex.hidden=false;if(onSolve) onSolve()}
+    else if(cur.ans!==0&&Math.abs(Math.abs(v)-Math.abs(cur.ans))<=tol()+1e-9){fb.className="cfb no";fb.textContent="Right amount, wrong sign. Is it an increase or a decrease?"}
+    else{fb.className="cfb no";fb.textContent="Not yet. "+(cur.hint||"Try again, or press Show answer.")}
+  }
+  q("[data-c]",el).onclick=doCheck;
+  inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();doCheck()}});
+  q("[data-s]",el).onclick=function(){ex.hidden=false;fb.className="cfb";fb.textContent="Here is the worked answer.";if(onSolve) onSolve()};
+  return {sync:sync,reset:function(){sync(true)}};
+}
+
+/* ---------- hide bar labels that don't fit ---------- */
+function fitLabels(root){qa(".hseg",root).forEach(function(e){if(e.textContent&&e.scrollWidth>e.clientWidth+1){e.title=e.title||e.textContent;e.textContent=""}})}
+var allPages=[],rzT=null;
+window.addEventListener("resize",function(){clearTimeout(rzT);rzT=setTimeout(function(){allPages.forEach(function(p){if(p.st.k!==null||!p.hasCases) p.render()})},200)});
+/* ---------- page wrapper ---------- */
+function page(cfg){
+  var sec=qa("section.page")[cfg.i];
+  var st={k:null,revealed:false,sec:sec};
+  st.masked=function(){return st.k==="new"&&!st.revealed};
+  st.M=function(html){return st.masked()?'<span class="mask" title="Hidden until you check your answer">?</span>':html};
+  var tEl=q("[data-todo]",sec); if(tEl) todo(tEl,cfg.todo,sec);
+  var cb=null,note=null,hint=null,chk=null,chkEl=q("[data-check]",sec);
+  if(cfg.cases){
+    var cEl=q("[data-case]",sec);
+    cb=caseBar(cEl,cfg.cases,function(k){load(k,true)});
+    note=document.createElement("p"); note.className="practice-note"; note.hidden=true;
+    note.innerHTML='<b>Practice mode.</b> These are new numbers for the same problem. Answers marked <span class="mask">?</span> stay hidden until you get the check right or press Show answer.';
+    cEl.parentNode.insertBefore(note,cEl.nextSibling);
+  }
+  if(chkEl&&cfg.check){
+    chk=check(chkEl,function(){return cfg.check(st)},function(){st.revealed=true;render()});
+    if(!cfg.checkAlways){
+      hint=document.createElement("p"); hint.className="note";
+      hint.innerHTML='Want to practice? Press <b>Reset Numbers &#8635;</b> at the top of this page. You get a fresh version of this problem, and a box to check your answer.';
+      chkEl.parentNode.insertBefore(hint,chkEl.nextSibling);
+    }
+  }
+  function load(k,user){
+    st.k=k; st.revealed=false; cfg.load(k,st); if(cb) cb.set(k); render(); if(chk) chk.reset();
+    if(user) announce(k==="new"?"New numbers loaded. Answers are hidden until you check.":"Numbers loaded.");
+  }
+  function render(){
+    var prac=st.k==="new";
+    if(note) note.hidden=!prac;
+    cfg.render(st);
+    fitLabels(sec);
+    if(chk){var show=cfg.checkAlways||prac; chkEl.hidden=!show; if(hint) hint.hidden=show; if(show) chk.sync()}
+  }
+  var api={i:cfg.i,st:st,load:load,render:render,hasCases:!!cfg.cases}; allPages.push(api); return api;
+}
+
+/* ---------- vertical marker line on a bar ---------- */
+function vline(pct,label){return '<div class="vline'+(pct>85?' end':(pct<15?' start':''))+'" style="left:'+pct+'%">'+(label?'<span>'+label+'</span>':'')+'</div>'}
+/* ---------- horizontal stacked bar ---------- */
+function hbar(nm,sub,segs,max,tot,extra){
+  var x=0,h='<div class="hb"><div class="nm">'+nm+(sub?'<small>'+sub+'</small>':'')+'</div><div><div class="cwrap"><div class="htrack">';
+  segs.forEach(function(s){
+    if(!(s.v>0)) return; var w=Math.min(100-x,s.v/max*100);
+    h+='<div class="hseg '+s.c+'" style="left:'+x+'%;width:'+w+'%"'+(s.t?' title="'+s.t+'"':'')+'>'+(w>=9?(s.l||''):'')+'</div>'; x+=w;
+  });
+  h+='</div>'+(extra||'')+'</div>'+(tot?'<div class="htot">'+tot+'</div>':'')+'</div></div>';
+  return h;
+}
+
+return {$:$,q:q,qa:qa,hbar:hbar,vline:vline,money:money,money2:money2,signed:signed,num:num,rnd:rnd,pick:pick,shuffle:shuffle,clone:clone,
+  parseNum:parseNum,announce:announce,Tour:Tour,pager:pager,page:page};
+})();
+
+(function(){
+"use strict";
+var $=U.$,q=U.q,qa=U.qa,money=U.money,num=U.num,rnd=U.rnd;
+var pg=U.pager(["The setup","Direct","Step-down","Reciprocal","Compare"]);
+var NEWSTEP={t:"To practice, press <b>Reset Numbers</b>.",why:"You get new departments and new numbers for the same problem. Presses alternate between services given in units (hours, employees\u2026), like the Quick Check, and services given in percentages. Answers show as ? until you work them out and press Check.",at:'[data-case] [data-k="new"]'};
+var CASES=[{k:"lec",label:"Lecture example (Robinson)"},{k:"qc",label:"Quick Check (Hanung)"},{k:"new",label:"Reset Numbers"}];
+
+/* ---------------- data ---------------- */
+var LEC={co:"Robinson Company",pct:true,
+  nm:{S1:"Engineering",S2:"Materials",P1:"Machining",P2:"Assembly"},
+  cost:{S1:300000,S2:264000,P1:329000,P2:227000},
+  base:{S1:"percent of its support work",S2:"percent of its support work"},unit:{S1:"%",S2:"%"},
+  u:{S1:{S2:30,P1:50,P2:20},S2:{S1:10,P1:20,P2:70}}};
+var QC={co:"Hanung Corp",pct:false,
+  nm:{S1:"Maintenance",S2:"Personnel",P1:"Dept A",P2:"Dept B"},
+  cost:{S1:370000,S2:120000,P1:196000,P2:294000},
+  base:{S1:"budgeted maintenance-hours",S2:"number of employees"},unit:{S1:"hours",S2:"employees"},
+  u:{S1:{S2:870,P1:1260,P2:670},S2:{S1:90,P1:280,P2:680}}};
+var SETS=[["Engineering","Materials","Machining","Assembly"],["Maintenance","Personnel","Dept A","Dept B"],["IT","Human Resources","Cutting","Finishing"],
+  ["Facilities","Quality Control","Molding","Packaging"],["Power","Maintenance","Fabrication","Assembly"],["Purchasing","Engineering","Mixing","Bottling"]];
+var COS=["Delta Company","Harbor Industries","Summit Corp","Pacific Works","Orange Grove Co.","Titan Corp"];
+var UNITSETS=[
+  ["Maintenance","Personnel","Dept A","Dept B","budgeted maintenance-hours","hours",[300,2000,10],"number of employees","employees",[20,800,10]],
+  ["IT","Human Resources","Cutting","Finishing","computer hours","hours",[300,2000,10],"number of employees","employees",[20,800,10]],
+  ["Facilities","Quality Control","Molding","Packaging","square feet occupied","sq ft",[1000,20000,500],"inspection hours","hours",[200,1500,10]],
+  ["Power","Maintenance","Fabrication","Assembly","kilowatt-hours used","kWh",[1000,50000,1000],"maintenance-hours","hours",[300,2000,10]],
+  ["Purchasing","Engineering","Mixing","Bottling","purchase orders","orders",[50,900,10],"engineering hours","hours",[300,2000,10]]];
+var resets=0;
+function newData(){resets++;return resets%2===1?newUnits():newPct()}
+function newUnits(){
+  var z=U.pick(UNITSETS),u={},R=[z[6],z[9]];
+  ["S1","S2"].forEach(function(s,i){
+    var r=R[i],o=oth(s),a,b,c,sh;
+    do{a=rnd(r[0],Math.round(r[1]*0.6/r[2])*r[2],r[2]);b=rnd(r[0],r[1],r[2]);c=rnd(r[0],r[1],r[2]);sh=a/(a+b+c)}while(sh<0.05||sh>0.45);
+    u[s]={};u[s][o]=a;u[s].P1=b;u[s].P2=c;
+  });
+  var f1=u.S1.S2/(u.S1.S2+u.S1.P1+u.S1.P2),f2=u.S2.S1/(u.S2.S1+u.S2.P1+u.S2.P2);
+  if(Math.abs(f1-f2)<0.01) return newUnits();
+  return {co:U.pick(COS),pct:false,nm:{S1:z[0],S2:z[1],P1:z[2],P2:z[3]},
+    cost:{S1:rnd(100,450,1)*1000,S2:rnd(80,400,1)*1000,P1:rnd(150,450,1)*1000,P2:rnd(150,450,1)*1000},
+    base:{S1:z[4],S2:z[7]},unit:{S1:z[5],S2:z[8]},u:u};
+}
+function newPct(){
+  var n=U.pick(SETS),a,b;
+  do{a=rnd(10,40,5);b=rnd(5,35,5)}while(a===b);
+  var x=rnd(20,90-a,5),y=rnd(20,90-b,5);
+  return {co:U.pick(COS),pct:true,nm:{S1:n[0],S2:n[1],P1:n[2],P2:n[3]},
+    cost:{S1:rnd(150,450,1)*1000,S2:rnd(100,400,1)*1000,P1:rnd(150,450,1)*1000,P2:rnd(150,450,1)*1000},
+    base:{S1:"percent of its support work",S2:"percent of its support work"},unit:{S1:"%",S2:"%"},
+    u:{S1:{S2:a,P1:x,P2:100-a-x},S2:{S1:b,P1:y,P2:100-b-y}}};
+}
+var D=U.clone(LEC),CK="lec";
+function oth(s){return s==="S1"?"S2":"S1"}
+function calc(){
+  var c=D.cost,f={};
+  ["S1","S2"].forEach(function(s){var u=D.u[s],o=oth(s),t=u[o]+u.P1+u.P2;f[s]={tot:t};f[s][o]=u[o]/t;f[s].P1=u.P1/t;f[s].P2=u.P2/t;f[s].op=(u.P1+u.P2)/t});
+  var dir={};
+  ["S1","S2"].forEach(function(s){var u=D.u[s],d=u.P1+u.P2;dir[s]={rP1:u.P1/d,rP2:u.P2/d,P1:c[s]*u.P1/d,P2:c[s]*u.P2/d}});
+  var F=f.S1.S2>=f.S2.S1?"S1":"S2",S=oth(F),sd={first:F,second:S};
+  sd[F]={amt:c[F],P1:c[F]*f[F].P1,P2:c[F]*f[F].P2}; sd[F][S]=c[F]*f[F][S];
+  var u2=D.u[S],d2=u2.P1+u2.P2,t2=c[S]+sd[F][S];
+  sd[S]={amt:t2,rP1:u2.P1/d2,rP2:u2.P2/d2,P1:t2*u2.P1/d2,P2:t2*u2.P2/d2};
+  var a=f.S1.S2,b=f.S2.S1,R1=(c.S1+b*c.S2)/(1-a*b),R2=c.S2+a*R1;
+  var rc={R1:R1,R2:R2,a:a,b:b,S1:{S2:R1*a,P1:R1*f.S1.P1,P2:R1*f.S1.P2},S2:{S1:R2*b,P1:R2*f.S2.P1,P2:R2*f.S2.P2}};
+  function T(m){return {aP1:m.S1.P1+m.S2.P1,aP2:m.S1.P2+m.S2.P2,P1:c.P1+m.S1.P1+m.S2.P1,P2:c.P2+m.S1.P2+m.S2.P2}}
+  return {f:f,dir:dir,sd:sd,rc:rc,T:{dir:T(dir),sd:T(sd),rc:T(rc)},sup:c.S1+c.S2,all:c.S1+c.S2+c.P1+c.P2};
+}
+function pc(x){var v=x*100;return Math.abs(v-Math.round(v))<0.05?Math.round(v)+"%":v.toFixed(1)+"%"}
+function dc(x){return String(Math.round(x*10000)/10000)}
+function qty(s,v){return D.pct?v+"%":num(v)+" "+D.unit[s]}
+function nm(k){return D.nm[k]}
+function nk(k){return D.nm[k]+" ("+k+")"}
+function acct(v){var r=Math.round(v);return r<0?"("+money(-r)+")":money(r)}
+
+/* ---------------- diagram ---------------- */
+var NS="http://www.w3.org/2000/svg",SID=0;
+var BOX={S1:[10,20],S2:[350,20],P1:[10,300],P2:[350,300]},BW=200,BH=92;
+var ARR={S1S2:["M210,44 L346,44",278,28],S2S1:["M350,88 L214,88",278,106],S1P1:["M80,112 L80,296",80,204],
+  S1P2:["M185,112 L381,296",226,151],S2P1:["M375,112 L179,296",334,151],S2P2:["M480,112 L480,296",480,204]};
+function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+function Stage(host){
+  var id="g"+(SID++),svg=el("svg",{viewBox:"0 0 560 410",class:"stage",role:"img"});
+  var defs=el("defs",{},svg);
+  [["n","mk"],["h","mkh"]].forEach(function(m){var mk=el("marker",{id:id+m[0],viewBox:"0 0 10 10",refX:"8",refY:"5",markerWidth:"5",markerHeight:"5",orient:"auto-start-reverse"},defs);el("path",{d:"M0,0 L10,5 L0,10 z",class:m[1]},mk)});
+  var A={},B={};
+  Object.keys(ARR).forEach(function(k){
+    var g=el("g",{class:"arr"},svg),p=el("path",{d:ARR[k][0],class:"l","marker-end":"url(#"+id+"n)"},g);
+    var mid=p.getPointAtLength?null:null;
+    var xg=el("g",{class:"x"},g);
+    var lb=el("g",{class:"lb",transform:"translate("+ARR[k][1]+","+ARR[k][2]+")"},g);
+    var r=el("rect",{x:-27,y:-15,width:54,height:30,rx:15},lb),t=el("text",{x:0,y:6,"text-anchor":"middle"},lb);
+    A[k]={g:g,p:p,x:xg,r:r,t:t};
+  });
+  Object.keys(BOX).forEach(function(k){
+    var x=BOX[k][0],y=BOX[k][1],g=el("g",{class:"bx "+(k[0]==="S"?"sup":"op")},svg);
+    el("rect",{x:x,y:y,width:BW,height:BH,rx:12,class:"b"},g);
+    el("rect",{x:x+10,y:y+9,width:30,height:20,rx:10,class:"tg"},g);
+    var tg=el("text",{x:x+25,y:y+24,"text-anchor":"middle",class:"tag"},g);tg.textContent=k;
+    var n=el("text",{x:x+48,y:y+25,class:"nm"},g),a=el("text",{x:x+14,y:y+56,class:"am"},g),t=el("text",{x:x+14,y:y+79,class:"nt"},g);
+    B[k]={g:g,n:n,a:a,t:t,v:null};
+  });
+  var chips=el("g",{},svg);
+  host.innerHTML=""; host.appendChild(svg);
+  function setX(k){ // little "x" in the middle of a crossed-out arrow
+    var a=A[k];a.x.innerHTML="";var L=a.p.getTotalLength(),m=a.p.getPointAtLength(L*0.5);
+    el("line",{x1:m.x-8,y1:m.y-8,x2:m.x+8,y2:m.y+8},a.x);el("line",{x1:m.x-8,y1:m.y+8,x2:m.x+8,y2:m.y-8},a.x);
+  }
+  var api={
+    arrow:function(k,state,label){var a=A[k];a.g.setAttribute("class","arr "+(state||""));a.p.setAttribute("marker-end","url(#"+id+(state==="hot"?"h":"n")+")");
+      a.t.textContent=label||"";var w=Math.max(44,a.t.getComputedTextLength?a.t.getComputedTextLength()+18:54);a.r.setAttribute("x",-w/2);a.r.setAttribute("width",w);
+      if(state==="off") setX(k); else a.x.innerHTML="";},
+    box:function(k,text,note,cls){var b=B[k];b.n.textContent=D.nm[k];b.a.textContent=text;b.t.textContent=note||"";b.g.setAttribute("class","bx "+(k[0]==="S"?"sup":"op")+(cls?" "+cls:""));},
+    flash:function(k){var g=B[k].g;g.classList.add("flash");setTimeout(function(){g.classList.remove("flash")},450)},
+    chip:function(k,text,dur,tok){return new Promise(function(res){
+      var a=A[k],g=el("g",{class:"chip"},chips),r=el("rect",{rx:14,height:30,y:-15},g),t=el("text",{x:0,y:6,"text-anchor":"middle"},g);
+      t.textContent=text;var w=(t.getComputedTextLength?t.getComputedTextLength():60)+20;r.setAttribute("x",-w/2);r.setAttribute("width",w);
+      var L=a.p.getTotalLength(),t0=performance.now();
+      function fr(now){
+        if(tok.dead){g.remove();return res()}
+        var x=Math.min(1,(now-t0)/dur),e=x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2,p=a.p.getPointAtLength(L*e);
+        g.setAttribute("transform","translate("+p.x+","+p.y+")");
+        if(x<1) requestAnimationFrame(fr); else {g.remove();res()}
+      }
+      requestAnimationFrame(fr);
+    })},
+    clearChips:function(){chips.innerHTML=""}
+  };
+  return api;
+}
+
+/* ---------------- step lists ---------------- */
+function arrows0(c){var f=c.f;return {S1S2:["",pc(f.S1.S2)],S2S1:["",pc(f.S2.S1)],S1P1:["",pc(f.S1.P1)],S1P2:["",pc(f.S1.P2)],S2P1:["",pc(f.S2.P1)],S2P2:["",pc(f.S2.P2)]}}
+function mod(base,ch){var o={};for(var k in base)o[k]=base[k].slice();for(k in ch){if(typeof ch[k]==="string")o[k][0]=ch[k];else o[k]=ch[k]}return o}
+function dimExcept(base,keep){var ch={};for(var k in base)if(keep.indexOf(k)<0&&base[k][0]!=="off")ch[k]="dim";return mod(base,ch)}
+function startStep(c){
+  return {t:"Before allocation",cap:"Each department starts with its own costs. The arrows show who serves whom, using each support department's "+(D.pct?"percent of support work":D.base.S1+" and "+D.base.S2)+". By the end, every support cost must sit in "+nm("P1")+" or "+nm("P2")+".",
+    arr:arrows0(c),bal:U.clone(D.cost),rows:1};
+}
+function rebaseCap(s,r){var u=D.u[s],o=oth(s),sum=u.P1+u.P2;
+  return "Leave out the "+qty(s,u[o])+" that "+nm(s)+" gives "+nm(o)+". Its service to the operating departments is "+qty(s,u.P1)+" + "+qty(s,u.P2)+" = "+qty(s,sum)+
+    ". So "+nm("P1")+" gets "+qty(s,u.P1)+" ÷ "+qty(s,sum)+" = <b>"+pc(r.rP1)+"</b>, and "+nm("P2")+" gets <b>"+pc(r.rP2)+"</b>.";}
+function stepsDirect(c,m){
+  var C=D.cost,d=c.dir,s0=startStep(c),A=s0.arr,off=mod(A,{S1S2:"off",S2S1:"off"});
+  var b1={S1:0,S2:C.S2,P1:C.P1+d.S1.P1,P2:C.P2+d.S1.P2},b2={S1:0,S2:0,P1:b1.P1+d.S2.P1,P2:b1.P2+d.S2.P2};
+  var r1=mod(dimExcept(off,["S1P1","S1P2"]),{S1P1:["hot",pc(d.S1.rP1)],S1P2:["hot",pc(d.S1.rP2)]});
+  var r2=mod(dimExcept(off,["S2P1","S2P2"]),{S2P1:["hot",pc(d.S2.rP1)],S2P2:["hot",pc(d.S2.rP2)],S1P1:["dim",pc(d.S1.rP1)],S1P2:["dim",pc(d.S1.rP2)]});
+  var fin=mod(off,{S1P1:["",pc(d.S1.rP1)],S1P2:["",pc(d.S1.rP2)],S2P1:["",pc(d.S2.rP1)],S2P2:["",pc(d.S2.rP2)]});
+  return [s0,
+    {t:"Ignore the support-to-support arrows",cap:"The direct method <b>ignores</b> the services "+nm("S1")+" and "+nm("S2")+" give each other (crossed out). Support costs go straight to the operating departments.",arr:off,bal:s0.bal,rows:1},
+    {t:"Re-base "+nm("S1")+"'s percentages",cap:rebaseCap("S1",d.S1),arr:r1,bal:s0.bal,rows:1,hot:["S1"]},
+    {t:"Allocate "+nk("S1"),cap:nm("S1")+"'s "+money(C.S1)+" moves to the operating departments: "+nm("P1")+" gets "+money(C.S1)+" × "+pc(d.S1.rP1)+" = "+m(d.S1.P1)+", and "+nm("P2")+" gets "+money(C.S1)+" × "+pc(d.S1.rP2)+" = "+m(d.S1.P2)+".",
+      arr:r1,bal:b1,flows:[["S1P1",d.S1.P1],["S1P2",d.S1.P2]],rows:2,hot:["S1"]},
+    {t:"Re-base "+nm("S2")+"'s percentages",cap:rebaseCap("S2",d.S2),arr:r2,bal:b1,rows:2,hot:["S2"]},
+    {t:"Allocate "+nk("S2"),cap:nm("S2")+"'s "+money(C.S2)+" moves to the operating departments: "+nm("P1")+" gets "+money(C.S2)+" × "+pc(d.S2.rP1)+" = "+m(d.S2.P1)+", and "+nm("P2")+" gets "+money(C.S2)+" × "+pc(d.S2.rP2)+" = "+m(d.S2.P2)+".",
+      arr:r2,bal:b2,flows:[["S2P1",d.S2.P1],["S2P2",d.S2.P2]],rows:3,hot:["S2"]},
+    {t:"Result",cap:"Both support departments are at $0. "+nm("P1")+" ends at "+m(c.T.dir.P1)+" and "+nm("P2")+" at "+m(c.T.dir.P2)+". Together that is "+money(c.all)+", the total cost of all four departments: nothing was lost or double-counted.",arr:fin,bal:b2,rows:4,hot:["P1","P2"]}
+  ];
+}
+function stepsStep(c,m){
+  var C=D.cost,sd=c.sd,F=sd.first,S=sd.second,s0=startStep(c),A=s0.arr,f=c.f;
+  var aFS=F+S,aSF=S+F;
+  var order=mod(dimExcept(A,[aFS,aSF]),{});order[aFS][0]="hot";order[aSF][0]="hot";
+  var bF={};bF[F]=0;bF[S]=C[S]+sd[F][S];bF.P1=C.P1+sd[F].P1;bF.P2=C.P2+sd[F].P2;
+  var bS={};bS[F]=0;bS[S]=0;bS.P1=bF.P1+sd[S].P1;bS.P2=bF.P2+sd[S].P2;
+  var alF=dimExcept(A,[aFS,F+"P1",F+"P2"]);alF[aFS][0]="hot";alF[F+"P1"][0]="hot";alF[F+"P2"][0]="hot";
+  var close=mod(dimExcept(A,[S+"P1",S+"P2"]),{});close[aSF]=["off",A[aSF][1]];close[S+"P1"]=["hot",pc(sd[S].rP1)];close[S+"P2"]=["hot",pc(sd[S].rP2)];
+  var fin=mod(A,{});fin[aSF]=["off",A[aSF][1]];fin[S+"P1"]=["",pc(sd[S].rP1)];fin[S+"P2"]=["",pc(sd[S].rP2)];
+  var noteS=money(C[S])+" + "+m(sd[F][S])+" received";
+  var u=D.u[S],sum=u.P1+u.P2;
+  return [s0,
+    {t:"Choose the order",cap:nm("S1")+" gives "+pc(f.S1.S2)+" of its service to "+nm("S2")+". "+nm("S2")+" gives "+pc(f.S2.S1)+" of its service to "+nm("S1")+". Allocate first the department with the <b>larger</b> share, so <b>"+nk(F)+" goes first</b>.",arr:order,bal:s0.bal,rows:1,hot:[F]},
+    {t:"Allocate "+nk(F)+" to everyone",cap:nm(F)+" is allocated using <b>all</b> of its percentages, including the "+pc(f[F][S])+" it gives "+nm(S)+": "+nm(S)+" gets "+m(sd[F][S])+", "+nm("P1")+" gets "+m(sd[F].P1)+", and "+nm("P2")+" gets "+m(sd[F].P2)+".",
+      arr:alF,bal:bF,flows:[[aFS,sd[F][S]],[F+"P1",sd[F].P1],[F+"P2",sd[F].P2]],rows:2,hot:[F],note:mkNote(S,noteS)},
+    {t:nm(S)+"'s new total",cap:nm(S)+" now holds its own "+money(C[S])+" plus the "+m(sd[F][S])+" it received from "+nm(F)+": <b>"+m(sd[S].amt)+"</b> to allocate.",arr:dimExcept(A,[]),bal:bF,rows:2,hot:[S],note:mkNote(S,noteS)},
+    {t:"Nothing goes back to "+nm(F),cap:nm(F)+" is already allocated, so "+nm(S)+"'s "+qty(S,u[F])+" to "+nm(F)+" is ignored. Re-base over the operating departments: "+nm("P1")+" gets "+qty(S,u.P1)+" ÷ "+qty(S,sum)+" = <b>"+pc(sd[S].rP1)+"</b>, and "+nm("P2")+" gets <b>"+pc(sd[S].rP2)+"</b>.",
+      arr:close,bal:bF,rows:2,hot:[S],note:mkNote(S,noteS)},
+    {t:"Allocate "+nk(S),cap:nm(S)+"'s "+m(sd[S].amt)+" moves to the operating departments: "+nm("P1")+" gets "+m(sd[S].P1)+", and "+nm("P2")+" gets "+m(sd[S].P2)+".",
+      arr:close,bal:bS,flows:[[S+"P1",sd[S].P1],[S+"P2",sd[S].P2]],rows:3,hot:[S]},
+    {t:"Result",cap:"Both support departments are at $0. "+nm("P1")+" ends at "+m(c.T.sd.P1)+" and "+nm("P2")+" at "+m(c.T.sd.P2)+", which add up to "+money(c.all)+". Only the "+nm(F)+"-to-"+nm(S)+" service was recognized; the service in the other direction was not.",arr:fin,bal:bS,rows:4,hot:["P1","P2"]}
+  ];
+}
+function mkNote(k,t){var o={};o[k]=t;return o}
+function stepsRecip(c,m){
+  var C=D.cost,rc=c.rc,s0=startStep(c),A=s0.arr,a=rc.a,b=rc.b;
+  var both=dimExcept(A,["S1S2","S2S1"]);both.S1S2[0]="hot";both.S2S1[0]="hot";
+  var r1=a*C.S1,r2=b*(C.S2+r1),r3=a*r2,r4=b*r3;
+  var al1=dimExcept(A,["S1S2","S1P1","S1P2"]);["S1S2","S1P1","S1P2"].forEach(function(k){al1[k][0]="hot"});
+  var al2=dimExcept(A,["S2S1","S2P1","S2P2"]);["S2S1","S2P1","S2P2"].forEach(function(k){al2[k][0]="hot"});
+  var b1={S1:C.S1-rc.R1,S2:C.S2+rc.S1.S2,P1:C.P1+rc.S1.P1,P2:C.P2+rc.S1.P2};
+  var b2={S1:0,S2:0,P1:b1.P1+rc.S2.P1,P2:b1.P2+rc.S2.P2};
+  var eqs=[["S1 = "+money(C.S1)+" + "+dc(b)+" × S2","Eq. 1"],["S2 = "+money(C.S2)+" + "+dc(a)+" × S1","Eq. 2"]];
+  function eqHTML(lines){return '<div class="h">The equations</div>'+lines.map(function(l){return '<div class="ln'+(l[1]?" "+l[1]:"")+'">'+l[0]+'</div>'}).join("")}
+  var E1=eqHTML([[eqs[0][0]+" &nbsp;…Eq. 1"],[eqs[1][0]+" &nbsp;…Eq. 2"]]);
+  var E2=eqHTML([[eqs[0][0]+" &nbsp;…Eq. 1","dim"],[eqs[1][0]+" &nbsp;…Eq. 2","dim"],
+    ["S1 = "+money(C.S1)+" + "+dc(b)+" × ("+money(C.S2)+" + "+dc(a)+" × S1)"],
+    [dc(1-a*b)+" × S1 = "+money(C.S1)+" + "+dc(b)+" × "+money(C.S2)+" = "+money(C.S1+b*C.S2)],
+    ["S1 = "+m(rc.R1),"key"],["S2 = "+money(C.S2)+" + "+dc(a)+" × "+m(rc.R1)+" = "+m(rc.R2),"key"]]);
+  var notes={S1:"reciprocated: "+m(rc.R1),S2:"reciprocated: "+m(rc.R2)};
+  return [s0,
+    {t:"Count services in both directions",cap:"The reciprocal method <b>fully</b> recognizes the services between the support departments: "+nm("S1")+" gives "+pc(a)+" of its service to "+nm("S2")+", and "+nm("S2")+" gives "+pc(b)+" back to "+nm("S1")+".",arr:both,bal:s0.bal,rows:1,hot:["S1","S2"]},
+    {t:"Why equations? Costs bounce back and forth",cap:"Picture the costs bouncing: "+nm("S1")+" sends "+m(r1)+" to "+nm("S2")+"; "+nm("S2")+" sends "+m(r2)+" back; then "+m(r3)+", then "+m(r4)+"… Each round is smaller. The equations add up <b>every</b> round at once.",
+      arr:both,bal:s0.bal,rows:1,seq:true,flows:[["S1S2",r1],["S2S1",r2],["S1S2",r3],["S2S1",r4]],hot:["S1","S2"]},
+    {t:"Step 1: write the equations",cap:"Each support department's <b>complete reciprocated cost</b> = its own cost + its share of the other department's complete cost.",arr:both,bal:s0.bal,rows:1,eq:E1,hot:["S1","S2"]},
+    {t:"Step 2: solve them",cap:"Substitute Eq. 2 into Eq. 1 and solve. The complete costs ("+m(rc.R1)+" and "+m(rc.R2)+") are larger than the original costs because they include the services the two departments receive from each other.",
+      arr:both,bal:s0.bal,rows:1,eq:E2,note:notes,hot:["S1","S2"]},
+    {t:"Step 3a: allocate "+nm("S1")+"'s complete cost",cap:nm("S1")+"'s complete "+m(rc.R1)+" goes out using <b>all</b> its percentages: "+m(rc.S1.S2)+" to "+nm("S2")+", "+m(rc.S1.P1)+" to "+nm("P1")+", "+m(rc.S1.P2)+" to "+nm("P2")+". "+nm("S1")+" is now "+m(b1.S1)+": the amount "+nm("S2")+" will send back.",
+      arr:al1,bal:b1,flows:[["S1S2",rc.S1.S2],["S1P1",rc.S1.P1],["S1P2",rc.S1.P2]],rows:2,eq:E2,note:{S1:"waiting for "+m(rc.S2.S1)+" back",S2:notes.S2},hot:["S1"]},
+    {t:"Step 3b: allocate "+nm("S2")+"'s complete cost",cap:nm("S2")+"'s complete "+m(rc.R2)+" goes out using all its percentages: "+m(rc.S2.S1)+" back to "+nm("S1")+" (bringing it to $0), "+m(rc.S2.P1)+" to "+nm("P1")+", and "+m(rc.S2.P2)+" to "+nm("P2")+".",
+      arr:al2,bal:b2,flows:[["S2S1",rc.S2.S1],["S2P1",rc.S2.P1],["S2P2",rc.S2.P2]],rows:3,eq:E2,hot:["S2"]},
+    {t:"Result",cap:"Both support departments are at $0. "+nm("P1")+" ends at "+m(c.T.rc.P1)+" and "+nm("P2")+" at "+m(c.T.rc.P2)+", which add up to "+money(c.all)+". Support costs allocated to operating departments: "+m(c.T.rc.aP1)+" + "+m(c.T.rc.aP2)+" = "+money(c.sup)+".",
+      arr:mod(A,{}),bal:b2,rows:4,eq:E2,hot:["P1","P2"]}
+  ];
+}
+
+/* ---------------- allocation tables ---------------- */
+function tableHTML(method,c,rows,m,nowRow){
+  var C=D.cost,K=["S1","S2","P1","P2"],R=[["Costs before allocation",[C.S1,C.S2,C.P1,C.P2],true]];
+  if(method==="dir"){var d=c.dir;
+    R.push(["Allocate "+nm("S1"),[-C.S1,null,d.S1.P1,d.S1.P2]]);R.push(["Allocate "+nm("S2"),[null,-C.S2,d.S2.P1,d.S2.P2]]);
+    R.push(["Total after allocation",[0,0,c.T.dir.P1,c.T.dir.P2]]);}
+  if(method==="sd"){var s=c.sd,F=s.first,S=s.second,r1=[0,0,s[F].P1,s[F].P2],r2=[0,0,s[S].P1,s[S].P2];
+    r1[F==="S1"?0:1]=-C[F];r1[F==="S1"?1:0]=s[F][S];r2[S==="S1"?0:1]=-s[S].amt;r2[S==="S1"?1:0]=null;
+    R.push(["Allocate "+nm(F)+" (first)",r1]);R.push(["Allocate "+nm(S)+" ("+money(C[S])+" + "+m(s[F][S])+")",r2]);
+    R.push(["Total after allocation",[0,0,c.T.sd.P1,c.T.sd.P2]]);}
+  if(method==="rc"){var rc=c.rc;
+    R.push(["Allocate "+nm("S1")+" (complete "+m(rc.R1)+")",[-rc.R1,rc.S1.S2,rc.S1.P1,rc.S1.P2]]);
+    R.push(["Allocate "+nm("S2")+" (complete "+m(rc.R2)+")",[rc.S2.S1,-rc.R2,rc.S2.P1,rc.S2.P2]]);
+    R.push(["Total after allocation",[0,0,c.T.rc.P1,c.T.rc.P2]]);}
+  var h='<table class="tbl"><caption>Allocation table</caption><thead><tr><th></th>'+K.map(function(k){return '<th class="r">'+nm(k)+' ('+k+')</th>'}).join("")+'</tr></thead><tbody>';
+  R.forEach(function(r,i){
+    var pend=i>=rows,cls=(i===R.length-1?"tot":"")+(pend?" pending":"")+(i===nowRow?" now":"");
+    h+='<tr class="'+cls+'"><td>'+(pend?r[0].replace(/ \(.*\)$/,""):r[0])+'</td>'+r[1].map(function(v){
+      if(pend) return '<td class="r">·</td>';
+      if(v===null) return '<td class="r">—</td>';
+      var txt=r[2]?money(v):(Math.abs(v)<0.5?"$0":m(v,true));
+      return '<td class="r'+(v<-0.5&&!r[2]?' neg':'')+'">'+txt+'</td>';}).join("")+'</tr>';
+  });
+  return h+'</tbody></table>';
+}
+
+/* ---------------- player ---------------- */
+function Player(host,tblHost,method,builder,withEq){
+  host.innerHTML='<div class="pctl"><button type="button" class="btn sm" data-a="restart">&#8634; Restart</button><button type="button" class="btn sm" data-a="back">&larr; Back</button>'+
+    '<span class="cnt" aria-live="polite"></span><button type="button" class="btn sm solid" data-a="next">Next step &rarr;</button><button type="button" class="btn sm guide play" data-a="play">&#9654; Play all</button></div>'+
+    '<div class="stagewrap"></div><div class="capb" role="status"></div>'+(withEq?'<div class="eqp" hidden></div>':'');
+  var stage=Stage(q(".stagewrap",host)),cap=q(".capb",host),eq=q(".eqp",host),cnt=q(".cnt",host);
+  var steps=[],i=0,tok={dead:false},playing=false,M=function(v){return money(v)},c=null;
+  function bals(st,animFromPrev){
+    ["S1","S2","P1","P2"].forEach(function(k){
+      var v=st.bal[k],orig=Math.abs(v-D.cost[k])<0.5,txt=orig?money(v):(Math.abs(v)<0.5?"$0":M(v,true));
+      var note=(st.note&&st.note[k])||(orig&&k[0]==="S"&&v>0?"own cost":"")||(k[0]==="S"&&Math.abs(v)<0.5?"fully allocated":"");
+      var cls=(st.hot&&st.hot.indexOf(k)>=0?"hot":"")+(Math.abs(v)<0.5&&k[0]==="S"?" done":"")+(v<-0.5?" neg":"");
+      stage.box(k,txt,note,cls);
+    });
+  }
+  function apply(st){
+    for(var k in st.arr) stage.arrow(k,st.arr[k][0],st.arr[k][1]);
+    cap.innerHTML='<span class="st">Step '+(i+1)+' of '+steps.length+'</span><span class="tt">'+st.t+'</span>'+st.cap;
+    cnt.textContent="Step "+(i+1)+" of "+steps.length;
+    if(eq){eq.hidden=!st.eq;eq.innerHTML=st.eq||""}
+    tblHost.innerHTML='<div class="tblwrap">'+tableHTML(method,c,st.rows,M,st.flows&&!st.seq?st.rows-1:-1)+'</div>';
+    q('[data-a=back]',host).disabled=i===0; q('[data-a=next]',host).disabled=i===steps.length-1;
+  }
+  function show(k,anim){
+    tok.dead=true; tok={dead:false}; var my=tok; stage.clearChips();
+    i=Math.max(0,Math.min(steps.length-1,k)); var st=steps[i];
+    apply(st);
+    if(anim&&st.flows&&i>0){
+      bals(steps[i-1]);
+      var run=st.seq?st.flows.reduce(function(p,fl){return p.then(function(){return my.dead?null:stage.chip(fl[0],M(fl[1],true),900,my)})},Promise.resolve())
+        :Promise.all(st.flows.map(function(fl){return stage.chip(fl[0],M(fl[1],true),1300,my)}));
+      return run.then(function(){if(my.dead)return;bals(st);(st.flows||[]).forEach(function(fl){stage.flash(fl[0].slice(2))})});
+    }
+    bals(st); return Promise.resolve();
+  }
+  function wait(ms,my){return new Promise(function(r){setTimeout(r,ms)})}
+  function play(){
+    if(playing){playing=false;q('[data-a=play]',host).innerHTML="&#9654; Play all";return}
+    playing=true;q('[data-a=play]',host).innerHTML="&#10073;&#10073; Pause";
+    if(i===steps.length-1) show(0,false);
+    (function loop(){
+      if(!playing) return;
+      if(i>=steps.length-1){playing=false;q('[data-a=play]',host).innerHTML="&#9654; Play all";return}
+      var mine=tok;
+      wait(i===0?700:2600).then(function(){if(!playing)return;return show(i+1,true)}).then(function(){if(playing) loop()});
+    })();
+  }
+  function stop(){playing=false;q('[data-a=play]',host).innerHTML="&#9654; Play all"}
+  q('[data-a=next]',host).onclick=function(){stop();show(i+1,true)};
+  q('[data-a=back]',host).onclick=function(){stop();show(i-1,false)};
+  q('[data-a=restart]',host).onclick=function(){stop();show(0,false)};
+  q('[data-a=play]',host).onclick=play;
+  return {
+    load:function(mask){M=mask;c=calc();steps=builder(c,mask);stop();show(Math.min(i,steps.length-1),false)},
+    reset:function(){stop();i=0},
+    stop:stop,
+    stage:stage,
+    at:function(){return i},go:function(k,a){return show(k,a)},n:function(){return steps.length}
+  };
+}
+
+/* ---------------- shared case handling ---------------- */
+var PAGES=[],syncing=false;
+function setData(k){CK=k;D=k==="lec"?U.clone(LEC):(k==="qc"?U.clone(QC):newData())}
+function caseLoad(k,self){
+  if(syncing) return;
+  setData(k); syncing=true;
+  PAGES.forEach(function(p){if(p.api!==self) p.api.load(k)});
+  syncing=false;
+}
+function maskFn(st){return function(v,isAlloc){return st.masked()?'?':(isAlloc?acct(v):money(Math.round(v)))}}
+
+/* ---------------- page 1: setup ---------------- */
+var stage0=Stage($("stage0")),prev="all";
+var PREV={
+  all:{t:"All the services: each support department serves the other support department and both operating departments.",use:["S1S2","S2S1","S1P1","S1P2","S2P1","S2P2"],off:[]},
+  dir:{t:"<b>Direct:</b> only the arrows into the operating departments are used. The two arrows between the support departments are ignored.",use:["S1P1","S1P2","S2P1","S2P2"],off:["S1S2","S2S1"]},
+  sd:{t:"",use:[],off:[]},
+  rc:{t:"<b>Reciprocal:</b> every arrow is used, including both arrows between the support departments.",use:["S1S2","S2S1","S1P1","S1P2","S2P1","S2P2"],off:[]}
+};
+function render0(){
+  var c=calc(),f=c.f,A=arrows0(c),F=c.sd.first,S=c.sd.second;
+  PREV.sd={t:"<b>Step-down:</b> "+nm(F)+" goes first (it gives "+pc(f[F][S])+" to "+nm(S)+", more than the "+pc(f[S][F])+" it gets back), so the "+nm(F)+"-to-"+nm(S)+" arrow is used. Nothing is allocated back to "+nm(F)+".",use:[F+S,F+"P1",F+"P2",S+"P1",S+"P2"],off:[S+F]};
+  var P=PREV[prev];
+  for(var k in A){var st=P.off.indexOf(k)>=0?"off":(prev==="all"?"":(P.use.indexOf(k)>=0?"hot":"dim"));stage0.arrow(k,st,A[k][1])}
+  ["S1","S2","P1","P2"].forEach(function(k){stage0.box(k,money(D.cost[k]),k[0]==="S"?"support department":"operating department","")});
+  $("prevtx0").innerHTML=P.t;
+  function grp(s){var u=D.u[s],o=oth(s);return [nk(s)+" serves ("+D.base[s]+")",nm(o)+": <b>"+qty(s,u[o])+"</b>"+(D.pct?"":" ("+pc(f[s][o])+")"),nm("P1")+": <b>"+qty(s,u.P1)+"</b>"+(D.pct?"":" ("+pc(f[s].P1)+")"),nm("P2")+": <b>"+qty(s,u.P2)+"</b>"+(D.pct?"":" ("+pc(f[s].P2)+")")]}
+  var G=[[D.co+": costs before allocation",nk("S1")+": <b>"+money(D.cost.S1)+"</b>",nk("S2")+": <b>"+money(D.cost.S2)+"</b>",nk("P1")+": <b>"+money(D.cost.P1)+"</b>",nk("P2")+": <b>"+money(D.cost.P2)+"</b>"],
+    grp("S1"),grp("S2")];
+  $("facts0").innerHTML=G.map(function(g){return '<div class="fgrp"><h4>'+g[0]+'</h4><ul>'+g.slice(1).map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul></div>'}).join("")+
+    '<div class="fgrp"><h4>Support departments</h4><ul><li>S1 and S2 provide services.</li><li>Their costs must end up in '+nm("P1")+' and '+nm("P2")+'.</li></ul></div>';
+  var t='<table class="tbl"><caption>Who serves whom</caption><thead><tr><th></th>'+["S1","S2","P1","P2"].map(function(k){return '<th class="r">'+nm(k)+' ('+k+')</th>'}).join("")+'</tr></thead><tbody>';
+  t+='<tr><td>Costs before allocation</td>'+["S1","S2","P1","P2"].map(function(k){return '<td class="r">'+money(D.cost[k])+'</td>'}).join("")+'</tr>';
+  ["S1","S2"].forEach(function(s){t+='<tr><td>Service by '+nm(s)+' ('+D.base[s]+')</td>'+["S1","S2","P1","P2"].map(function(k){return '<td class="r">'+(k===s?"—":qty(s,D.u[s][k])+(D.pct?"":" ("+pc(f[s][k])+")"))+'</td>'}).join("")+'</tr>'});
+  $("tbl0").innerHTML=t+'</tbody></table>';
+}
+qa("#prev0 [data-m]").forEach(function(b){b.onclick=function(){prev=b.getAttribute("data-m");qa("#prev0 [data-m]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});render0()}});
+var P0=U.page({i:0,cases:CASES,
+  todo:[
+    {t:"Read the case: each department's costs, and how much service each support department gives.",why:"The percentages say how each support department's work is split among the other three departments.",at:"#facts0"},
+    {t:"Look at the diagram. Each arrow is a service, labeled with its share.",why:"Top row: support departments (S1, S2). Bottom row: operating departments (P1, P2). The two short arrows in the middle of the top row are the services the support departments give each other.",at:"#stage0"},
+    {t:"Tap each method to see which arrows it uses.",why:"Direct crosses out both support-to-support arrows. Step-down keeps one. Reciprocal keeps both.",at:"#prev0"},
+    {t:"Then press <b>Next</b> at the bottom to watch each method step by step.",why:"Pages 2 to 4 animate the direct, step-down, and reciprocal methods. Page 5 compares them.",at:"#bNext"},
+    NEWSTEP],
+  load:function(k,st){caseLoad(k,P0)},render:function(){render0()}});
+PAGES.push({api:P0});
+
+/* ---------------- pages 2-4: methods ---------------- */
+function methodPage(i,method,builder,withEq,todoMid,check){
+  var pl,api;
+  var stRef={};
+  api=U.page({i:i,cases:CASES,
+    todo:[{t:"Press <b>Next step</b> to go one step at a time, or <b>Play all</b> to watch every step.",why:"Use Back to repeat a step. Restart goes back to the beginning.",at:"#pl"+i+" .pctl"},
+      {t:"Watch the diagram.",why:"Orange arrows are the ones used in this step. Crossed-out arrows are ignored. Orange tags carry the dollars along the arrows.",at:"#pl"+i+" .stagewrap"},
+      {t:"Read the caption under the diagram.",why:"It explains what is happening in this step and why.",at:"#pl"+i+" .capb"}].concat(todoMid||[]).concat([
+      {t:"Watch the allocation table fill in.",why:"This is the same table you build on paper. The highlighted row is the step you just watched.",at:"#tbl"+i},NEWSTEP]),
+    load:function(k,st){stRef=st;caseLoad(k,api);if(pl){pl.reset()}},
+    render:function(st){stRef=st;if(!pl) pl=Player($("pl"+i),$("tbl"+i),method,builder,withEq);pl.load(maskFn(st))},
+    check:function(st){return check(calc())}});
+  PAGES.push({api:api,pl:function(){return pl}});
+  return {api:api,pl:function(){return pl}};
+}
+var M1=methodPage(1,"dir",stepsDirect,false,[],function(c){
+  return {q:"Using the direct method, how much of <b>"+nk("S2")+"</b>'s cost is allocated to <b>"+nk("P2")+"</b>?",ans:Math.round(c.dir.S2.P2),tol:1.01,
+    hint:"Leave out what "+nm("S2")+" gives "+nm("S1")+", re-base over the operating departments, then multiply.",
+    explain:"<p>"+nm("P2")+"'s share = "+qty("S2",D.u.S2.P2)+" ÷ ("+qty("S2",D.u.S2.P1)+" + "+qty("S2",D.u.S2.P2)+") = "+pc(c.dir.S2.rP2)+"</p><p><b>"+money(D.cost.S2)+" × "+pc(c.dir.S2.rP2)+" = "+money(Math.round(c.dir.S2.P2))+"</b></p>"};
+});
+var M2=methodPage(2,"sd",stepsStep,false,[],function(c){
+  var s=c.sd,F=s.first,S=s.second;
+  return {q:"Using the step-down method (allocate first the department that gives the larger share to the other support department), what <b>total</b> support cost is allocated to <b>"+nk("P1")+"</b>?",ans:Math.round(c.T.sd.aP1),tol:1.01,
+    hint:"Allocate "+nm(F)+" first using all its percentages. Then allocate "+nm(S)+"'s new total over the operating departments only.",
+    explain:"<p>"+nm(F)+" goes first ("+pc(c.f[F][S])+" &gt; "+pc(c.f[S][F])+"). To "+nm("P1")+": "+money(D.cost[F])+" × "+pc(c.f[F].P1)+" = "+money(Math.round(s[F].P1))+"</p>"+
+      "<p>"+nm(S)+"'s new total: "+money(D.cost[S])+" + "+money(Math.round(s[F][S]))+" = "+money(Math.round(s[S].amt))+". To "+nm("P1")+": × "+pc(s[S].rP1)+" = "+money(Math.round(s[S].P1))+"</p>"+
+      "<p><b>Total to "+nm("P1")+": "+money(Math.round(c.T.sd.aP1))+"</b></p>"};
+});
+var M3=methodPage(3,"rc",stepsRecip,true,[{t:"Read the equations box.",why:"It shows the two equations and how they are solved for the complete reciprocated costs.",at:"#pl3 .eqp"}],function(c){
+  var r=c.rc;
+  return {q:"Using the reciprocal method, what <b>total</b> support cost is allocated to <b>"+nk("P1")+"</b>?",ans:Math.round(c.T.rc.aP1),tol:2.01,
+    hint:"Solve S1 = own cost + share × S2 and S2 = own cost + share × S1. Then allocate both complete costs using all percentages.",
+    explain:"<p>S1 = "+money(D.cost.S1)+" + "+dc(r.b)+" S2; S2 = "+money(D.cost.S2)+" + "+dc(r.a)+" S1</p><p>S1 = "+money(Math.round(r.R1))+"; S2 = "+money(Math.round(r.R2))+"</p>"+
+      "<p>To "+nm("P1")+": "+money(Math.round(r.R1))+" × "+pc(c.f.S1.P1)+" + "+money(Math.round(r.R2))+" × "+pc(c.f.S2.P1)+" = <b>"+money(Math.round(c.T.rc.aP1))+"</b></p>"+
+      (CK==="qc"?"<p class=\"note\">The lecture slide rounds the percentages (31% and 8%), so its answer, $240,115, is a little different from this exact one.</p>":"")};
+});
+
+/* ---------------- page 5: compare ---------------- */
+var P4=U.page({i:4,cases:CASES,
+  todo:[{t:"Compare the bars: each one is the total support cost, split between the two operating departments.",why:"Every bar has the same length because every method allocates the same total. Only the split changes.",at:"#cmp4 .cmpbars"},
+    {t:"Compare the totals in the table.",why:"Look at how far apart the methods are. They differ more when the support departments serve each other a lot.",at:"#cmp4 .tblwrap"},NEWSTEP],
+  load:function(k,st){caseLoad(k,P4)},
+  render:function(st){
+    var c=calc(),hide=st&&CK==="new"&&!PAGES.slice(1,4).every(function(p){return p.api.st.revealed});
+    var M=function(v){return hide?'<span class="mask">?</span>':money(Math.round(v))};
+    var meth=[["dir","Direct"],["sd","Step-down"],["rc","Reciprocal"]],h='';
+    if(hide) h+='<p class="practice-note">Practice mode: these results show once you have finished the Check on the Direct, Step-down, and Reciprocal pages.</p>';
+    h+='<div class="cmpbars">';
+    meth.forEach(function(mm){var t=c.T[mm[0]];h+=U.hbar(mm[1],"support cost",[{v:t.aP1,c:"navy",l:hide?"":nm("P1")+" "+money(Math.round(t.aP1))},{v:t.aP2,c:"teal",l:hide?"":nm("P2")+" "+money(Math.round(t.aP2))}],c.sup,"")});
+    h+='<div class="legend"><span><i class="sw-navy"></i>Allocated to '+nm("P1")+'</span><span><i class="sw-teal"></i>Allocated to '+nm("P2")+'</span></div></div>';
+    h+='<div class="tblwrap"><table class="tbl"><caption>Support costs allocated, by method</caption><thead><tr><th></th><th class="r">To '+nm("P1")+'</th><th class="r">To '+nm("P2")+'</th><th class="r">Total</th></tr></thead><tbody>';
+    meth.forEach(function(mm){var t=c.T[mm[0]];h+='<tr><td>'+mm[1]+'</td><td class="r">'+M(t.aP1)+'</td><td class="r">'+M(t.aP2)+'</td><td class="r">'+money(c.sup)+'</td></tr>'});
+    h+='</tbody></table></div>';
+    h+='<div class="tblwrap"><table class="tbl"><caption>Total operating department costs after allocation</caption><thead><tr><th></th><th class="r">'+nm("P1")+'</th><th class="r">'+nm("P2")+'</th></tr></thead><tbody>';
+    meth.forEach(function(mm){var t=c.T[mm[0]];h+='<tr><td>'+mm[1]+'</td><td class="r">'+M(t.P1)+'</td><td class="r">'+M(t.P2)+'</td></tr>'});
+    h+='</tbody></table></div>';
+    $("cmp4").innerHTML=h;
+  }});
+PAGES.push({api:P4});
+
+/* start: lecture example everywhere */
+setData("lec");syncing=true;PAGES.forEach(function(p){p.api.load("lec")});syncing=false;
+pg.onShow(function(i){PAGES.forEach(function(p){if(p.pl&&p.pl()) p.pl().stop()});if(i===4) P4.render()});
+$("bReset").onclick=function(){setData("lec");syncing=true;PAGES.forEach(function(p){p.api.load("lec")});syncing=false;
+  prev="all";qa("#prev0 [data-m]").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-m")==="all"?"true":"false")});render0();
+  pg.show(0,true);U.announce("Reset to the lecture example.")};
+if(/[?&]test=1/.test(location.search)) window.__t={calc:calc,setData:setData,D:function(){return D},M1:M1,M2:M2,M3:M3,P0:P0,P4:P4,PAGES:PAGES};
+pg.start();
+})();
+
+</script>
+<script data-goatcounter="https://chunkim.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
