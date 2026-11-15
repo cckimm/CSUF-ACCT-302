@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCT 302 - Practice Exam Final</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #1a237e, #3949ab);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2em;
+        }
+        .header p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .refresh-btn {
+            background: linear-gradient(135deg, #43a047, #66bb6a);
+            color: white;
+        }
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.4);
+        }
+        .show-answers-btn {
+            background: linear-gradient(135deg, #1565c0, #42a5f5);
+            color: white;
+        }
+        .show-answers-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(21, 101, 192, 0.4);
+        }
+        .hide-answers-btn {
+            background: linear-gradient(135deg, #ef6c00, #ffa726);
+            color: white;
+        }
+        .question {
+            background: white;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #3949ab;
+        }
+        .question-number {
+            font-weight: bold;
+            color: #1a237e;
+            font-size: 1.1em;
+        }
+        .question-text {
+            margin: 15px 0;
+            font-size: 1.05em;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .option {
+            display: block;
+            margin: 0;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: #fafafa;
+            border: 1px solid #e0e0e0;
+        }
+        .option:hover {
+            background-color: #e3f2fd;
+            border-color: #90caf9;
+        }
+        .option.selected {
+            background-color: #e3f2fd;
+            border-color: #1976d2;
+        }
+        .option.correct {
+            background-color: #c8e6c9;
+            border-color: #43a047;
+        }
+        .option.incorrect {
+            background-color: #ffcdd2;
+            border-color: #e53935;
+        }
+        .option input {
+            margin-right: 12px;
+            transform: scale(1.2);
+            vertical-align: middle;
+        }
+        .option-text {
+            vertical-align: middle;
+        }
+        .answer {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 8px;
+            border-left: 4px solid #43a047;
+        }
+        .answer.show {
+            display: block;
+        }
+        .answer-label {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        .explanation {
+            margin-top: 10px;
+            color: #555;
+            font-size: 0.95em;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #e3f2fd;
+            font-weight: 600;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        .section-header {
+            background: linear-gradient(135deg, #5e35b1, #7e57c2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 30px 0 20px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .info-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .score-display {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: none;
+        }
+        .score-display.show {
+            display: block;
+        }
+        .score-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1a237e;
+        }
+        .submit-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
+        }
+        .grade-result {
+            display: none;
+            margin-top: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .grade-result.show {
+            display: block;
+        }
+        .grade-percentage {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        .grade-letter {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        .grade-details {
+            font-size: 1.1em;
+            color: #555;
+        }
+        .grade-result.failing {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+        }
+        .grade-result.failing .grade-percentage {
+            color: #c62828;
+        }
+        .unanswered-warning {
+            color: #e65100;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .question {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ACCT 302 - Cost Accounting</h1>
+        <p><strong>Practice Exam Final</strong></p>
+        <p>Chapters 12, 14, 16, 18</p>
+    </div>
+    
+    <div class="controls">
+        <button class="refresh-btn" onclick="generateExam()">🔄 New Exam (Shuffle & Randomize)</button>
+        <button class="show-answers-btn" onclick="toggleAnswers()">📝 Show/Hide Answers</button>
+    </div>
+    
+    <div class="score-display" id="scoreDisplay">
+        <div class="score-number" id="scoreNumber">0/24</div>
+        <p>Questions Answered Correctly</p>
+    </div>
+    
+    <div id="examContent"></div>
+
+    <script>
+        let answersVisible = false;
+        let currentExamData = {};
+        
+        // Utility functions
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+        
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        function randChoice(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+        
+        function formatCurrency(num) {
+            num = Math.round(Number(num) * 100) / 100;
+            const whole = Math.abs(num - Math.round(num)) < 1e-9;
+            const s = Math.abs(num).toLocaleString('en-US', {minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2});
+            return (num < 0 ? '-$' : '$') + s;
+        }
+        
+        function formatNumber(num) {
+            return Number(num).toLocaleString('en-US', {maximumFractionDigits: 2});
+        }
+        
+        function formatPercent(num, decimals = 2) {
+            return num.toFixed(decimals) + '%';
+        }
+
+        // Question generators
+        const questions = [
+            // Q1 - Conceptual (Special Order)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "incremental revenues exceed incremental costs", correct: true },
+                        { text: "additional fixed costs are incurred to accommodate the order", correct: false },
+                        { text: "the company placing the order is in the same market segment as your current customers", correct: false },
+                        { text: "incremental revenue equals incremental operating income", correct: false }
+                    ];
+                    return {
+                        question: "When there is excess capacity, it makes sense to accept a one-time-only special order for less than the current selling price if:",
+                        options: shuffle(options),
+                        explanation: "A special order should be accepted when incremental revenues exceed incremental costs, as this will increase overall operating income."
+                    };
+                }
+            },
+            // Q2 - Conceptual (Relevant Costs)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "They are sunk costs and historical revenues.", correct: true },
+                        { text: "They are expected costs and expected revenues.", correct: false },
+                        { text: "They occur in the future.", correct: false },
+                        { text: "They differ among alternative courses of action.", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following is NOT true with regards to relevant costs and relevant revenues?",
+                        options: shuffle(options),
+                        explanation: "Relevant costs are NOT sunk costs. Sunk costs have already been incurred and cannot be changed by any decision. Relevant costs are future costs that differ among alternatives."
+                    };
+                }
+            },
+            // Q3 - Conceptual (Theory of Constraints)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "the sum of material costs in direct and indirect materials, work-in-process, and finished goods inventories; R&D costs; and business function costs", correct: false },
+                        { text: "the sum of material costs in direct materials, work-in-process, and finished goods inventories; R&D costs; and capital costs of equipment and buildings", correct: true },
+                        { text: "the sum of material costs in direct and indirect materials, work-in-process, and finished goods inventories; R&D costs; and full costs", correct: false },
+                        { text: "the sum of material costs in direct materials, work-in-process, and finished goods inventories; R&D costs; sunk costs, full costs, and business function costs", correct: false }
+                    ];
+                    return {
+                        question: "Based on the theory of constraints, investments equal:",
+                        options: shuffle(options),
+                        explanation: "Under TOC, investments include material costs in direct materials, WIP, and finished goods inventories, plus R&D costs and capital costs of equipment and buildings."
+                    };
+                }
+            },
+            // Q4 - Calculation (Special Order Minimum Price)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const directMaterials = randInt(100, 140);
+                    const directLabor = randInt(80, 110);
+                    const varMfgSupport = randInt(140, 170);
+                    const varMarketing = randInt(65, 85);
+                    const fixedMfgSupport = randInt(160, 190);
+                    const fixedMarketing = randInt(55, 75);
+                    const markupPercent = randInt(40, 50);
+                    
+                    const totalVariableCosts = directMaterials + directLabor + varMfgSupport + varMarketing;
+                    const totalFixedCosts = fixedMfgSupport + fixedMarketing;
+                    const totalCosts = totalVariableCosts + totalFixedCosts;
+                    const markup = Math.round(totalCosts * markupPercent / 100);
+                    const targetPrice = totalCosts + markup;
+                    
+                    // Minimum acceptable price = all variable costs
+                    const minPrice = totalVariableCosts;
+                    
+                    const options = [
+                        { text: formatCurrency(minPrice), correct: true },
+                        { text: formatCurrency(markup), correct: false },
+                        { text: formatCurrency(directMaterials + directLabor + varMfgSupport), correct: false },
+                        { text: formatCurrency(totalCosts), correct: false }
+                    ];
+                    
+                    return {
+                        question: `Red Rose Manufacturers Inc. is approached by a potential customer to fulfill a one-time-only special order for a product similar to one offered to domestic customers. The company has excess capacity. The following per unit data apply for sales to regular customers:<br><br>
+                        <table class="data-table">
+                            <tr><th colspan="2">Variable costs:</th></tr>
+                            <tr><td>Direct materials</td><td>${formatCurrency(directMaterials)}</td></tr>
+                            <tr><td>Direct labor</td><td>${formatCurrency(directLabor)}</td></tr>
+                            <tr><td>Manufacturing support</td><td>${formatCurrency(varMfgSupport)}</td></tr>
+                            <tr><td>Marketing costs</td><td>${formatCurrency(varMarketing)}</td></tr>
+                            <tr><th colspan="2">Fixed costs:</th></tr>
+                            <tr><td>Manufacturing support</td><td>${formatCurrency(fixedMfgSupport)}</td></tr>
+                            <tr><td>Marketing costs</td><td>${formatCurrency(fixedMarketing)}</td></tr>
+                            <tr><td><strong>Total costs</strong></td><td><strong>${formatCurrency(totalCosts)}</strong></td></tr>
+                            <tr><td>Markup (${markupPercent}%)</td><td>${formatCurrency(markup)}</td></tr>
+                            <tr><td><strong>Targeted selling price</strong></td><td><strong>${formatCurrency(targetPrice)}</strong></td></tr>
+                        </table>
+                        For Red Rose Manufacturers Inc., what is the minimum acceptable price of this special order?`,
+                        options: shuffle(options),
+                        explanation: `Minimum acceptable price = All variable costs<br>
+                        = ${formatCurrency(directMaterials)} + ${formatCurrency(directLabor)} + ${formatCurrency(varMfgSupport)} + ${formatCurrency(varMarketing)}<br>
+                        = <strong>${formatCurrency(minPrice)}</strong>`
+                    };
+                }
+            },
+            // Q5 - Calculation (Make or Buy)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const directMaterials = randInt(50, 60);
+                    const directLabor = randInt(30, 40);
+                    const variableOH = randInt(35, 45);
+                    const fixedOH = randInt(30, 40);
+                    const units = randInt(5, 8) * 1000;
+                    const buyPrice = randInt(140, 150);
+                    let eliminatedFixedOH = randInt(80, 100) * 1000;
+                    if (units * buyPrice === (directMaterials + directLabor + variableOH) * units + eliminatedFixedOH) eliminatedFixedOH += 1000;
+                    
+                    const variableCostPerUnit = directMaterials + directLabor + variableOH;
+                    const totalCostPerUnit = variableCostPerUnit + fixedOH;
+                    
+                    const costToBuy = units * buyPrice;
+                    const costToMake = (variableCostPerUnit * units) + eliminatedFixedOH;
+                    const difference = Math.abs(costToBuy - costToMake);
+                    
+                    let decision, savings;
+                    if (costToMake < costToBuy) {
+                        decision = "Make";
+                        savings = costToBuy - costToMake;
+                    } else {
+                        decision = "Buy";
+                        savings = costToMake - costToBuy;
+                    }
+                    
+                    const options = [
+                        { text: `Buy; savings = ${formatCurrency(eliminatedFixedOH)}`, correct: false },
+                        { text: `Buy; savings = ${formatCurrency(savings + randInt(5, 10) * 1000)}`, correct: false },
+                        { text: `${decision}; savings = ${formatCurrency(savings)}`, correct: true },
+                        { text: `${decision === "Make" ? "Buy" : "Make"}; savings = ${formatCurrency(savings + randInt(100, 200) * 1000)}`, correct: false }
+                    ];
+                    
+                    return {
+                        question: `Rubium Micro Devices currently manufactures a subassembly for its main product. The costs per unit are as follows:<br><br>
+                        <table class="data-table">
+                            <tr><td>Direct materials</td><td>${formatCurrency(directMaterials)}</td></tr>
+                            <tr><td>Direct labor</td><td>${formatCurrency(directLabor)}</td></tr>
+                            <tr><td>Variable overhead</td><td>${formatCurrency(variableOH)}</td></tr>
+                            <tr><td>Fixed overhead</td><td>${formatCurrency(fixedOH)}</td></tr>
+                            <tr><td><strong>Total</strong></td><td><strong>${formatCurrency(totalCostPerUnit)}</strong></td></tr>
+                        </table>
+                        Crayola Technologies Inc. has contacted Rubium with an offer to sell ${formatNumber(units)} of the subassemblies for ${formatCurrency(buyPrice)} each. Rubium will eliminate ${formatCurrency(eliminatedFixedOH)} of fixed overhead if it accepts the proposal. Should Rubium make or buy the subassemblies? What is the difference between the two alternatives?`,
+                        options: shuffle(options),
+                        explanation: `Cost to buy: ${formatNumber(units)} × ${formatCurrency(buyPrice)} = ${formatCurrency(costToBuy)}<br>
+                        Cost to make: [(${formatCurrency(directMaterials)} + ${formatCurrency(directLabor)} + ${formatCurrency(variableOH)}) × ${formatNumber(units)}] + ${formatCurrency(eliminatedFixedOH)}<br>
+                        = [${formatCurrency(variableCostPerUnit)} × ${formatNumber(units)}] + ${formatCurrency(eliminatedFixedOH)}<br>
+                        = ${formatCurrency(variableCostPerUnit * units)} + ${formatCurrency(eliminatedFixedOH)} = ${formatCurrency(costToMake)}<br><br>
+                        <strong>${decision}</strong> the subassemblies; savings = ${formatCurrency(savings)}`
+                    };
+                }
+            },
+            // Q6 - Calculation (Drop Product Line)
+            {
+                type: 'calculation',
+                generate: function() {
+                    let salesA, salesB, salesC, varCostsA, varCostsB, varCostsC, avoidableA, avoidableB, avoidableC, unavoidableA, unavoidableB, unavoidableC;
+                    do {
+                    salesA = randInt(55, 65) * 1000;
+                    salesB = randInt(90, 105) * 1000;
+                    salesC = randInt(20, 28) * 1000;
+                    
+                    varCostsA = randInt(35, 42) * 1000;
+                    varCostsB = randInt(48, 58) * 1000;
+                    varCostsC = randInt(10, 15) * 1000;
+                    
+                    
+                    avoidableA = randInt(5, 8) * 1000;
+                    avoidableB = randInt(17, 22) * 1000;
+                    avoidableC = randInt(4, 6) * 1000;
+                    
+                    unavoidableA = randInt(9, 13) * 1000;
+                    unavoidableB = randInt(10, 14) * 1000;
+                    unavoidableC = randInt(8, 11) * 1000;
+                    } while (!((salesC - varCostsC) - avoidableC - unavoidableC < 0 && avoidableC < salesC - varCostsC &&
+                               (salesA - varCostsA) - avoidableA - unavoidableA > 0 && (salesB - varCostsB) - avoidableB - unavoidableB > 0));
+                    const cmA = salesA - varCostsA;
+                    const cmB = salesB - varCostsB;
+                    const cmC = salesC - varCostsC;
+                    
+                    const opIncomeA = cmA - avoidableA - unavoidableA;
+                    const opIncomeB = cmB - avoidableB - unavoidableB;
+                    const opIncomeC = cmC - avoidableC - unavoidableC;
+                    
+                    // Impact of dropping C: lose CM, save avoidable fixed costs
+                    const impactOfDroppingC = avoidableC - cmC;
+                    
+                    let effectText;
+                    if (impactOfDroppingC > 0) {
+                        effectText = `increase by ${formatCurrency(impactOfDroppingC)}`;
+                    } else {
+                        effectText = `decrease by ${formatCurrency(Math.abs(impactOfDroppingC))}`;
+                    }
+                    
+                    const options = [
+                        { text: `increase by ${formatCurrency(Math.abs(opIncomeC))}`, correct: false },
+                        { text: `increase by ${formatCurrency(avoidableC)}`, correct: false },
+                        { text: `decrease by ${formatCurrency(Math.abs(impactOfDroppingC))}`, correct: impactOfDroppingC < 0 },
+                        { text: `decrease by ${formatCurrency(cmC + Math.abs(opIncomeC))}`, correct: false }
+                    ];
+                    
+                    // Make sure correct answer is in options
+                    if (impactOfDroppingC >= 0) {
+                        options[2] = { text: `increase by ${formatCurrency(impactOfDroppingC)}`, correct: true };
+                        options[0] = { text: `decrease by ${formatCurrency(cmC)}`, correct: false };
+                    }
+                    
+                    return {
+                        question: `Giant Company has three products, A, B, and C. The following information is available:<br><br>
+                        <table class="data-table">
+                            <tr><th></th><th>Product A</th><th>Product B</th><th>Product C</th></tr>
+                            <tr><td>Sales</td><td>${formatCurrency(salesA)}</td><td>${formatCurrency(salesB)}</td><td>${formatCurrency(salesC)}</td></tr>
+                            <tr><td>Variable costs</td><td>${formatCurrency(varCostsA)}</td><td>${formatCurrency(varCostsB)}</td><td>${formatCurrency(varCostsC)}</td></tr>
+                            <tr><td>Contribution margin</td><td>${formatCurrency(cmA)}</td><td>${formatCurrency(cmB)}</td><td>${formatCurrency(cmC)}</td></tr>
+                            <tr><td>Fixed costs: Avoidable</td><td>${formatCurrency(avoidableA)}</td><td>${formatCurrency(avoidableB)}</td><td>${formatCurrency(avoidableC)}</td></tr>
+                            <tr><td>Fixed costs: Unavoidable</td><td>${formatCurrency(unavoidableA)}</td><td>${formatCurrency(unavoidableB)}</td><td>${formatCurrency(unavoidableC)}</td></tr>
+                            <tr><td><strong>Operating income</strong></td><td><strong>${formatCurrency(opIncomeA)}</strong></td><td><strong>${formatCurrency(opIncomeB)}</strong></td><td><strong>${formatCurrency(opIncomeC)}</strong></td></tr>
+                        </table>
+                        Giant Company is thinking of dropping Product C because it is reporting a loss. Assuming Giant drops Product C and does NOT replace it, operating income will:`,
+                        options: shuffle(options),
+                        explanation: `Dropping Product C means Giant gives up ${formatCurrency(cmC)} in contribution margin while only saving ${formatCurrency(avoidableC)} in avoidable fixed costs.<br><br>
+                        Impact = Avoidable costs saved - Contribution margin lost<br>
+                        = ${formatCurrency(avoidableC)} - ${formatCurrency(cmC)} = ${formatCurrency(impactOfDroppingC)}<br><br>
+                        Operating income would <strong>${effectText}</strong>.`
+                    };
+                }
+            },
+            // Q7 - Conceptual (Pricing)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "deter a customer from purchasing a product and seek alternatives", correct: true },
+                        { text: "increase demand and demand for the product", correct: false },
+                        { text: "indicate supply is too plentiful", correct: false },
+                        { text: "decrease a competitor's market share", correct: false }
+                    ];
+                    return {
+                        question: "In setting prices for products and services, managers may attempt to charge what the customer is willing to pay however, too high a price may:",
+                        options: shuffle(options),
+                        explanation: "Setting a price too high will deter customers from purchasing the product, causing them to seek alternatives from competitors or substitute products."
+                    };
+                }
+            },
+            // Q8 - Conceptual (Customer Life-Cycle Costs)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "costs incurred by the selling company to satisfy the customer", correct: false },
+                        { text: "costs to the customers for buying and using a product", correct: true },
+                        { text: "same as the selling life-cycle prices", correct: false },
+                        { text: "replacement costs of using a product or service", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following best describes customer life-cycle costs?",
+                        options: shuffle(options),
+                        explanation: "Customer life-cycle costs are the total costs incurred by customers for buying and using a product over its useful life, including purchase price, operating costs, maintenance, and disposal."
+                    };
+                }
+            },
+            // Q9 - Conceptual (Predatory Pricing)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "allows prices to be cut to the level of variable costs", correct: false },
+                        { text: "deliberately sets prices very low, sometimes even below costs, to minimize competition", correct: true },
+                        { text: "is required when a company declares bankruptcy so that it can sell its remaining goods quickly", correct: false },
+                        { text: "is used in the food industry for perishable goods", correct: false }
+                    ];
+                    return {
+                        question: "Predatory pricing is a type of price discrimination that:",
+                        options: shuffle(options),
+                        explanation: "Predatory pricing deliberately sets prices very low (sometimes below cost) to drive competitors out of the market or prevent new competitors from entering."
+                    };
+                }
+            },
+            // Q10 - Calculation (Target Cost)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const currentPrice = randInt(550, 620);
+                    const newPrice = currentPrice - randInt(90, 110);
+                    const targetUnits = randInt(250, 320);
+                    const targetProfitPercent = randInt(25, 35);
+                    
+                    const targetRevenue = newPrice * targetUnits;
+                    const targetProfit = targetRevenue * (targetProfitPercent / 100);
+                    const targetCostPerUnit = newPrice - (newPrice * targetProfitPercent / 100);
+                    
+                    const options = [
+                        { text: formatCurrency(newPrice * (1 + targetProfitPercent / 100)), correct: false },
+                        { text: formatCurrency(targetCostPerUnit), correct: true },
+                        { text: formatCurrency(newPrice), correct: false },
+                        { text: formatCurrency(newPrice - targetCostPerUnit), correct: false }
+                    ];
+                    
+                    return {
+                        question: `Sales of Granite City Products Inc. have been on a steady decline for the last 12 months. A market research study conducted revealed that the product of Granite City Products Inc. can be sold only for ${formatCurrency(newPrice)} as opposed to the current market price charged of ${formatCurrency(currentPrice)} per unit. Granite City Products Inc. has decided to revise its sales price to ${formatCurrency(newPrice)}. The annual sales target volume of the product after price revision is ${formatNumber(targetUnits)} units. Granite City Products Inc. wants to earn ${targetProfitPercent}% on its sales amount.<br><br>
+                        What is the target cost per unit?`,
+                        options: shuffle(options),
+                        explanation: `Target sales revenue = ${formatCurrency(newPrice)} × ${formatNumber(targetUnits)} = ${formatCurrency(targetRevenue)}<br>
+                        Target operating income = ${formatCurrency(targetRevenue)} × ${targetProfitPercent}% = ${formatCurrency(targetProfit)}<br>
+                        Target cost per unit = ${formatCurrency(newPrice)} - (${formatCurrency(newPrice)} × ${targetProfitPercent}%) = ${formatCurrency(newPrice)} - ${formatCurrency(newPrice * targetProfitPercent / 100)}<br>
+                        = <strong>${formatCurrency(targetCostPerUnit)}</strong>`
+                    };
+                }
+            },
+            // Q11 - Calculation (Markup Percentage)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const investment = randInt(1300, 1600) * 1000;
+                    const targetIncome = Math.round(investment * randInt(22, 28) / 100);
+                    const units = randInt(1400, 1700);
+                    const sellingPrice = randInt(900, 1100);
+                    
+                    const totalRevenue = units * sellingPrice;
+                    const totalCost = totalRevenue - targetIncome;
+                    const markupPercent = (targetIncome / totalCost) * 100;
+                    
+                    const options = [
+                        { text: formatPercent(targetIncome / totalRevenue * 100), correct: false },
+                        { text: formatPercent(markupPercent), correct: true },
+                        { text: formatPercent(100 - markupPercent), correct: false },
+                        { text: formatPercent(targetIncome / investment * 100), correct: false }
+                    ];
+                    
+                    return {
+                        question: `Ocean Grove Vending Company has invested ${formatCurrency(investment)} in a plant to make vending machines. The target operating income desired from the plant is ${formatCurrency(targetIncome)} annually. The company plans annual sales of ${formatNumber(units)} vending machines at a selling price of ${formatCurrency(sellingPrice)} each.<br><br>
+                        What is the markup percentage as a percentage of cost for Ocean Grove Vending Company?`,
+                        options: shuffle(options),
+                        explanation: `Sales revenue = ${formatNumber(units)} × ${formatCurrency(sellingPrice)} = ${formatCurrency(totalRevenue)}<br>
+                        Total cost = ${formatCurrency(totalRevenue)} - ${formatCurrency(targetIncome)} = ${formatCurrency(totalCost)}<br>
+                        Markup percentage = ${formatCurrency(targetIncome)} / ${formatCurrency(totalCost)} = <strong>${formatPercent(markupPercent)}</strong>`
+                    };
+                }
+            },
+            // Q12 - Calculation (Cost-Plus Pricing)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const mfgCost = randInt(550, 650);
+                    const marketingCost = randInt(15, 25);
+                    const distributionCost = randInt(8, 15);
+                    const rdCost = randInt(35, 50);
+                    const markupPercent = randInt(25, 35);
+                    
+                    const fullCost = mfgCost + marketingCost + distributionCost + rdCost;
+                    const sellingPrice = fullCost * (1 + markupPercent / 100);
+                    
+                    const options = [
+                        { text: formatCurrency(mfgCost * (1 + markupPercent / 100)), correct: false },
+                        { text: formatCurrency((mfgCost + marketingCost + distributionCost) * (1 + markupPercent / 100)), correct: false },
+                        { text: formatCurrency(fullCost + fullCost * markupPercent / 200), correct: false },
+                        { text: formatCurrency(sellingPrice), correct: true }
+                    ];
+                    
+                    return {
+                        question: `A product costs ${formatCurrency(mfgCost)} to manufacture and ${formatCurrency(marketingCost)} to market and ${formatCurrency(distributionCost)} to distribute (ship to customers). R&D costs are allocated at ${formatCurrency(rdCost)} per unit. Based on a targeted rate of return, manager uses a mark-up of ${markupPercent}%. What is the prospective selling price based on a Cost-Plus pricing approach?`,
+                        options: shuffle(options),
+                        explanation: `Full cost = ${formatCurrency(mfgCost)} + ${formatCurrency(marketingCost)} + ${formatCurrency(distributionCost)} + ${formatCurrency(rdCost)} = ${formatCurrency(fullCost)}<br>
+                        Selling price = ${formatCurrency(fullCost)} × (1 + ${markupPercent}%) = ${formatCurrency(fullCost)} × ${(1 + markupPercent / 100).toFixed(2)}<br>
+                        = <strong>${formatCurrency(sellingPrice)}</strong>`
+                    };
+                }
+            },
+            // Q13 - Conceptual (Dual-Rate Method)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "It allocates fixed costs on the basis of budgeted long-run usage, which may tempt some managers to underestimate their planned usage.", correct: true },
+                        { text: "It may lead operating department managers to make sub-optimal decisions that are in their own best interest.", correct: false },
+                        { text: "It allocates fixed and variable-cost pool using the same cost-allocation base, which will mislead managers in making decisions.", correct: false },
+                        { text: "It does not guide department managers to make decisions that benefit both the organization as a whole and each department.", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following is a disadvantage of a dual-rate method?",
+                        options: shuffle(options),
+                        explanation: "A disadvantage of the dual-rate method is that it allocates fixed costs based on budgeted usage, which may tempt managers to underestimate their planned usage to reduce their allocated costs."
+                    };
+                }
+            },
+            // Q14 - Conceptual (Departmental Cost Allocations)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "amounts allocated to departments will most likely differ depending on the cost allocation method used", correct: false },
+                        { text: "the total amount allocated among departments will differ in total depending on the cost allocation method used", correct: true },
+                        { text: "the reciprocal method is usually the most conceptually precise method because it considers mutual services provided among all support departments", correct: false },
+                        { text: "the step-down and direct methods are simple for managers to compute and understand relative to the reciprocal method", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following statements is FALSE with regards to departmental cost allocations?",
+                        options: shuffle(options),
+                        explanation: "The total amount allocated will be the SAME regardless of method used. What differs is HOW costs are distributed among departments, not the total amount."
+                    };
+                }
+            },
+            // Q15 - Conceptual (Stand-Alone Method)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "the individual users of a cost object are ranked in the order of users least responsible for the common cost and then uses this ranking to allocate cost among those users", correct: false },
+                        { text: "disputes can arise over who is the primary user", correct: false },
+                        { text: "each party bears a proportionate share of the total costs in relation to their individual stand-alone costs", correct: true },
+                        { text: "the individual users of a cost object are ranked in the order of users most responsible for the common cost and then uses this ranking to allocate cost among those users", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following would be the case under the stand-alone method of allocating common costs?",
+                        options: shuffle(options),
+                        explanation: "Under the stand-alone method, each party bears a proportionate share of total costs based on their individual stand-alone costs relative to the total stand-alone costs of all parties."
+                    };
+                }
+            },
+            // Q16 - Calculation (Single-Rate Allocation)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const fixedCosts = randInt(8000, 9200) * 1000;
+                    const variableCostPerHour = randInt(68, 78);
+                    const largePlaneBudgetedHours = randInt(75, 85) * 1000;
+                    const smallPlaneBudgetedHours = randInt(110, 130) * 1000;
+                    
+                    const totalBudgetedHours = largePlaneBudgetedHours + smallPlaneBudgetedHours;
+                    const largePlaneActualHours = largePlaneBudgetedHours - randInt(10, 25) * 1000;
+                    const smallPlaneActualHours = smallPlaneBudgetedHours - randInt(10, 25) * 1000;
+                    const totalVariableCosts = totalBudgetedHours * variableCostPerHour;
+                    const totalCosts = fixedCosts + totalVariableCosts;
+                    const allocationRate = totalCosts / totalBudgetedHours;
+                    
+                    const options = [
+                        { text: `${formatCurrency(Math.round(allocationRate) + randInt(8, 14) + 0.75)}`, correct: false },
+                        { text: `${formatCurrency(Math.round(allocationRate))}`, correct: true },
+                        { text: `${formatCurrency(Math.round(variableCostPerHour + fixedCosts / ((largePlaneActualHours + smallPlaneActualHours))))}`, correct: false },
+                        { text: `${formatCurrency(fixedCosts / totalBudgetedHours)}`, correct: false }
+                    ];
+                    
+                    return {
+                        question: `The Speedjet Aircraft Corporation has a central materials laboratory. The laboratory has only two users, the Large Plane Department and the Small Plane Department. The following data apply to the coming budget year:<br><br>
+                        Budgeted costs of operating the materials laboratory for ${formatNumber(totalBudgetedHours - 50000)} to ${formatNumber(totalBudgetedHours + 50000)} technician hours per year:<br>
+                        <table class="data-table">
+                            <tr><td>Fixed costs per year</td><td>${formatCurrency(fixedCosts)}</td></tr>
+                            <tr><td>Variable costs</td><td>${formatCurrency(variableCostPerHour)} per technician hour</td></tr>
+                        </table>
+                        Budgeted long-run usage in hours per year:<br>
+                        <table class="data-table">
+                            <tr><td>Large Plane Department</td><td>${formatNumber(largePlaneBudgetedHours)} technician hours</td></tr>
+                            <tr><td>Small Plane Department</td><td>${formatNumber(smallPlaneBudgetedHours)} technician hours</td></tr>
+                        </table>
+                        <strong>Budgeted amounts are used to calculate the allocation rates.</strong><br><br>
+                        Actual usage for the year by the Large Plane Department was ${formatNumber(largePlaneActualHours)} technician hours and by the Small Plane Department was ${formatNumber(smallPlaneActualHours)} technician hours.<br><br>
+                        If a single-rate cost-allocation method is used, what is the allocation rate per hour used? (Round the final answer to the nearest dollar if necessary.)`,
+                        options: shuffle(options),
+                        explanation: `Total budgeted hours = ${formatNumber(largePlaneBudgetedHours)} + ${formatNumber(smallPlaneBudgetedHours)} = ${formatNumber(totalBudgetedHours)} hours<br>
+                        Total costs = ${formatCurrency(fixedCosts)} + (${formatNumber(totalBudgetedHours)} × ${formatCurrency(variableCostPerHour)}) = ${formatCurrency(fixedCosts)} + ${formatCurrency(totalVariableCosts)} = ${formatCurrency(totalCosts)}<br>
+                        Allocation rate = ${formatCurrency(totalCosts)} / ${formatNumber(totalBudgetedHours)} = <strong>${formatCurrency(Math.round(allocationRate))} per hour</strong>`
+                    };
+                }
+            },
+            // Q17 - Calculation (Direct Method - Personnel to Dept B)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const maintenanceCosts = randInt(380, 420) * 1000;
+                    const personnelCosts = randInt(90, 110) * 1000;
+                    const deptACosts = randInt(180, 220) * 1000;
+                    const deptBCosts = randInt(280, 320) * 1000;
+                    
+                    const maintToPersonnel = randInt(850, 950);
+                    const maintToA = randInt(1200, 1400);
+                    const maintToB = randInt(580, 680);
+                    
+                    const personnelToMaint = randInt(45, 55);
+                    const personnelToA = randInt(280, 320);
+                    const personnelToB = randInt(600, 680);
+                    
+                    // Store for Q18
+                    currentExamData.q17 = {
+                        maintenanceCosts, personnelCosts, deptACosts, deptBCosts,
+                        maintToPersonnel, maintToA, maintToB,
+                        personnelToMaint, personnelToA, personnelToB
+                    };
+                    
+                    // Direct method: Personnel to B
+                    const totalPersonnelToOperating = personnelToA + personnelToB;
+                    const personnelToBAllocation = personnelCosts * (personnelToB / totalPersonnelToOperating);
+                    
+                    const options = [
+                        { text: formatCurrency(personnelToBAllocation), correct: true },
+                        { text: formatCurrency(personnelCosts * personnelToA / totalPersonnelToOperating), correct: false },
+                        { text: formatCurrency(personnelCosts * personnelToB / (personnelToMaint + personnelToA + personnelToB)), correct: false },
+                        { text: formatCurrency(personnelCosts * personnelToB / personnelToA), correct: false }
+                    ];
+                    
+                    return {
+                        question: `<div class="info-box">Use the following information for the next two questions.</div>
+                        Titan Corp has two service departments, Maintenance and Personnel. Maintenance Department costs of ${formatCurrency(maintenanceCosts)} are allocated on the basis of budgeted maintenance-hours. Personnel Department costs of ${formatCurrency(personnelCosts)} are allocated based on the number of employees. The costs of operating departments A and B are ${formatCurrency(deptACosts)} and ${formatCurrency(deptBCosts)}, respectively. Data on budgeted maintenance-hours and number of employees are as follows:<br><br>
+                        <table class="data-table">
+                            <tr><th></th><th>Maintenance Dept</th><th>Personnel Dept</th><th>Dept A</th><th>Dept B</th></tr>
+                            <tr><td>Budgeted costs</td><td>${formatCurrency(maintenanceCosts)}</td><td>${formatCurrency(personnelCosts)}</td><td>${formatCurrency(deptACosts)}</td><td>${formatCurrency(deptBCosts)}</td></tr>
+                            <tr><td>Budgeted maintenance-hours</td><td>NA</td><td>${formatNumber(maintToPersonnel)}</td><td>${formatNumber(maintToA)}</td><td>${formatNumber(maintToB)}</td></tr>
+                            <tr><td>Number of employees</td><td>${personnelToMaint}</td><td>NA</td><td>${personnelToA}</td><td>${personnelToB}</td></tr>
+                        </table>
+                        Using the direct method, what amount of Personnel Department costs will be allocated to Department B?`,
+                        options: shuffle(options),
+                        explanation: `Direct method ignores services to other support departments.<br>
+                        Personnel Dept costs to B = ${formatCurrency(personnelCosts)} × ${personnelToB} / (${personnelToA} + ${personnelToB})<br>
+                        = ${formatCurrency(personnelCosts)} × ${personnelToB} / ${totalPersonnelToOperating}<br>
+                        = <strong>${formatCurrency(personnelToBAllocation)}</strong>`
+                    };
+                }
+            },
+            // Q18 - Calculation (Step-Down Method)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const d = currentExamData.q17 || {
+                        maintenanceCosts: 400000, personnelCosts: 100000,
+                        maintToPersonnel: 900, maintToA: 1290, maintToB: 620,
+                        personnelToMaint: 50, personnelToA: 300, personnelToB: 640
+                    };
+                    
+                    // Calculate percentages of interdepartmental support
+                    const totalMaintHours = d.maintToPersonnel + d.maintToA + d.maintToB;
+                    const maintToPersonnelPct = d.maintToPersonnel / totalMaintHours;
+                    
+                    const totalPersonnelEmps = d.personnelToMaint + d.personnelToA + d.personnelToB;
+                    const personnelToMaintPct = d.personnelToMaint / totalPersonnelEmps;
+                    
+                    // Maintenance provides more interdepartmental support
+                    // So Maintenance is allocated first, Personnel gets $0 allocated to Maintenance
+                    
+                    const options = [
+                        { text: formatCurrency(d.maintenanceCosts * maintToPersonnelPct), correct: false },
+                        { text: formatCurrency(d.personnelCosts * personnelToMaintPct), correct: false },
+                        { text: formatCurrency(d.personnelCosts * maintToPersonnelPct), correct: false },
+                        { text: formatCurrency(0), correct: true }
+                    ];
+                    
+                    return {
+                        question: `Using the step-down method, what amount of Personnel Department cost will be allocated to Maintenance Department if the service department with the highest percentage of interdepartmental support service is allocated first?`,
+                        options: shuffle(options),
+                        explanation: `Maintenance provided to Personnel: ${d.maintToPersonnel} / (${d.maintToPersonnel} + ${d.maintToA} + ${d.maintToB}) = ${(maintToPersonnelPct * 100).toFixed(0)}%<br>
+                        Personnel provided to Maintenance: ${d.personnelToMaint} / (${d.personnelToMaint} + ${d.personnelToA} + ${d.personnelToB}) = ${(personnelToMaintPct * 100).toFixed(0)}%<br><br>
+                        Maintenance provides the greatest amount of service to support departments (${(maintToPersonnelPct * 100).toFixed(0)}% > ${(personnelToMaintPct * 100).toFixed(0)}%), so it is allocated first.<br>
+                        Therefore, there will be <strong>$0</strong> cost from Personnel allocated to Maintenance.`
+                    };
+                }
+            },
+            // Q19 - Conceptual (Conversion Costs)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "the cost of direct laborers who assemble the parts of an automobile", correct: false },
+                        { text: "the cost of tires on an automobile", correct: true },
+                        { text: "the cost of depreciation on an automobile assembly plant", correct: false },
+                        { text: "the cost of electricity to run the tools in the automobile assembly plant", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following are NOT conversion costs?",
+                        options: shuffle(options),
+                        explanation: "Conversion costs = Direct Labor + Manufacturing Overhead. Tires are direct materials, not conversion costs. Direct labor, depreciation, and electricity are all conversion costs."
+                    };
+                }
+            },
+            // Q20 - Conceptual (FIFO Process Costing)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "work done on beginning inventory before the current period is blended with the work done during the current period in the calculation of equivalent units", correct: false },
+                        { text: "work done on beginning inventory before the current period is kept separate from the work done during the current period in the calculation of equivalent units", correct: true },
+                        { text: "work done on ending inventory is kept separate from the work done during the current period in the calculation of equivalent units and is usually not included in the calculation", correct: false },
+                        { text: "FIFO process-costing method is only minimally different from the weighted-average process-costing method", correct: false }
+                    ];
+                    return {
+                        question: "A distinct feature of the FIFO process-costing method is that the:",
+                        options: shuffle(options),
+                        explanation: "FIFO keeps work done in prior periods separate from current period work. It only counts the work done THIS period to complete beginning WIP, not the total equivalent units in beginning WIP."
+                    };
+                }
+            },
+            // Q21 - Conceptual (Transferred-In Costs)
+            {
+                type: 'conceptual',
+                generate: function() {
+                    const options = [
+                        { text: "These costs are incurred in previous departments that are carried forward to subsequent departments.", correct: true },
+                        { text: "These costs are transferred into the company by an external vendor.", correct: false },
+                        { text: "These costs are incurred in transferring raw materials and labor from the place of availability to the factory.", correct: false },
+                        { text: "These costs cannot be controlled by an organization as they are transferred to the organization from the market participants.", correct: false }
+                    ];
+                    return {
+                        question: "Which of the following best describes transferred-in costs in process costing?",
+                        options: shuffle(options),
+                        explanation: "Transferred-in costs are costs incurred in previous departments that are carried forward as the units move to subsequent departments in a multi-stage production process."
+                    };
+                }
+            },
+            // Q22 - Calculation (FIFO Equivalent Units - Materials)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const bwipUnits = randInt(8, 12) * 1000;
+                    const bwipMatPct = 100;
+                    const bwipConvPct = randInt(70, 80);
+                    const completedUnits = randInt(85, 95) * 1000;
+                    const ewipUnits = randInt(6, 10) * 1000;
+                    const ewipMatPct = 100;
+                    let ewipConvPct = randInt(55, 65);
+                    // keep the Q23 answer different from its distractors
+                    while (bwipUnits * (100 - bwipConvPct) === ewipUnits * (100 - ewipConvPct) ||
+                           bwipUnits * (100 - bwipConvPct) / 100 === 0) ewipConvPct++;
+                    
+                    // Store for Q23
+                    currentExamData.q22 = {
+                        bwipUnits, bwipMatPct, bwipConvPct,
+                        completedUnits, ewipUnits, ewipMatPct, ewipConvPct
+                    };
+                    
+                    // FIFO: Started this period
+                    const startedThisPeriod = completedUnits + ewipUnits - bwipUnits;
+                    
+                    // FIFO Equivalent Units for Materials
+                    // = Complete BWIP (0 since 100% complete for materials)
+                    // + Started & Completed (completedUnits - bwipUnits)
+                    // + EWIP (ewipUnits * ewipMatPct/100)
+                    const euMaterials = (bwipUnits * (100 - bwipMatPct) / 100) + (completedUnits - bwipUnits) + (ewipUnits * ewipMatPct / 100);
+                    // Simplified: 0 + (completed - bwip) + ewip = completed - bwip + ewip = started this period
+                    
+                    const options = [
+                        { text: `${formatNumber(completedUnits - bwipUnits + ewipUnits * ewipConvPct / 100)} units`, correct: false },
+                        { text: `${formatNumber(euMaterials)} units`, correct: true },
+                        { text: `${formatNumber(completedUnits + ewipUnits * ewipConvPct / 100)} units`, correct: false },
+                        { text: `${formatNumber(completedUnits + ewipUnits)} units`, correct: false }
+                    ];
+                    
+                    return {
+                        question: `<div class="info-box">Use the following information for the next two questions.</div>
+                        Jones Corporation uses a first-in, first-out (FIFO) process costing system. Jones has the following unit information for the month of August.<br><br>
+                        <table class="data-table">
+                            <tr><td>Beginning work-in-process inventory, ${bwipMatPct}% complete for materials, ${bwipConvPct}% complete for conversion costs</td><td>${formatNumber(bwipUnits)}</td></tr>
+                            <tr><td>Units completed and transferred out</td><td>${formatNumber(completedUnits)}</td></tr>
+                            <tr><td>Ending work-in-process inventory, ${ewipMatPct}% complete for materials, ${ewipConvPct}% complete for conversion costs</td><td>${formatNumber(ewipUnits)}</td></tr>
+                        </table>
+                        The number of equivalent units of production for direct materials costs for the month of August is:`,
+                        options: shuffle(options),
+                        explanation: `FIFO Equivalent Units for Materials:<br>
+                        = Complete BWIP: ${formatNumber(bwipUnits)} × (100% - ${bwipMatPct}%) = 0<br>
+                        + Started & Completed: ${formatNumber(completedUnits)} - ${formatNumber(bwipUnits)} = ${formatNumber(completedUnits - bwipUnits)}<br>
+                        + EWIP: ${formatNumber(ewipUnits)} × ${ewipMatPct}% = ${formatNumber(ewipUnits)}<br>
+                        = <strong>${formatNumber(euMaterials)} units</strong>`
+                    };
+                }
+            },
+            // Q23 - Calculation (FIFO Equivalent Units - Conversion)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const d = currentExamData.q22 || {
+                        bwipUnits: 10000, bwipMatPct: 100, bwipConvPct: 75,
+                        completedUnits: 90000, ewipUnits: 8000, ewipMatPct: 100, ewipConvPct: 60
+                    };
+                    
+                    // FIFO Equivalent Units for Conversion
+                    const completeBWIP = d.bwipUnits * (100 - d.bwipConvPct) / 100;
+                    const startedAndCompleted = d.completedUnits - d.bwipUnits;
+                    const ewipConv = d.ewipUnits * d.ewipConvPct / 100;
+                    const euConversion = completeBWIP + startedAndCompleted + ewipConv;
+                    
+                    const options = [
+                        { text: `${formatNumber(euConversion)} units`, correct: true },
+                        { text: `${formatNumber(d.completedUnits - d.bwipUnits + d.ewipUnits)} units`, correct: false },
+                        { text: `${formatNumber(d.completedUnits + ewipConv)} units`, correct: false },
+                        { text: `${formatNumber(d.completedUnits + d.ewipUnits)} units`, correct: false }
+                    ];
+                    
+                    return {
+                        question: `The number of equivalent units of production for conversion costs for the month of August is:`,
+                        options: shuffle(options),
+                        explanation: `FIFO Equivalent Units for Conversion:<br>
+                        = Complete BWIP: ${formatNumber(d.bwipUnits)} × (100% - ${d.bwipConvPct}%) = ${formatNumber(d.bwipUnits)} × ${100 - d.bwipConvPct}% = ${formatNumber(completeBWIP)}<br>
+                        + Started & Completed: ${formatNumber(d.completedUnits)} - ${formatNumber(d.bwipUnits)} = ${formatNumber(startedAndCompleted)}<br>
+                        + EWIP: ${formatNumber(d.ewipUnits)} × ${d.ewipConvPct}% = ${formatNumber(ewipConv)}<br>
+                        = <strong>${formatNumber(euConversion)} units</strong>`
+                    };
+                }
+            },
+            // Q24 - Calculation (Weighted Average - Material Added at Point)
+            {
+                type: 'calculation',
+                generate: function() {
+                    const bwipUnits = randInt(18, 24) * 1000;
+                    const bwipCompletePct = randInt(85, 95);
+                    const startedUnits = randInt(65, 75) * 1000;
+                    let completedUnits = randInt(60, 70) * 1000;
+                    if (completedUnits === startedUnits) completedUnits -= 2000;
+                    const materialAddedPct = randInt(75, 85);
+                    
+                    const ewipUnits = bwipUnits + startedUnits - completedUnits;
+                    const ewipCompletePct = randInt(55, 65);
+                    
+                    // Material B is added when goods are materialAddedPct% complete
+                    // BWIP is bwipCompletePct% complete (> materialAddedPct%, so has Material B)
+                    // EWIP is ewipCompletePct% complete (< materialAddedPct%, so does NOT have Material B)
+                    
+                    // Weighted Average EU for Material B
+                    // = Completed units (all have material B) + EWIP (only if past materialAddedPct%)
+                    let ewipMaterialB = 0;
+                    if (ewipCompletePct >= materialAddedPct) {
+                        ewipMaterialB = ewipUnits;
+                    }
+                    const euMaterialB = completedUnits + ewipMaterialB;
+                    
+                    const options = [
+                        { text: `${formatNumber(completedUnits)} units`, correct: ewipCompletePct < materialAddedPct },
+                        { text: `${formatNumber(startedUnits)} units`, correct: false },
+                        { text: `${formatNumber(bwipUnits + completedUnits)} units`, correct: false },
+                        { text: `${formatNumber(completedUnits + ewipUnits)} units`, correct: ewipCompletePct >= materialAddedPct }
+                    ];
+                    
+                    return {
+                        question: `Colt company uses a weighted-average process cost system to account for the cost of producing a chemical compound. As part of production, Material B is added when the goods are ${materialAddedPct}% complete. Beginning work-in-process inventory for the current month was ${formatNumber(bwipUnits)} units, ${bwipCompletePct}% complete. During the month, ${formatNumber(startedUnits)} units were started in process, and ${formatNumber(completedUnits)} of these units were completed. The ending inventory was ${ewipCompletePct}% complete.<br><br>
+                        The total equivalent units for Material B for the month was:`,
+                        options: shuffle(options),
+                        explanation: `Material B is added at ${materialAddedPct}% completion.<br>
+                        EWIP is ${ewipCompletePct}% complete, which is ${ewipCompletePct < materialAddedPct ? 'LESS than' : 'at least'} ${materialAddedPct}%.<br>
+                        ${ewipCompletePct < materialAddedPct ? 'EWIP has NOT received Material B yet.' : 'EWIP HAS received Material B.'}<br><br>
+                        Weighted Average EU for Material B:<br>
+                        = Completed units + EWIP (if applicable)<br>
+                        = ${formatNumber(completedUnits)} + ${formatNumber(ewipMaterialB)}<br>
+                        = <strong>${formatNumber(euMaterialB)} units</strong>`
+                    };
+                }
+            },
+            // Q25 - Short Answer (Special Order)
+            {
+                type: 'short_answer_calc',
+                generate: function() {
+                    const normalUnits = randInt(110, 130) * 1000;
+                    const directMaterials = randInt(20, 26) + 0.50;
+                    const directLabor = randInt(6, 9);
+                    const varMfgOH = randInt(1, 2) + 0.50;
+                    const fixedMfgOH = randInt(10, 13) + 0.50;
+                    const varSGA = randInt(2, 4) + 0.75;
+                    const fixedSGA = randInt(7, 10);
+                    const normalSellingPrice = randInt(68, 75) + 0.60;
+                    
+                    const specialOrderUnits = randInt(1200, 1800);
+                    const sgaReduction = 0.75;
+                    const specialPrice = randInt(43, 48) + 0.40;
+                    
+                    // Calculate variable cost per unit on normal sales
+                    const normalVarCost = directMaterials + directLabor + varMfgOH + varSGA;
+                    
+                    // Variable cost per unit on special order (reduced SGA)
+                    const specialVarCost = directMaterials + directLabor + varMfgOH + (varSGA - sgaReduction);
+                    
+                    // Contribution margin on special order
+                    const specialCM = specialPrice - specialVarCost;
+                    
+                    // Total impact
+                    const totalImpact = specialCM * specialOrderUnits;
+                    
+                    return {
+                        question: `<strong>Question 25:</strong> Castleton Products Inc. produces a single product. The cost of producing and selling a single unit of this product at the company's normal activity level of ${formatNumber(normalUnits)} units per month is as follows:<br><br>
+                        <table class="data-table">
+                            <tr><td>Direct materials</td><td>${formatCurrency(directMaterials)}</td></tr>
+                            <tr><td>Direct labor</td><td>${formatCurrency(directLabor)}</td></tr>
+                            <tr><td>Variable manufacturing overhead</td><td>${formatCurrency(varMfgOH)}</td></tr>
+                            <tr><td>Fixed manufacturing overhead</td><td>${formatCurrency(fixedMfgOH)}</td></tr>
+                            <tr><td>Variable selling & administrative expense</td><td>${formatCurrency(varSGA)}</td></tr>
+                            <tr><td>Fixed selling & administrative expense</td><td>${formatCurrency(fixedSGA)}</td></tr>
+                        </table>
+                        The normal selling price of the product is ${formatCurrency(normalSellingPrice)} per unit.<br><br>
+                        An order has been received from an overseas customer for ${formatNumber(specialOrderUnits)} units to be delivered this month at a special discounted price. This order would have no effect on the company's normal sales and would not change the total amount of the company's fixed costs. The variable selling and administrative expense would be ${formatCurrency(sgaReduction)} less per unit on this order than on normal sales.<br><br>
+                        Direct labor is a variable cost in this company.<br><br>
+                        Suppose there is enough idle capacity to produce the units required by the overseas customer and the special discounted price on the special order is ${formatCurrency(specialPrice)} per unit. By how much would this special order increase (decrease) the company's net operating income for the month? If your answer is a decrease, use parentheses around the number. Round your answer to the nearest cent.<br><br>
+                        <strong>Your Answer:______________</strong>`,
+                        answer: `<strong>Variable cost per unit on normal sales:</strong><br>
+                        <table class="data-table">
+                            <tr><td>Direct materials</td><td>${formatCurrency(directMaterials)}</td></tr>
+                            <tr><td>Direct labor</td><td>${formatCurrency(directLabor)}</td></tr>
+                            <tr><td>Variable manufacturing overhead</td><td>${formatCurrency(varMfgOH)}</td></tr>
+                            <tr><td>Variable selling & administrative expense</td><td>${formatCurrency(varSGA)}</td></tr>
+                            <tr><td><strong>Variable cost per unit on normal sales</strong></td><td><strong>${formatCurrency(normalVarCost)}</strong></td></tr>
+                        </table><br>
+                        
+                        <strong>Variable cost per unit on special order:</strong><br>
+                        <table class="data-table">
+                            <tr><td>Normal variable cost per unit</td><td>${formatCurrency(normalVarCost)}</td></tr>
+                            <tr><td>Reduction in variable selling and administrative expense</td><td>(${formatCurrency(sgaReduction)})</td></tr>
+                            <tr><td><strong>Variable cost per unit on special order</strong></td><td><strong>${formatCurrency(specialVarCost)}</strong></td></tr>
+                        </table><br>
+                        
+                        <strong>Impact on net operating income:</strong><br>
+                        <table class="data-table">
+                            <tr><td>Selling price for special order</td><td>${formatCurrency(specialPrice)}</td></tr>
+                            <tr><td>Variable cost per unit on special order</td><td>${formatCurrency(specialVarCost)}</td></tr>
+                            <tr><td><strong>Unit contribution margin on special order</strong></td><td><strong>${formatCurrency(specialCM)}</strong></td></tr>
+                            <tr><td>Number of units in special order</td><td>× ${formatNumber(specialOrderUnits)}</td></tr>
+                            <tr><td><strong>Increase (decrease) in net operating income</strong></td><td><strong>${totalImpact >= 0 ? formatCurrency(totalImpact) + ' Increase' : '(' + formatCurrency(-totalImpact) + ') Decrease'}</strong></td></tr>
+                        </table>`
+                    };
+                }
+            },
+            // Q26 - Short Answer (Target Cost)
+            {
+                type: 'short_answer_calc',
+                generate: function() {
+                    const currentPrice = randInt(120, 135);
+                    const currentCost = randInt(85, 95);
+                    const competitorPrice = currentPrice - randInt(8, 15);
+                    const newPrice = competitorPrice - randInt(3, 8);
+                    const currentSalesVolume = randInt(180, 220) * 1000;
+                    const targetProfitPct = randInt(22, 28);
+                    
+                    // Part a: Target cost with profit as % of sales
+                    const targetCostA = newPrice * (1 - targetProfitPct / 100);
+                    
+                    // Part b: Target cost to maintain same income level
+                    const currentIncome = currentSalesVolume * (currentPrice - currentCost);
+                    const newRevenue = currentSalesVolume * newPrice;
+                    const targetCostB = (newRevenue - currentIncome) / currentSalesVolume;
+                    
+                    return {
+                        question: `<strong>Question 26:</strong> Fairhaven Composite Poles manufactures fishing poles that have a price of ${formatCurrency(currentPrice)}. It has costs of ${formatCurrency(currentCost)}. A competitor is introducing a new fishing pole that will sell for ${formatCurrency(competitorPrice)}. Management believes it must lower the price to ${formatCurrency(newPrice)} to compete in the highly cost-conscious fishing pole market. Marketing department believes that the new price will allow the company to maintain the current sales level of ${formatNumber(currentSalesVolume)} poles per year.<br><br>
+                        <strong>a. What is the target cost for the new price if target operating income is ${targetProfitPct}% of sales?</strong><br>
+                        Your Answer:______________<br><br>
+                        <strong>b. What is the target cost per unit if the selling price is reduced to ${formatCurrency(newPrice)} and the company wants to maintain its same income level?</strong><br>
+                        Your Answer:______________`,
+                        answer: `<strong>a. Target cost with ${targetProfitPct}% profit margin:</strong><br>
+                        Target cost = Selling price - Target profit<br>
+                        Target cost = ${formatCurrency(newPrice)} - (${formatCurrency(newPrice)} × ${targetProfitPct}%)<br>
+                        Target cost = ${formatCurrency(newPrice)} - ${formatCurrency(newPrice * targetProfitPct / 100)}<br>
+                        <strong>Target cost = ${formatCurrency(targetCostA)}</strong><br><br>
+                        
+                        <strong>b. Target cost to maintain same income level:</strong><br>
+                        Current operating income = ${formatNumber(currentSalesVolume)} × (${formatCurrency(currentPrice)} - ${formatCurrency(currentCost)})<br>
+                        = ${formatNumber(currentSalesVolume)} × ${formatCurrency(currentPrice - currentCost)}<br>
+                        = ${formatCurrency(currentIncome)}<br><br>
+                        
+                        Estimated sales revenue at new price = ${formatNumber(currentSalesVolume)} × ${formatCurrency(newPrice)} = ${formatCurrency(newRevenue)}<br><br>
+                        
+                        Target cost per unit = (${formatCurrency(newRevenue)} - ${formatCurrency(currentIncome)}) / ${formatNumber(currentSalesVolume)}<br>
+                        = ${formatCurrency(newRevenue - currentIncome)} / ${formatNumber(currentSalesVolume)}<br>
+                        <strong>Target cost per unit = ${formatCurrency(targetCostB)}</strong>`
+                    };
+                }
+            }
+        ];
+
+        function generateExam() {
+            answersVisible = false;
+            currentExamData = {};
+            
+            const container = document.getElementById('examContent');
+            let html = '';
+            
+            questions.forEach((q, index) => {
+                let data = q.generate();
+                for (let tries = 0; data.options && new Set(data.options.map(o => o.text)).size < data.options.length && tries < 50; tries++) {
+                    data = q.generate();
+                }
+                
+                if (q.type === 'conceptual' || q.type === 'calculation') {
+                    html += `
+                        <div class="question">
+                            <span class="question-number">${index + 1}.</span>
+                            <div class="question-text">${data.question}</div>
+                            <div class="options">
+                    `;
+                    
+                    data.options.forEach((opt, optIndex) => {
+                        const letter = String.fromCharCode(65 + optIndex);
+                        html += `
+                            <label class="option" id="q${index}_opt${optIndex}">
+                                <input type="radio" name="q${index}" value="${optIndex}" data-correct="${opt.correct}" onclick="selectOption(${index}, ${optIndex})">
+                                <span class="option-text"><strong>${letter}.</strong> ${opt.text}</span>
+                            </label>
+                        `;
+                    });
+                    
+                    const correctLetter = String.fromCharCode(65 + data.options.findIndex(o => o.correct));
+                    html += `
+                            </div>
+                            <div class="answer" id="answer${index}">
+                                <span class="answer-label">✓ Correct Answer: ${correctLetter}</span>
+                                <div class="explanation">${data.explanation}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Short answer questions
+                    html += `
+                        <div class="question">
+                            <div class="question-text">${data.question}</div>
+                            <div class="answer" id="answer${index}">
+                                <span class="answer-label">✓ Answer:</span>
+                                <div class="explanation">${data.answer}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            container.innerHTML = html;
+            
+            // Add submit section after exam content
+            const submitSection = document.createElement('div');
+            submitSection.className = 'submit-section';
+            submitSection.id = 'submitSection';
+            submitSection.innerHTML = `
+                <h3>Ready to Submit?</h3>
+                <p>Review your answers before submitting. Once submitted, you'll see your grade and which questions you got right or wrong.</p>
+                <button class="submit-btn" onclick="submitExam()">📊 Submit & Grade Exam</button>
+                <div class="grade-result" id="gradeResult">
+                    <div class="grade-percentage" id="gradePercentage">0%</div>
+                    <div class="grade-letter" id="gradeLetter">F</div>
+                    <div class="grade-details" id="gradeDetails">0/24 multiple choice correct</div>
+                    <div class="unanswered-warning" id="unansweredWarning"></div>
+                </div>
+            `;
+            container.appendChild(submitSection);
+            
+            document.getElementById('scoreDisplay').classList.remove('show');
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            // Remove selected class from all options for this question
+            const options = document.querySelectorAll(`[id^="q${questionIndex}_opt"]`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selected class to chosen option
+            document.getElementById(`q${questionIndex}_opt${optionIndex}`).classList.add('selected');
+        }
+
+        function submitExam() {
+            let correct = 0;
+            let answered = 0;
+            const totalMC = 24; // Questions 1-24 are multiple choice
+            
+            // Grade only the multiple choice questions (first 24)
+            for (let i = 0; i < totalMC; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const options = document.querySelectorAll(`[id^="q${i}_opt"]`);
+                
+                // Remove previous grading styles
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                if (selected) {
+                    answered++;
+                    const isCorrect = selected.getAttribute('data-correct') === 'true';
+                    const selectedLabel = selected.closest('.option');
+                    
+                    if (isCorrect) {
+                        correct++;
+                        selectedLabel.classList.add('correct');
+                    } else {
+                        selectedLabel.classList.add('incorrect');
+                        // Highlight the correct answer
+                        options.forEach(opt => {
+                            const input = opt.querySelector('input');
+                            if (input && input.getAttribute('data-correct') === 'true') {
+                                opt.classList.add('correct');
+                            }
+                        });
+                    }
+                } else {
+                    // Question not answered - highlight correct answer
+                    options.forEach(opt => {
+                        const input = opt.querySelector('input');
+                        if (input && input.getAttribute('data-correct') === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                }
+            }
+            
+            const percentage = Math.round((correct / totalMC) * 100);
+            let letterGrade;
+            
+            if (percentage >= 93) letterGrade = 'A';
+            else if (percentage >= 90) letterGrade = 'A-';
+            else if (percentage >= 87) letterGrade = 'B+';
+            else if (percentage >= 83) letterGrade = 'B';
+            else if (percentage >= 80) letterGrade = 'B-';
+            else if (percentage >= 77) letterGrade = 'C+';
+            else if (percentage >= 73) letterGrade = 'C';
+            else if (percentage >= 70) letterGrade = 'C-';
+            else if (percentage >= 67) letterGrade = 'D+';
+            else if (percentage >= 63) letterGrade = 'D';
+            else if (percentage >= 60) letterGrade = 'D-';
+            else letterGrade = 'F';
+            
+            // Update grade display
+            document.getElementById('gradePercentage').textContent = `${percentage}%`;
+            document.getElementById('gradeLetter').textContent = `Grade: ${letterGrade}`;
+            document.getElementById('gradeDetails').textContent = `${correct}/${totalMC} multiple choice questions correct`;
+            
+            const gradeResult = document.getElementById('gradeResult');
+            gradeResult.classList.remove('failing');
+            if (percentage < 70) {
+                gradeResult.classList.add('failing');
+            }
+            
+            const unansweredCount = totalMC - answered;
+            if (unansweredCount > 0) {
+                document.getElementById('unansweredWarning').textContent = `⚠️ ${unansweredCount} question(s) left unanswered`;
+            } else {
+                document.getElementById('unansweredWarning').textContent = '✓ All questions answered';
+            }
+            
+            gradeResult.classList.add('show');
+            
+            // Show all answers
+            answersVisible = true;
+            const answers = document.querySelectorAll('.answer');
+            answers.forEach(answer => answer.classList.add('show'));
+            
+            // Scroll to grade result
+            gradeResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function checkAnswer(input, questionIndex) {
+            // Visual feedback could be added here
+        }
+
+        function toggleAnswers() {
+            answersVisible = !answersVisible;
+            const answers = document.querySelectorAll('.answer');
+            answers.forEach(answer => {
+                if (answersVisible) {
+                    answer.classList.add('show');
+                } else {
+                    answer.classList.remove('show');
+                }
+            });
+        }
+
+        // Generate exam on page load
+        generateExam();
+    </script>
+<script data-goatcounter="https://chunkim.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
