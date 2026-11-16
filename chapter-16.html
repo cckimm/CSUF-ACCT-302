@@ -253,6 +253,15 @@ svg.stage{display:block;width:100%;height:auto;max-height:70vh}
   .chip text{font-size:20px}
 }
 
+/* walkthrough video */
+.vid{border:2px solid var(--orange);border-radius:.6em;background:var(--orBg);padding:.35em .85em;margin:.2em 0 .9em}
+.vid summary{font-weight:700;cursor:pointer;min-height:40px;display:flex;align-items:center;gap:.35em;flex-wrap:wrap;list-style:none}
+.vid summary::-webkit-details-marker{display:none}
+.vid summary span{font-weight:400;color:var(--muted);font-size:.92em}
+.vid summary:focus-visible{outline:3px solid var(--navy);outline-offset:3px;border-radius:.3em}
+.vid[open] summary{margin-bottom:.4em}
+.vid video{display:block;width:100%;height:auto;border-radius:.45em;background:#000;aspect-ratio:16/9}
+
 </style>
 </head>
 <body>
@@ -276,6 +285,15 @@ svg.stage{display:block;width:100%;height:auto;max-height:70vh}
       <li><span class="tchip m">Reciprocal</span> recognizes them in both directions.</li>
     </ul>
   </div>
+  <details class="vid" id="vid0">
+    <summary>&#9654; Watch the walkthrough video <span>(5:51, narrated, captions available)</span></summary>
+    <video controls playsinline preload="none" poster="ch16-walkthrough-poster.jpg">
+      <source src="ch16-walkthrough.mp4" type="video/mp4">
+      <track kind="captions" src="ch16-walkthrough.vtt" srclang="en" label="English">
+      Your browser can't play this video. <a href="ch16-walkthrough.mp4">Download it here.</a>
+    </video>
+    <p class="note">It walks through all five pages: the setup, the direct, step-down, and reciprocal methods, the comparison, and practicing with Reset Numbers. Press CC in the player for captions.</p>
+  </details>
   <div data-todo></div>
   <div data-case></div>
   <div class="facts" id="facts0"></div>
@@ -913,6 +931,7 @@ function render0(){
 qa("#prev0 [data-m]").forEach(function(b){b.onclick=function(){prev=b.getAttribute("data-m");qa("#prev0 [data-m]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});render0()}});
 var P0=U.page({i:0,cases:CASES,
   todo:[
+    {t:"New here? Open <b>Watch the walkthrough video</b> for a narrated tour of all five pages.",why:"It shows each method step by step. You can come back to this page any time.",at:"#vid0"},
     {t:"Read the case: each department's costs, and how much service each support department gives.",why:"The percentages say how each support department's work is split among the other three departments.",at:"#facts0"},
     {t:"Look at the diagram. Each arrow is a service, labeled with its share.",why:"Top row: support departments (S1, S2). Bottom row: operating departments (P1, P2). The two short arrows in the middle of the top row are the services the support departments give each other.",at:"#stage0"},
     {t:"Tap each method to see which arrows it uses.",why:"Direct crosses out both support-to-support arrows. Step-down keeps one. Reciprocal keeps both.",at:"#prev0"},
@@ -983,7 +1002,7 @@ PAGES.push({api:P4});
 
 /* start: lecture example everywhere */
 setData("lec");syncing=true;PAGES.forEach(function(p){p.api.load("lec")});syncing=false;
-pg.onShow(function(i){PAGES.forEach(function(p){if(p.pl&&p.pl()) p.pl().stop()});if(i===4) P4.render()});
+pg.onShow(function(i){PAGES.forEach(function(p){if(p.pl&&p.pl()) p.pl().stop()});qa("video").forEach(function(v){if(!v.paused) v.pause()});if(i===4) P4.render()});
 $("bReset").onclick=function(){setData("lec");syncing=true;PAGES.forEach(function(p){p.api.load("lec")});syncing=false;
   prev="all";qa("#prev0 [data-m]").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-m")==="all"?"true":"false")});render0();
   pg.show(0,true);U.announce("Reset to the lecture example.")};

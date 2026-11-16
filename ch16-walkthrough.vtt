@@ -1,0 +1,103 @@
+WEBVTT
+
+00:00:00.200 --> 00:00:08.900
+Welcome. In this walkthrough, we'll allocate support-department costs three ways: the direct method, the step-down method, and the reciprocal method.
+
+00:00:09.700 --> 00:00:22.000
+Here is the setup. Two support departments, Engineering and Materials, serve each other and two operating departments, Machining and Assembly. Each arrow shows a share of that department's service.
+
+00:00:22.800 --> 00:00:31.100
+The direct method ignores the services the support departments give each other. Both arrows between them are crossed out.
+
+00:00:31.900 --> 00:00:41.800
+The step-down method uses one of those arrows. Engineering goes first, because it gives a larger share to Materials than it gets back.
+
+00:00:42.600 --> 00:00:48.800
+The reciprocal method uses both arrows. It fully counts the services in both directions.
+
+00:00:49.600 --> 00:00:55.800
+Let's start with the direct method. Before allocation, each department has its own costs.
+
+00:00:56.600 --> 00:01:05.700
+First, cross out the arrows between Engineering and Materials. Under the direct method, support costs go straight to the operating departments.
+
+00:01:06.500 --> 00:01:20.900
+Without the thirty percent it gives Materials, Engineering's service to the operating departments is seventy percent. So Machining gets fifty over seventy, or seventy-one point four percent, and Assembly gets twenty-eight point six percent.
+
+00:01:21.700 --> 00:01:32.000
+Engineering's three hundred thousand dollars moves down. Machining receives two hundred fourteen thousand, two hundred eighty-six, and Assembly receives eighty-five thousand, seven hundred fourteen.
+
+00:01:32.817 --> 00:01:42.717
+Now Materials. Leaving out its ten percent to Engineering, ninety percent remains. Machining gets twenty over ninety, and Assembly gets seventy over ninety.
+
+00:01:43.517 --> 00:01:50.917
+Materials' two hundred sixty-four thousand dollars moves to Machining and Assembly, and the allocation table fills in.
+
+00:01:51.733 --> 00:02:04.433
+Both support departments are now at zero. Machining ends at six hundred one thousand, nine hundred fifty-two, and Assembly at five hundred eighteen thousand, forty-eight. Nothing was lost or double-counted.
+
+00:02:05.233 --> 00:02:09.833
+Next, the step-down method. We start from the same costs.
+
+00:02:10.633 --> 00:02:20.933
+First, choose the order. Engineering gives thirty percent of its service to Materials, but Materials gives only ten percent back. So Engineering goes first.
+
+00:02:21.733 --> 00:02:32.433
+Engineering is allocated to everyone, using all of its percentages: ninety thousand to Materials, one hundred fifty thousand to Machining, and sixty thousand to Assembly.
+
+00:02:33.250 --> 00:02:42.750
+Materials now holds its own two hundred sixty-four thousand, plus the ninety thousand it received: three hundred fifty-four thousand dollars to allocate.
+
+00:02:43.550 --> 00:02:53.450
+Engineering is already done, so nothing goes back to it. Materials re-bases over the operating departments: twenty over ninety, and seventy over ninety.
+
+00:02:54.250 --> 00:03:04.550
+Materials' three hundred fifty-four thousand moves down: seventy-eight thousand, six hundred sixty-seven to Machining, and two hundred seventy-five thousand, three hundred thirty-three to Assembly.
+
+00:03:05.367 --> 00:03:16.867
+Machining ends at five hundred fifty-seven thousand, six hundred sixty-seven, and Assembly at five hundred sixty-two thousand, three hundred thirty-three. Only one direction of service was recognized.
+
+00:03:17.667 --> 00:03:22.267
+Finally, the reciprocal method, again from the same starting costs.
+
+00:03:23.067 --> 00:03:31.367
+This method counts both arrows: thirty percent from Engineering to Materials, and ten percent back from Materials to Engineering.
+
+00:03:32.167 --> 00:03:49.767
+Picture the costs bouncing back and forth. Engineering sends ninety thousand to Materials. Materials sends thirty-five thousand, four hundred back. Then ten thousand, six hundred twenty, and so on. Each round gets smaller, and the equations add up every round at once.
+
+00:03:50.567 --> 00:04:01.267
+Step one: write one equation for each support department. Its complete cost equals its own cost, plus its share of the other department's complete cost.
+
+00:04:02.067 --> 00:04:13.167
+Step two: substitute and solve. Engineering's complete cost is three hundred thirty-six thousand, four hundred ninety-five, and Materials' is three hundred sixty-four thousand, nine hundred forty-eight.
+
+00:04:13.967 --> 00:04:25.467
+Step three: allocate Engineering's complete cost, using all of its percentages. Engineering briefly shows a negative balance, while it waits for Materials to send its share back.
+
+00:04:26.283 --> 00:04:35.783
+Then Materials allocates its complete cost, including thirty-six thousand, four hundred ninety-five back to Engineering. That brings both support departments to zero.
+
+00:04:36.600 --> 00:04:45.300
+Machining ends at five hundred seventy thousand, two hundred thirty-seven, and Assembly at five hundred forty-nine thousand, seven hundred sixty-three.
+
+00:04:46.100 --> 00:05:03.300
+Here are all three side by side. Every method allocates the same total support cost, five hundred sixty-four thousand dollars. Only the split changes. The reciprocal method is the most precise, while the direct and step-down methods are simpler to compute.
+
+00:05:04.100 --> 00:05:12.400
+Now it's your turn. Press Reset Numbers for a new problem. The answers stay hidden until you check them.
+
+00:05:13.200 --> 00:05:22.700
+This time, the services are given in units, square feet and inspection hours, just like the Quick Check gives hours and employees.
+
+00:05:23.500 --> 00:05:28.900
+The captions turn those units into shares, one step at a time.
+
+00:05:29.700 --> 00:05:36.300
+When you reach the end, work out the answer, type it in, and press Check.
+
+00:05:37.100 --> 00:05:41.700
+Correct! The hidden amounts appear, along with the worked answer.
+
+00:05:42.500 --> 00:05:50.300
+Try it yourself on the class widgets page. Step through each method, then press Reset Numbers to practice.
