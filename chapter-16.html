@@ -254,13 +254,8 @@ svg.stage{display:block;width:100%;height:auto;max-height:70vh}
 }
 
 /* walkthrough video */
-.vid{border:2px solid var(--orange);border-radius:.6em;background:var(--orBg);padding:.35em .85em;margin:.2em 0 .9em}
-.vid summary{font-weight:700;cursor:pointer;min-height:40px;display:flex;align-items:center;gap:.35em;flex-wrap:wrap;list-style:none}
-.vid summary::-webkit-details-marker{display:none}
-.vid summary span{font-weight:400;color:var(--muted);font-size:.92em}
-.vid summary:focus-visible{outline:3px solid var(--navy);outline-offset:3px;border-radius:.3em}
-.vid[open] summary{margin-bottom:.4em}
-.vid video{display:block;width:100%;height:auto;border-radius:.45em;background:#000;aspect-ratio:16/9}
+.vid{margin:.2em 0 .9em}
+.vid video{display:block;width:100%;height:auto;border-radius:.6em;background:#000;aspect-ratio:16/9;border:1px solid var(--line)}
 
 </style>
 </head>
@@ -268,14 +263,34 @@ svg.stage{display:block;width:100%;height:auto;max-height:70vh}
 <header>
   <div>
     <h1>Chapter 16: Allocating Support-Department Costs</h1>
-    <p>Parts I and II · Five short pages. Read What to do, or press Show me how for a guided walk-through.</p>
+    <p>Parts I and II · A walkthrough video, then five short pages. Read What to do, or press Show me how for a guided walk-through.</p>
   </div>
   <button class="btn" id="bReset" type="button">Reset</button>
 </header>
 <main>
 <ol class="steps" id="steps" aria-label="Pages"></ol>
+<!-- 0 -->
+<section class="page" aria-labelledby="hv">
+  <h2 id="hv" tabindex="-1">Walkthrough video</h2>
+  <div class="say">
+    <p class="lead">This narrated video (about 6 minutes) walks through the five pages of this widget: the setup, the <b>direct</b>, <b>step-down</b>, and <b>reciprocal</b> methods, the comparison, and practicing with <b>Reset Numbers</b>.</p>
+    <ul>
+      <li>For captions, press CC in the player (in Chrome, it is under the &#8942; menu).</li>
+      <li>When you are ready, press <b>Next</b> to start with the setup.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div class="vid" id="vid0">
+    <video controls playsinline preload="metadata" poster="ch16-walkthrough-poster.jpg" controlslist="nodownload noplaybackrate" disablepictureinpicture disableremoteplayback oncontextmenu="return false;" aria-label="Chapter 16 walkthrough video">
+      <source src="ch16-walkthrough.mp4" type="video/mp4">
+      <track kind="captions" src="ch16-walkthrough.vtt" srclang="en" label="English">
+      Your browser can't play this video.
+    </video>
+  </div>
+</section>
+
 <!-- 1 -->
-<section class="page" aria-labelledby="h0">
+<section class="page" aria-labelledby="h0" hidden>
   <h2 id="h0" tabindex="-1">The setup: two support and two operating departments</h2>
   <div class="say">
     <p class="lead">Support departments serve the operating departments <b>and each other</b>. All three methods end with every support cost in the operating departments. They differ only in how they treat the services the two support departments give <b>each other</b>:</p>
@@ -285,15 +300,6 @@ svg.stage{display:block;width:100%;height:auto;max-height:70vh}
       <li><span class="tchip m">Reciprocal</span> recognizes them in both directions.</li>
     </ul>
   </div>
-  <details class="vid" id="vid0">
-    <summary>&#9654; Watch the walkthrough video <span>(5:51, narrated, captions available)</span></summary>
-    <video controls playsinline preload="none" poster="ch16-walkthrough-poster.jpg">
-      <source src="ch16-walkthrough.mp4" type="video/mp4">
-      <track kind="captions" src="ch16-walkthrough.vtt" srclang="en" label="English">
-      Your browser can't play this video. <a href="ch16-walkthrough.mp4">Download it here.</a>
-    </video>
-    <p class="note">It walks through all five pages: the setup, the direct, step-down, and reciprocal methods, the comparison, and practicing with Reset Numbers. Press CC in the player for captions.</p>
-  </details>
   <div data-todo></div>
   <div data-case></div>
   <div class="facts" id="facts0"></div>
@@ -594,8 +600,9 @@ return {$:$,q:q,qa:qa,hbar:hbar,vline:vline,money:money,money2:money2,signed:sig
 (function(){
 "use strict";
 var $=U.$,q=U.q,qa=U.qa,money=U.money,num=U.num,rnd=U.rnd;
-var pg=U.pager(["The setup","Direct","Step-down","Reciprocal","Compare"]);
+var pg=U.pager(["Video","The setup","Direct","Step-down","Reciprocal","Compare"]);
 var NEWSTEP={t:"To practice, press <b>Reset Numbers</b>.",why:"You get new departments and new numbers for the same problem. Presses alternate between services given in units (hours, employees\u2026), like the Quick Check, and services given in percentages. Answers show as ? until you work them out and press Check.",at:'[data-case] [data-k="new"]'};
+var OFF=1; /* page 1 is the video */
 var CASES=[{k:"lec",label:"Lecture example (Robinson)"},{k:"qc",label:"Quick Check (Hanung)"},{k:"new",label:"Reset Numbers"}];
 
 /* ---------------- data ---------------- */
@@ -903,7 +910,13 @@ function caseLoad(k,self){
 }
 function maskFn(st){return function(v,isAlloc){return st.masked()?'?':(isAlloc?acct(v):money(Math.round(v)))}}
 
-/* ---------------- page 1: setup ---------------- */
+/* ---------------- page 1: video ---------------- */
+var PV=U.page({i:0,todo:[
+    {t:"Press play to watch the walkthrough.",why:"It shows each page of this widget and each method step by step. Turn on captions with CC (or the &#8942; menu).",at:"#vid0"},
+    {t:"When you are done, press <b>Next</b> to start with the setup.",why:"You can come back to this page any time from the page list at the top.",at:"#bNext"}],
+  render:function(){}});
+
+/* ---------------- page 2: setup ---------------- */
 var stage0=Stage($("stage0")),prev="all";
 var PREV={
   all:{t:"All the services: each support department serves the other support department and both operating departments.",use:["S1S2","S2S1","S1P1","S1P2","S2P1","S2P2"],off:[]},
@@ -929,13 +942,12 @@ function render0(){
   $("tbl0").innerHTML=t+'</tbody></table>';
 }
 qa("#prev0 [data-m]").forEach(function(b){b.onclick=function(){prev=b.getAttribute("data-m");qa("#prev0 [data-m]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});render0()}});
-var P0=U.page({i:0,cases:CASES,
+var P0=U.page({i:0+OFF,cases:CASES,
   todo:[
-    {t:"New here? Open <b>Watch the walkthrough video</b> for a narrated tour of all five pages.",why:"It shows each method step by step. You can come back to this page any time.",at:"#vid0"},
     {t:"Read the case: each department's costs, and how much service each support department gives.",why:"The percentages say how each support department's work is split among the other three departments.",at:"#facts0"},
     {t:"Look at the diagram. Each arrow is a service, labeled with its share.",why:"Top row: support departments (S1, S2). Bottom row: operating departments (P1, P2). The two short arrows in the middle of the top row are the services the support departments give each other.",at:"#stage0"},
     {t:"Tap each method to see which arrows it uses.",why:"Direct crosses out both support-to-support arrows. Step-down keeps one. Reciprocal keeps both.",at:"#prev0"},
-    {t:"Then press <b>Next</b> at the bottom to watch each method step by step.",why:"Pages 2 to 4 animate the direct, step-down, and reciprocal methods. Page 5 compares them.",at:"#bNext"},
+    {t:"Then press <b>Next</b> at the bottom to watch each method step by step.",why:"Pages 3 to 5 animate the direct, step-down, and reciprocal methods. Page 6 compares them.",at:"#bNext"},
     NEWSTEP],
   load:function(k,st){caseLoad(k,P0)},render:function(){render0()}});
 PAGES.push({api:P0});
@@ -944,7 +956,7 @@ PAGES.push({api:P0});
 function methodPage(i,method,builder,withEq,todoMid,check){
   var pl,api;
   var stRef={};
-  api=U.page({i:i,cases:CASES,
+  api=U.page({i:i+OFF,cases:CASES,
     todo:[{t:"Press <b>Next step</b> to go one step at a time, or <b>Play all</b> to watch every step.",why:"Use Back to repeat a step. Restart goes back to the beginning.",at:"#pl"+i+" .pctl"},
       {t:"Watch the diagram.",why:"Orange arrows are the ones used in this step. Crossed-out arrows are ignored. Orange tags carry the dollars along the arrows.",at:"#pl"+i+" .stagewrap"},
       {t:"Read the caption under the diagram.",why:"It explains what is happening in this step and why.",at:"#pl"+i+" .capb"}].concat(todoMid||[]).concat([
@@ -978,7 +990,7 @@ var M3=methodPage(3,"rc",stepsRecip,true,[{t:"Read the equations box.",why:"It s
 });
 
 /* ---------------- page 5: compare ---------------- */
-var P4=U.page({i:4,cases:CASES,
+var P4=U.page({i:4+OFF,cases:CASES,
   todo:[{t:"Compare the bars: each one is the total support cost, split between the two operating departments.",why:"Every bar has the same length because every method allocates the same total. Only the split changes.",at:"#cmp4 .cmpbars"},
     {t:"Compare the totals in the table.",why:"Look at how far apart the methods are. They differ more when the support departments serve each other a lot.",at:"#cmp4 .tblwrap"},NEWSTEP],
   load:function(k,st){caseLoad(k,P4)},
@@ -1002,10 +1014,10 @@ PAGES.push({api:P4});
 
 /* start: lecture example everywhere */
 setData("lec");syncing=true;PAGES.forEach(function(p){p.api.load("lec")});syncing=false;
-pg.onShow(function(i){PAGES.forEach(function(p){if(p.pl&&p.pl()) p.pl().stop()});qa("video").forEach(function(v){if(!v.paused) v.pause()});if(i===4) P4.render()});
+pg.onShow(function(i){PAGES.forEach(function(p){if(p.pl&&p.pl()) p.pl().stop()});qa("video").forEach(function(v){if(!v.paused) v.pause()});if(i===4+OFF) P4.render()});
 $("bReset").onclick=function(){setData("lec");syncing=true;PAGES.forEach(function(p){p.api.load("lec")});syncing=false;
   prev="all";qa("#prev0 [data-m]").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-m")==="all"?"true":"false")});render0();
-  pg.show(0,true);U.announce("Reset to the lecture example.")};
+  pg.show(OFF,true);U.announce("Reset to the lecture example.")};
 if(/[?&]test=1/.test(location.search)) window.__t={calc:calc,setData:setData,D:function(){return D},M1:M1,M2:M2,M3:M3,P0:P0,P4:P4,PAGES:PAGES};
 pg.start();
 })();
