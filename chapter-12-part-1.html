@@ -197,20 +197,43 @@ footer{border-top:4px solid var(--orange);padding:.7em 5vw;color:var(--muted);fo
 .irr .lbl{color:var(--muted);font-size:.9em}
 .status{margin:.4em 0 0}
 
+/* walkthrough video */
+.vid{margin:.2em 0 .9em}
+.vid video{display:block;width:100%;height:auto;border-radius:.6em;background:#000;aspect-ratio:16/9;border:1px solid var(--line)}
 </style>
 </head>
 <body>
 <header>
   <div>
     <h1>Chapter 12 Part I: Relevant Costs for Decisions</h1>
-    <p>Four short pages. Read What to do, or press Show me how for a guided walk-through.</p>
+    <p>A walkthrough video, then four short pages. Read What to do, or press Show me how for a guided walk-through.</p>
   </div>
   <button class="btn" id="bReset" type="button">Reset</button>
 </header>
 <main>
 <ol class="steps" id="steps" aria-label="Pages"></ol>
+<!-- 0 -->
+<section class="page" aria-labelledby="hv">
+  <h2 id="hv" tabindex="-1">Walkthrough video</h2>
+  <div class="say">
+    <p class="lead">This narrated video (about 6&frac12; minutes) walks through the four pages of this widget: <b>Is it relevant?</b>, the <b>special order</b>, the <b>minimum price</b>, and <b>make or buy</b>, then practicing with <b>New numbers</b>.</p>
+    <ul>
+      <li>For captions, press CC in the player (in Chrome, it is under the &#8942; menu).</li>
+      <li>When you are ready, press <b>Next</b> to start.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div class="vid" id="vid0">
+    <video controls playsinline preload="metadata" poster="ch12p1-walkthrough-poster.jpg" controlslist="nodownload noplaybackrate" disablepictureinpicture disableremoteplayback oncontextmenu="return false;" aria-label="Walkthrough video">
+      <source src="ch12p1-walkthrough.mp4" type="video/mp4">
+      <track kind="captions" src="ch12p1-walkthrough.vtt" srclang="en" label="English">
+      Your browser can't play this video.
+    </video>
+  </div>
+</section>
+
 <!-- 1 -->
-<section class="page" aria-labelledby="h0">
+<section class="page" aria-labelledby="h0" hidden>
   <h2 id="h0" tabindex="-1">Is it relevant?</h2>
   <div class="say">
     <p class="lead">A cost or revenue is <b>relevant</b> to a decision only if it passes <b>both</b> tests:</p>
@@ -542,8 +565,14 @@ return {$:$,q:q,qa:qa,hbar:hbar,vline:vline,money:money,money2:money2,signed:sig
 (function(){
 "use strict";
 var $=U.$,q=U.q,qa=U.qa,money=U.money,money2=U.money2,signed=U.signed,num=U.num,rnd=U.rnd,hbar=U.hbar;
-var pg=U.pager(["Relevant?","Special order","Minimum price","Make or buy"]);
+var pg=U.pager(["Video","Relevant?","Special order","Minimum price","Make or buy"]);
 var NEWSTEP={t:"To practice, press <b>New numbers</b>.",why:"You get a fresh version of the same problem. Answers hide until you work them out and press Check.",at:'[data-case] [data-k="new"]'};
+/* Page 0: walkthrough video */
+U.page({i:0,todo:[
+  {t:"Press play to watch the walkthrough.",why:"It shows each page of this widget step by step. Turn on captions with CC (or the &#8942; menu).",at:"#vid0"},
+  {t:"When you are done, press <b>Next</b> to start.",why:"You can come back to this page any time from the page list at the top.",at:"#bNext"}],
+  render:function(){}});
+pg.onShow(function(){qa("video").forEach(function(v){if(!v.paused) v.pause()})});
 function sgn(v){return v<0?"neg":""}
 function cost(v){return v===0?"$0":"−"+money(v)}
 function facts(groups){return groups.map(function(g){return '<div class="fgrp"><h4>'+g[0]+'</h4><ul>'+g.slice(1).map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>'}).join('')}
@@ -599,7 +628,7 @@ function render1(focusIx){
   $("score").innerHTML='<span role="status">'+(done===CARDS.length?'All sorted: '+right+' of '+CARDS.length+' correct.':'Sorted '+done+' of '+CARDS.length+' &middot; '+right+' correct')+'</span><button type="button" class="btn sm" id="again1">Start over</button>';
   $("again1").onclick=function(){start1(true)};
 }
-U.page({i:0,todo:[
+U.page({i:1,todo:[
   {t:"Read the decision at the top of a card.",why:"Relevance depends on the decision. The same cost can matter for one decision and not for another.",at:function(){return q("#cards .rc-dec")}},
   {t:"Ask the two tests about the item in bold.",why:"Will it happen in the future? Does it differ between the choices? It must pass both to be relevant.",at:"#tests"},
   {t:"Tap <b>Relevant</b> or <b>Not relevant</b>.",why:"The card then shows which test the item passed or failed, and why.",at:function(){var b=q("#cards .rc-btns");return b?b.parentNode:q("#cards .rc")}},
@@ -626,7 +655,7 @@ function c2(){
   var rev=s2.q*s2.p,vc=s2.q*vmf,opp=lost*cm,chg=Math.round((rev-vc-opp)*100)/100;
   return {vmf:vmf,cm:cm,spare:spare,lost:lost,rev:rev,vc:vc,opp:opp,chg:chg,minP:vmf+opp/s2.q};
 }
-var P2=U.page({i:1,cases:[{k:"lec",label:"Lecture example"},{k:"new",label:"New numbers"}],
+var P2=U.page({i:2,cases:[{k:"lec",label:"Lecture example"},{k:"new",label:"New numbers"}],
   todo:[
     {t:"Read the case: Surf Gear's capacity, regular sales, and costs.",why:"The special order has no marketing costs and doesn't affect regular sales.",at:"#chips1"},
     {t:"Look at the capacity bars. Is there spare room for the order?",why:"Spare capacity = capacity − regular sales. If the order fits, you give up no regular sales.",at:"#cap1"},
@@ -703,7 +732,7 @@ function c3(){
   var regCM=d.price-d.dm-d.dl-vind,opp=d.lost*regCM,relTot=d.order*unitVar;
   return {vind:vind,fixInd:fixInd,unitVar:unitVar,regCM:regCM,opp:opp,relTot:relTot,oppU:opp/d.order,minP:Math.round((relTot+opp)/d.order*100)/100};
 }
-var P3=U.page({i:2,cases:[{k:"qc1",label:"Quick Check: enough capacity"},{k:"qc2",label:"Quick Check: not enough capacity"},{k:"new",label:"New numbers"}],
+var P3=U.page({i:3,cases:[{k:"qc1",label:"Quick Check: enough capacity"},{k:"qc2",label:"Quick Check: not enough capacity"},{k:"new",label:"New numbers"}],
   todo:[
     {t:"Read the case. Look closely at indirect manufacturing.",why:function(){var d=s3.d;return "Only "+(100-d.fixPct)+"% of the "+money(d.ind)+" is variable. The fixed "+d.fixPct+"% is paid with or without the order."},at:"#chips2"},
     {t:"Find the cost that is not relevant.",why:"The fixed part of indirect manufacturing stays the same, so it is left out of the minimum price.",at:"#irr2"},
@@ -767,7 +796,7 @@ var QUAL=["Will the supplier meet your quality standards every time?",
   "Is the supplier reliable? A late or failed supplier can stop your production.",
   "Buying may mean layoffs or moving workers, which can hurt morale.",
   "How far is the supplier from your plant? Distance adds delivery time and risk."];
-var P4=U.page({i:3,cases:[{k:"qc1",label:"Quick Check 1: no other use"},{k:"qc2",label:"Quick Check 2: +$70,000 other use"},{k:"new",label:"New numbers"}],
+var P4=U.page({i:4,cases:[{k:"qc1",label:"Quick Check 1: no other use"},{k:"qc2",label:"Quick Check 2: +$70,000 other use"},{k:"new",label:"New numbers"}],
   todo:[
     {t:"Read the case.",why:function(){var d=s4.d;return "Making costs "+money(d.vc)+" variable + "+money(d.fc)+" fixed per unit. The supplier charges "+money(d.buy)+". Don't compare "+money(d.vc+d.fc)+" with "+money(d.buy)+" yet: not all of the fixed cost goes away if you buy."},at:"#chips3"},
     {t:"Set how much fixed cost per unit you save by buying.",why:"Only this avoidable part of the fixed cost is relevant. You pay the rest either way.",at:"#ctlA3"},
@@ -824,7 +853,7 @@ $("bReset").onclick=function(){
   start1(false); P2.load("lec"); P3.load("qc1"); s4.showU=false; $("u3").checked=false; P4.load("qc1");
   qa("#qual3 [data-f]").forEach(function(x){x.setAttribute("aria-pressed","false")});
   $("qualtx").textContent="Tap a factor. These don't show up in the numbers, but they can outweigh a small cost difference.";
-  pg.show(0,true); U.announce("Reset to the lecture numbers.");
+  pg.show(1,true); U.announce("Reset to the lecture numbers.");
 };
 if(/[?&]test=1/.test(location.search)) window.__t={s2:s2,c2:c2,s3:s3,c3:c3,s4:s4,c4:c4,P2:P2,P3:P3,P4:P4,new2:new2,new3:new3,new4:new4};
 pg.start();

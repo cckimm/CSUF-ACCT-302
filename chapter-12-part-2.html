@@ -238,20 +238,43 @@ footer{border-top:4px solid var(--orange);padding:.7em 5vw;color:var(--muted);fo
   .bnctl .btn{margin-left:0}
 }
 
+/* walkthrough video */
+.vid{margin:.2em 0 .9em}
+.vid video{display:block;width:100%;height:auto;border-radius:.6em;background:#000;aspect-ratio:16/9;border:1px solid var(--line)}
 </style>
 </head>
 <body>
 <header>
   <div>
     <h1>Chapter 12 Part II: Constraints, Segments, and Equipment</h1>
-    <p>Four short pages. Read What to do, or press Show me how for a guided walk-through.</p>
+    <p>A walkthrough video, then four short pages. Read What to do, or press Show me how for a guided walk-through.</p>
   </div>
   <button class="btn" id="bReset" type="button">Reset</button>
 </header>
 <main>
 <ol class="steps" id="steps" aria-label="Pages"></ol>
+<!-- 0 -->
+<section class="page" aria-labelledby="hv">
+  <h2 id="hv" tabindex="-1">Walkthrough video</h2>
+  <div class="say">
+    <p class="lead">This narrated video (about 5 minutes) walks through the four pages of this widget: the <b>product mix</b>, the <b>bottleneck</b>, <b>dropping a product line</b>, and <b>replacing a machine</b>, then practicing with <b>New numbers</b>.</p>
+    <ul>
+      <li>For captions, press CC in the player (in Chrome, it is under the &#8942; menu).</li>
+      <li>When you are ready, press <b>Next</b> to start.</li>
+    </ul>
+  </div>
+  <div data-todo></div>
+  <div class="vid" id="vid0">
+    <video controls playsinline preload="metadata" poster="ch12p2-walkthrough-poster.jpg" controlslist="nodownload noplaybackrate" disablepictureinpicture disableremoteplayback oncontextmenu="return false;" aria-label="Walkthrough video">
+      <source src="ch12p2-walkthrough.mp4" type="video/mp4">
+      <track kind="captions" src="ch12p2-walkthrough.vtt" srclang="en" label="English">
+      Your browser can't play this video.
+    </video>
+  </div>
+</section>
+
 <!-- 1 -->
-<section class="page" aria-labelledby="h0">
+<section class="page" aria-labelledby="h0" hidden>
   <h2 id="h0" tabindex="-1">Product mix: one scarce resource</h2>
   <div class="say">
     <p class="lead">When one resource limits production:</p>
@@ -571,8 +594,14 @@ return {$:$,q:q,qa:qa,hbar:hbar,vline:vline,money:money,money2:money2,signed:sig
 (function(){
 "use strict";
 var $=U.$,q=U.q,qa=U.qa,money=U.money,money2=U.money2,signed=U.signed,num=U.num,rnd=U.rnd,hbar=U.hbar;
-var pg=U.pager(["Product mix","Bottleneck","Drop a line?","Replace?"]);
+var pg=U.pager(["Video","Product mix","Bottleneck","Drop a line?","Replace?"]);
 var NEWSTEP={t:"To practice, press <b>New numbers</b>.",why:"You get a fresh version of the same problem. Answers hide until you work them out and press Check.",at:'[data-case] [data-k="new"]'};
+/* Page 0: walkthrough video */
+U.page({i:0,todo:[
+  {t:"Press play to watch the walkthrough.",why:"It shows each page of this widget step by step. Turn on captions with CC (or the &#8942; menu).",at:"#vid0"},
+  {t:"When you are done, press <b>Next</b> to start.",why:"You can come back to this page any time from the page list at the top.",at:"#bNext"}],
+  render:function(){}});
+pg.onShow(function(){qa("video").forEach(function(v){if(!v.paused) v.pause()})});
 function badge(cls,t){return '<span class="badge '+cls+'">'+t+'</span>'}
 function cost(v){return v===0?"$0":"−"+money(v)}
 function pct(v){return (Math.round(v*1000)/10)+"%"}
@@ -600,7 +629,7 @@ function c5(){
   for(var h=0;h<=d.H;h+=d.S.h){var m=mix(d,h);if(!best||m.tot>best.tot) best=m}
   return {cS:cS,cB:cB,rS:cS/d.S.p,rB:cB/d.B.p,mS:cS/d.S.h,mB:cB/d.B.h,cur:mix(d,s5.hS),best:best};
 }
-var P5=U.page({i:0,cases:[{k:"lec",label:"Lecture example"},{k:"new",label:"New numbers"}],
+var P5=U.page({i:1,cases:[{k:"lec",label:"Lecture example"},{k:"new",label:"New numbers"}],
   todo:[
     {t:"Compare the two engines in the table.",why:"Notice which engine has the higher contribution margin per unit and CM ratio. Those measures ignore how many machine-hours each engine uses.",at:"#tbl5"},
     {t:"Predict which engine should get the machine-hours.",why:"After you predict, the table shows contribution margin per machine-hour, the measure that counts when hours are scarce.",at:"#pred5"},
@@ -710,7 +739,7 @@ function play6(){
   },T+1400);
 }
 function reset6(){s6.tok++;s6.playing=false;$("play6").disabled=false;buildStage();$("stx6").textContent="Press Play a day. Each dot is "+PER+" engines."}
-var P6=U.page({i:1,cases:[{k:"lec",label:"Lecture example"},{k:"new",label:"New numbers"}],checkAlways:true,
+var P6=U.page({i:2,cases:[{k:"lec",label:"Lecture example"},{k:"new",label:"New numbers"}],checkAlways:true,
   todo:[
     {t:"Press <b>Play a day</b>.",why:"Each dot is 25 engines. Watch where they pile up.",at:"#play6"},
     {t:"Find where engines pile up. The station right after the pile is the bottleneck.",why:"The station with the smaller capacity limits the whole line.",at:"#stage6"},
@@ -745,7 +774,7 @@ qa("#gF .nudge,#gA .nudge").forEach(function(b){b.onclick=function(){
 }});
 $("play6").onclick=play6;
 var rzT;window.addEventListener("resize",function(){clearTimeout(rzT);rzT=setTimeout(function(){if(!$("stage6").closest("[hidden]")) reset6()},200)});
-pg.onShow(function(i){if(i===1) reset6()});
+pg.onShow(function(i){if(i===2) reset6()});
 P6.load("lec");
 
 /* =========================================================
@@ -765,7 +794,7 @@ function c7(){
   return {cA:cA,cB:cB,oA:oA,oB:oB,tot:tot,stay:stay,after:after,chg:d.avoid-cB};
 }
 function acct(v){return v<0?"("+money(-v)+")":money(v)}
-var P7=U.page({i:2,cases:[{k:"lec",label:"Lecture example (Titan)"},{k:"qc",label:"Quick Check (Titian)"},{k:"new",label:"New numbers"}],
+var P7=U.page({i:3,cases:[{k:"lec",label:"Lecture example (Titan)"},{k:"qc",label:"Quick Check (Titian)"},{k:"new",label:"New numbers"}],
   todo:[
     {t:"Look at line B in the table. It shows an operating loss.",why:"Its fixed costs include allocated costs that may not go away if B is dropped.",at:"#tbl7"},
     {t:"Press the <b>Drop</b> button and compare total operating income.",why:"Total income can fall, because B's contribution margin was covering fixed costs that stay.",at:"#drop7"},
@@ -854,7 +883,7 @@ function renderTags(focusIx){
   $("tagscore8").innerHTML='<span role="status">'+(done===items.length?'All tagged: '+right+' of '+items.length+' correct.':'Tagged '+done+' of '+items.length+' &middot; '+right+' correct')+'</span><button type="button" class="btn sm" id="again8">Start over</button>';
   $("again8").onclick=function(){s8.tags={};renderTags()};
 }
-var P8=U.page({i:3,cases:[{k:"lec",label:"Lecture example"},{k:"qc",label:"Quick Check (Tuffy)"},{k:"new",label:"New numbers"}],
+var P8=U.page({i:4,cases:[{k:"lec",label:"Lecture example"},{k:"qc",label:"Quick Check (Tuffy)"},{k:"new",label:"New numbers"}],
   todo:[
     {t:"Read the data for the old and new machines.",why:"Some numbers describe the past. Only future cash that differs counts.",at:"#tbl8"},
     {t:"Tag each item as Relevant or Not relevant.",why:"Original cost, accumulated depreciation, and book value are sunk.",at:"#tags8"},
@@ -899,7 +928,7 @@ P8.load("lec");
 
 $("bReset").onclick=function(){
   P5.load("lec"); P6.load("lec"); P7.load("lec"); s8.bv=false; $("b8").checked=false; P8.load("lec");
-  pg.show(0,true); U.announce("Reset to the lecture numbers.");
+  pg.show(1,true); U.announce("Reset to the lecture numbers.");
 };
 if(/[?&]test=1/.test(location.search)) window.__t={s5:s5,c5:c5,new5:new5,P5:P5,s6:s6,c6:c6,P6:P6,new6:new6,play6:play6,s7:s7,c7:c7,P7:P7,new7:new7,s8:s8,c8:c8,P8:P8,new8:new8};
 pg.start();

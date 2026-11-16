@@ -1,0 +1,79 @@
+WEBVTT
+
+00:00:00.200 --> 00:00:11.700
+Welcome to the walkthrough! In this walkthrough, we'll look at four more decisions: the product mix when a resource is scarce, bottlenecks, dropping a product line, and replacing a machine.
+
+00:00:12.500 --> 00:00:24.800
+Power Recreation makes a snowmobile engine, Engine S, and a boat engine, Engine B. Only six hundred machine-hours are available each day, and it can sell everything it makes.
+
+00:00:25.600 --> 00:00:36.700
+Engine B looks better. It has a higher contribution margin per unit, three hundred seventy-five dollars versus two hundred forty, and a higher contribution margin ratio.
+
+00:00:37.500 --> 00:00:43.700
+Predict which engine should get the machine-hours. Let's pick Engine B, the tempting answer.
+
+00:00:44.500 --> 00:00:58.100
+But hours are the scarce resource. Engine S earns two hundred forty in two hours: one hundred twenty dollars per machine-hour. Engine B earns three hundred seventy-five in five hours: only seventy-five.
+
+00:00:58.900 --> 00:01:10.000
+The slider splits the hours. Half and half makes one hundred fifty Engine S and sixty Engine B, for fifty-eight thousand, five hundred dollars a day.
+
+00:01:10.800 --> 00:01:20.300
+Give all six hundred hours to Engine S: three hundred engines and seventy-two thousand dollars a day. No other split earns more.
+
+00:01:21.100 --> 00:01:30.600
+Next, bottlenecks. Each snowmobile engine is forged, then assembled. Forging can handle four hundred engines a day, but assembly only three hundred.
+
+00:01:31.400 --> 00:01:37.600
+Press Play a day. Each dot is twenty-five engines. Watch where they pile up.
+
+00:01:38.400 --> 00:01:52.800
+Forging made four hundred, but assembly finished only three hundred. One hundred engines are left waiting. Assembly is the bottleneck. At two hundred forty dollars each, the line earns seventy-two thousand dollars a day.
+
+00:01:53.600 --> 00:02:01.400
+Add fifty engines of capacity to forging and play again. Output doesn't change. The pile just gets bigger.
+
+00:02:02.200 --> 00:02:12.500
+Now add the fifty to assembly instead. Output rises to three hundred fifty engines, and contribution margin rises by twelve thousand dollars a day.
+
+00:02:13.300 --> 00:02:23.600
+To manage a bottleneck: recognize that it sets the contribution margin of the whole system, identify it, keep it busy, and increase its capacity.
+
+00:02:24.400 --> 00:02:37.600
+Should Titan drop a product line? Product B has a contribution margin of ten thousand dollars, but after thirty thousand of fixed costs, it shows an operating loss of twenty thousand.
+
+00:02:38.400 --> 00:02:49.500
+Press Drop. B's ten thousand of contribution margin is gone, but only five thousand of its fixed costs go away. The rest fall on Product A.
+
+00:02:50.300 --> 00:03:00.200
+Total operating income falls from thirty thousand dollars to twenty-five thousand. Dropping B would lower income by five thousand, so keep Product B.
+
+00:03:01.000 --> 00:03:14.600
+Slide how much of B's fixed costs would go away. Dropping pays only when that's more than B's ten thousand dollar contribution margin. At fifteen thousand, dropping raises income by five thousand.
+
+00:03:15.400 --> 00:03:31.800
+The last decision: should the company replace a machine? The old machine has two years left. A new one costs six hundred thousand dollars and cuts operating costs from eight hundred thousand to four hundred sixty thousand a year.
+
+00:03:32.600 --> 00:03:42.900
+Tag each item. The old machine's original cost, accumulated depreciation, and book value all come from the past. They're sunk, so they're not relevant.
+
+00:03:43.700 --> 00:03:53.200
+The cash from selling the old machine, the new machine's cost, and the operating costs are future cash that differs. They're relevant.
+
+00:03:54.000 --> 00:04:10.400
+Keeping costs one million, six hundred thousand over two years. Replacing costs one million, four hundred eighty thousand: the new machine, minus forty thousand from selling the old one, plus lower operating costs. Replacing saves one hundred twenty thousand.
+
+00:04:11.200 --> 00:04:23.500
+Add the old machine's four hundred thousand dollar book value to both sides. If kept, it becomes depreciation. If replaced, it's written off. Either way, the gap doesn't change.
+
+00:04:24.300 --> 00:04:35.800
+To practice, press New numbers on any page. You get a fresh version of the same problem. Answers show as question marks until you work them out.
+
+00:04:36.600 --> 00:04:41.500
+Work out the answer, type it in, and press Check.
+
+00:04:42.300 --> 00:04:46.900
+Correct! The hidden amounts appear, along with the worked answer.
+
+00:04:47.700 --> 00:04:53.800
+Try each page yourself, then press New numbers to practice. Thanks for watching.
