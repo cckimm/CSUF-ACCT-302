@@ -257,6 +257,18 @@ svg.stage{display:block;width:100%;height:auto;max-height:70vh}
 .vid{margin:.2em 0 .9em}
 .vid video{display:block;width:100%;height:auto;border-radius:.6em;background:#000;aspect-ratio:16/9;border:1px solid var(--line)}
 
+/* how the percentages are found (services given in units) */
+.howpct{border:2px solid var(--navy);border-radius:.6em;padding:.55em .9em .7em;margin:.2em 0 .9em}
+.howpct h3{margin:0 0 .35em;font-size:1.02em;color:var(--navy)}
+.howpct .hg{display:grid;grid-template-columns:1fr 1fr;gap:.5em 1.6em}
+.howpct h4{margin:0 0 .15em;font-size:.8em;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.howpct p{margin:.15em 0}
+.howpct ul{margin:.1em 0 0;padding-left:1.15em}
+.howpct li{margin:.1em 0;font-variant-numeric:tabular-nums}
+.howpct b{color:var(--navy)}
+.howpct .dn{margin-top:.5em;padding-top:.45em;border-top:1px solid var(--line);color:var(--muted)}
+@media (max-width:720px){.howpct .hg{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -273,7 +285,7 @@ svg.stage{display:block;width:100%;height:auto;max-height:70vh}
 <section class="page" aria-labelledby="hv">
   <h2 id="hv" tabindex="-1">Walkthrough video</h2>
   <div class="say">
-    <p class="lead">This narrated video (about 6 minutes) walks through the five pages of this widget: the setup, the <b>direct</b>, <b>step-down</b>, and <b>reciprocal</b> methods, the comparison, and practicing with <b>Reset Numbers</b>.</p>
+    <p class="lead">This narrated video (about 7&frac12; minutes) walks through the five pages of this widget: the setup, how to find the percentages when services are given in hours or employees (the Quick Check), the <b>direct</b>, <b>step-down</b>, and <b>reciprocal</b> methods, the comparison, and practicing with <b>Reset Numbers</b>.</p>
     <ul>
       <li>For captions, press CC in the player (in Chrome, it is under the &#8942; menu).</li>
       <li>When you are ready, press <b>Next</b> to start with the setup.</li>
@@ -303,6 +315,7 @@ svg.stage{display:block;width:100%;height:auto;max-height:70vh}
   <div data-todo></div>
   <div data-case></div>
   <div class="facts" id="facts0"></div>
+  <div class="howpct" id="how0" hidden></div>
   <div class="preview" id="prev0" role="group" aria-label="Preview which arrows each method uses">
     <span class="lbl">Which arrows does each method use?</span>
     <button type="button" class="pbtn" data-m="all" aria-pressed="true">All services</button>
@@ -674,9 +687,9 @@ function acct(v){var r=Math.round(v);return r<0?"("+money(-r)+")":money(r)}
 
 /* ---------------- diagram ---------------- */
 var NS="http://www.w3.org/2000/svg",SID=0;
-var BOX={S1:[10,20],S2:[350,20],P1:[10,300],P2:[350,300]},BW=200,BH=92;
-var ARR={S1S2:["M210,44 L346,44",278,28],S2S1:["M350,88 L214,88",278,106],S1P1:["M80,112 L80,296",80,204],
-  S1P2:["M185,112 L381,296",226,151],S2P1:["M375,112 L179,296",334,151],S2P2:["M480,112 L480,296",480,204]};
+var BOX={S1:[10,20],S2:[10,300],P1:[350,20],P2:[350,300]},BW=200,BH=92;
+var ARR={S1S2:["M55,112 L55,296",55,204],S2S1:["M150,300 L150,116",150,204],S1P1:["M210,66 L346,66",278,66],
+  S1P2:["M210,104 L348,302",250,161],S2P1:["M210,308 L348,110",250,251],S2P2:["M210,346 L346,346",278,346]};
 function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
 function Stage(host){
   var id="g"+(SID++),svg=el("svg",{viewBox:"0 0 560 410",class:"stage",role:"img"});
@@ -702,7 +715,7 @@ function Stage(host){
   var chips=el("g",{},svg);
   host.innerHTML=""; host.appendChild(svg);
   function setX(k){ // little "x" in the middle of a crossed-out arrow
-    var a=A[k];a.x.innerHTML="";var L=a.p.getTotalLength(),m=a.p.getPointAtLength(L*0.5);
+    var a=A[k];a.x.innerHTML="";var L=a.p.getTotalLength(),m=a.p.getPointAtLength(L*0.25);
     el("line",{x1:m.x-8,y1:m.y-8,x2:m.x+8,y2:m.y+8},a.x);el("line",{x1:m.x-8,y1:m.y+8,x2:m.x+8,y2:m.y-8},a.x);
   }
   var api={
@@ -768,8 +781,8 @@ function stepsStep(c,m){
   var noteS=money(C[S])+" + "+m(sd[F][S])+" received";
   var u=D.u[S],sum=u.P1+u.P2;
   return [s0,
-    {t:"Choose the order",cap:nm("S1")+" gives "+pc(f.S1.S2)+" of its service to "+nm("S2")+". "+nm("S2")+" gives "+pc(f.S2.S1)+" of its service to "+nm("S1")+". Allocate first the department with the <b>larger</b> share, so <b>"+nk(F)+" goes first</b>.",arr:order,bal:s0.bal,rows:1,hot:[F]},
-    {t:"Allocate "+nk(F)+" to everyone",cap:nm(F)+" is allocated using <b>all</b> of its percentages, including the "+pc(f[F][S])+" it gives "+nm(S)+": "+nm(S)+" gets "+m(sd[F][S])+", "+nm("P1")+" gets "+m(sd[F].P1)+", and "+nm("P2")+" gets "+m(sd[F].P2)+".",
+    {t:"Choose the order",cap:nm("S1")+" gives "+shareOf("S1","S2")+" of its service to "+nm("S2")+". "+nm("S2")+" gives "+shareOf("S2","S1")+" of its service to "+nm("S1")+". Allocate first the department with the <b>larger</b> share, so <b>"+nk(F)+" goes first</b>.",arr:order,bal:s0.bal,rows:1,hot:[F]},
+    {t:"Allocate "+nk(F)+" to everyone",cap:nm(F)+" is allocated using <b>all</b> of its percentages, including the "+pc(f[F][S])+" it gives "+nm(S)+(D.pct?"":" ("+num(D.u[F][S])+" \u00f7 "+qty(F,f[F].tot)+")")+": "+nm(S)+" gets "+m(sd[F][S])+", "+nm("P1")+" gets "+m(sd[F].P1)+", and "+nm("P2")+" gets "+m(sd[F].P2)+".",
       arr:alF,bal:bF,flows:[[aFS,sd[F][S]],[F+"P1",sd[F].P1],[F+"P2",sd[F].P2]],rows:2,hot:[F],note:mkNote(S,noteS)},
     {t:nm(S)+"'s new total",cap:nm(S)+" now holds its own "+money(C[S])+" plus the "+m(sd[F][S])+" it received from "+nm(F)+": <b>"+m(sd[S].amt)+"</b> to allocate.",arr:dimExcept(A,[]),bal:bF,rows:2,hot:[S],note:mkNote(S,noteS)},
     {t:"Nothing goes back to "+nm(F),cap:nm(F)+" is already allocated, so "+nm(S)+"'s "+qty(S,u[F])+" to "+nm(F)+" is ignored. Re-base over the operating departments: "+nm("P1")+" gets "+qty(S,u.P1)+" ÷ "+qty(S,sum)+" = <b>"+pc(sd[S].rP1)+"</b>, and "+nm("P2")+" gets <b>"+pc(sd[S].rP2)+"</b>.",
@@ -780,6 +793,19 @@ function stepsStep(c,m){
   ];
 }
 function mkNote(k,t){var o={};o[k]=t;return o}
+/* services given in units: show how each percentage is found */
+function shareOf(s,k){var f=calc().f;return D.pct?pc(f[s][k]):num(D.u[s][k])+" \u00f7 "+qty(s,f[s].tot)+" = "+pc(f[s][k])}
+function howHTML(){
+  if(D.pct) return "";
+  var f=calc().f,h='<h3>How the percentages are found</h3><p>The services are given in each support department\u2019s cost allocation base, not in percentages. Add up everything a support department provides to the <b>other</b> departments, then divide each department\u2019s amount by that total.</p><div class="hg">';
+  ["S1","S2"].forEach(function(s){var u=D.u[s],o=oth(s),T=f[s].tot;
+    h+='<div><h4>'+nm(s)+' ('+D.base[s]+')</h4><p>Total provided: '+num(u[o])+' + '+num(u.P1)+' + '+num(u.P2)+' = <b>'+qty(s,T)+'</b></p><ul>'+
+      [o,"P1","P2"].map(function(k){return '<li>'+nm(k)+': '+num(u[k])+' \u00f7 '+num(T)+' = <b>'+pc(f[s][k])+'</b></li>'}).join("")+'</ul></div>'});
+  var u=D.u.S1,d=u.P1+u.P2;
+  h+='</div><p class="dn"><b>Direct method:</b> leave out the services the support departments give each other and divide by the operating departments only. For '+nm("S1")+': '+nm("P1")+' gets '+num(u.P1)+' \u00f7 ('+num(u.P1)+' + '+num(u.P2)+') = '+pc(u.P1/d)+'.</p>';
+  return h;
+}
+
 function stepsRecip(c,m){
   var C=D.cost,rc=c.rc,s0=startStep(c),A=s0.arr,a=rc.a,b=rc.b;
   var both=dimExcept(A,["S1S2","S2S1"]);both.S1S2[0]="hot";both.S2S1[0]="hot";
@@ -797,7 +823,7 @@ function stepsRecip(c,m){
     ["S1 = "+m(rc.R1),"key"],["S2 = "+money(C.S2)+" + "+dc(a)+" × "+m(rc.R1)+" = "+m(rc.R2),"key"]]);
   var notes={S1:"reciprocated: "+m(rc.R1),S2:"reciprocated: "+m(rc.R2)};
   return [s0,
-    {t:"Count services in both directions",cap:"The reciprocal method <b>fully</b> recognizes the services between the support departments: "+nm("S1")+" gives "+pc(a)+" of its service to "+nm("S2")+", and "+nm("S2")+" gives "+pc(b)+" back to "+nm("S1")+".",arr:both,bal:s0.bal,rows:1,hot:["S1","S2"]},
+    {t:"Count services in both directions",cap:"The reciprocal method <b>fully</b> recognizes the services between the support departments: "+nm("S1")+" gives "+shareOf("S1","S2")+" of its service to "+nm("S2")+", and "+nm("S2")+" gives "+shareOf("S2","S1")+" back to "+nm("S1")+".",arr:both,bal:s0.bal,rows:1,hot:["S1","S2"]},
     {t:"Why equations? Costs bounce back and forth",cap:"Picture the costs bouncing: "+nm("S1")+" sends "+m(r1)+" to "+nm("S2")+"; "+nm("S2")+" sends "+m(r2)+" back; then "+m(r3)+", then "+m(r4)+"… Each round is smaller. The equations add up <b>every</b> round at once.",
       arr:both,bal:s0.bal,rows:1,seq:true,flows:[["S1S2",r1],["S2S1",r2],["S1S2",r3],["S2S1",r4]],hot:["S1","S2"]},
     {t:"Step 1: write the equations",cap:"Each support department's <b>complete reciprocated cost</b> = its own cost + its share of the other department's complete cost.",arr:both,bal:s0.bal,rows:1,eq:E1,hot:["S1","S2"]},
@@ -934,6 +960,7 @@ function render0(){
   function grp(s){var u=D.u[s],o=oth(s);return [nk(s)+" serves ("+D.base[s]+")",nm(o)+": <b>"+qty(s,u[o])+"</b>"+(D.pct?"":" ("+pc(f[s][o])+")"),nm("P1")+": <b>"+qty(s,u.P1)+"</b>"+(D.pct?"":" ("+pc(f[s].P1)+")"),nm("P2")+": <b>"+qty(s,u.P2)+"</b>"+(D.pct?"":" ("+pc(f[s].P2)+")")]}
   var G=[[D.co+": costs before allocation",nk("S1")+": <b>"+money(D.cost.S1)+"</b>",nk("S2")+": <b>"+money(D.cost.S2)+"</b>",nk("P1")+": <b>"+money(D.cost.P1)+"</b>",nk("P2")+": <b>"+money(D.cost.P2)+"</b>"],
     grp("S1"),grp("S2")];
+  var hw=$("how0");hw.innerHTML=howHTML();hw.hidden=D.pct;
   $("facts0").innerHTML=G.map(function(g){return '<div class="fgrp"><h4>'+g[0]+'</h4><ul>'+g.slice(1).map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul></div>'}).join("")+
     '<div class="fgrp"><h4>Support departments</h4><ul><li>S1 and S2 provide services.</li><li>Their costs must end up in '+nm("P1")+' and '+nm("P2")+'.</li></ul></div>';
   var t='<table class="tbl"><caption>Who serves whom</caption><thead><tr><th></th>'+["S1","S2","P1","P2"].map(function(k){return '<th class="r">'+nm(k)+' ('+k+')</th>'}).join("")+'</tr></thead><tbody>';
@@ -945,7 +972,8 @@ qa("#prev0 [data-m]").forEach(function(b){b.onclick=function(){prev=b.getAttribu
 var P0=U.page({i:0+OFF,cases:CASES,
   todo:[
     {t:"Read the case: each department's costs, and how much service each support department gives.",why:"The percentages say how each support department's work is split among the other three departments.",at:"#facts0"},
-    {t:"Look at the diagram. Each arrow is a service, labeled with its share.",why:"Top row: support departments (S1, S2). Bottom row: operating departments (P1, P2). The two short arrows in the middle of the top row are the services the support departments give each other.",at:"#stage0"},
+    {t:"Look at the diagram. Each arrow is a service, labeled with its share.",why:"Left side: support departments (S1 on top, S2 below). Right side: operating departments (P1 on top, P2 below). The two up-and-down arrows on the left are the services the support departments give each other.",at:"#stage0"},
+    {t:"If the services are given in hours, employees, or other units, read <b>How the percentages are found</b>.",why:"Each share = the units a department receives \u00f7 the total units the support department provides to the other departments. Press Quick Check to see an example.",at:function(){var h=$("how0");return h.hidden?$("facts0"):h}},
     {t:"Tap each method to see which arrows it uses.",why:"Direct crosses out both support-to-support arrows. Step-down keeps one. Reciprocal keeps both.",at:"#prev0"},
     {t:"Then press <b>Next</b> at the bottom to watch each method step by step.",why:"Pages 3 to 5 animate the direct, step-down, and reciprocal methods. Page 6 compares them.",at:"#bNext"},
     NEWSTEP],
